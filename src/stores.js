@@ -24,7 +24,7 @@ export const currentAreaObject = derived(
         let obj = {}
         if($areaList && Array.isArray($areaList)) {
             // console.log('___ currentArea => color', HEX_MAP[COLORMAP[$currentArea]])
-            obj = $areaList.find(a => a.color === HEX_MAP[COLORMAP[$currentArea]]) 
+            obj = $areaList.find(a => a.color.value === HEX_MAP[COLORMAP[$currentArea]]) 
         }
         // console.dir(obj)
         // if(obj) {
