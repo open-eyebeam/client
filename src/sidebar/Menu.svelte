@@ -11,6 +11,21 @@
   const dispatch = createEventDispatcher()
 </script>
 
+<div class="menu-container">
+  <div>
+    <!-- <a href="/projects" class="menu-item">Projects</a> -->
+    <!-- <a href="/pages/guide" class="menu-item">Guide</a> -->
+    <!-- <a href="/pages/about" class="menu-item">About</a> -->
+  </div>
+
+  <span
+    on:click={e => {
+      dispatch("username")
+    }}
+    class="menu-item login">Change name</span
+  >
+</div>
+
 <style lang="scss">
   @import "../variables.scss";
 
@@ -45,17 +60,3 @@
     }
   }
 </style>
-
-<div class="menu-container">
-  <div>
-    <a href="/projects" class="menu-item">Projects</a>
-    <a href="/pages/guide" class="menu-item">Guide</a>
-    <a href="/pages/about" class="menu-item">About</a>
-  </div>
-
-  <span
-    on:click={e => {
-      dispatch('username')
-    }}
-    class="menu-item login">Change name</span>
-</div>

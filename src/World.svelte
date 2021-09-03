@@ -1185,6 +1185,9 @@
       resolution: 1,
     })
 
+    // SET BACKGROUND COLOR
+    app.renderer.backgroundColor = 0xeeeeee
+
     // __ Create Pixi Viewport
     viewport = new Viewport({
       screenWidth: window.innerWidth,
@@ -1295,12 +1298,12 @@
           <a href="http://pohflepp.de/" target="_blank">to Sascha's website</a>
         </div> -->
         <div class="minimap">
-          <MiniMap {miniImage} player={localPlayers[$localUserSessionID]} />
+          <!-- <MiniMap {miniImage} player={localPlayers[$localUserSessionID]} /> -->
         </div>
         <div class="middle-section">
           <div class="top-area">
             <!-- CALENDAR -->
-            {#await events then events}
+            <!-- {#await events then events}
               {#await exhibitions then exhibitions}
                 <EventList
                   {events}
@@ -1308,7 +1311,7 @@
                   showArchived={get($globalSettings, "showArchived", false)}
                 />
               {/await}
-            {/await}
+            {/await} -->
           </div>
           <div class="bottom-area">
             <!-- {#if section == 'seminar'} -->
@@ -1511,14 +1514,14 @@
   {#if matches}
     <Clock />
 
-    <div class="link-to-ac" />
+    <!-- <div class="link-to-ac" /> -->
 
     {#if localPlayers[$localUserSessionID]}
       <!-- MOBILE CALENDAR-->
       <div class="mobile-calendar" use:links>
-        {#await events then events}
-          <EventListSliderMobile {events} />
-        {/await}
+        <!-- {#await events then events} -->
+        <!-- <EventListSliderMobile {events} /> -->
+        <!-- {/await} -->
       </div>
       <!-- MOBILE TOOLKIT -->
       {#if !audioChatActive}
@@ -1839,6 +1842,7 @@
     overflow: hidden;
     opacity: 1;
     transition: opacity 1s ease-out;
+    background: white;
 
     @include screen-size("small") {
       width: 100vw;
@@ -1917,6 +1921,7 @@
         height: 50%;
         width: 100%;
         overflow: hidden;
+        background: black;
       }
 
       .bottom-area {
