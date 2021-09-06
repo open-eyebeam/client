@@ -24,12 +24,8 @@
   // *** COMPONENTS
   // sidebar
   import Chat from "./sidebar/Chat.svelte"
-  import MiniMap from "./sidebar/MiniMap.svelte"
   import Menu from "./sidebar/Menu.svelte"
   import ToolBar from "./sidebar/ToolBar.svelte"
-  // import Seminar from "./sidebar/Seminar.svelte"
-  // import Messaging from "./sidebar/Messaging.svelte"
-  import Clock from "./sidebar/Clock.svelte"
   // lists
   import EventList from "./lists/EventList.svelte"
   import EventListFull from "./lists/EventListFull.svelte"
@@ -50,9 +46,10 @@
   import UsernameDialog from "./overlays/UsernameDialog.svelte"
   // ...
   import AudioChat from "./AudioChat.svelte"
-  // import InventoryMessage from "./InventoryMessage.svelte"
   import MetaData from "./MetaData.svelte"
   import Card from "./Card.svelte"
+
+  import Menubar from "./Menubar.svelte"
 
   // *** GLOBAL
   import {
@@ -111,6 +108,13 @@
   let currentStreamUrl = false
   // let supportStreamUrl = false
   let closedAreaCards = []
+  const pressedKeys = {
+    UP: false,
+    DOWN: false,
+    LEFT: false,
+    RIGHT: false,
+  }
+  let releasedKey = false
 
   // ___ Routing
   let section = false
@@ -363,6 +367,29 @@
     // Combine delta (lag) and potential time passed since window was in focus
     let deltaRounded = Math.round(delta) + deltaJump
     deltaJump = 0
+
+    // __ Keyboard navigation
+    if (Object.values(pressedKeys).some(k => k)) {
+      // console.log("KEY PRESSED")
+      // console.log(pressedKeys)
+      if (pressedKeys["UP"]) {
+        sendKeyboardMove(0, 10)
+      }
+      if (pressedKeys["DOWN"]) {
+        sendKeyboardMove(0, -10)
+      }
+      if (pressedKeys["LEFT"]) {
+        sendKeyboardMove(10, 0)
+      }
+      if (pressedKeys["RIGHT"]) {
+        sendKeyboardMove(-10, 0)
+      }
+    }
+    // if (releasedKey) {
+    //   console.log("KEY released")
+    //   releasedKey = false
+    //   sendKeyboardMove()
+    // }
     // Iterate over all users currently in move queue
     for (let key in moveQ) {
       if (localPlayers[key]) {
@@ -432,6 +459,7 @@
   // *** GLOBAL FUNCTIONS
   let teleportTo = () => {}
   let submitChat = () => {}
+  let sendKeyboardMove = () => {}
   // let dropCaseStudy = () => {}
   // let pickUpCaseStudy = () => {}
 
@@ -776,6 +804,90 @@
               })
             })
 
+            // PLAYER => KEY DOWN
+            document.addEventListener("keydown", key => {
+              // let currentX = localPlayers[$localUserSessionID].avatar.x
+              // let currentY = localPlayers[$localUserSessionID].avatar.y
+              // console.log("currentX", currentX)
+              // console.log("currentY", currentY)
+              // let targetX = currentX
+              // let targetY = currentY
+
+              console.log(key)
+
+              // W Key is 87
+              // Up arrow is 87
+              if (key.keyCode === 87 || key.keyCode === 38) {
+                console.log("__pressed: UP")
+                pressedKeys["UP"] = true
+                // __ Cancel current movement
+                // delete moveQ[$localUserSessionID]
+                // targetY -= 10
+                // gameRoom.send("go", {
+                //   x: targetX,
+                //   y: targetY,
+                //   originX: currentX,
+                //   originY: currentY,
+                // })
+              }
+
+              // S Key is 83
+              // Down arrow is 40
+              if (key.keyCode === 83 || key.keyCode === 40) {
+                // console.log("__pressed: DOWN")
+                pressedKeys["DOWN"] = true
+              }
+
+              // A Key is 65
+              // Left arrow is 37
+              if (key.keyCode === 65 || key.keyCode === 37) {
+                // console.log("__pressed: LEFT")
+                pressedKeys["LEFT"] = true
+              }
+
+              // D Key is 68
+              // Right arrow is 39
+              if (key.keyCode === 68 || key.keyCode === 39) {
+                // console.log("__pressed: RIGHT")
+                pressedKeys["RIGHT"] = true
+              }
+            })
+
+            document.addEventListener("keyup", key => {
+              console.log("keyup")
+              // W Key is 87
+              // Up arrow is 87
+              if (key.keyCode === 87 || key.keyCode === 38) {
+                // console.log("__released: UP")
+                pressedKeys["UP"] = false
+                releasedKey = true
+              }
+
+              // S Key is 83
+              // Down arrow is 40
+              if (key.keyCode === 83 || key.keyCode === 40) {
+                // console.log("__released: DOWN")
+                pressedKeys["DOWN"] = false
+                releasedKey = true
+              }
+
+              // A Key is 65
+              // Left arrow is 37
+              if (key.keyCode === 65 || key.keyCode === 37) {
+                // console.log("__released: LEFT")
+                pressedKeys["LEFT"] = false
+                releasedKey = true
+              }
+
+              // D Key is 68
+              // Right arrow is 39
+              if (key.keyCode === 68 || key.keyCode === 39) {
+                // console.log("__released: RIGHT")
+                pressedKeys["RIGHT"] = false
+                releasedKey = true
+              }
+            })
+
             // PLAYER => TELEPORT
             teleportTo = area => {
               // __ Cancel current movement
@@ -783,6 +895,23 @@
               hideTarget()
               gameRoom.send("teleport", {
                 area: area,
+              })
+            }
+
+            sendKeyboardMove = (diffX, diffY) => {
+              let currentX = localPlayers[$localUserSessionID].avatar.x
+              let currentY = localPlayers[$localUserSessionID].avatar.y
+              console.log("currentX", currentX)
+              console.log("currentY", currentY)
+              let targetX = currentX + diffX
+              let targetY = currentY + diffY
+              console.log("targetX", targetX)
+              console.log("targetY", targetY)
+              gameRoom.send("go", {
+                x: targetX,
+                y: targetY,
+                originX: currentX,
+                originY: currentY,
               })
             }
 
@@ -1262,105 +1391,7 @@
   <MetaData />
 {/if} -->
 
-<!-- SIDEBAR -->
-<!-- Show on desktop only -->
-<MediaQuery query="(min-width: 800px)" let:matches>
-  {#if matches}
-    {#if localPlayers[$localUserSessionID]}
-      {#if !sidebarHidden}
-        <div
-          class="hide-button"
-          in:scale={{ delay: 500 }}
-          on:click={() => {
-            sidebarHidden = !sidebarHidden
-            window.dispatchEvent(new Event("resize"))
-          }}
-        >
-          »
-        </div>
-      {/if}
-      <div
-        class="sidebar"
-        use:links
-        class:hidden={sidebarHidden}
-        on:click={() => {
-          if (sidebarHidden) {
-            sidebarHidden = false
-            window.dispatchEvent(new Event("resize"))
-          }
-        }}
-      >
-        <!-- MINIMAP -->
-        <div class="clock">
-          <Clock />
-        </div>
-        <!-- <div class="link-to-ac">
-          <a href="http://pohflepp.de/" target="_blank">to Sascha's website</a>
-        </div> -->
-        <div class="minimap">
-          <!-- <MiniMap {miniImage} player={localPlayers[$localUserSessionID]} /> -->
-        </div>
-        <div class="middle-section">
-          <div class="top-area">
-            <!-- CALENDAR -->
-            <!-- {#await events then events}
-              {#await exhibitions then exhibitions}
-                <EventList
-                  {events}
-                  {exhibitions}
-                  showArchived={get($globalSettings, "showArchived", false)}
-                />
-              {/await}
-            {/await} -->
-          </div>
-          <div class="bottom-area">
-            <!-- {#if section == 'seminar'} -->
-            <!-- SEMINAR -->
-            <!-- <Seminar {slug} /> -->
-            <!-- {:else if section == 'messages'} -->
-            <!-- MESSAGES -->
-            <!-- <Messaging {slug} />
-            {:else} -->
-            <!-- CHAT -->
-            {#each TEXT_ROOMS as TR}
-              {#if $currentTextRoom === TR}
-                <Chat
-                  chatMessages={chatMessages.filter(
-                    m => m.room === TR || m.directed
-                  )}
-                  currentRoom={TR}
-                />
-              {/if}
-            {/each}
-            <!-- {/if} -->
-            <!-- TOOLBAR-->
-            <div class="toolbar">
-              <ToolBar
-                {section}
-                on:submit={submitChat}
-                on:teleport={e => {
-                  // __ Cancel current movement
-                  delete moveQ[$localUserSessionID]
-                  hideTarget()
-                  teleportTo($currentArea === 5 ? "green" : "blue")
-                }}
-              />
-            </div>
-          </div>
-        </div>
-        <!-- MENUBAR -->
-        <div class="menu">
-          <Menu
-            on:username={e => {
-              Cookies.remove("postrational-username")
-              window.location = "/"
-            }}
-          />
-        </div>
-      </div>
-    {/if}
-  {/if}
-</MediaQuery>
+<Menubar />
 
 <!-- GAME WORLD -->
 <div

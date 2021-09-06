@@ -6,6 +6,10 @@
   // # # # # # # # # # # # # #
 </script>
 
+<div class="loading-screen">
+  <div class="box">loading...</div>
+</div>
+
 <style lang="scss">
   @import "../variables.scss";
 
@@ -35,7 +39,3 @@
     }
   }
 </style>
-
-<div class="loading-screen">
-  <div class="box"><img src="/1.gif" /></div>
-</div>
