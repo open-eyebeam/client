@@ -322,7 +322,7 @@
   // layers
   let mapLayer = {}
   // let emergentLayer = {}
-  let exhibitionLayer = {}
+  // let exhibitionLayer = {}
   let audioInstallationLayer = {}
   let playerLayer = {}
   let landMarkLayer = {}
@@ -370,26 +370,38 @@
 
     // __ Keyboard navigation
     if (Object.values(pressedKeys).some(k => k)) {
-      // console.log("KEY PRESSED")
-      // console.log(pressedKeys)
+      // console.log("KEY PRESSED", pressedKeys)
       if (pressedKeys["UP"]) {
-        sendKeyboardMove(0, 10)
+        // console.log("UP")
+        if (localPlayers[$localUserSessionID].avatar.y > 0) {
+          localPlayers[$localUserSessionID].avatar.y -= 2
+        }
       }
       if (pressedKeys["DOWN"]) {
-        sendKeyboardMove(0, -10)
+        // console.log("DOWN")
+        if (localPlayers[$localUserSessionID].avatar.y < 1000) {
+          localPlayers[$localUserSessionID].avatar.y += 2
+        }
       }
       if (pressedKeys["LEFT"]) {
-        sendKeyboardMove(10, 0)
+        // console.log("LEFT")
+        if (localPlayers[$localUserSessionID].avatar.x > 0) {
+          localPlayers[$localUserSessionID].avatar.x -= 2
+        }
       }
       if (pressedKeys["RIGHT"]) {
-        sendKeyboardMove(-10, 0)
+        // console.log("RIGHT")
+        if (localPlayers[$localUserSessionID].avatar.x < 1000) {
+          localPlayers[$localUserSessionID].avatar.x += 2
+        }
       }
+      checkAudioProximity()
     }
-    // if (releasedKey) {
-    //   console.log("KEY released")
-    //   releasedKey = false
-    //   sendKeyboardMove()
-    // }
+    if (releasedKey) {
+      console.log("KEY released")
+      releasedKey = false
+      sendKeyboardMove()
+    }
     // Iterate over all users currently in move queue
     for (let key in moveQ) {
       if (localPlayers[key]) {
@@ -470,12 +482,12 @@
       const mapAsset = get(graphicsSettings, "mapLink.mainImage.asset", false)
       if (mapAsset) {
         // __ Get minimap URL
-        miniImage = urlFor(graphicsSettings.mapLink.miniImage.asset)
-          .width(400)
-          .height(400)
-          .quality(100)
-          .auto("format")
-          .url()
+        // miniImage = urlFor(graphicsSettings.mapLink.miniImage.asset)
+        //   .width(400)
+        //   .height(400)
+        //   .quality(100)
+        //   .auto("format")
+        //   .url()
         // __ Load main map
         const mapLoader = new PIXI.Loader()
         const mapUrl = urlFor(mapAsset).url()
@@ -646,6 +658,7 @@
             // }
             // __ Loading is done
             setUIState(STATE.READY)
+            setTimeout(checkAudioProximity, 2000)
           }
 
           return player
@@ -709,6 +722,16 @@
               // console.dir(cull)
               // PLAYER => CHANGE
               player.onChange = changes => {
+                console.log(player.path.keyboardNavigation)
+
+                // Don't move if local keyboad navigation
+                if (
+                  $localUserSessionID === sessionId &&
+                  player.path.keyboardNavigation
+                ) {
+                  console.log("KEYBOAD NAV")
+                  return
+                }
                 // if ($localUserSessionID === sessionId) {
                 // localPlayers[sessionId].carrying = player.carrying
                 // __ Carrying ?
@@ -782,6 +805,7 @@
                 y: targetY,
                 originX: localPlayers[$localUserSessionID].avatar.x,
                 originY: localPlayers[$localUserSessionID].avatar.y,
+                keyboardNavigation: false,
               })
             })
 
@@ -801,6 +825,7 @@
                 y: targetY,
                 originX: localPlayers[$localUserSessionID].avatar.x,
                 originY: localPlayers[$localUserSessionID].avatar.y,
+                keyboardNavigation: false,
               })
             })
 
@@ -898,20 +923,15 @@
               })
             }
 
-            sendKeyboardMove = (diffX, diffY) => {
-              let currentX = localPlayers[$localUserSessionID].avatar.x
-              let currentY = localPlayers[$localUserSessionID].avatar.y
-              console.log("currentX", currentX)
-              console.log("currentY", currentY)
-              let targetX = currentX + diffX
-              let targetY = currentY + diffY
+            sendKeyboardMove = () => {
+              let targetX = localPlayers[$localUserSessionID].avatar.x
+              let targetY = localPlayers[$localUserSessionID].avatar.y
               console.log("targetX", targetX)
               console.log("targetY", targetY)
               gameRoom.send("go", {
                 x: targetX,
                 y: targetY,
-                originX: currentX,
-                originY: currentY,
+                keyboardNavigation: true,
               })
             }
 
@@ -1164,69 +1184,69 @@
       })
 
       // __ Add exhibition (static) case studies
-      caseStudies.then(caseStudies => {
-        caseStudies
-          .filter(cs => cs._type === "caseStudyExhibition")
-          .forEach((cs, i) => {
-            const spriteUrl = get(cs, "spriteLink.spriteJsonURL", "")
-            const spriteId = "caseStudy-" + cs._id
-            const csLoader = new PIXI.Loader()
-            csLoader.add(spriteId, spriteUrl).load((loader, resources) => {
-              const frames = new PIXI.AnimatedSprite(
-                resources[spriteId].spritesheet.animations["frames"]
-              )
-              frames.animationSpeed = 0.02
-              frames.play()
+      // caseStudies.then(caseStudies => {
+      //   caseStudies
+      //     .filter(cs => cs._type === "caseStudyExhibition")
+      //     .forEach((cs, i) => {
+      //       const spriteUrl = get(cs, "spriteLink.spriteJsonURL", "")
+      //       const spriteId = "caseStudy-" + cs._id
+      //       const csLoader = new PIXI.Loader()
+      //       csLoader.add(spriteId, spriteUrl).load((loader, resources) => {
+      //         const frames = new PIXI.AnimatedSprite(
+      //           resources[spriteId].spritesheet.animations["frames"]
+      //         )
+      //         frames.animationSpeed = 0.02
+      //         frames.play()
 
-              // __ Name graphics (shown on hover)
-              const textSprite = new PIXI.Text(cs.title, TEXT_STYLE_CASE_STUDY)
-              const txtBG = new PIXI.Sprite(PIXI.Texture.WHITE)
-              txtBG.tint = 0x000000
-              txtBG.width = textSprite.width + 10
-              txtBG.height = textSprite.height + 10
-              textSprite.x = 5
-              textSprite.y = 5
-              const textContainer = new PIXI.Container()
-              textContainer.addChild(txtBG, textSprite)
-              textContainer.name = "text"
+      //         // __ Name graphics (shown on hover)
+      //         const textSprite = new PIXI.Text(cs.title, TEXT_STYLE_CASE_STUDY)
+      //         const txtBG = new PIXI.Sprite(PIXI.Texture.WHITE)
+      //         txtBG.tint = 0x000000
+      //         txtBG.width = textSprite.width + 10
+      //         txtBG.height = textSprite.height + 10
+      //         textSprite.x = 5
+      //         textSprite.y = 5
+      //         const textContainer = new PIXI.Container()
+      //         textContainer.addChild(txtBG, textSprite)
+      //         textContainer.name = "text"
 
-              const caseStudyLocation = new PIXI.Container()
-              caseStudyLocation.addChild(frames)
-              caseStudyLocation.x = cs.x
-              caseStudyLocation.y = cs.y
-              caseStudyLocation.pivot.x = caseStudyLocation.width / 2
-              caseStudyLocation.pivot.y = caseStudyLocation.height / 2
-              caseStudyLocation.title = cs.title
-              caseStudyLocation.interactive = true
+      //         const caseStudyLocation = new PIXI.Container()
+      //         caseStudyLocation.addChild(frames)
+      //         caseStudyLocation.x = cs.x
+      //         caseStudyLocation.y = cs.y
+      //         caseStudyLocation.pivot.x = caseStudyLocation.width / 2
+      //         caseStudyLocation.pivot.y = caseStudyLocation.height / 2
+      //         caseStudyLocation.title = cs.title
+      //         caseStudyLocation.interactive = true
 
-              const onDown = e => {
-                navigate("/projects/" + get(cs, "slug.current", false))
-                e.stopPropagation()
-              }
+      //         const onDown = e => {
+      //           navigate("/projects/" + get(cs, "slug.current", false))
+      //           e.stopPropagation()
+      //         }
 
-              const onEnter = e => {
-                gameContainer.style.cursor = "pointer"
-                textContainer.y =
-                  caseStudyLocation.height / 2 - textContainer.height / 2
-                textContainer.x =
-                  -(textContainer.width / 2) + caseStudyLocation.width / 2
-                caseStudyLocation.addChild(textContainer)
-              }
+      //         const onEnter = e => {
+      //           gameContainer.style.cursor = "pointer"
+      //           textContainer.y =
+      //             caseStudyLocation.height / 2 - textContainer.height / 2
+      //           textContainer.x =
+      //             -(textContainer.width / 2) + caseStudyLocation.width / 2
+      //           caseStudyLocation.addChild(textContainer)
+      //         }
 
-              const onLeave = e => {
-                gameContainer.style.cursor = "crosshair"
-                caseStudyLocation.removeChild(textContainer)
-              }
+      //         const onLeave = e => {
+      //           gameContainer.style.cursor = "crosshair"
+      //           caseStudyLocation.removeChild(textContainer)
+      //         }
 
-              caseStudyLocation.on("mousedown", onDown)
-              caseStudyLocation.on("touchstart", onDown)
-              caseStudyLocation.on("mouseover", onEnter)
-              caseStudyLocation.on("mouseout", onLeave)
+      //         caseStudyLocation.on("mousedown", onDown)
+      //         caseStudyLocation.on("touchstart", onDown)
+      //         caseStudyLocation.on("mouseover", onEnter)
+      //         caseStudyLocation.on("mouseout", onLeave)
 
-              exhibitionLayer.addChild(caseStudyLocation)
-            })
-          })
-      })
+      //         // exhibitionLayer.addChild(caseStudyLocation)
+      //       })
+      //     })
+      // })
 
       // __ Add audio installations
       audioInstallations.then(audioInstallations => {
@@ -1315,7 +1335,7 @@
     })
 
     // SET BACKGROUND COLOR
-    app.renderer.backgroundColor = 0xeeeeee
+    app.renderer.backgroundColor = 0x1a1a1a
 
     // __ Create Pixi Viewport
     viewport = new Viewport({
@@ -1336,13 +1356,13 @@
     // (6) => Landmarks
     mapLayer = new PIXI.Container()
     // emergentLayer = new PIXI.Container()
-    exhibitionLayer = new PIXI.Container()
+    // exhibitionLayer = new PIXI.Container()
     audioInstallationLayer = new PIXI.Container()
     playerLayer = new PIXI.Container()
     landMarkLayer = new PIXI.Container()
     viewport.addChild(mapLayer)
     viewport.addChild(audioInstallationLayer)
-    viewport.addChild(exhibitionLayer)
+    // viewport.addChild(exhibitionLayer)
     // viewport.addChild(emergentLayer)
     viewport.addChild(playerLayer)
     viewport.addChild(landMarkLayer)
@@ -1402,7 +1422,7 @@
 />
 
 <!-- MAIN CONTENT -->
-<div class="main-content-slot" class:pushed={sidebarHidden}>
+<div class="main-content-slot">
   <!-- INFORMATION BOX -->
   {#if get($currentAreaObject, "informationCard", false) && !closedAreaCards.includes($currentAreaObject.areaIndex)}
     <div class="content-item active" transition:fly={{ y: -200 }}>
@@ -1429,7 +1449,7 @@
   {/if}
 
   <!-- AUDIOZONE -->
-  {#if inAudioZone}
+  <!-- {#if inAudioZone}
     <div class="content-item active" transition:fly={{ y: -200 }}>
       {#await audioInstallations then audioInstallations}
         <AudioInstallationSingle
@@ -1440,7 +1460,7 @@
         />
       {/await}
     </div>
-  {/if}
+  {/if} -->
 
   <!-- LIVE -->
   {#await activeStreams then activeStreams}
@@ -1472,7 +1492,6 @@
   {#if ["projects", "profiles", "profiles", "events", "pages"].includes(section)}
     <div
       class="content-item passive"
-      class:pushed={!activeContentClosed}
       use:links
       transition:fly={{ y: 200, duration: 400, easing: quartOut }}
     >
@@ -1986,7 +2005,7 @@
   .main-content-slot {
     position: absolute;
     top: 0;
-    right: calc(#{$SIDEBAR_WIDTH} + #{$SPACE_S});
+    right: 20px;
     width: 500px;
     max-width: calc(100vw - (#{$SIDEBAR_WIDTH} + #{$SPACE_L}));
     max-height: 100vh;
@@ -1996,9 +2015,9 @@
     color: $COLOR_DARK;
     transition: transform 0.5s $transition;
 
-    &.pushed {
-      transform: translatex(360px);
-    }
+    // &.pushed {
+    //   transform: translatex(360px);
+    // }
 
     @include hide-scroll;
 
@@ -2023,7 +2042,7 @@
       color: $COLOR_DARK;
       position: relative;
       margin-bottom: $SPACE_S;
-      margin-top: $SPACE_S;
+      margin-top: 40px;
 
       @include hide-scroll;
 
