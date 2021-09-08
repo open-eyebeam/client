@@ -31,7 +31,7 @@ export const FORMATMAP = {
   imageBlock: "IMAGE",
 }
 
-export const MAP = { WIDTH: 4000, HEIGHT: 4000 }
+export const MAP = { WIDTH: 1000, HEIGHT: 1000 }
 
 export const QUERY = {
   GRAPHICS_SETTINGS:
