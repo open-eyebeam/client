@@ -22,7 +22,7 @@
 </script>
 
 <div class="clock-berlin">
-  {time}&nbsp; New York City
+  <span class="time">{time}</span>New York City
 </div>
 
 <style lang="scss">
@@ -30,9 +30,12 @@
 
   .clock-berlin {
     font-family: $MONO_STACK;
-    font-size: $FONT_SIZE_SMALL;
+    font-size: 14px;
     color: $COLOR_LIGHT;
-    word-spacing: -0.3em;
+
+    .time {
+      margin-right: 0.5em;
+    }
 
     a {
       color: white;

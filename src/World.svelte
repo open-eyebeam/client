@@ -548,13 +548,13 @@
               ? TEXT_STYLE_AVATAR_AUTHENTICATED
               : TEXT_STYLE_AVATAR
           )
-          const txtBG = new PIXI.Sprite(PIXI.Texture.WHITE)
-          txtBG.width = textSprite.width + 10
-          txtBG.height = textSprite.height + 10
-          textSprite.x = 5
-          textSprite.y = 5
+          // const txtBG = new PIXI.Sprite(PIXI.Texture.WHITE)
+          // txtBG.width = textSprite.width + 10
+          // txtBG.height = textSprite.height + 10
+          textSprite.x = 10
+          textSprite.y = 10
           const textContainer = new PIXI.Container()
-          textContainer.addChild(txtBG, textSprite)
+          textContainer.addChild(textSprite)
           textContainer.name = "text"
 
           // __ Add sprites and initial position to container
@@ -1413,6 +1413,10 @@
 
 <Menubar />
 
+<div class="caption-box">
+  Welcome to the Field... The grass is swaying in the wind.
+</div>
+
 <!-- GAME WORLD -->
 <div
   class="game"
@@ -2206,5 +2210,16 @@
       left: 0;
       z-index: 1;
     }
+  }
+
+  .caption-box {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    padding: 15px;
+    background: #e8eae6;
+    color: rgb(30, 30, 30);
+    border: 1px solid rgb(30, 30, 30);
+    z-index: 1000;
   }
 </style>
