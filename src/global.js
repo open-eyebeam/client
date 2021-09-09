@@ -63,11 +63,11 @@ export const QUERY = {
 }
 
 export const TEXT_STYLE_AVATAR = {
-  fontFamily: "IBM Plex Mono",
+  fontFamily: "Literata",
   // fontWeight: "bold",
   fontSize: 14,
   align: "center",
-  fill: "#999999",
+  fill: "#000000",
   wordWrap: true,
   wordWrapWidth: 300,
 }
