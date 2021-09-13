@@ -97,3 +97,206 @@
     {/if}
   {/if}
 </MediaQuery>
+
+
+// PLAYER => ILLEGAL MOVE
+
+// // PLAYER => CLICK / TAP
+// viewport.on("clicked", e => {
+//   // __ Cancel current movement
+//   delete moveQ[$localUserSessionID]
+//   hideTarget()
+//   // __ Start new movement
+//   const targetX = Math.round(e.world.x)
+//   const targetY = Math.round(e.world.y)
+//   showTarget(targetX, targetY)
+//   gameRoom.send("go", {
+//     x: targetX,
+//     y: targetY,
+//     originX: localPlayers[$localUserSessionID].avatar.x,
+//     originY: localPlayers[$localUserSessionID].avatar.y,
+//     keyboardNavigation: false,
+//   })
+// })
+
+// // PLAYER => TOUCH END
+// viewport.on("touchend", e => {
+//   // __ Convert screen coordinates to world coordinates
+//   const world = viewport.toWorld(e.data.global.x, e.data.global.y)
+//   // __ Cancel current movement
+//   delete moveQ[$localUserSessionID]
+//   hideTarget()
+//   // // __ Start new movement
+//   const targetX = Math.round(world.x)
+//   const targetY = Math.round(world.y)
+//   showTarget(targetX, targetY)
+//   gameRoom.send("go", {
+//     x: targetX,
+//     y: targetY,
+//     originX: localPlayers[$localUserSessionID].avatar.x,
+//     originY: localPlayers[$localUserSessionID].avatar.y,
+//     keyboardNavigation: false,
+//   })
+// })
+
+// PLAYER => KEY DOWN
+document.addEventListener("keydown", key => {
+  // let currentX = localPlayers[$localUserSessionID].avatar.x
+  // let currentY = localPlayers[$localUserSessionID].avatar.y
+  // console.log("currentX", currentX)
+  // console.log("currentY", currentY)
+  // let targetX = currentX
+  // let targetY = currentY
+
+  console.log(key)
+
+  // W Key is 87
+  // Up arrow is 87
+  if (key.keyCode === 87 || key.keyCode === 38) {
+    console.log("__pressed: UP")
+    pressedKeys["UP"] = true
+    // __ Cancel current movement
+    // delete moveQ[$localUserSessionID]
+    // targetY -= 10
+    // gameRoom.send("go", {
+    //   x: targetX,
+    //   y: targetY,
+    //   originX: currentX,
+    //   originY: currentY,
+    // })
+  }
+
+  // S Key is 83
+  // Down arrow is 40
+  if (key.keyCode === 83 || key.keyCode === 40) {
+    // console.log("__pressed: DOWN")
+    pressedKeys["DOWN"] = true
+  }
+
+  // A Key is 65
+  // Left arrow is 37
+  if (key.keyCode === 65 || key.keyCode === 37) {
+    // console.log("__pressed: LEFT")
+    pressedKeys["LEFT"] = true
+  }
+
+  // D Key is 68
+  // Right arrow is 39
+  if (key.keyCode === 68 || key.keyCode === 39) {
+    // console.log("__pressed: RIGHT")
+    pressedKeys["RIGHT"] = true
+  }
+})
+
+document.addEventListener("keyup", key => {
+  console.log("keyup")
+  // W Key is 87
+  // Up arrow is 87
+  if (key.keyCode === 87 || key.keyCode === 38) {
+    // console.log("__released: UP")
+    pressedKeys["UP"] = false
+    releasedKey = true
+  }
+
+  // S Key is 83
+  // Down arrow is 40
+  if (key.keyCode === 83 || key.keyCode === 40) {
+    // console.log("__released: DOWN")
+    pressedKeys["DOWN"] = false
+    releasedKey = true
+  }
+
+  // A Key is 65
+  // Left arrow is 37
+  if (key.keyCode === 65 || key.keyCode === 37) {
+    // console.log("__released: LEFT")
+    pressedKeys["LEFT"] = false
+    releasedKey = true
+  }
+
+  // D Key is 68
+  // Right arrow is 39
+  if (key.keyCode === 68 || key.keyCode === 39) {
+    // console.log("__released: RIGHT")
+    pressedKeys["RIGHT"] = false
+    releasedKey = true
+  }
+})
+
+// PLAYER => TELEPORT
+teleportTo = area => {
+  // __ Cancel current movement
+  delete moveQ[$localUserSessionID]
+  hideTarget()
+  gameRoom.send("teleport", {
+    area: area,
+  })
+}
+
+sendKeyboardMove = () => {
+  let targetX = localPlayers[$localUserSessionID].avatar.x
+  let targetY = localPlayers[$localUserSessionID].avatar.y
+  console.log("targetX", targetX)
+  console.log("targetY", targetY)
+  gameRoom.send("go", {
+    x: targetX,
+    y: targetY,
+    keyboardNavigation: true,
+  })
+}
+
+  // __ Game loop
+  // __ Called at approximately 60fps by pixi.ticker
+  // const updatePositions = (delta) => {
+  //   // Combine delta (lag) and potential time passed since window was in focus
+  //   let deltaRounded = Math.round(delta) + deltaJump;
+  //   deltaJump = 0;
+  //   // Iterate over all users currently in move queue
+  //   for (let key in moveQ) {
+  //     if (localPlayers[key]) {
+  //       if (moveQ[key].length > 0) {
+  //         if (moveQ[key].length - deltaRounded < 0) {
+  //           // User reached destination while the window was out of focus
+  //           // Move to final step and clear users's move queue
+  //           let step = moveQ[key][moveQ[key].length - 1];
+  //           localPlayers[key].avatar.setAnimation(step.direction);
+  //           localPlayers[key].avatar.x = step.x;
+  //           localPlayers[key].avatar.y = step.y;
+  //           localPlayers[key].area = step.area;
+  //           moveQ[key] = [];
+  //           if (key === $localUserSessionID) {
+  //             checkAudioProximity();
+  //           }
+  //         } else {
+  //           // Get next step, adjusting for delta
+  //           moveQ[key].splice(0, deltaRounded - 1);
+  //           let step = moveQ[key].shift();
+  //           localPlayers[key].avatar.setAnimation(step.direction);
+  //           localPlayers[key].avatar.x = step.x;
+  //           localPlayers[key].avatar.y = step.y;
+  //           localPlayers[key].area = step.area;
+  //           if (key === $localUserSessionID && moveQ[key].length % 30 === 0) {
+  //             // Set current area for users
+  //             currentArea.set(localPlayers[$localUserSessionID].area);
+  //             // Check proximity to audio installations every 30th step
+  //             checkAudioProximity();
+  //           }
+  //         }
+  //       } else {
+  //         // Destination reached
+  //         if (key === $localUserSessionID) {
+  //           hideTarget();
+  //           checkAudioProximity();
+  //           // User was walking towards a case study
+  //           // if (intentToPickUp) {
+  //           //   pickUpCaseStudy(intentToPickUp)
+  //           // }
+  //         }
+  //         localPlayers[key].avatar.setAnimation("rest");
+  //         delete moveQ[key];
+  //       }
+  //     } else {
+  //       delete moveQ[key];
+  //     }
+  //   }
+  // };
