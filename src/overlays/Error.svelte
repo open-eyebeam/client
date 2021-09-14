@@ -9,6 +9,12 @@
   export let message = ""
 </script>
 
+<div class="error-screen">
+  <div class="box">
+    <div class="header">ERROR: {message}</div>
+  </div>
+</div>
+
 <style lang="scss">
   @import "../variables.scss";
 
@@ -18,15 +24,15 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: black;
-    color: white;
+    background: $COLOR_DARK;
+    color: $COLOR_LIGHT;
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 100000;
 
     .box {
-      font-family: $MONO_STACK;
+      font-family: $SERIF_STACK;
       padding: 20px;
       font-size: $FONT_SIZE_LARGE;
       text-align: center;
@@ -34,9 +40,3 @@
     }
   }
 </style>
-
-<div class="error-screen">
-  <div class="box">
-    <div class="header">ERROR: {message}</div>
-  </div>
-</div>

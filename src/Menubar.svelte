@@ -7,7 +7,7 @@
 
   // *** IMPORTS
   import { links, navigate } from "svelte-routing"
-  import Clock from "./sidebar/Clock.svelte"
+  import Clock from "./Clock.svelte"
 
   // *** STORES
   // import {
@@ -38,6 +38,7 @@
     align-items: center;
     padding-left: 30px;
     padding-right: 30px;
-    color: white;
+    color: $COLOR_LIGHT;
+    font-size: $FONT_SIZE_SMALL;
   }
 </style>

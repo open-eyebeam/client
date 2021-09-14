@@ -1,26 +1,22 @@
 // TYPOGRAPHY
-$MONO_STACK: 'Literata', serif;
-$SANS_STACK: 'Literata', serif;
 $SERIF_STACK: 'Literata', serif;
-
-$HERSHEY_SIMPLEX: $MONO_STACK;
-$HERSHEY_DUPLEX: $MONO_STACK;
-$HERSHEY_DASHED: $MONO_STACK;
-
 $FONT_SIZE_SMALL: 12px;
-$FONT_SIZE_BASE: 14px;
+$FONT_SIZE_BASE: 18px;
 $FONT_SIZE_MEDIUM: $FONT_SIZE_BASE;
 $FONT_SIZE_LARGE: $FONT_SIZE_BASE;
-$SIDEBAR_WIDTH: 400px;
 
 // COLOR
-$COLOR_DARK: rgb(0, 0, 0);
+$COLOR_DARK: rgb(14, 13, 13);
+$COLOR_MID: rgb(196, 199, 193);
+$COLOR_LIGHT: rgb(226, 229, 223);
+
+
+
 $COLOR_DARK_OPACITY: rgba(0, 0, 0, 0.8);
 $COLOR_MID_1: rgb(197, 197, 197);
 $COLOR_MID_15: rgb(187, 187, 187);
 $COLOR_MID_2: rgb(153, 153, 153);
 $COLOR_MID_3: rgb(85, 85, 85);
-$COLOR_LIGHT: rgb(240, 240, 240);
 
 $COLOR_LIGHTBLUE: $COLOR_MID_15;
 
@@ -91,7 +87,7 @@ $breakpoints: (
 @mixin text {
   .text{
   padding: $SPACE_M $SPACE_M 0 $SPACE_M;
-  font-family: $SANS_STACK;
+  font-family: $SERIF_STACK;
   font-size: $FONT_SIZE_BASE;
   font-weight: 400;
   line-height: 1.4em;
