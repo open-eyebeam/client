@@ -3,7 +3,6 @@ import get from "lodash/get"
 
   // *** GLOBAL
   import {
-    COLORMAP,
     HEX_MAP,
   } from "./global.js"
 

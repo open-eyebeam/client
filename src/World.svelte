@@ -11,7 +11,6 @@
   import get from "lodash/get"
   import sample from "lodash/sample"
   import { fade } from "svelte/transition"
-  import { quartOut } from "svelte/easing"
   import { urlFor, loadData, client } from "./sanity.js"
   import { links, navigate } from "svelte-routing"
   import { Howl } from "howler"
@@ -32,30 +31,15 @@
   import Onboarding from "./Onboarding.svelte"
 
   // *** GLOBAL
-  import {
-    nanoid,
-    isOverlapping,
-    MAP,
-    REVERSE_HEX_MAP,
-    QUERY,
-    TEXT_ROOMS,
-    GAME_SERVER_URL,
-  } from "./global.js"
+  import { nanoid, isOverlapping, QUERY, GAME_SERVER_URL } from "./global.js"
 
   // *** STORES
   import {
     localUserUUID,
     localUserSessionID,
     localUserName,
-    // localUserAuthenticated,
-    // authenticatedUserInformation,
     globalSettings,
     currentArea,
-    currentAreaObject,
-    currentTextRoom,
-    currentAudioRoom,
-    currentVideoRoom,
-    globalUserList,
   } from "./stores.js"
 
   // *** PROPS
@@ -63,17 +47,11 @@
 
   // *** VARIABLES
   let activeContentClosed = false
-  // let supportStreamClosed = false
-  let audioChatActive = false
-  // let intentToPickUp = false
-  let inAudioZone = false
-  let chatMessages = []
   let moveQ = []
   let reconnectionAttempts = 0
   let disconnectionCode = 0
   let currentStreamEvent = false
   let currentStreamUrl = false
-  // let supportStreamUrl = false
 
   // ___ Get data from Sanity CMS
   const graphicsSettings = loadData(QUERY.GRAPHICS_SETTINGS).catch(err => {
@@ -376,14 +354,6 @@
           player.onChange = changes => {
             console.log("__CHANGE", player)
 
-            // IGNORE LOCAL KEYBOARD NAVIGATION
-            if (
-              player.uuid === $localUserUUID &&
-              player.path.keyboardNavigation
-            ) {
-              return
-            }
-
             // ONBOARDING COMPLETED
             if (player.onboarded && !players[player.uuid].onboarded) {
               console.log("ONBOARDING COMPLETED")
@@ -444,6 +414,14 @@
                 players[player.uuid].room = player.room
               }
 
+              return
+            }
+
+            // IGNORE LOCAL KEYBOARD NAVIGATION
+            if (
+              player.uuid === $localUserUUID &&
+              player.path.keyboardNavigation
+            ) {
               return
             }
 

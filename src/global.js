@@ -4,25 +4,9 @@ export const SANITY_PROJECT_ID = "58ueii0w"
 export const GAME_SERVER_URL = "wss://open.eyebeam.dev";
 // export const GAME_SERVER_URL = "ws://localhost:2567"
 
-export const VIDEO_ROOMS = {MAIN: "main", SUPPORT: "support"}
-export const AUDIO_ROOMS= [1,2,3,4,5,6,7]
-export const TEXT_ROOMS = [1,2,3,4]
 export const AREA = { YELLOW: 2, RED: 3, GREEN: 4, BLUE: 5, MAGENTA: 6, CYAN: 7, PURPLE: 8, TEAL: 9 }
 export const REVERSE_HEX_MAP = { '#FFFF00': 'yellow','#FF0000':'red','#00FF00': 'green', '#0000FF': 'blue', '#FF00FF': 'magenta', '#00FFFF': 'cyan', '#880088': 'purple',  '#008888': 'teal' }
 export const HEX_MAP = { YELLOW: '#FFFF00', RED: '#FF0000', GREEN: '#00FF00', BLUE: '#0000FF', MAGENTA: '#FF00FF', CYAN: '#00FFFF', PURPLE: '#880088', TEAL: '#008888' }
-export const COLORMAP = ["WHITE", "BLACK", "YELLOW", "RED", "GREEN", "BLUE", "MAGENTA", "CYAN", "PURPLE", "TEAL"]
-export const TINTMAP = [
-  0x111111,
-  0x333333,
-  0x666666,
-  0x777777,
-  0x888888,
-  0x999999,
-  0xaaaaaa,
-  0xcccccc,
-  0xdddddd,
-  0xffffff,
-]
 // export const TINTMAP = [0x111111, 0x666666, 0x888888, 0xaaaaaa, 0xffffff]
 export const FORMATMAP = {
   pdfBlock: "PDF",
@@ -156,37 +140,37 @@ export function debounce(fn, wait = 1) {
   }
 }
 
-  /**
-   * Provides the overlapping status between two elements
-   * based on the passed in Element objects
-   *
-   * @param {Element, Element} Element object of DOM
-   * @return {Boolean} overlap status or null if native object not received
-   */
-   export const isOverlapping = (e1, e2) => {
-    if (e1.length && e1.length > 1) {
-      e1 = e1[0]
-    }
-    if (e2.length && e2.length > 1) {
-      e2 = e2[0]
-    }
-    const rect1 = e1 instanceof Element ? e1.getBoundingClientRect() : false
-    const rect2 = e2 instanceof Element ? e2.getBoundingClientRect() : false
+/**
+ * Provides the overlapping status between two elements
+ * based on the passed in Element objects
+ *
+ * @param {Element, Element} Element object of DOM
+ * @return {Boolean} overlap status or null if native object not received
+ */
+  export const isOverlapping = (e1, e2) => {
+  if (e1.length && e1.length > 1) {
+    e1 = e1[0]
+  }
+  if (e2.length && e2.length > 1) {
+    e2 = e2[0]
+  }
+  const rect1 = e1 instanceof Element ? e1.getBoundingClientRect() : false
+  const rect2 = e2 instanceof Element ? e2.getBoundingClientRect() : false
 
-    // console.log(rect1, rect2)
+  // console.log(rect1, rect2)
 
-    let overlap = false
+  let overlap = false
 
-    if (rect1 && rect2) {
-      overlap = !(
-        rect1.right < rect2.left ||
-        rect1.left > rect2.right ||
-        rect1.bottom < rect2.top ||
-        rect1.top > rect2.bottom
-      )
-      return overlap
-    }
-
-    console.warn("Please provide valid HTMLElement object")
+  if (rect1 && rect2) {
+    overlap = !(
+      rect1.right < rect2.left ||
+      rect1.left > rect2.right ||
+      rect1.bottom < rect2.top ||
+      rect1.top > rect2.bottom
+    )
     return overlap
   }
+
+  console.warn("Please provide valid HTMLElement object")
+  return overlap
+}
