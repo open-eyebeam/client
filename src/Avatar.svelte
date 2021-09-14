@@ -7,6 +7,13 @@
   import { fly, scale, fade } from "svelte/transition"
   import { onMount, onDestroy } from "svelte"
 
+  // *** GRAPHICS
+  import Square from "./avatars/square.svelte"
+  import Star from "./avatars/star.svelte"
+  import Triangle from "./avatars/triangle.svelte"
+  import Pentagon from "./avatars/pentagon.svelte"
+  import Hexagon from "./avatars/hexagon.svelte"
+
   //   *** PROPS
   export let player = {}
   export let key = ""
@@ -14,6 +21,8 @@
   let avatarEl = {}
 
   onMount(async () => {
+    console.log("player", player)
+    console.log("player.name", player.name)
     if (!player.self) {
       tippy(avatarEl, {
         content: player.name,
@@ -39,31 +48,34 @@
     "px) translateX(" +
     player.x +
     "px)"}
-/>
+>
+  {#if player.shape === "square"}
+    <Square self={player.self} />
+  {/if}
+  {#if player.shape === "triangle"}
+    <Triangle self={player.self} />
+  {/if}
+  {#if player.shape === "hexagon"}
+    <Hexagon self={player.self} />
+  {/if}
+  {#if player.shape === "pentagon"}
+    <Pentagon self={player.self} />
+  {/if}
+  {#if player.shape === "star"}
+    <Star self={player.self} />
+  {/if}
+</div>
 
 <!-- style={"top: " + player.y + "px; left: " + player.x + "px;"} -->
 <style lang="scss">
   @import "./variables.scss";
 
   .avatar {
-    height: 20px;
-    width: 20px;
+    height: 30px;
+    width: 30px;
     position: absolute;
     top: 0;
     left: 0;
     transition: transform 0.2s linear;
-    border: 1px solid rgba(33, 33, 33, 1);
-
-    &:hover {
-      background: rgba(220, 220, 220, 1);
-    }
-
-    &.self {
-      background: rgba(33, 33, 33, 1);
-
-      &:hover {
-        background: rgba(33, 33, 33, 1);
-      }
-    }
   }
 </style>

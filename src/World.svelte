@@ -10,7 +10,7 @@
   import * as Colyseus from "colyseus.js"
   import get from "lodash/get"
   import sample from "lodash/sample"
-  import { fly, scale, fade } from "svelte/transition"
+  import { fade } from "svelte/transition"
   import { quartOut } from "svelte/easing"
   import { urlFor, loadData, client } from "./sanity.js"
   import { links, navigate } from "svelte-routing"
@@ -19,33 +19,17 @@
   import Cookies from "js-cookie"
 
   // *** COMPONENTS
-  // sidebar
-  import Chat from "./sidebar/Chat.svelte"
-  import Menu from "./sidebar/Menu.svelte"
-  import ToolBar from "./sidebar/ToolBar.svelte"
-
-  // singles
-  import CaseStudySingle from "./singles/CaseStudySingle.svelte"
-  import PageSingle from "./singles/PageSingle.svelte"
-  import UserProfileSingle from "./singles/UserProfileSingle.svelte"
-  import EventSingle from "./singles/event/EventSingle.svelte"
-  import LiveSingle from "./singles/event/LiveSingle.svelte"
-  import AudioInstallationSingle from "./singles/AudioInstallationSingle.svelte"
-  // overlays
   import LoadingScreen from "./overlays/LoadingScreen.svelte"
   import Error from "./overlays/Error.svelte"
   import Reconnection from "./overlays/Reconnection.svelte"
-  // ...
-  import AudioChat from "./AudioChat.svelte"
-  import MetaData from "./MetaData.svelte"
-
-  // NEW COMPONENTS
+  // *** NEW COMPONENTS
   import Players from "./Players.svelte"
   import Menubar from "./Menubar.svelte"
   import Target from "./TargetMarker.svelte"
   import Caption from "./Caption.svelte"
   import RoomDialog from "./RoomDialog.svelte"
   import EyebeamLogo from "./EyebeamLogo.svelte"
+  import Onboarding from "./Onboarding.svelte"
 
   // *** GLOBAL
   import {
@@ -91,72 +75,9 @@
   let currentStreamUrl = false
   // let supportStreamUrl = false
 
-  // ___ Routing
-  let section = false
-  let slug = false
-  // let sso = false
-  // let sig = false
-  // let returnSection = false
-  // let returnSlug = false
-
-  // ___ Listen for changes to page visibility (ie. tab being out of focus etc..)
-  // ___ Fastforward animations when window is refocused
-  let deltaJump = 0
-  let hiddenTime = 0
-  let hidden, visibilityChange
-
-  if (typeof document.hidden !== "undefined") {
-    hidden = "hidden"
-    visibilityChange = "visibilitychange"
-  } else if (typeof document.msHidden !== "undefined") {
-    hidden = "msHidden"
-    visibilityChange = "msvisibilitychange"
-  } else if (typeof document.webkitHidden !== "undefined") {
-    hidden = "webkitHidden"
-    visibilityChange = "webkitvisibilitychange"
-  }
-
-  const handleVisibilityChange = () => {
-    if (document[hidden]) {
-      hiddenTime = Date.now()
-    } else {
-      // Number of frames missed (1000ms / 60frames ≈ 16.6666)
-      deltaJump = Math.round((Date.now() - hiddenTime) / 16.6666)
-    }
-  }
-
-  document.addEventListener(visibilityChange, handleVisibilityChange, false)
-
   // ___ Get data from Sanity CMS
   const graphicsSettings = loadData(QUERY.GRAPHICS_SETTINGS).catch(err => {
     console.log(err)
-  })
-  const events = loadData(QUERY.EVENTS).catch(err => {
-    console.log(err)
-  })
-  const exhibitions = loadData(QUERY.EXHIBITIONS).catch(err => {
-    console.log(err)
-  })
-  const caseStudies = loadData(QUERY.CASE_STUDIES).catch(err => {
-    console.log(err)
-  })
-  const audioInstallations = loadData(QUERY.AUDIO_INSTALLATIONS).catch(err => {
-    console.log(err)
-  })
-  const landMarks = loadData(QUERY.LAND_MARKS).catch(err => {
-    console.log(err)
-  })
-  const users = loadData(QUERY.USERS).catch(err => {
-    console.log(err)
-  })
-  const pages = loadData(QUERY.PAGES).catch(err => {
-    console.log(err)
-  })
-
-  // __ Set global user list
-  users.then(users => {
-    globalUserList.set(users)
-    return users
   })
 
   loadData(QUERY.GLOBAL_SETTINGS)
@@ -209,7 +130,7 @@
     READY: 1,
     LOADING: 2,
     DISCONNECTED: 3,
-    SETUSERNAME: 4,
+    ONBOARDING: 4,
   }
 
   const UI = { state: STATE.LOADING, errorMessage: false }
@@ -226,8 +147,8 @@
       case STATE.DISCONNECTED:
         UI.state = STATE.DISCONNECTED
         break
-      case STATE.SETUSERNAME:
-        UI.state = STATE.SETUSERNAME
+      case STATE.ONBOARDING:
+        UI.state = STATE.ONBOARDING
         break
       default:
         UI.state = STATE.ERROR
@@ -355,6 +276,7 @@
   let players = {}
   let moveTo = {}
   let goToRoom = {}
+  let onboardUser = {}
 
   let showTarget = false
   let targetX = 0
@@ -382,15 +304,29 @@
   onMount(async () => {
     // ___ Give the local user a UUID
     localUserUUID.set(nanoid())
-    localUserName.set("bob")
+    localUserName.set("unknown")
 
-    // Start animation loop
-    animationLoop()
+    const usernameCookie = Cookies.get("open-eyebeam__name")
+    console.log("usernameCookie", usernameCookie)
+    if (!usernameCookie) {
+      // ___ Prompt user to enter name
+      setUIState(STATE.ONBOARDING)
+    } else {
+      // ___ Set username from cookie
+      localUserName.set(usernameCookie)
+    }
+
+    const userShapeCookie = Cookies.get("open-eyebeam__shape")
+    console.log("userShapeCookie", userShapeCookie)
 
     let playerObject = {
       uuid: $localUserUUID,
       name: $localUserName,
+      shape: userShapeCookie ? userShapeCookie : "square",
+      onboarded: !usernameCookie ? false : true,
     }
+
+    console.log("playerObject", playerObject)
 
     // __ Join game room
     gameClient
@@ -399,6 +335,9 @@
         // ******
         // PLAYER
         // ******
+
+        // Start animation loop
+        animationLoop()
 
         // PLAYER => REMOVE
         gameRoom.state.players.onRemove = (player, sessionId) => {
@@ -420,14 +359,17 @@
           }
 
           if (player.uuid === $localUserUUID) {
-            setUIState(STATE.READY)
             currentArea.set("field")
+            if (player.onboarded) {
+              setUIState(STATE.READY)
+            }
           }
 
           // PLAYER => CHANGE
           player.onChange = changes => {
             console.log("__CHANGE", player)
 
+            // IGNORE LOCAL KEYBOARD NAVIGATION
             if (
               player.uuid === $localUserUUID &&
               player.path.keyboardNavigation
@@ -435,6 +377,16 @@
               return
             }
 
+            // ONBOARDING COMPLETED
+            if (player.onboarded && !players[player.uuid].onboarded) {
+              console.log("ONBOARDING COMPLETED")
+              console.log(player)
+              players[player.uuid].onboarded = true
+              players[player.uuid].name = player.name
+              players[player.uuid].shape = player.shape
+            }
+
+            // ROOM CHANGE
             if (player.room !== players[player.uuid].room) {
               console.log("CHANGE ROOM", player.uuid, player.room)
               players[player.uuid].room = player.room
@@ -449,13 +401,12 @@
               return
             }
 
-            if (player.uuid === $localUserUUID) {
-              targetX = player.x
-              targetY = player.y
-              showTarget = true
-            }
-
             if (player.path.waypoints.length > 0) {
+              if (player.uuid === $localUserUUID && player.onboarded) {
+                targetX = player.x
+                targetY = player.y
+                showTarget = true
+              }
               // __ Normal movement
               moveQ[player.uuid] = player.path.waypoints.filter(
                 (_, i) => (i + 1) % 5
@@ -487,6 +438,16 @@
               keyboardNavigation: false,
             })
           }
+        }
+
+        onboardUser = (username, shape) => {
+          console.log("username", username)
+          console.log("shape", shape)
+          gameRoom.send("onboard", {
+            username: username,
+            shape: shape,
+          })
+          setUIState(STATE.READY)
         }
 
         goToRoom = roomId => {
@@ -553,62 +514,58 @@
 
     // PLAYER => KEY DOWN
     document.addEventListener("keydown", key => {
-      console.log(key)
-      // W Key is 87
-      // Up arrow is 87
-      if (key.keyCode === 87 || key.keyCode === 38) {
-        console.log("__pressed: UP")
-        pressedKeys["UP"] = true
-      }
-      // S Key is 83
-      // Down arrow is 40
-      if (key.keyCode === 83 || key.keyCode === 40) {
-        // console.log("__pressed: DOWN")
-        pressedKeys["DOWN"] = true
-      }
-      // A Key is 65
-      // Left arrow is 37
-      if (key.keyCode === 65 || key.keyCode === 37) {
-        // console.log("__pressed: LEFT")
-        pressedKeys["LEFT"] = true
-      }
-      // D Key is 68
-      // Right arrow is 39
-      if (key.keyCode === 68 || key.keyCode === 39) {
-        // console.log("__pressed: RIGHT")
-        pressedKeys["RIGHT"] = true
+      if (UI.state == STATE.READY) {
+        console.log(key)
+        // W Key is 87 & Up arrow is 87
+        if (key.keyCode === 87 || key.keyCode === 38) {
+          console.log("__pressed: UP")
+          pressedKeys["UP"] = true
+        }
+        // S Key is 83 & Down arrow is 40
+        if (key.keyCode === 83 || key.keyCode === 40) {
+          // console.log("__pressed: DOWN")
+          pressedKeys["DOWN"] = true
+        }
+        // A Key is 65 & Left arrow is 37
+        if (key.keyCode === 65 || key.keyCode === 37) {
+          // console.log("__pressed: LEFT")
+          pressedKeys["LEFT"] = true
+        }
+        // D Key is 68 & Right arrow is 39
+        if (key.keyCode === 68 || key.keyCode === 39) {
+          // console.log("__pressed: RIGHT")
+          pressedKeys["RIGHT"] = true
+        }
       }
     })
 
     document.addEventListener("keyup", key => {
-      console.log("keyup")
-      // W Key is 87
-      // Up arrow is 87
-      if (key.keyCode === 87 || key.keyCode === 38) {
-        // console.log("__released: UP")
-        pressedKeys["UP"] = false
-        releasedKey = true
-      }
-      // S Key is 83
-      // Down arrow is 40
-      if (key.keyCode === 83 || key.keyCode === 40) {
-        // console.log("__released: DOWN")
-        pressedKeys["DOWN"] = false
-        releasedKey = true
-      }
-      // A Key is 65
-      // Left arrow is 37
-      if (key.keyCode === 65 || key.keyCode === 37) {
-        // console.log("__released: LEFT")
-        pressedKeys["LEFT"] = false
-        releasedKey = true
-      }
-      // D Key is 68
-      // Right arrow is 39
-      if (key.keyCode === 68 || key.keyCode === 39) {
-        // console.log("__released: RIGHT")
-        pressedKeys["RIGHT"] = false
-        releasedKey = true
+      if (UI.state == STATE.READY) {
+        console.log("keyup")
+        // W Key is 87 & Up arrow is 87
+        if (key.keyCode === 87 || key.keyCode === 38) {
+          // console.log("__released: UP")
+          pressedKeys["UP"] = false
+          releasedKey = true
+        }
+        // S Key is 83 & Down arrow is 40
+        if (key.keyCode === 83 || key.keyCode === 40) {
+          // console.log("__released: DOWN")
+          pressedKeys["DOWN"] = false
+          releasedKey = true
+        }
+        // A Key is 65 & Left arrow is 37
+        if (key.keyCode === 65 || key.keyCode === 37) {
+          // console.log("__released: LEFT")
+          pressedKeys["LEFT"] = false
+          releasedKey = true
+        }
+        // D Key is 68 & Right arrow is 39
+        if (key.keyCode === 68 || key.keyCode === 39) {
+          // console.log("__released: RIGHT")
+          pressedKeys["RIGHT"] = false
+          releasedKey = true
+        }
       }
     })
   })
@@ -617,7 +574,7 @@
 <Menubar />
 
 <!-- GAME WORLD -->
-<div class="viewport">
+<div class="viewport" class:blurred={UI.state == STATE.ONBOARDING}>
   <!-- FIELD -->
   {#if baseLevel && $currentArea === "field"}
     <div
@@ -627,7 +584,6 @@
       on:click={e => {
         // console.log(e)
         if (e.target.id === "map") {
-          // console.log(e.offsetX, e.offsetY)
           moveTo(e.offsetX - 15, e.offsetY - 15, false)
         }
       }}
@@ -728,7 +684,7 @@
 </div>
 
 <!-- CAPTION BOX -->
-{#if !showRoomDialog}
+{#if !showRoomDialog && UI.state == STATE.READY}
   <Caption />
 {/if}
 
@@ -740,6 +696,15 @@
     on:room={e => {
       console.log(e)
       goToRoom(e.detail.roomId)
+    }}
+  />
+{/if}
+
+<!-- ONBOARDING -->
+{#if UI.state == STATE.ONBOARDING}
+  <Onboarding
+    on:onboard={e => {
+      onboardUser(e.detail.username, e.detail.shape)
     }}
   />
 {/if}
@@ -764,7 +729,7 @@
 
   * {
     box-sizing: border-box;
-    font-family: $MONO_STACK;
+    font-family: $SERIF_STACK;
   }
 
   .viewport {
@@ -775,14 +740,16 @@
     left: 0;
     overflow: hidden;
     opacity: 1;
-    transition: opacity 1s ease-out;
+    transition: opacity 1s ease-out filter 1s ease-out;
     background: rgb(30, 30, 30);
-    // display: flex;
-    // justify-content: center;
-    // align-items: center;
 
     &.disabled {
       opacity: 0.3;
+      pointer-events: none;
+    }
+
+    &.blurred {
+      filter: blur(3px);
       pointer-events: none;
     }
   }

@@ -300,3 +300,68 @@ sendKeyboardMove = () => {
   //     }
   //   }
   // };
+
+    // const events = loadData(QUERY.EVENTS).catch(err => {
+  //   console.log(err)
+  // })
+  // const exhibitions = loadData(QUERY.EXHIBITIONS).catch(err => {
+  //   console.log(err)
+  // })
+  // const caseStudies = loadData(QUERY.CASE_STUDIES).catch(err => {
+  //   console.log(err)
+  // })
+  // const audioInstallations = loadData(QUERY.AUDIO_INSTALLATIONS).catch(err => {
+  //   console.log(err)
+  // })
+  // const landMarks = loadData(QUERY.LAND_MARKS).catch(err => {
+  //   console.log(err)
+  // })
+  // const users = loadData(QUERY.USERS).catch(err => {
+  //   console.log(err)
+  // })
+  // const pages = loadData(QUERY.PAGES).catch(err => {
+  //   console.log(err)
+  // })
+
+  // __ Set global user list
+  // users.then(users => {
+  //   globalUserList.set(users)
+  //   return users
+  // })
+
+
+  // ___ Routing
+  let section = false
+  let slug = false
+  // let sso = false
+  // let sig = false
+  // let returnSection = false
+  // let returnSlug = false
+
+  // ___ Listen for changes to page visibility (ie. tab being out of focus etc..)
+  // ___ Fastforward animations when window is refocused
+  let deltaJump = 0
+  let hiddenTime = 0
+  let hidden, visibilityChange
+
+  if (typeof document.hidden !== "undefined") {
+    hidden = "hidden"
+    visibilityChange = "visibilitychange"
+  } else if (typeof document.msHidden !== "undefined") {
+    hidden = "msHidden"
+    visibilityChange = "msvisibilitychange"
+  } else if (typeof document.webkitHidden !== "undefined") {
+    hidden = "webkitHidden"
+    visibilityChange = "webkitvisibilitychange"
+  }
+
+  // const handleVisibilityChange = () => {
+  //   if (document[hidden]) {
+  //     hiddenTime = Date.now()
+  //   } else {
+  //     // Number of frames missed (1000ms / 60frames ≈ 16.6666)
+  //     deltaJump = Math.round((Date.now() - hiddenTime) / 16.6666)
+  //   }
+  // }
+
+  // document.addEventListener(visibilityChange, handleVisibilityChange, false)

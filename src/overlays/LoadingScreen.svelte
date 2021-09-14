@@ -19,20 +19,19 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: black;
-    color: white;
+    background: $COLOR_DARK;
+    color: $COLOR_LIGHT;
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 100000;
 
     .box {
-      font-family: $MONO_STACK;
+      font-family: $SERIF_STACK;
       padding: 20px;
       font-size: 18px;
       text-align: center;
       user-select: none;
-
       @include screen-size("small") {
         font-size: 12px;
       }

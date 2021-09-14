@@ -1,8 +1,8 @@
 import { format, getYear } from "date-fns"
 
 export const SANITY_PROJECT_ID = "58ueii0w"
-export const GAME_SERVER_URL = "wss://open.eyebeam.dev";
-// export const GAME_SERVER_URL = "ws://localhost:2567"
+// export const GAME_SERVER_URL = "wss://open.eyebeam.dev";
+export const GAME_SERVER_URL = "ws://localhost:2567"
 
 export const VIDEO_ROOMS = {MAIN: "main", SUPPORT: "support"}
 export const AUDIO_ROOMS= [1,2,3,4,5,6,7]
@@ -60,36 +60,6 @@ export const QUERY = {
   PINNED_MESSAGE: "*[_id == 'pinned-message'][0]",
   AUDIOROOM_NAMES: "*[_id == 'audioroom-names'][0]",
   TUTORIAL_CARD: "*[_id == 'tutorial-card'][0]",
-}
-
-export const TEXT_STYLE_AVATAR = {
-  fontFamily: "Literata",
-  // fontWeight: "bold",
-  fontSize: 14,
-  align: "center",
-  fill: "#000000",
-  wordWrap: true,
-  wordWrapWidth: 300,
-}
-
-export const TEXT_STYLE_AVATAR_AUTHENTICATED = {
-  fontFamily: "IBM Plex Mono",
-  // fontWeight: "bold",
-  fontSize: 14,
-  align: "center",
-  fill: "black",
-  wordWrap: true,
-  wordWrapWidth: 300,
-}
-
-export const TEXT_STYLE_CASE_STUDY = {
-  fontFamily: "IBM Plex Mono",
-  // fontWeight: "bold",
-  fontSize: 14,
-  align: "center",
-  fill: "white",
-  wordWrap: true,
-  wordWrapWidth: 300,
 }
 
 // const mainFormat = "MMM dd yyyy – HH:mm"

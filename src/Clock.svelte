@@ -26,10 +26,10 @@
 </div>
 
 <style lang="scss">
-  @import "../variables.scss";
+  @import "./variables.scss";
 
   .clock-berlin {
-    font-family: $MONO_STACK;
+    font-family: $SERIF_STACK;
     font-size: 14px;
     color: $COLOR_LIGHT;
 
@@ -38,7 +38,7 @@
     }
 
     a {
-      color: white;
+      color: $COLOR_LIGHT;
       text-decoration: none;
     }
   }

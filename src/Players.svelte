@@ -15,7 +15,7 @@
 </script>
 
 {#each Object.entries(players) as [key, player] (key)}
-  {#if player.room === $currentArea}
+  {#if player.onboarded && player.room === $currentArea}
     <Avatar {player} {key} />
   {/if}
 {/each}
