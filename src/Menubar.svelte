@@ -10,14 +10,11 @@
   import Clock from "./Clock.svelte"
 
   // *** STORES
-  // import {
-  //   localUserAuthenticated,
-  //   authenticatedUserInformation,
-  // } from "../stores"
+  import { currentArea } from "./stores.js"
 </script>
 
 <div class="menubar" use:links>
-  <div class="title">open.eyebeam.org</div>
+  <div class="title">open.eyebeam.org : {$currentArea}</div>
   <Clock />
 </div>
 
@@ -31,7 +28,7 @@
     width: 100%;
     height: 30px;
     padding-left: 7px;
-    background: rgb(30, 30, 30);
+    background: $COLOR_DARK;
     z-index: 1000;
     display: flex;
     justify-content: space-between;

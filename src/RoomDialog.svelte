@@ -25,9 +25,13 @@
         dispatch("room", { roomId: roomId })
       }}
     >
-      yes
+      <div class="marker">▸</div>
+      Yes
     </div>
-    <div class="choice">no</div>
+    <div class="choice">
+      <div class="marker">▸</div>
+      No
+    </div>
   </div>
 </div>
 
@@ -40,16 +44,26 @@
     left: 30px;
     padding: 15px;
     background: #e8eae6;
-    color: rgb(30, 30, 30);
-    border: 1px solid rgb(30, 30, 30);
+    color: $COLOR_DARK;
+    border: 1px solid $COLOR_DARK;
     z-index: 1000;
     user-select: none;
   }
 
   .choice {
+    display: flex;
     cursor: pointer;
+
+    .marker {
+      opacity: 0;
+      width: 1em;
+      text-align: center;
+    }
+
     &:hover {
-      text-decoration: underline;
+      .marker {
+        opacity: 1;
+      }
     }
   }
 </style>

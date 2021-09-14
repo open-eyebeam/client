@@ -287,11 +287,16 @@
   let meetingDoorElement = {}
   let screeningDoorElement = {}
   let exhibitionDoorElement = {}
+  let testZoneElement = {}
   let fieldDoorElement = {}
+  let viewportElement = {}
+  let mapElement = {}
+
+  let transitionInProgress = false
+
   let showRoomDialog = false
   let roomDialogText = ""
   let roomId = "field"
-  let baseLevel = true
 
   const pressedKeys = {
     UP: false,
@@ -391,15 +396,54 @@
             // ROOM CHANGE
             if (player.room !== players[player.uuid].room) {
               console.log("CHANGE ROOM", player.uuid, player.room)
-              players[player.uuid].room = player.room
+              console.log(player)
+
               if (player.uuid === $localUserUUID) {
-                currentArea.set(player.room)
-                baseLevel = false
+                delete players[$localUserUUID]
                 showRoomDialog = false
-                players[$localUserUUID].x = player.x
-                players[$localUserUUID].y = player.y
-                players[$localUserUUID].room = player.room
+
+                let tl = gsap.timeline() //create the timeline
+                tl.to(viewportElement, 1, {
+                  css: { backgroundColor: "rgb(226, 229, 223)" },
+                })
+                tl.to(viewportElement, 1, {
+                  css: { backgroundColor: "rgb(14, 13, 13)" },
+                })
+
+                let tl2 = gsap.timeline() //create the timeline
+                tl2.to(mapElement, 1, {
+                  css: { backgroundColor: "rgb(14, 13, 13)" },
+                })
+                tl2.to(mapElement, 1, {
+                  css: { backgroundColor: "rgb(205 205 205)" },
+                })
+
+                tl2.play()
+                tl.play()
+
+                setTimeout(() => {
+                  transitionInProgress = false
+                  currentArea.set(player.room)
+                  players[$localUserUUID] = {
+                    name: player.name,
+                    x: player.x,
+                    y: player.y,
+                    room: player.room,
+                    shape: player.shape,
+                    self: true,
+                    onboarded: true,
+                  }
+                }, 1000)
+
+                // tl.eventCallback("onComplete", () => {
+
+                // })
+              } else {
+                players[player.uuid].x = player.x
+                players[player.uuid].y = player.y
+                players[player.uuid].room = player.room
               }
+
               return
             }
 
@@ -541,6 +585,7 @@
       }
     })
 
+    // PLAYER => KEY UP
     document.addEventListener("keyup", key => {
       if (UI.state == STATE.READY) {
         console.log("keyup")
@@ -576,113 +621,52 @@
 <Menubar />
 
 <!-- GAME WORLD -->
-<div class="viewport" class:blurred={UI.state == STATE.ONBOARDING}>
+<div
+  class="viewport"
+  bind:this={viewportElement}
+  class:blurred={UI.state == STATE.ONBOARDING}
+>
   <!-- FIELD -->
-  {#if baseLevel && $currentArea === "field"}
-    <div
-      class="map"
-      id="map"
-      in:fade
-      on:click={e => {
-        // console.log(e)
-        if (e.target.id === "map") {
-          moveTo(e.offsetX - 15, e.offsetY - 15, false)
-        }
-      }}
-    >
+  <div
+    class="map"
+    id="map"
+    bind:this={mapElement}
+    in:fade
+    on:click={e => {
+      // console.log(e)
+      if (e.target.id === "map") {
+        moveTo(e.offsetX - 15, e.offsetY - 15, false)
+      }
+    }}
+  >
+    {#if $currentArea === "field"}
       <!-- DOORS -->
-      <div class="door meeting" bind:this={meetingDoorElement}>
+      <div class="door meeting" in:fade bind:this={meetingDoorElement}>
         <EyebeamLogo />
       </div>
-      <div class="door screening" bind:this={screeningDoorElement}>
+      <div class="door screening" in:fade bind:this={screeningDoorElement}>
         <EyebeamLogo />
       </div>
-      <div class="door exhibition" bind:this={exhibitionDoorElement}>
+      <div class="door exhibition" in:fade bind:this={exhibitionDoorElement}>
         <EyebeamLogo />
       </div>
-      <!-- PLAYERS -->
-      <Players {players} />
-      <!-- TARGET -->
-      {#if showTarget}
-        <Target x={targetX} y={targetY} />
-      {/if}
-    </div>
-  {/if}
+      <!-- ZONES -->
+      <div class="zone" in:fade bind:this={testZoneElement}>
+        <div class="zone-name">Test zone</div>
+      </div>
+    {:else}
+      <div class="door field" in:fade bind:this={fieldDoorElement}>
+        <EyebeamLogo />
+      </div>
+    {/if}
 
-  <!-- EXHIBITION -->
-  {#if $currentArea === "exhibition"}
-    <div
-      in:fade={{ delay: 1000 }}
-      class="exhibition-room"
-      id="exhibition"
-      on:click={e => {
-        if (e.target.id === "exhibition") {
-          moveTo(e.offsetX - 15, e.offsetY - 15, false)
-        }
-      }}
-    >
-      <!-- DOORS -->
-      <div class="door field" bind:this={fieldDoorElement}>
-        <EyebeamLogo />
-      </div>
-      <!-- PLAYERS -->
-      <Players {players} />
-      <!-- TARGET -->
-      {#if showTarget}
-        <Target x={targetX} y={targetY} />
-      {/if}
-    </div>
-  {/if}
-
-  <!-- SCREENING -->
-  {#if $currentArea === "screening"}
-    <div
-      class="screening-room"
-      id="screening"
-      in:fade={{ delay: 1000 }}
-      on:click={e => {
-        if (e.target.id === "screening") {
-          moveTo(e.offsetX - 15, e.offsetY - 15, false)
-        }
-      }}
-    >
-      <!-- DOORS -->
-      <div class="door field" bind:this={fieldDoorElement}>
-        <EyebeamLogo />
-      </div>
-      <!-- PLAYERS -->
-      <Players {players} />
-      <!-- TARGET -->
-      {#if showTarget}
-        <Target x={targetX} y={targetY} />
-      {/if}
-    </div>
-  {/if}
-
-  <!-- MEETING -->
-  {#if $currentArea === "meeting"}
-    <div
-      class="meeting-room"
-      id="meeting"
-      in:fade={{ delay: 1000 }}
-      on:click={e => {
-        if (e.target.id === "meeting") {
-          moveTo(e.offsetX - 15, e.offsetY - 15, false)
-        }
-      }}
-    >
-      <!-- DOORS -->
-      <div class="door field" bind:this={fieldDoorElement}>
-        <EyebeamLogo />
-      </div>
-      <!-- PLAYERS -->
-      <Players {players} />
-      <!-- TARGET -->
-      {#if showTarget}
-        <Target x={targetX} y={targetY} />
-      {/if}
-    </div>
-  {/if}
+    <!-- PLAYERS -->
+    <Players {players} />
+    <!-- TARGET -->
+    {#if showTarget}
+      <Target x={targetX} y={targetY} />
+    {/if}
+  </div>
 </div>
 
 <!-- CAPTION BOX -->
@@ -743,7 +727,7 @@
     overflow: hidden;
     opacity: 1;
     transition: opacity 1s ease-out filter 1s ease-out;
-    background: rgb(30, 30, 30);
+    background: $COLOR_DARK;
 
     &.disabled {
       opacity: 0.3;
@@ -805,15 +789,11 @@
     width: 500px;
     background: yellow;
     cursor: crosshair;
-    // position: relative;
   }
 
   .door {
     position: absolute;
     width: 120px;
-    // height: 50px;
-    // border-radius: 50%;
-    // border: 1px dashed black;
     pointer-events: none;
 
     &.meeting {
@@ -834,6 +814,33 @@
     &.field {
       right: 30px;
       top: 30px;
+    }
+  }
+
+  .zone {
+    position: absolute;
+    top: 400px;
+    left: 240px;
+    width: 220px;
+    height: 80px;
+    border-radius: 50%;
+    border: 1px dashed black;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .zone-name {
+      text-align: center;
+      font-size: $FONT_SIZE_SMALL;
+      opacity: 1;
+      transition: opacity 0.5s ease-out;
+    }
+
+    &:hover {
+      .zone-name {
+        opacity: 1;
+      }
     }
   }
 </style>

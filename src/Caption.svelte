@@ -22,8 +22,8 @@
     left: 30px;
     padding: 15px;
     background: #e8eae6;
-    color: rgb(30, 30, 30);
-    border: 1px solid rgb(30, 30, 30);
+    color: $COLOR_DARK;
+    border: 1px solid $COLOR_DARK;
     z-index: 1000;
   }
 </style>
