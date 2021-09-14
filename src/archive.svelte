@@ -365,3 +365,40 @@ sendKeyboardMove = () => {
   // }
 
   // document.addEventListener(visibilityChange, handleVisibilityChange, false)
+
+
+  let activeStreams = loadData(QUERY.ACTIVE_STREAMS)
+    .catch(err => {
+      console.log(err)
+    })
+    .then(activeStreams => {
+      currentStreamEvent = activeStreams.mainStreamEvent
+      currentStreamUrl = activeStreams.mainStream
+      // supportStreamUrl = activeStreams.supportStream
+    })
+
+  // __ Listen for changes to the active streams post
+  client.listen(QUERY.ACTIVE_STREAMS).subscribe(update => {
+    currentStreamUrl = false
+    currentStreamEvent = false
+    // supportStreamUrl = false
+    setTimeout(() => {
+      activeStreams = loadData(QUERY.ACTIVE_STREAMS)
+        .then(aS => {
+          if (aS.mainStream) {
+            currentStreamEvent = aS.mainStreamEvent
+            currentStreamUrl = aS.mainStream
+            // supportStreamUrl = activeStreams.supportStream
+            activeContentClosed = false
+            // supportStreamClosed = false
+          } else {
+            currentStreamUrl = false
+            currentStreamEvent = false
+            // supportStreamUrl = false
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }, 1000)
+  })

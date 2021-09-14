@@ -24,11 +24,18 @@
       on:click={e => {
         dispatch("room", { roomId: roomId })
       }}
+      tabindex="0"
+      autofocus
+      on:keydown={e => {
+        if (e.code === "Enter") {
+          dispatch("room", { roomId: roomId })
+        }
+      }}
     >
       <div class="marker">▸</div>
       Yes
     </div>
-    <div class="choice">
+    <div class="choice" tabindex="0">
       <div class="marker">▸</div>
       No
     </div>
@@ -60,7 +67,8 @@
       text-align: center;
     }
 
-    &:hover {
+    &:hover,
+    &:focus {
       .marker {
         opacity: 1;
       }

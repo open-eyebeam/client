@@ -44,6 +44,8 @@ export const QUERY = {
   PINNED_MESSAGE: "*[_id == 'pinned-message'][0]",
   AUDIOROOM_NAMES: "*[_id == 'audioroom-names'][0]",
   TUTORIAL_CARD: "*[_id == 'tutorial-card'][0]",
+  ROOMS:
+  "*[_type == 'room']{...}",
 }
 
 // const mainFormat = "MMM dd yyyy – HH:mm"

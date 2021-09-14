@@ -69,8 +69,6 @@
         autofocus
         bind:value={username}
         on:keydown={e => {
-          //   e.preventDefault()
-          //   console.log(e.code)
           if (e.code === "Enter") {
             makeProgress()
           }
@@ -86,55 +84,93 @@
       What shape do you want to be?
     </div>
     <div class="caption-box" in:fade={transitionSettings}>
-      <div
-        class="choice"
-        on:click={() => {
-          shape = "triangle"
-          makeProgress()
-        }}
-      >
-        <div class="marker">▸</div>
-        Triangle
-      </div>
-      <div
-        class="choice"
-        on:click={() => {
-          shape = "square"
-          makeProgress()
-        }}
-      >
-        <div class="marker">▸</div>
-        Square
-      </div>
-      <div
-        class="choice"
-        on:click={() => {
-          shape = "pentagon"
-          makeProgress()
-        }}
-      >
-        <div class="marker">▸</div>
-        Pentagon
-      </div>
-      <div
-        class="choice"
-        on:click={() => {
-          shape = "hexagon"
-          makeProgress()
-        }}
-      >
-        <div class="marker">▸</div>
-        Hexagon
-      </div>
-      <div
-        class="choice"
-        on:click={() => {
-          shape = "star"
-          makeProgress()
-        }}
-      >
-        <div class="marker">▸</div>
-        Star
+      <div class="btn-group" role="button">
+        <div
+          class="choice"
+          tabindex="0"
+          autofocus
+          on:click={() => {
+            shape = "triangle"
+            makeProgress()
+          }}
+          on:keydown={e => {
+            if (e.code === "Enter") {
+              shape = "triangle"
+              makeProgress()
+            }
+          }}
+        >
+          <div class="marker">▸</div>
+          Triangle
+        </div>
+        <div
+          class="choice"
+          tabindex="0"
+          on:click={() => {
+            shape = "square"
+            makeProgress()
+          }}
+          on:keydown={e => {
+            if (e.code === "Enter") {
+              shape = "square"
+              makeProgress()
+            }
+          }}
+        >
+          <div class="marker">▸</div>
+          Square
+        </div>
+        <div
+          class="choice"
+          tabindex="0"
+          on:click={() => {
+            shape = "pentagon"
+            makeProgress()
+          }}
+          on:keydown={e => {
+            if (e.code === "Enter") {
+              shape = "pentagon"
+              makeProgress()
+            }
+          }}
+        >
+          <div class="marker">▸</div>
+          Pentagon
+        </div>
+        <div
+          class="choice"
+          tabindex="0"
+          on:click={() => {
+            shape = "hexagon"
+            makeProgress()
+          }}
+          on:keydown={e => {
+            if (e.code === "Enter") {
+              shape = "hexagon"
+              makeProgress()
+            }
+          }}
+        >
+          <div class="marker">▸</div>
+          Hexagon
+        </div>
+        <div
+          class="choice"
+          tabindex="0"
+          on:click={() => {
+            shape = "star"
+            makeProgress()
+          }}
+          on:keydown={e => {
+            if (e.code === "Enter") {
+              shape = "star"
+              makeProgress()
+            }
+          }}
+        >
+          <div class="marker">▸</div>
+          Star
+        </div>
       </div>
     </div>
   {/if}
@@ -145,11 +181,21 @@
       Are you ready to enter?
     </div>
     <div class="caption-box" in:fade={transitionSettings}>
-      <div class="choice" on:click={finishOnboarding}>
+      <div
+        class="choice"
+        tabindex="0"
+        autofocus
+        on:click={finishOnboarding}
+        on:keydown={e => {
+          if (e.code === "Enter") {
+            finishOnboarding()
+          }
+        }}
+      >
         <div class="marker">▸</div>
         Yes
       </div>
-      <div class="choice">
+      <div class="choice" tabindex="0">
         <div class="marker">▸</div>
         No
       </div>
@@ -212,7 +258,8 @@
       text-align: center;
     }
 
-    &:hover {
+    &:hover,
+    &:focus {
       .marker {
         opacity: 1;
       }

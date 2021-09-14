@@ -26,7 +26,6 @@
   import Menubar from "./Menubar.svelte"
   import Target from "./TargetMarker.svelte"
   import Caption from "./Caption.svelte"
-  import RoomDialog from "./RoomDialog.svelte"
   import EyebeamLogo from "./EyebeamLogo.svelte"
   import Onboarding from "./Onboarding.svelte"
 
@@ -46,17 +45,24 @@
   export let params = false
 
   // *** VARIABLES
-  let activeContentClosed = false
   let moveQ = []
   let reconnectionAttempts = 0
   let disconnectionCode = 0
-  let currentStreamEvent = false
-  let currentStreamUrl = false
 
   // ___ Get data from Sanity CMS
   const graphicsSettings = loadData(QUERY.GRAPHICS_SETTINGS).catch(err => {
     console.log(err)
   })
+
+  // ___ Get data from Sanity CMS
+  let rooms = []
+  loadData(QUERY.ROOMS)
+    .catch(err => {
+      console.log(err)
+    })
+    .then(rs => {
+      rooms = rs
+    })
 
   loadData(QUERY.GLOBAL_SETTINGS)
     .then(gS => {
@@ -65,42 +71,6 @@
     .catch(err => {
       console.log(err)
     })
-
-  let activeStreams = loadData(QUERY.ACTIVE_STREAMS)
-    .catch(err => {
-      console.log(err)
-    })
-    .then(activeStreams => {
-      currentStreamEvent = activeStreams.mainStreamEvent
-      currentStreamUrl = activeStreams.mainStream
-      // supportStreamUrl = activeStreams.supportStream
-    })
-
-  // __ Listen for changes to the active streams post
-  client.listen(QUERY.ACTIVE_STREAMS).subscribe(update => {
-    currentStreamUrl = false
-    currentStreamEvent = false
-    // supportStreamUrl = false
-    setTimeout(() => {
-      activeStreams = loadData(QUERY.ACTIVE_STREAMS)
-        .then(aS => {
-          if (aS.mainStream) {
-            currentStreamEvent = aS.mainStreamEvent
-            currentStreamUrl = aS.mainStream
-            // supportStreamUrl = activeStreams.supportStream
-            activeContentClosed = false
-            // supportStreamClosed = false
-          } else {
-            currentStreamUrl = false
-            currentStreamEvent = false
-            // supportStreamUrl = false
-          }
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    }, 1000)
-  })
 
   // ___ Set overarching state of the UI
   const STATE = {
@@ -137,9 +107,6 @@
   // __ Connect to Colyseus gameserver
   const gameClient = new Colyseus.Client(GAME_SERVER_URL)
 
-  // *** GLOBAL FUNCTIONS
-  let teleportTo = () => {}
-
   const checkDoorOverlap = () => {
     const avatarElement = document.getElementById($localUserUUID)
     if (avatarElement) {
@@ -147,39 +114,76 @@
         meetingDoorElement &&
         isOverlapping(avatarElement, meetingDoorElement)
       ) {
-        showRoomDialog = true
-        roomDialogText = "Enter meeting room?"
-        roomId = "meeting"
-        // currentArea.set("meeting")
+        if (captions.findIndex(c => c.roomId === "meeting") === -1) {
+          captions = []
+          captions.push({
+            text: "Enter meeting room?",
+            roomId: "meeting",
+            type: "room",
+          })
+          captions = captions
+        }
         return
       }
       if (
         screeningDoorElement &&
         isOverlapping(avatarElement, screeningDoorElement)
       ) {
-        showRoomDialog = true
-        roomDialogText = "Enter screening room?"
-        roomId = "screening"
+        if (captions.findIndex(c => c.roomId === "screening") === -1) {
+          captions = []
+          captions.push({
+            text: "Enter screening room?",
+            roomId: "screening",
+            type: "room",
+          })
+          captions = captions
+        }
         return
       }
       if (
         exhibitionDoorElement &&
         isOverlapping(avatarElement, exhibitionDoorElement)
       ) {
-        showRoomDialog = true
-        roomDialogText = "Enter exhibition room?"
-        roomId = "exhibition"
+        if (captions.findIndex(c => c.roomId === "exhibition") === -1) {
+          captions = []
+          captions.push({
+            text: "Enter exhibition room?",
+            roomId: "exhibition",
+            type: "room",
+          })
+          captions = captions
+        }
         return
       }
       if (fieldDoorElement && isOverlapping(avatarElement, fieldDoorElement)) {
-        showRoomDialog = true
-        roomDialogText = "Return to the Field?"
-        roomId = "field"
+        if (captions.findIndex(c => c.roomId === "field") === -1) {
+          captions = []
+          captions.push({
+            text: "Return to the Field?",
+            roomId: "field",
+            type: "room",
+          })
+          captions = captions
+        }
         return
       }
-      showRoomDialog = false
+      if (testZoneElement && isOverlapping(avatarElement, testZoneElement)) {
+        if (captions.findIndex(c => c.roomId === "test-zone") === -1) {
+          captions = []
+          captions.push({
+            text: "You entered the test zone.",
+            roomId: "test-zone",
+            type: "introduction",
+          })
+          captions = captions
+        }
+        return
+      }
+      captions = []
     }
   }
+
+  // $: console.log(captions)
 
   const animationLoop = () => {
     const step = timestamp => {
@@ -270,11 +274,9 @@
   let viewportElement = {}
   let mapElement = {}
 
-  let transitionInProgress = false
-
-  let showRoomDialog = false
-  let roomDialogText = ""
   let roomId = "field"
+
+  let captions = []
 
   const pressedKeys = {
     UP: false,
@@ -284,7 +286,29 @@
   }
   let releasedKey = false
 
-  $: console.log("$currentArea", $currentArea)
+  const addIntroCaption = t => {
+    captions = []
+    // setTimeout(() => {
+    captions.push({ text: t, type: "introduction" })
+    captions = captions
+  }
+
+  $: {
+    // console.log($currentArea)
+    // console.log(rooms)
+    if ($currentArea) {
+      console.log("asdfsadf")
+      // if (Array.isArray(rooms)) {
+      const area = rooms.find(r => r.slug.current === $currentArea)
+      // console.log(area)
+      if (area && area.introduction) {
+        addIntroCaption(area.introduction)
+        // console.log(captions)
+        // }, 500)
+      }
+      // }
+    }
+  }
 
   onMount(async () => {
     // ___ Give the local user a UUID
@@ -370,7 +394,6 @@
 
               if (player.uuid === $localUserUUID) {
                 delete players[$localUserUUID]
-                showRoomDialog = false
 
                 let tl = gsap.timeline() //create the timeline
                 tl.to(viewportElement, 1, {
@@ -392,7 +415,6 @@
                 tl.play()
 
                 setTimeout(() => {
-                  transitionInProgress = false
                   currentArea.set(player.room)
                   players[$localUserUUID] = {
                     name: player.name,
@@ -648,17 +670,12 @@
 </div>
 
 <!-- CAPTION BOX -->
-{#if !showRoomDialog && UI.state == STATE.READY}
-  <Caption />
-{/if}
-
-<!-- ENTER ROOM DIALOG -->
-{#if showRoomDialog}
-  <RoomDialog
-    text={roomDialogText}
-    {roomId}
+{#if UI.state == STATE.READY}
+  <Caption
+    {captions}
     on:room={e => {
       console.log(e)
+      captions = []
       goToRoom(e.detail.roomId)
     }}
   />
