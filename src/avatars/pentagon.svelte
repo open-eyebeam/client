@@ -27,6 +27,8 @@
   @import "../variables.scss";
 
   svg {
+    cursor: pointer;
+
     polygon,
     rect {
       fill: none;
@@ -35,17 +37,25 @@
       stroke-miterlimit: 10;
     }
 
-    &.self {
-      polygon,
-      rect {
-        fill: $COLOR_DARK;
-      }
-    }
-
     &:hover {
       polygon,
       rect {
         fill: $COLOR_LIGHT;
+      }
+    }
+
+    &.self {
+      cursor: default;
+      polygon,
+      rect {
+        fill: $COLOR_DARK;
+      }
+
+      &:hover {
+        polygon,
+        rect {
+          fill: $COLOR_DARK;
+        }
       }
     }
   }

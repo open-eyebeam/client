@@ -20,6 +20,8 @@
 
   let avatarEl = {}
 
+  console.log("player", player)
+
   onMount(async () => {
     console.log("player", player)
     console.log("player.name", player.name)
@@ -66,7 +68,6 @@
   {/if}
 </div>
 
-<!-- style={"top: " + player.y + "px; left: " + player.x + "px;"} -->
 <style lang="scss">
   @import "./variables.scss";
 

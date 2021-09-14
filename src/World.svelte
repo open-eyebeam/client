@@ -164,41 +164,43 @@
 
   const checkDoorOverlap = () => {
     const avatarElement = document.getElementById($localUserUUID)
-    if (
-      meetingDoorElement &&
-      isOverlapping(avatarElement, meetingDoorElement)
-    ) {
-      showRoomDialog = true
-      roomDialogText = "Enter meeting room?"
-      roomId = "meeting"
-      // currentArea.set("meeting")
-      return
+    if (avatarElement) {
+      if (
+        meetingDoorElement &&
+        isOverlapping(avatarElement, meetingDoorElement)
+      ) {
+        showRoomDialog = true
+        roomDialogText = "Enter meeting room?"
+        roomId = "meeting"
+        // currentArea.set("meeting")
+        return
+      }
+      if (
+        screeningDoorElement &&
+        isOverlapping(avatarElement, screeningDoorElement)
+      ) {
+        showRoomDialog = true
+        roomDialogText = "Enter screening room?"
+        roomId = "screening"
+        return
+      }
+      if (
+        exhibitionDoorElement &&
+        isOverlapping(avatarElement, exhibitionDoorElement)
+      ) {
+        showRoomDialog = true
+        roomDialogText = "Enter exhibition room?"
+        roomId = "exhibition"
+        return
+      }
+      if (fieldDoorElement && isOverlapping(avatarElement, fieldDoorElement)) {
+        showRoomDialog = true
+        roomDialogText = "Return to the Field?"
+        roomId = "field"
+        return
+      }
+      showRoomDialog = false
     }
-    if (
-      screeningDoorElement &&
-      isOverlapping(avatarElement, screeningDoorElement)
-    ) {
-      showRoomDialog = true
-      roomDialogText = "Enter screening room?"
-      roomId = "screening"
-      return
-    }
-    if (
-      exhibitionDoorElement &&
-      isOverlapping(avatarElement, exhibitionDoorElement)
-    ) {
-      showRoomDialog = true
-      roomDialogText = "Enter exhibition room?"
-      roomId = "exhibition"
-      return
-    }
-    if (fieldDoorElement && isOverlapping(avatarElement, fieldDoorElement)) {
-      showRoomDialog = true
-      roomDialogText = "Return to the Field?"
-      roomId = "field"
-      return
-    }
-    showRoomDialog = false
   }
 
   const animationLoop = () => {
