@@ -21,7 +21,7 @@
 
 <div class="chat-message" transition:fade|local>
   <div class="meta">
-    <span class="name">{message.name} ({message.room})</span>
+    <span class="name">{message.name}</span>
     <span class="date">{formattedChatDate(message.timestamp)}</span>
   </div>
   <div class="body">

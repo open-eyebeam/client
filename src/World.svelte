@@ -343,10 +343,12 @@
     localUserUUID.set(nanoid())
     localUserName.set("unknown")
 
-    const usernameCookie = Cookies.get("open-eyebeam__name")
+    // const usernameCookie = Cookies.get("open-eyebeam__name")
+    const usernameCookie = false
     console.log("usernameCookie", usernameCookie)
 
-    const userShapeCookie = Cookies.get("open-eyebeam__shape")
+    // const userShapeCookie = Cookies.get("open-eyebeam__shape")
+    const userShapeCookie = false
     console.log("userShapeCookie", userShapeCookie)
 
     if (!usernameCookie && !userShapeCookie) {
@@ -414,8 +416,8 @@
               players[player.uuid].shape = player.shape
 
               if (player.uuid === $localUserUUID) {
-                Cookies.set("open-eyebeam__shape", player.shape)
-                Cookies.set("open-eyebeam__name", player.name)
+                // Cookies.set("open-eyebeam__shape", player.shape)
+                // Cookies.set("open-eyebeam__name", player.name)
               }
             }
 
