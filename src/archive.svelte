@@ -402,3 +402,64 @@ sendKeyboardMove = () => {
         })
     }, 1000)
   })
+
+            // if ($localUserUUID == message.uuid) {
+          //   const messageContainerEl =
+          //     document.querySelector("#message-container")
+          //   if (messageContainerEl) {
+          //     setTimeout(() => {
+          //       messageContainerEl.scrollTo({
+          //         top: messageContainerEl.scrollHeight,
+          //         left: 0,
+          //         behavious: "smooth",
+          //       })
+          //     }, 200)
+          //   }
+          // }
+
+
+                      // MESSAGE => ADD
+                      gameRoom.state.messages.onAdd = (message) => {
+              chatMessages = [...chatMessages, message];
+              if ($localUserUUID == message.uuid) {
+                const messageContainerEl = document.querySelector(
+                  "#message-container"
+                );
+                if (messageContainerEl) {
+                  setTimeout(() => {
+                    messageContainerEl.scrollTo({
+                      top: messageContainerEl.scrollHeight,
+                      left: 0,
+                      behavious: "smooth",
+                    });
+                  }, 200);
+                }
+              }
+            };
+            // MESSAGE => REMOVE
+            gameRoom.onMessage("nukeMessage", (msgIdToRemove) => {
+              const itemIndex = chatMessages.findIndex(
+                (m) => m.msgId === msgIdToRemove
+              );
+              chatMessages.splice(itemIndex, 1);
+              chatMessages = chatMessages;
+            });
+            // MESSAGE => SUBMIT
+            submitChat = (event) => {
+              try {
+                gameRoom.send("submitChatMessage", {
+                  msgId: nanoid(),
+                  uuid: $localUserUUID,
+                  name: localPlayers[$localUserSessionID].name,
+                  username: localPlayers[$localUserSessionID].discourseName,
+                  authenticated:
+                    localPlayers[$localUserSessionID].authenticated,
+                  text: event.detail.text,
+                  room: $currentTextRoom,
+                  tint: localPlayers[$localUserSessionID].tint,
+                });
+              } catch (err) {
+                setUIState(STATE.ERROR, err);
+                console.dir(err);
+              }
+            };

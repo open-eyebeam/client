@@ -46,6 +46,8 @@ export const QUERY = {
   TUTORIAL_CARD: "*[_id == 'tutorial-card'][0]",
   ROOMS:
   "*[_type == 'room']{...}",
+  OBJECTS:
+  "*[_type == 'exob']{...}",
 }
 
 // const mainFormat = "MMM dd yyyy – HH:mm"

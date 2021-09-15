@@ -28,6 +28,9 @@
   import EyebeamLogo from "./EyebeamLogo.svelte"
   import Onboarding from "./Onboarding.svelte"
   import AmbientAudio from "./AmbientAudio.svelte"
+  import StreamPlayer from "./StreamPlayer.svelte"
+  import Chat from "./Chat.svelte"
+  import Objects from "./Objects.svelte"
 
   // *** GLOBAL
   import { nanoid, isOverlapping, QUERY, GAME_SERVER_URL } from "./global.js"
@@ -63,6 +66,8 @@
     .then(rs => {
       rooms = rs
     })
+
+  let objects = loadData(QUERY.OBJECTS)
 
   loadData(QUERY.GLOBAL_SETTINGS)
     .then(gS => {
@@ -275,8 +280,12 @@
   let mapElement = {}
 
   let soundFile = false
+  let streamUrl = false
 
   let captions = []
+  let chatMessages = []
+  let submitChat = {}
+  let showChat = false
 
   const pressedKeys = {
     UP: false,
@@ -297,18 +306,28 @@
     // console.log($currentArea)
     // console.log(rooms)
     if ($currentArea) {
-      console.log("asdfsadf")
+      console.log("–_—_—_ => Area changed")
       const area = rooms.find(r => r.slug.current === $currentArea)
       console.log(area)
-      // CHANGE CAPTION
-      if (area && area.introduction) {
-        addIntroCaption(area.introduction)
-      }
-      // CHANGE SOUND
-      if (area && area.soundFile && area.soundFile.asset) {
-        soundFile = area.soundFile
-      } else {
-        soundFile = false
+      if (area) {
+        // TOGGLE CHAT
+        showChat = area.chat
+        // CHANGE CAPTION
+        if (area.introduction) {
+          addIntroCaption(area.introduction)
+        }
+        // CHANGE SOUND
+        if (area.soundFile && area.soundFile.asset) {
+          soundFile = area.soundFile
+        } else {
+          soundFile = false
+        }
+        // CHANGE STREAM
+        if (area.stream) {
+          streamUrl = area.stream
+        } else {
+          streamUrl = false
+        }
       }
     }
   }
@@ -400,6 +419,7 @@
               console.log(player)
 
               if (player.uuid === $localUserUUID) {
+                // currentArea.set(player.room)
                 delete players[$localUserUUID]
 
                 let tl = gsap.timeline() //create the timeline
@@ -514,6 +534,36 @@
         // MESSAGE
         // *******
 
+        // MESSAGE => ADD
+        gameRoom.state.messages.onAdd = message => {
+          chatMessages = [...chatMessages, message]
+        }
+
+        // MESSAGE => REMOVE
+        gameRoom.onMessage("nukeMessage", msgIdToRemove => {
+          const itemIndex = chatMessages.findIndex(
+            m => m.msgId === msgIdToRemove
+          )
+          chatMessages.splice(itemIndex, 1)
+          chatMessages = chatMessages
+        })
+
+        // MESSAGE => SUBMIT
+        submitChat = event => {
+          try {
+            gameRoom.send("submitChatMessage", {
+              msgId: nanoid(),
+              uuid: $localUserUUID,
+              name: players[$localUserUUID].name,
+              text: event.detail.text,
+              room: $currentArea,
+            })
+          } catch (err) {
+            setUIState(STATE.ERROR, err)
+            console.dir(err)
+          }
+        }
+
         // ******************************
         // CLIENT LEFT / WAS DISCONNECTED
         // ******************************
@@ -570,22 +620,22 @@
       if (UI.state == STATE.READY) {
         console.log(key)
         // W Key is 87 & Up arrow is 87
-        if (key.keyCode === 87 || key.keyCode === 38) {
+        if (key.keyCode === 38) {
           console.log("__pressed: UP")
           pressedKeys["UP"] = true
         }
         // S Key is 83 & Down arrow is 40
-        if (key.keyCode === 83 || key.keyCode === 40) {
+        if (key.keyCode === 40) {
           // console.log("__pressed: DOWN")
           pressedKeys["DOWN"] = true
         }
         // A Key is 65 & Left arrow is 37
-        if (key.keyCode === 65 || key.keyCode === 37) {
+        if (key.keyCode === 37) {
           // console.log("__pressed: LEFT")
           pressedKeys["LEFT"] = true
         }
         // D Key is 68 & Right arrow is 39
-        if (key.keyCode === 68 || key.keyCode === 39) {
+        if (key.keyCode === 39) {
           // console.log("__pressed: RIGHT")
           pressedKeys["RIGHT"] = true
         }
@@ -597,25 +647,25 @@
       if (UI.state == STATE.READY) {
         console.log("keyup")
         // W Key is 87 & Up arrow is 87
-        if (key.keyCode === 87 || key.keyCode === 38) {
+        if (key.keyCode === 38) {
           // console.log("__released: UP")
           pressedKeys["UP"] = false
           releasedKey = true
         }
         // S Key is 83 & Down arrow is 40
-        if (key.keyCode === 83 || key.keyCode === 40) {
+        if (key.keyCode === 40) {
           // console.log("__released: DOWN")
           pressedKeys["DOWN"] = false
           releasedKey = true
         }
         // A Key is 65 & Left arrow is 37
-        if (key.keyCode === 65 || key.keyCode === 37) {
+        if (key.keyCode === 37) {
           // console.log("__released: LEFT")
           pressedKeys["LEFT"] = false
           releasedKey = true
         }
         // D Key is 68 & Right arrow is 39
-        if (key.keyCode === 68 || key.keyCode === 39) {
+        if (key.keyCode === 39) {
           // console.log("__released: RIGHT")
           pressedKeys["RIGHT"] = false
           releasedKey = true
@@ -667,6 +717,12 @@
       </div>
     {/if}
 
+    {#if $currentArea === "exhibition"}
+      {#await objects then objects}
+        <Objects {objects} />
+      {/await}
+    {/if}
+
     <!-- PLAYERS -->
     <Players {players} />
     <!-- TARGET -->
@@ -691,6 +747,19 @@
 <!-- AMBIENT AUDIO -->
 {#if soundFile}
   <AmbientAudio {soundFile} />
+{/if}
+
+<!-- AMBIENT AUDIO -->
+{#if streamUrl}
+  <StreamPlayer {streamUrl} />
+{/if}
+
+<!-- CHAT-->
+{#if showChat}
+  <Chat
+    chatMessages={chatMessages.filter(m => m.room === $currentArea)}
+    on:submit={submitChat}
+  />
 {/if}
 
 <!-- ONBOARDING -->
