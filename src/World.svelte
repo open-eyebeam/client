@@ -112,6 +112,8 @@
   // __ Connect to Colyseus gameserver
   const gameClient = new Colyseus.Client(GAME_SERVER_URL)
 
+  let testZoneActive = false
+
   const checkDoorOverlap = () => {
     const avatarElement = document.getElementById($localUserUUID)
     if (avatarElement) {
@@ -182,8 +184,10 @@
           })
           captions = captions
         }
+        testZoneActive = true
         return
       }
+      testZoneActive = false
       captions = []
     }
   }
@@ -196,39 +200,41 @@
       // console.log("moveQ", moveQ)
 
       // __ Keyboard navigation
-      if (Object.values(pressedKeys).some(k => k)) {
-        // console.log("KEY PRESSED", pressedKeys)
-        if (pressedKeys["UP"]) {
-          // console.log("UP")
-          if (players[$localUserUUID].y > 0) {
-            players[$localUserUUID].y -= 2
+      if (players[$localUserUUID]) {
+        if (Object.values(pressedKeys).some(k => k)) {
+          // console.log("KEY PRESSED", pressedKeys)
+          if (pressedKeys["UP"]) {
+            // console.log("UP")
+            if (players[$localUserUUID].y > 0) {
+              players[$localUserUUID].y -= 2
+            }
           }
-        }
-        if (pressedKeys["DOWN"]) {
-          // console.log("DOWN")
-          if (players[$localUserUUID].y < 500) {
-            players[$localUserUUID].y += 2
+          if (pressedKeys["DOWN"]) {
+            // console.log("DOWN")
+            if (players[$localUserUUID].y < 500) {
+              players[$localUserUUID].y += 2
+            }
           }
-        }
-        if (pressedKeys["LEFT"]) {
-          // console.log("LEFT")
-          if (players[$localUserUUID].x > 0) {
-            players[$localUserUUID].x -= 2
+          if (pressedKeys["LEFT"]) {
+            // console.log("LEFT")
+            if (players[$localUserUUID].x > 0) {
+              players[$localUserUUID].x -= 2
+            }
           }
-        }
-        if (pressedKeys["RIGHT"]) {
-          // console.log("RIGHT")
-          if (players[$localUserUUID].x < 500) {
-            players[$localUserUUID].x += 2
+          if (pressedKeys["RIGHT"]) {
+            // console.log("RIGHT")
+            if (players[$localUserUUID].x < 500) {
+              players[$localUserUUID].x += 2
+            }
           }
+          moveTo(players[$localUserUUID].x, players[$localUserUUID].y, true)
+          checkDoorOverlap()
         }
-        moveTo(players[$localUserUUID].x, players[$localUserUUID].y, true)
-        checkDoorOverlap()
-      }
-      if (releasedKey) {
-        // console.log("KEY released")
-        releasedKey = false
-        // moveTo(players[$localUserUUID].x, players[$localUserUUID].y, true)
+        if (releasedKey) {
+          // console.log("KEY released")
+          releasedKey = false
+          // moveTo(players[$localUserUUID].x, players[$localUserUUID].y, true)
+        }
       }
 
       for (let key in moveQ) {
@@ -708,7 +714,12 @@
         <EyebeamLogo />
       </div>
       <!-- ZONES -->
-      <div class="zone" in:fade bind:this={testZoneElement}>
+      <div
+        class="zone"
+        class:active={testZoneActive}
+        in:fade
+        bind:this={testZoneElement}
+      >
         <div class="zone-name">Test zone</div>
       </div>
     {:else}
@@ -905,12 +916,18 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    background: transparent;
+    transition: background 0.5s $transition;
 
     .zone-name {
       text-align: center;
       font-size: $FONT_SIZE_SMALL;
       opacity: 1;
       transition: opacity 0.5s ease-out;
+    }
+
+    &.active {
+      background: yellow;
     }
 
     &:hover {

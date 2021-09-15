@@ -30,7 +30,7 @@
 
   .clock-berlin {
     font-family: $SERIF_STACK;
-    font-size: 14px;
+    font-size: $FONT_SIZE_SMALL;
     color: $COLOR_LIGHT;
 
     .time {
