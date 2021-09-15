@@ -13,7 +13,6 @@
   import { fade } from "svelte/transition"
   import { urlFor, loadData, client } from "./sanity.js"
   import { links, navigate } from "svelte-routing"
-  import { Howl } from "howler"
   import MediaQuery from "svelte-media-query"
   import Cookies from "js-cookie"
 
@@ -28,6 +27,7 @@
   import Caption from "./Caption.svelte"
   import EyebeamLogo from "./EyebeamLogo.svelte"
   import Onboarding from "./Onboarding.svelte"
+  import AmbientAudio from "./AmbientAudio.svelte"
 
   // *** GLOBAL
   import { nanoid, isOverlapping, QUERY, GAME_SERVER_URL } from "./global.js"
@@ -274,7 +274,7 @@
   let viewportElement = {}
   let mapElement = {}
 
-  let roomId = "field"
+  let soundFile = false
 
   let captions = []
 
@@ -298,15 +298,18 @@
     // console.log(rooms)
     if ($currentArea) {
       console.log("asdfsadf")
-      // if (Array.isArray(rooms)) {
       const area = rooms.find(r => r.slug.current === $currentArea)
-      // console.log(area)
+      console.log(area)
+      // CHANGE CAPTION
       if (area && area.introduction) {
         addIntroCaption(area.introduction)
-        // console.log(captions)
-        // }, 500)
       }
-      // }
+      // CHANGE SOUND
+      if (area && area.soundFile && area.soundFile.asset) {
+        soundFile = area.soundFile
+      } else {
+        soundFile = false
+      }
     }
   }
 
@@ -317,16 +320,15 @@
 
     const usernameCookie = Cookies.get("open-eyebeam__name")
     console.log("usernameCookie", usernameCookie)
-    if (!usernameCookie) {
-      // ___ Prompt user to enter name
-      setUIState(STATE.ONBOARDING)
-    } else {
-      // ___ Set username from cookie
-      localUserName.set(usernameCookie)
-    }
 
     const userShapeCookie = Cookies.get("open-eyebeam__shape")
     console.log("userShapeCookie", userShapeCookie)
+
+    if (!usernameCookie && !userShapeCookie) {
+      setUIState(STATE.ONBOARDING)
+    } else {
+      localUserName.set(usernameCookie)
+    }
 
     let playerObject = {
       uuid: $localUserUUID,
@@ -385,6 +387,11 @@
               players[player.uuid].onboarded = true
               players[player.uuid].name = player.name
               players[player.uuid].shape = player.shape
+
+              if (player.uuid === $localUserUUID) {
+                Cookies.set("open-eyebeam__shape", player.shape)
+                Cookies.set("open-eyebeam__name", player.name)
+              }
             }
 
             // ROOM CHANGE
@@ -679,6 +686,11 @@
       goToRoom(e.detail.roomId)
     }}
   />
+{/if}
+
+<!-- AMBIENT AUDIO -->
+{#if soundFile}
+  <AmbientAudio {soundFile} />
 {/if}
 
 <!-- ONBOARDING -->
