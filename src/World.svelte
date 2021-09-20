@@ -343,12 +343,12 @@
     localUserUUID.set(nanoid())
     localUserName.set("unknown")
 
-    // const usernameCookie = Cookies.get("open-eyebeam__name")
-    const usernameCookie = false
+    const usernameCookie = Cookies.get("open-eyebeam__name")
+    // const usernameCookie = false
     console.log("usernameCookie", usernameCookie)
 
-    // const userShapeCookie = Cookies.get("open-eyebeam__shape")
-    const userShapeCookie = false
+    const userShapeCookie = Cookies.get("open-eyebeam__shape")
+    // const userShapeCookie = false
     console.log("userShapeCookie", userShapeCookie)
 
     if (!usernameCookie && !userShapeCookie) {

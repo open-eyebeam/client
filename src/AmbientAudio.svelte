@@ -37,7 +37,7 @@
       audioPlayer = new Howl({
         src: [audioURL],
         loop: true,
-        autoplay: true,
+        // autoplay: true,
       })
     }
   }

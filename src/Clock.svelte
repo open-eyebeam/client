@@ -4,10 +4,27 @@
   //  CLOCK
   //
   // # # # # # # # # # # # # #
+  const API_KEY = "a9b67d6b5ed093b28c410750ef6a70cd"
 
   let berlinTime
   let newYorkTime
   let seoulTime
+  let currentWeather = {
+    nyc: {
+      description: "",
+      temperature: "",
+    },
+    berlin: {
+      description: "",
+      temperature: "",
+    },
+    seoul: {
+      description: "",
+      temperature: "",
+    },
+  }
+
+  let selectValue = "New York"
 
   const updateTime = () => {
     let d = new Date()
@@ -32,24 +49,88 @@
 
   window.setInterval(updateTime, 10000)
   updateTime()
+
+  $: if (selectValue) {
+    console.log("selectValue", selectValue)
+  }
+
+  const updateWeather = () => {
+    // NEW YORK
+    fetch(
+      "https://api.openweathermap.org/data/2.5/weather?q=new york&appid=" +
+        API_KEY
+    )
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+        currentWeather["nyc"].description = data.weather[0].description
+        currentWeather["nyc"].temperature = Math.round(
+          ((data.main.temp - 273.15) * 9) / 5 + 32
+        )
+      })
+    // BERLIN
+    fetch(
+      "https://api.openweathermap.org/data/2.5/weather?q=berlin&appid=" +
+        API_KEY
+    )
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+        currentWeather["berlin"].description = data.weather[0].description
+        currentWeather["berlin"].temperature = Math.round(
+          data.main.temp - 273.15
+        )
+      })
+
+    // SEOUL
+    fetch(
+      "https://api.openweathermap.org/data/2.5/weather?q=seoul&appid=" + API_KEY
+    )
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+        currentWeather["seoul"].description = data.weather[0].description
+        currentWeather["seoul"].temperature = Math.round(
+          data.main.temp - 273.15
+        )
+      })
+  }
+
+  updateWeather()
 </script>
 
-<div class="clock-berlin">
-  <select>
-    <option>{newYorkTime} in New York City</option>
-    <option>{berlinTime} in Berlin</option>
-    <option>{seoulTime} in Seoul</option>
+<div class="clock">
+  <select bind:value={selectValue}>
+    <option value="New York"
+      >{newYorkTime} in New York City / {currentWeather["nyc"].temperature}°F {currentWeather[
+        "nyc"
+      ].description}</option
+    >
+    <option value="Berlin"
+      >{berlinTime} in Berlin / {currentWeather["berlin"].temperature}°C {currentWeather[
+        "berlin"
+      ].description}</option
+    >
+    <option value="Seoul"
+      >{seoulTime} in Seoul / {currentWeather["seoul"].temperature}°C {currentWeather[
+        "seoul"
+      ].description}</option
+    >
   </select>
 </div>
 
-<!-- <span class="time">{time}</span> -->
 <style lang="scss">
   @import "./variables.scss";
 
-  .clock-berlin {
+  .clock {
     font-family: $SERIF_STACK;
     font-size: $FONT_SIZE_SMALL;
     color: $COLOR_LIGHT;
+    display: flex;
+
+    .weather {
+      margin-right: 0.5em;
+    }
 
     .time {
       margin-right: 0.5em;
