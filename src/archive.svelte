@@ -301,28 +301,6 @@ sendKeyboardMove = () => {
   //   }
   // };
 
-    // const events = loadData(QUERY.EVENTS).catch(err => {
-  //   console.log(err)
-  // })
-  // const exhibitions = loadData(QUERY.EXHIBITIONS).catch(err => {
-  //   console.log(err)
-  // })
-  // const caseStudies = loadData(QUERY.CASE_STUDIES).catch(err => {
-  //   console.log(err)
-  // })
-  // const audioInstallations = loadData(QUERY.AUDIO_INSTALLATIONS).catch(err => {
-  //   console.log(err)
-  // })
-  // const landMarks = loadData(QUERY.LAND_MARKS).catch(err => {
-  //   console.log(err)
-  // })
-  // const users = loadData(QUERY.USERS).catch(err => {
-  //   console.log(err)
-  // })
-  // const pages = loadData(QUERY.PAGES).catch(err => {
-  //   console.log(err)
-  // })
-
   // __ Set global user list
   // users.then(users => {
   //   globalUserList.set(users)

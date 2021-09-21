@@ -20,6 +20,7 @@
     "svelte-preprocess": "^4.5.1"
   },
   "dependencies": {
+    "@auth0/auth0-spa-js": "^1.18.0",
     "@sanity/block-content-to-html": "^2.0.0",
     "@sanity/client": "^2.16.0",
     "@sanity/image-url": "^0.140.22",

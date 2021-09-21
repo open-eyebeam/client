@@ -52,7 +52,7 @@
   .caption-container {
     position: fixed;
     bottom: 50px;
-    left: 50px;
+    left: 30px;
     z-index: 1000;
   }
 </style>

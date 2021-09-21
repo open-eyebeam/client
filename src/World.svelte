@@ -15,6 +15,7 @@
   import { links, navigate } from "svelte-routing"
   import MediaQuery from "svelte-media-query"
   import Cookies from "js-cookie"
+  import createAuth0Client from "@auth0/auth0-spa-js"
 
   // *** COMPONENTS
   import LoadingScreen from "./overlays/LoadingScreen.svelte"
@@ -42,7 +43,12 @@
     localUserName,
     globalSettings,
     currentArea,
+    maxDimension,
+    profileMeta,
+    profile,
   } from "./stores.js"
+
+  // $: console.log("$maxDimension", $maxDimension)
 
   // *** PROPS
   export let params = false
@@ -51,6 +57,33 @@
   let moveQ = []
   let reconnectionAttempts = 0
   let disconnectionCode = 0
+
+  // AUTH0
+  let auth0 = null
+  let isAuthenticated = false
+  const domain = "eyebeam.us.auth0.com"
+  const clientId = "pcL6xHzv2ni7VZ8kPAfcOr8tc4QffcRN"
+  const DISCORD_PREFIX = "oauth2|discord|"
+
+  const configureClient = async () => {
+    auth0 = await createAuth0Client({
+      domain: domain,
+      client_id: clientId,
+      audience: "https://api/sanity",
+    })
+  }
+
+  const login = async () => {
+    await auth0.loginWithRedirect({
+      redirect_uri: window.location.origin,
+    })
+  }
+
+  const logout = () => {
+    auth0.logout({
+      returnTo: window.location.origin,
+    })
+  }
 
   // ___ Get data from Sanity CMS
   const graphicsSettings = loadData(QUERY.GRAPHICS_SETTINGS).catch(err => {
@@ -113,6 +146,7 @@
   const gameClient = new Colyseus.Client(GAME_SERVER_URL)
 
   let testZoneActive = false
+  let puddleZoneActive = false
 
   const checkDoorOverlap = () => {
     const avatarElement = document.getElementById($localUserUUID)
@@ -187,12 +221,39 @@
         testZoneActive = true
         return
       }
+      if (
+        puddleZoneElement &&
+        isOverlapping(avatarElement, puddleZoneElement)
+      ) {
+        if (captions.findIndex(c => c.roomId === "test-zone") === -1) {
+          captions = []
+          captions.push({
+            text: "You entered the puddle.",
+            roomId: "puddle",
+            type: "introduction",
+          })
+          captions = captions
+        }
+        puddleZoneActive = true
+        return
+      }
+      if (teamDoorElement && isOverlapping(avatarElement, teamDoorElement)) {
+        if (captions.findIndex(c => c.roomId === "field") === -1) {
+          captions = []
+          captions.push({
+            text: "Enter team room?",
+            roomId: "team",
+            type: "room",
+          })
+          captions = captions
+        }
+        return
+      }
       testZoneActive = false
+      puddleZoneActive = false
       captions = []
     }
   }
-
-  // $: console.log(captions)
 
   const animationLoop = () => {
     const step = timestamp => {
@@ -211,7 +272,7 @@
           }
           if (pressedKeys["DOWN"]) {
             // console.log("DOWN")
-            if (players[$localUserUUID].y < 500) {
+            if (players[$localUserUUID].y < $maxDimension) {
               players[$localUserUUID].y += 2
             }
           }
@@ -223,7 +284,7 @@
           }
           if (pressedKeys["RIGHT"]) {
             // console.log("RIGHT")
-            if (players[$localUserUUID].x < 500) {
+            if (players[$localUserUUID].x < $maxDimension) {
               players[$localUserUUID].x += 2
             }
           }
@@ -265,6 +326,7 @@
       }
       window.requestAnimationFrame(step)
     }
+    // !!! TODO: CENTER VIEW ON PLAYER
     window.requestAnimationFrame(step)
   }
 
@@ -281,9 +343,11 @@
   let screeningDoorElement = {}
   let exhibitionDoorElement = {}
   let testZoneElement = {}
+  let puddleZoneElement = {}
   let fieldDoorElement = {}
   let viewportElement = {}
   let mapElement = {}
+  let teamDoorElement = {}
 
   let soundFile = false
   let streamUrl = false
@@ -339,16 +403,62 @@
   }
 
   onMount(async () => {
+    await configureClient()
+    isAuthenticated = await auth0.isAuthenticated()
+    console.log("isAuthenticated ", isAuthenticated)
+
+    if (isAuthenticated) {
+      // let prof = await auth0.getUser()
+      // console.log("prof", prof)
+      profile.set(await auth0.getUser())
+      let sanityProfile = await loadData(
+        "*[_type == 'user' && _id == $sub][0]",
+        { sub: $profile.sub.replace(DISCORD_PREFIX, "") }
+      )
+      console.log(sanityProfile)
+      profileMeta.set(sanityProfile)
+    }
+
+    // Check for the code and state parameters
+    const query = window.location.search
+
+    console.log("query", query)
+    if (query.includes("code=") && query.includes("state=")) {
+      // // Process the login state
+      await auth0.handleRedirectCallback()
+
+      isAuthenticated = await auth0.isAuthenticated()
+
+      // // Use replaceState to redirect the user away and remove the querystring parameters
+      window.history.replaceState({}, document.title, "/")
+
+      console.log("isAuthenticated 2222", isAuthenticated)
+
+      if (isAuthenticated) {
+        // let prof = await auth0.getUser()
+        // console.log("prof", prof)
+        profile.set(await auth0.getUser())
+        let sanityProfile = await loadData(
+          "*[_type == 'user' && _id == $sub][0]",
+          { sub: $profile.sub.replace(DISCORD_PREFIX, "") }
+        )
+        console.log(sanityProfile)
+        profileMeta.set(sanityProfile)
+      }
+    }
+
+    $: console.log("$profileMeta", $profileMeta)
+
     // ___ Give the local user a UUID
     localUserUUID.set(nanoid())
     localUserName.set("unknown")
 
-    const usernameCookie = Cookies.get("open-eyebeam__name")
-    // const usernameCookie = false
+    // const usernameCookie = Cookies.get("open-eyebeam__name")
+    const usernameCookie = false
     console.log("usernameCookie", usernameCookie)
 
-    const userShapeCookie = Cookies.get("open-eyebeam__shape")
-    // const userShapeCookie = false
+    // const userShapeCookie = Cookies.get("open-eyebeam__shape")
+    const userShapeCookie = false
     console.log("userShapeCookie", userShapeCookie)
 
     if (!usernameCookie && !userShapeCookie) {
@@ -683,6 +793,7 @@
   })
 </script>
 
+<!-- MENUBAR -->
 <Menubar />
 
 <!-- GAME WORLD -->
@@ -696,6 +807,7 @@
     class="map"
     id="map"
     bind:this={mapElement}
+    class:field={$currentArea === "field"}
     in:fade
     on:click={e => {
       // console.log(e)
@@ -715,6 +827,11 @@
       <div class="door exhibition" in:fade bind:this={exhibitionDoorElement}>
         <EyebeamLogo />
       </div>
+      {#if isAuthenticated}
+        <div class="door team" in:fade bind:this={teamDoorElement}>
+          <EyebeamLogo />
+        </div>
+      {/if}
       <!-- ZONES -->
       <div
         class="zone"
@@ -723,6 +840,15 @@
         bind:this={testZoneElement}
       >
         <div class="zone-name">Test zone</div>
+      </div>
+      <!-- PUDDLE -->
+      <div
+        class="puddle"
+        class:active={puddleZoneActive}
+        in:fade
+        bind:this={puddleZoneElement}
+      >
+        <div class="zone-name">Puddle</div>
       </div>
     {:else}
       <div class="door field" in:fade bind:this={fieldDoorElement}>
@@ -799,6 +925,32 @@
   <Reconnection {reconnectionAttempts} {disconnectionCode} />
 {/if}
 
+<!-- AUTH TEST BOX -->
+<div
+  class="auth-box"
+  on:click={() => {
+    if (!isAuthenticated) {
+      login()
+    } else {
+      logout()
+    }
+  }}
+>
+  {#if isAuthenticated}
+    {#if $profileMeta.name}
+      <div>
+        {$profileMeta.name}
+        {#if $profileMeta.roles && $profileMeta.roles.length > 0}
+          {#each $profileMeta.roles as role}
+            <span>({role}) </span>
+          {/each}
+        {/if}
+      </div>
+    {/if}
+    <div>Log out</div>
+  {:else}Login{/if}
+</div>
+
 <style lang="scss">
   @import "./variables.scss";
 
@@ -840,6 +992,13 @@
     background: rgba(205, 205, 205, 1);
     cursor: crosshair;
     // position: relative;
+
+    &.field {
+      margin-left: -1000px;
+      margin-top: -1000px;
+      height: 2000px;
+      width: 2000px;
+    }
   }
 
   .screening-room {
@@ -886,18 +1045,24 @@
     pointer-events: none;
 
     &.meeting {
-      left: 190px;
-      top: 100px;
+      left: 800px;
+      top: 900px;
     }
 
     &.exhibition {
-      left: 350px;
-      top: 100px;
+      left: 950px;
+      top: 900px;
     }
 
     &.screening {
-      left: 30px;
-      top: 100px;
+      left: 1100px;
+      top: 900px;
+    }
+
+    &.team {
+      left: 700px;
+      top: 1050px;
+      transform: rotate(-90deg);
     }
 
     &.field {
@@ -908,8 +1073,8 @@
 
   .zone {
     position: absolute;
-    top: 400px;
-    left: 240px;
+    top: 1200px;
+    left: 1100px;
     width: 220px;
     height: 80px;
     border-radius: 50%;
@@ -936,6 +1101,54 @@
       .zone-name {
         opacity: 1;
       }
+    }
+  }
+
+  .puddle {
+    position: absolute;
+    top: 1350px;
+    left: 400px;
+    width: 400px;
+    height: 160px;
+    border-radius: 50%;
+    border: 1px dashed black;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    transition: background 0.5s $transition;
+
+    .zone-name {
+      text-align: center;
+      font-size: $FONT_SIZE_SMALL;
+      opacity: 1;
+      transition: opacity 0.5s ease-out;
+    }
+
+    &.active {
+      background: rgb(222, 255, 239);
+    }
+
+    &:hover {
+      .zone-name {
+        opacity: 1;
+      }
+    }
+  }
+
+  .auth-box {
+    position: fixed;
+    top: 50px;
+    left: 30px;
+    background: $COLOR_LIGHT;
+    border: 1px solid $COLOR_DARK;
+    padding: 5px;
+    cursor: pointer;
+    font-size: $FONT_SIZE_SMALL;
+
+    &:hover {
+      background: $COLOR_MID;
     }
   }
 </style>

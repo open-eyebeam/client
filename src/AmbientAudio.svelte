@@ -19,7 +19,6 @@
 
   const destroySound = () => {
     if (audioPlayer && audioPlayer.playing) {
-      console.log("deströööööy")
       audioPlayer.stop()
       audioPlayer.unload()
       audioPlayer = {}
@@ -37,7 +36,7 @@
       audioPlayer = new Howl({
         src: [audioURL],
         loop: true,
-        // autoplay: true,
+        autoplay: true,
       })
     }
   }
