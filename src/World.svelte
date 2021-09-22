@@ -381,15 +381,16 @@
   let targetX = 0
   let targetY = 0
 
+  let viewportElement = {}
+  let mapElement = {}
+
   let meetingDoorElement = {}
   let screeningDoorElement = {}
   let exhibitionDoorElement = {}
   let testZoneElement = {}
   let puddleZoneElement = {}
-  let fieldDoorElement = {}
-  let viewportElement = {}
-  let mapElement = {}
-  let teamDoorElement = {}
+  let fieldDoorElement = false
+  let teamDoorElement = false
 
   let soundFile = false
   let streamUrl = false
@@ -444,80 +445,7 @@
     }
   }
 
-  onMount(async () => {
-    await configureClient()
-    isAuthenticated = await auth0.isAuthenticated()
-    // console.log("isAuthenticated ", isAuthenticated)
-
-    if (isAuthenticated) {
-      // let prof = await auth0.getUser()
-      // console.log("prof", prof)
-      profile.set(await auth0.getUser())
-      let sanityProfile = await loadData(
-        "*[_type == 'user' && _id == $sub][0]",
-        { sub: $profile.sub.replace(DISCORD_PREFIX, "") }
-      )
-      // console.log(sanityProfile)
-      profileMeta.set(sanityProfile)
-    }
-
-    // Check for the code and state parameters
-    const query = window.location.search
-
-    // console.log("query", query)
-    if (query.includes("code=") && query.includes("state=")) {
-      // // Process the login state
-      await auth0.handleRedirectCallback()
-
-      isAuthenticated = await auth0.isAuthenticated()
-
-      // // Use replaceState to redirect the user away and remove the querystring parameters
-      window.history.replaceState({}, document.title, "/")
-
-      // console.log("isAuthenticated 2222", isAuthenticated)
-
-      if (isAuthenticated) {
-        // let prof = await auth0.getUser()
-        // console.log("prof", prof)
-        profile.set(await auth0.getUser())
-        let sanityProfile = await loadData(
-          "*[_type == 'user' && _id == $sub][0]",
-          { sub: $profile.sub.replace(DISCORD_PREFIX, "") }
-        )
-        // console.log(sanityProfile)
-        profileMeta.set(sanityProfile)
-      }
-    }
-
-    // $: console.log("$profileMeta", $profileMeta)
-
-    // ___ Give the local user a UUID
-    localUserUUID.set(nanoid())
-    localUserName.set("unknown")
-
-    // const usernameCookie = Cookies.get("open-eyebeam__name")
-    const usernameCookie = false
-    // console.log("usernameCookie", usernameCookie)
-
-    // const userShapeCookie = Cookies.get("open-eyebeam__shape")
-    const userShapeCookie = false
-    // console.log("userShapeCookie", userShapeCookie)
-
-    if (!usernameCookie && !userShapeCookie) {
-      setUIState(STATE.ONBOARDING)
-    } else {
-      localUserName.set(usernameCookie)
-    }
-
-    let playerObject = {
-      uuid: $localUserUUID,
-      name: $localUserName,
-      shape: userShapeCookie ? userShapeCookie : "square",
-      onboarded: !usernameCookie ? false : true,
-    }
-
-    // console.log("playerObject", playerObject)
-
+  const initializeWorld = playerObject => {
     // __ Join game room
     gameClient
       .joinOrCreate("game", playerObject)
@@ -557,7 +485,7 @@
 
           // PLAYER => CHANGE
           player.onChange = changes => {
-            console.log("__CHANGE", player)
+            // console.log("__CHANGE", player)
 
             // ONBOARDING COMPLETED
             if (player.onboarded && !players[player.uuid].onboarded) {
@@ -567,9 +495,9 @@
               players[player.uuid].name = player.name
               players[player.uuid].shape = player.shape
 
-              if (player.uuid === $localUserUUID) {
-                // Cookies.set("open-eyebeam__shape", player.shape)
-                // Cookies.set("open-eyebeam__name", player.name)
+              if (player.uuid === $localUserUUID && !isAuthenticated) {
+                Cookies.set("open-eyebeam__shape", player.shape)
+                Cookies.set("open-eyebeam__name", player.name)
               }
               // !!! Ignore movements on load
               return
@@ -804,7 +732,6 @@
         }
       }
     })
-
     // PLAYER => KEY UP
     document.addEventListener("keyup", key => {
       if (UI.state == STATE.READY) {
@@ -835,6 +762,91 @@
         }
       }
     })
+  }
+
+  onMount(async () => {
+    console.log("MOUNTING...")
+    // ___ Give the local user a UUID
+    localUserUUID.set(nanoid())
+
+    let playerObject = {
+      uuid: $localUserUUID,
+      name: "",
+      shape: "",
+      onboarded: false,
+    }
+    console.log("playerObject", playerObject)
+
+    await configureClient()
+    isAuthenticated = await auth0.isAuthenticated()
+
+    // IF: User is logged in => Set name and shape and state = READY
+    if (isAuthenticated) {
+      console.log("___ (1) User is authenticated")
+      profile.set(await auth0.getUser())
+      let sanityProfile = await loadData(
+        "*[_type == 'user' && _id == $sub][0]",
+        { sub: $profile.sub.replace(DISCORD_PREFIX, "") }
+      )
+      console.log(sanityProfile)
+      profileMeta.set(sanityProfile)
+      localUserName.set($profileMeta.name)
+      playerObject.name = $profileMeta.name
+      playerObject.shape = "star"
+      playerObject.onboarded = true
+      initializeWorld(playerObject)
+      return
+    }
+
+    // IF: User is currently logging in => Set name and shape and state = READY
+    // Check for the code and state parameters
+    const query = window.location.search
+    if (query.includes("code=") && query.includes("state=")) {
+      console.log("___ (2) User just logged in ")
+      // // Process the login state
+      await auth0.handleRedirectCallback()
+      isAuthenticated = await auth0.isAuthenticated()
+      // // Use replaceState to redirect the user away and remove the querystring parameters
+      window.history.replaceState({}, document.title, "/")
+      if (isAuthenticated) {
+        // let prof = await auth0.getUser()
+        // console.log("prof", prof)
+        profile.set(await auth0.getUser())
+        let sanityProfile = await loadData(
+          "*[_type == 'user' && _id == $sub][0]",
+          { sub: $profile.sub.replace(DISCORD_PREFIX, "") }
+        )
+        console.log(sanityProfile)
+        profileMeta.set(sanityProfile)
+        localUserName.set($profileMeta.name)
+        playerObject.name = $profileMeta.name
+        playerObject.shape = "star"
+        playerObject.onboarded = true
+        initializeWorld(playerObject)
+        return
+      }
+    }
+
+    // $: console.log("$profileMeta", $profileMeta)
+
+    const usernameCookie = Cookies.get("open-eyebeam__name")
+    console.log("usernameCookie", usernameCookie)
+    const userShapeCookie = Cookies.get("open-eyebeam__shape")
+    console.log("userShapeCookie", userShapeCookie)
+    if (usernameCookie && userShapeCookie) {
+      console.log("___ (3) Cookies are set")
+      localUserName.set(usernameCookie)
+      playerObject.name = usernameCookie
+      playerObject.shape = userShapeCookie
+      playerObject.onboarded = true
+      initializeWorld(playerObject)
+      return
+    } else {
+      console.log("___ (4) New user. Start onboarding...")
+      setUIState(STATE.ONBOARDING)
+      initializeWorld(playerObject)
+      return
+    }
   })
 </script>
 
@@ -971,30 +983,32 @@
 {/if}
 
 <!-- AUTH TEST BOX -->
-<div
-  class="auth-box"
-  on:click={() => {
-    if (!isAuthenticated) {
-      login()
-    } else {
-      logout()
-    }
-  }}
->
-  {#if isAuthenticated}
-    {#if $profileMeta.name}
-      <div>
-        {$profileMeta.name}
-        {#if $profileMeta.roles && $profileMeta.roles.length > 0}
-          {#each $profileMeta.roles as role}
-            <span>({role}) </span>
-          {/each}
-        {/if}
-      </div>
-    {/if}
-    <div>Log out</div>
-  {:else}Login{/if}
-</div>
+{#if UI.state == STATE.READY}
+  <div
+    class="auth-box"
+    on:click={() => {
+      if (!isAuthenticated) {
+        login()
+      } else {
+        logout()
+      }
+    }}
+  >
+    {#if isAuthenticated}
+      {#if $profileMeta.name}
+        <div>
+          {$profileMeta.name}
+          {#if $profileMeta.roles && $profileMeta.roles.length > 0}
+            {#each $profileMeta.roles as role}
+              <span>({role}) </span>
+            {/each}
+          {/if}
+        </div>
+      {/if}
+      <div>Log out</div>
+    {:else}Login{/if}
+  </div>
+{/if}
 
 <style lang="scss">
   @import "./variables.scss";
