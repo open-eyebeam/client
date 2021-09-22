@@ -440,3 +440,41 @@ sendKeyboardMove = () => {
                 console.dir(err);
               }
             };
+
+
+                // PLAYER => KEY UP
+    document.addEventListener("keyup", key => {
+      if (UI.state == STATE.READY) {
+        // console.log("keyup")
+        // W Key is 87 & Up arrow is 87
+        if (key.keyCode === 38) {
+          // console.log("__released: UP")
+          pressedKeys["UP"] = false
+          releasedKey = true
+        }
+        // S Key is 83 & Down arrow is 40
+        if (key.keyCode === 40) {
+          // console.log("__released: DOWN")
+          pressedKeys["DOWN"] = false
+          releasedKey = true
+        }
+        // A Key is 65 & Left arrow is 37
+        if (key.keyCode === 37) {
+          // console.log("__released: LEFT")
+          pressedKeys["LEFT"] = false
+          releasedKey = true
+        }
+        // D Key is 68 & Right arrow is 39
+        if (key.keyCode === 39) {
+          // console.log("__released: RIGHT")
+          pressedKeys["RIGHT"] = false
+          releasedKey = true
+        }
+      }
+    })
+
+    if (releasedKey) {
+          // console.log("KEY released")
+          releasedKey = false
+          // moveTo(players[$localUserUUID].x, players[$localUserUUID].y, true)
+        }
