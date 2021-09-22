@@ -14,7 +14,7 @@
   let objectEl = {}
   let showArticle = false
 
-  console.log("object", object)
+  // console.log("object", object)
 
   onMount(async () => {
     tippy(objectEl, {

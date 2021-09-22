@@ -13,7 +13,7 @@
   // *** PROPS
   export let streamUrl = ""
 
-  console.log("streamUrl", streamUrl)
+  // console.log("streamUrl", streamUrl)
 </script>
 
 <div class="stream-container" in:fade={{ duration: 300, easing: quartOut }}>

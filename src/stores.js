@@ -15,11 +15,11 @@ export const localUserName = writable(false)
 export const globalUserList = writable([])
 export const globalSettings = writable({})
 export const areaList = writable({})
-export const currentArea = writable(4)
+export const currentArea = writable('field')
 export const maxDimension = derived(
     [currentArea],
     ([$currentArea]) => {
-        console.log('$currentArea', $currentArea)
+        // console.log('$currentArea', $currentArea)
         if($currentArea === 'field') {
             return 2000
         } else {

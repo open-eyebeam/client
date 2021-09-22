@@ -148,7 +148,7 @@ document.addEventListener("keydown", key => {
   // let targetX = currentX
   // let targetY = currentY
 
-  console.log(key)
+  // console.log(key)
 
   // W Key is 87
   // Up arrow is 87
@@ -247,59 +247,59 @@ sendKeyboardMove = () => {
 
   // __ Game loop
   // __ Called at approximately 60fps by pixi.ticker
-  // const updatePositions = (delta) => {
-  //   // Combine delta (lag) and potential time passed since window was in focus
-  //   let deltaRounded = Math.round(delta) + deltaJump;
-  //   deltaJump = 0;
-  //   // Iterate over all users currently in move queue
-  //   for (let key in moveQ) {
-  //     if (localPlayers[key]) {
-  //       if (moveQ[key].length > 0) {
-  //         if (moveQ[key].length - deltaRounded < 0) {
-  //           // User reached destination while the window was out of focus
-  //           // Move to final step and clear users's move queue
-  //           let step = moveQ[key][moveQ[key].length - 1];
-  //           localPlayers[key].avatar.setAnimation(step.direction);
-  //           localPlayers[key].avatar.x = step.x;
-  //           localPlayers[key].avatar.y = step.y;
-  //           localPlayers[key].area = step.area;
-  //           moveQ[key] = [];
-  //           if (key === $localUserSessionID) {
-  //             checkAudioProximity();
-  //           }
-  //         } else {
-  //           // Get next step, adjusting for delta
-  //           moveQ[key].splice(0, deltaRounded - 1);
-  //           let step = moveQ[key].shift();
-  //           localPlayers[key].avatar.setAnimation(step.direction);
-  //           localPlayers[key].avatar.x = step.x;
-  //           localPlayers[key].avatar.y = step.y;
-  //           localPlayers[key].area = step.area;
-  //           if (key === $localUserSessionID && moveQ[key].length % 30 === 0) {
-  //             // Set current area for users
-  //             currentArea.set(localPlayers[$localUserSessionID].area);
-  //             // Check proximity to audio installations every 30th step
-  //             checkAudioProximity();
-  //           }
-  //         }
-  //       } else {
-  //         // Destination reached
-  //         if (key === $localUserSessionID) {
-  //           hideTarget();
-  //           checkAudioProximity();
-  //           // User was walking towards a case study
-  //           // if (intentToPickUp) {
-  //           //   pickUpCaseStudy(intentToPickUp)
-  //           // }
-  //         }
-  //         localPlayers[key].avatar.setAnimation("rest");
-  //         delete moveQ[key];
-  //       }
-  //     } else {
-  //       delete moveQ[key];
-  //     }
-  //   }
-  // };
+  const updatePositions = (delta) => {
+    // Combine delta (lag) and potential time passed since window was in focus
+    let deltaRounded = Math.round(delta) + deltaJump;
+    deltaJump = 0;
+    // Iterate over all users currently in move queue
+    for (let key in moveQ) {
+      if (localPlayers[key]) {
+        if (moveQ[key].length > 0) {
+          if (moveQ[key].length - deltaRounded < 0) {
+            // User reached destination while the window was out of focus
+            // Move to final step and clear users's move queue
+            let step = moveQ[key][moveQ[key].length - 1];
+            localPlayers[key].avatar.setAnimation(step.direction);
+            localPlayers[key].avatar.x = step.x;
+            localPlayers[key].avatar.y = step.y;
+            localPlayers[key].area = step.area;
+            moveQ[key] = [];
+            if (key === $localUserSessionID) {
+              checkAudioProximity();
+            }
+          } else {
+            // Get next step, adjusting for delta
+            moveQ[key].splice(0, deltaRounded - 1);
+            let step = moveQ[key].shift();
+            localPlayers[key].avatar.setAnimation(step.direction);
+            localPlayers[key].avatar.x = step.x;
+            localPlayers[key].avatar.y = step.y;
+            localPlayers[key].area = step.area;
+            if (key === $localUserSessionID && moveQ[key].length % 30 === 0) {
+              // Set current area for users
+              currentArea.set(localPlayers[$localUserSessionID].area);
+              // Check proximity to audio installations every 30th step
+              checkAudioProximity();
+            }
+          }
+        } else {
+          // Destination reached
+          if (key === $localUserSessionID) {
+            hideTarget();
+            checkAudioProximity();
+            // User was walking towards a case study
+            // if (intentToPickUp) {
+            //   pickUpCaseStudy(intentToPickUp)
+            // }
+          }
+          localPlayers[key].avatar.setAnimation("rest");
+          delete moveQ[key];
+        }
+      } else {
+        delete moveQ[key];
+      }
+    }
+  };
 
   // __ Set global user list
   // users.then(users => {
@@ -333,17 +333,16 @@ sendKeyboardMove = () => {
     visibilityChange = "webkitvisibilitychange"
   }
 
-  // const handleVisibilityChange = () => {
-  //   if (document[hidden]) {
-  //     hiddenTime = Date.now()
-  //   } else {
-  //     // Number of frames missed (1000ms / 60frames ≈ 16.6666)
-  //     deltaJump = Math.round((Date.now() - hiddenTime) / 16.6666)
-  //   }
-  // }
+  const handleVisibilityChange = () => {
+    if (document[hidden]) {
+      hiddenTime = Date.now()
+    } else {
+      // Number of frames missed (1000ms / 60frames ≈ 16.6666)
+      deltaJump = Math.round((Date.now() - hiddenTime) / 16.6666)
+    }
+  }
 
-  // document.addEventListener(visibilityChange, handleVisibilityChange, false)
-
+  document.addEventListener(visibilityChange, handleVisibilityChange, false)
 
   let activeStreams = loadData(QUERY.ACTIVE_STREAMS)
     .catch(err => {

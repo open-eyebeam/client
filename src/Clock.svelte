@@ -50,9 +50,9 @@
   window.setInterval(updateTime, 10000)
   updateTime()
 
-  $: if (selectValue) {
-    console.log("selectValue", selectValue)
-  }
+  // $: if (selectValue) {
+  //   console.log("selectValue", selectValue)
+  // }
 
   const updateWeather = () => {
     // NEW YORK
@@ -62,7 +62,7 @@
     )
       .then(response => response.json())
       .then(data => {
-        console.log(data)
+        // console.log(data)
         currentWeather["nyc"].description = data.weather[0].description
         currentWeather["nyc"].temperature = Math.round(
           ((data.main.temp - 273.15) * 9) / 5 + 32
@@ -75,7 +75,7 @@
     )
       .then(response => response.json())
       .then(data => {
-        console.log(data)
+        // console.log(data)
         currentWeather["berlin"].description = data.weather[0].description
         currentWeather["berlin"].temperature = Math.round(
           data.main.temp - 273.15
@@ -88,7 +88,7 @@
     )
       .then(response => response.json())
       .then(data => {
-        console.log(data)
+        // console.log(data)
         currentWeather["seoul"].description = data.weather[0].description
         currentWeather["seoul"].temperature = Math.round(
           data.main.temp - 273.15

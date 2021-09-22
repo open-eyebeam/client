@@ -255,6 +255,35 @@
     }
   }
 
+  // ___ Listen for changes to page visibility (ie. tab being out of focus etc..)
+  // ___ Fastforward animations when window is refocused
+  let deltaJump = 0
+  let hiddenTime = 0
+  let hidden, visibilityChange
+
+  if (typeof document.hidden !== "undefined") {
+    hidden = "hidden"
+    visibilityChange = "visibilitychange"
+  } else if (typeof document.msHidden !== "undefined") {
+    hidden = "msHidden"
+    visibilityChange = "msvisibilitychange"
+  } else if (typeof document.webkitHidden !== "undefined") {
+    hidden = "webkitHidden"
+    visibilityChange = "webkitvisibilitychange"
+  }
+
+  const handleVisibilityChange = () => {
+    if (document[hidden]) {
+      hiddenTime = Date.now()
+    } else {
+      // Number of frames missed (1000ms / 60frames ≈ 16.6666)
+      deltaJump = Math.round((Date.now() - hiddenTime) / 16.6666)
+      console.log("deltaJump", deltaJump)
+    }
+  }
+
+  document.addEventListener(visibilityChange, handleVisibilityChange, false)
+
   const animationLoop = () => {
     const step = timestamp => {
       // console.log("___ FRAME", timestamp)
@@ -299,16 +328,28 @@
       }
 
       for (let key in moveQ) {
-        // console.log("key", key)
         if (players[key]) {
           if (moveQ[key].length > 0) {
-            // Get next step, adjusting for delta
-            // moveQ[key].splice(0, 1)
-            let step = moveQ[key].shift()
-            players[key].x = step.x
-            players[key].y = step.y
-            if (players[key].self) {
-              checkDoorOverlap()
+            if (moveQ[key].length - deltaJump < 0) {
+              // User reached destination while the window was out of focus
+              // Move to final step and clear users's move queue
+              let step = moveQ[key][moveQ[key].length - 1]
+              players[key].x = step.x
+              players[key].y = step.y
+              delete moveQ[key]
+              if (players[key].self) {
+                showTarget = false
+                checkDoorOverlap()
+              }
+            } else {
+              // Get next step, adjusting for delta
+              moveQ[key].splice(0, deltaJump - 1)
+              let step = moveQ[key].shift()
+              players[key].x = step.x
+              players[key].y = step.y
+              if (players[key].self) {
+                checkDoorOverlap()
+              }
             }
           } else {
             // Destination reached
@@ -324,6 +365,7 @@
           delete moveQ[key]
         }
       }
+      deltaJump = 0
       window.requestAnimationFrame(step)
     }
     // !!! TODO: CENTER VIEW ON PLAYER
@@ -376,9 +418,9 @@
     // console.log($currentArea)
     // console.log(rooms)
     if ($currentArea) {
-      console.log("–_—_—_ => Area changed")
+      // console.log("–_—_—_ => Area changed")
       const area = rooms.find(r => r.slug.current === $currentArea)
-      console.log(area)
+      // console.log(area)
       if (area) {
         // TOGGLE CHAT
         showChat = area.chat
@@ -405,7 +447,7 @@
   onMount(async () => {
     await configureClient()
     isAuthenticated = await auth0.isAuthenticated()
-    console.log("isAuthenticated ", isAuthenticated)
+    // console.log("isAuthenticated ", isAuthenticated)
 
     if (isAuthenticated) {
       // let prof = await auth0.getUser()
@@ -415,14 +457,14 @@
         "*[_type == 'user' && _id == $sub][0]",
         { sub: $profile.sub.replace(DISCORD_PREFIX, "") }
       )
-      console.log(sanityProfile)
+      // console.log(sanityProfile)
       profileMeta.set(sanityProfile)
     }
 
     // Check for the code and state parameters
     const query = window.location.search
 
-    console.log("query", query)
+    // console.log("query", query)
     if (query.includes("code=") && query.includes("state=")) {
       // // Process the login state
       await auth0.handleRedirectCallback()
@@ -432,7 +474,7 @@
       // // Use replaceState to redirect the user away and remove the querystring parameters
       window.history.replaceState({}, document.title, "/")
 
-      console.log("isAuthenticated 2222", isAuthenticated)
+      // console.log("isAuthenticated 2222", isAuthenticated)
 
       if (isAuthenticated) {
         // let prof = await auth0.getUser()
@@ -442,12 +484,12 @@
           "*[_type == 'user' && _id == $sub][0]",
           { sub: $profile.sub.replace(DISCORD_PREFIX, "") }
         )
-        console.log(sanityProfile)
+        // console.log(sanityProfile)
         profileMeta.set(sanityProfile)
       }
     }
 
-    $: console.log("$profileMeta", $profileMeta)
+    // $: console.log("$profileMeta", $profileMeta)
 
     // ___ Give the local user a UUID
     localUserUUID.set(nanoid())
@@ -455,11 +497,11 @@
 
     // const usernameCookie = Cookies.get("open-eyebeam__name")
     const usernameCookie = false
-    console.log("usernameCookie", usernameCookie)
+    // console.log("usernameCookie", usernameCookie)
 
     // const userShapeCookie = Cookies.get("open-eyebeam__shape")
     const userShapeCookie = false
-    console.log("userShapeCookie", userShapeCookie)
+    // console.log("userShapeCookie", userShapeCookie)
 
     if (!usernameCookie && !userShapeCookie) {
       setUIState(STATE.ONBOARDING)
@@ -474,7 +516,7 @@
       onboarded: !usernameCookie ? false : true,
     }
 
-    console.log("playerObject", playerObject)
+    // console.log("playerObject", playerObject)
 
     // __ Join game room
     gameClient
@@ -489,14 +531,14 @@
 
         // PLAYER => REMOVE
         gameRoom.state.players.onRemove = (player, sessionId) => {
-          console.log("__REMOVE", player)
+          // console.log("__REMOVE", player)
           delete players[player.uuid]
           players = players
         }
 
         // PLAYER => ADD
         gameRoom.state.players.onAdd = (player, sessionId) => {
-          console.log("__ADD", player)
+          // console.log("__ADD", player)
 
           players[player.uuid] = {
             name: player.name,
@@ -519,8 +561,8 @@
 
             // ONBOARDING COMPLETED
             if (player.onboarded && !players[player.uuid].onboarded) {
-              console.log("ONBOARDING COMPLETED")
-              console.log(player)
+              // console.log("ONBOARDING COMPLETED")
+              // console.log(player)
               players[player.uuid].onboarded = true
               players[player.uuid].name = player.name
               players[player.uuid].shape = player.shape
@@ -529,12 +571,14 @@
                 // Cookies.set("open-eyebeam__shape", player.shape)
                 // Cookies.set("open-eyebeam__name", player.name)
               }
+              // !!! Ignore movements on load
+              return
             }
 
             // ROOM CHANGE
             if (player.room !== players[player.uuid].room) {
-              console.log("CHANGE ROOM", player.uuid, player.room)
-              console.log(player)
+              // console.log("CHANGE ROOM", player.uuid, player.room)
+              // console.log(player)
 
               if (player.uuid === $localUserUUID) {
                 // currentArea.set(player.room)
@@ -612,6 +656,7 @@
         })
 
         moveTo = (x, y, keyboardNavigation) => {
+          // console.log(x, y)
           delete moveQ[$localUserUUID]
           showTarget = false
           if (keyboardNavigation) {
@@ -632,8 +677,8 @@
         }
 
         onboardUser = (username, shape) => {
-          console.log("username", username)
-          console.log("shape", shape)
+          // console.log("username", username)
+          // console.log("shape", shape)
           gameRoom.send("onboard", {
             username: username,
             shape: shape,
@@ -642,7 +687,7 @@
         }
 
         goToRoom = roomId => {
-          console.log(roomId)
+          // console.log(roomId)
           gameRoom.send("changeRoom", {
             id: roomId,
           })
@@ -736,10 +781,10 @@
     // PLAYER => KEY DOWN
     document.addEventListener("keydown", key => {
       if (UI.state == STATE.READY) {
-        console.log(key)
+        // console.log(key)
         // W Key is 87 & Up arrow is 87
         if (key.keyCode === 38) {
-          console.log("__pressed: UP")
+          // console.log("__pressed: UP")
           pressedKeys["UP"] = true
         }
         // S Key is 83 & Down arrow is 40
@@ -763,7 +808,7 @@
     // PLAYER => KEY UP
     document.addEventListener("keyup", key => {
       if (UI.state == STATE.READY) {
-        console.log("keyup")
+        // console.log("keyup")
         // W Key is 87 & Up arrow is 87
         if (key.keyCode === 38) {
           // console.log("__released: UP")
@@ -810,7 +855,7 @@
     class:field={$currentArea === "field"}
     in:fade
     on:click={e => {
-      // console.log(e)
+      // console.log(e.target.id)
       if (e.target.id === "map") {
         moveTo(e.offsetX - 15, e.offsetY - 15, false)
       }
@@ -876,7 +921,7 @@
   <Caption
     {captions}
     on:room={e => {
-      console.log(e)
+      // console.log(e)
       captions = []
       goToRoom(e.detail.roomId)
     }}

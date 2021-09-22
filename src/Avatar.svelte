@@ -20,11 +20,11 @@
 
   let avatarEl = {}
 
-  console.log("player", player)
+  // console.log("player", player)
 
   onMount(async () => {
-    console.log("player", player)
-    console.log("player.name", player.name)
+    // console.log("player", player)
+    // console.log("player.name", player.name)
     if (!player.self) {
       tippy(avatarEl, {
         content: player.name,
