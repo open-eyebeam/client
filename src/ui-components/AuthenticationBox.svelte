@@ -8,7 +8,7 @@
     login,
     logout,
     isAuthenticated,
-  } from "./authentication/authentication.js"
+  } from "../authentication/authentication.js"
 </script>
 
 <div
@@ -37,7 +37,7 @@
 </div>
 
 <style lang="scss">
-  @import "./variables.scss";
+  @import "../variables.scss";
 
   .auth-box {
     position: fixed;

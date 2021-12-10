@@ -9,9 +9,6 @@
   import { links, navigate } from "svelte-routing"
   import Clock from "./Clock.svelte"
 
-  // *** STORES
-  import { currentArea } from "./stores.js"
-
   let selectValue = ""
 
   $: if (selectValue === "https://eyebeam.org") {
@@ -32,7 +29,7 @@
 </div>
 
 <style lang="scss">
-  @import "./variables.scss";
+  @import "../variables.scss";
 
   .menubar {
     position: fixed;

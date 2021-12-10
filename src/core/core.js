@@ -1,18 +1,15 @@
 import * as Colyseus from "colyseus.js"
-import { get } from 'svelte/store';
+import { writable, get } from 'svelte/store';
 
-// *** STORES
 import {
-    localUserUUID,
-    localUserSessionID,
-    showTarget,
-    targetX,
-    targetY,
-    currentArea,
-    players,
-} from "../stores.js"
+    localPlayer
+} from "../local-player/local-player.js";
 
-// console.log('localUserUUID', get(localUserUUID))
+export const players = writable({})
+export const chatMessages = writable([])
+export const showTarget = writable(false)
+export const targetX = writable(0)
+export const targetY = writable(0)
 
 const GAME_SERVER_URL = "wss://open.eyebeam.dev";
 // const GAME_SERVER_URL = "ws://localhost:2567"
@@ -38,41 +35,47 @@ export const initializeWorld = playerObject => {
             // PLAYER
             // ******
 
-            // console.log('gameRoom', gameRoom)
-
             // PLAYER => REMOVE
             gameRoom.state.players.onRemove = (player, sessionId) => {
                 // console.log("__REMOVE", player)
-                let tempPlayers = get(players)
-                delete tempPlayers[player.uuid]
-                players.set(tempPlayers)
+                players.update(ps => {
+                    delete ps[player.uuid]
+                    return (ps)
+                })
             }
 
             // PLAYER => ADD
             gameRoom.state.players.onAdd = (player, sessionId) => {
                 // console.log("__ADD", player)
 
-                let tempPlayers = get(players)
-                tempPlayers[player.uuid] = {
-                    name: player.name,
-                    x: player.x,
-                    y: player.y,
-                    room: "field",
-                    self: player.uuid === get(localUserUUID),
-                }
-                players.set(tempPlayers)
-
-                if (player.uuid === get(localUserUUID)) {
-                    currentArea.set("field")
-                    if (player.onboarded) {
-                        // setUIState(STATE.READY)
+                players.update(ps => {
+                    // console.log(ps)
+                    ps[player.uuid] = {
+                        name: player.name,
+                        x: player.x,
+                        y: player.y,
+                        room: "field",
+                        self: player.uuid === get(localPlayer).uuid,
                     }
+                    return (ps)
+                })
+
+                // This is the local player
+                if (player.uuid === get(localPlayer).uuid) {
+                    console.log('player', player)
+                    localPlayer.update(lp => {
+                        lp.sessionId = sessionId
+                        lp.name = player.name
+                        return lp
+                    })
+                    // if (player.onboarded) {
+                    //     // setUIState(STATE.READY)
+                    // }
                 }
 
                 // PLAYER => CHANGE
                 player.onChange = changes => {
                     // console.log("__CHANGE", player)
-
                     players.update(ps => {
                         // console.log(ps)
                         ps[player.uuid].onboarded = true
@@ -89,7 +92,7 @@ export const initializeWorld = playerObject => {
                     //     players[player.uuid].name = player.name
                     //     players[player.uuid].shape = player.shape
 
-                    //     if (player.uuid === get(localUserUUID) && !get(isAuthenticated)) {
+                    //     if (player.uuid === get(localPlayer).uuid && !get(isAuthenticated)) {
                     //         // Cookies.set("open-eyebeam__shape", player.shape)
                     //         // Cookies.set("open-eyebeam__name", player.name)
                     //     }
@@ -99,14 +102,14 @@ export const initializeWorld = playerObject => {
 
                     // IGNORE LOCAL KEYBOARD NAVIGATION
                     // if (
-                    //     player.uuid === get(localUserUUID) &&
+                    //     player.uuid === get(localPlayer).uuid &&
                     //     player.path.keyboardNavigation
                     // ) {
                     //     return
                     // }
                     // && player.onboarded
                     if (player.path.waypoints.length > 0) {
-                        if (player.uuid === get(localUserUUID)) {
+                        if (player.uuid === get(localPlayer).uuid) {
                             targetX.set(player.x)
                             targetY.set(player.y)
                             showTarget.set(true)
@@ -126,7 +129,7 @@ export const initializeWorld = playerObject => {
 
             moveTo = (x, y, keyboardNavigation) => {
                 // console.log(x, y)
-                delete moveQ[get(localUserUUID)]
+                delete moveQ[get(localPlayer).uuid]
                 showTarget.set(false)
                 // console.log('get(players)', get(players))
                 // if (keyboardNavigation) {
@@ -139,8 +142,8 @@ export const initializeWorld = playerObject => {
                 gameRoom.send("go", {
                     x: x,
                     y: y,
-                    originX: get(players)[get(localUserUUID)].x,
-                    originY: get(players)[get(localUserUUID)].y,
+                    originX: get(players)[get(localPlayer).uuid].x,
+                    originY: get(players)[get(localPlayer).uuid].y,
                     keyboardNavigation: false,
                 })
                 // }
@@ -156,12 +159,12 @@ export const initializeWorld = playerObject => {
             //     // setUIState(STATE.READY)
             // }
 
-            // goToRoom = roomId => {
-            //     // console.log(roomId)
-            //     gameRoom.send("changeRoom", {
-            //         id: roomId,
-            //     })
-            // }
+            goToRoom = roomId => {
+                // console.log(roomId)
+                gameRoom.send("changeRoom", {
+                    id: roomId,
+                })
+            }
 
             // *******
             // MESSAGE
@@ -186,8 +189,8 @@ export const initializeWorld = playerObject => {
             //     try {
             //         gameRoom.send("submitChatMessage", {
             //             msgId: nanoid(),
-            //             uuid: get(localUserUUID),
-            //             name: players[get(localUserUUID)].name,
+            //             uuid: get(localPlayer).uuid,
+            //             name: players[get(localPlayer).uuid].name,
             //             text: event.detail.text,
             //             room: get(currentArea),
             //         })

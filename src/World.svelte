@@ -10,67 +10,64 @@
   import get from "lodash/get"
   import sample from "lodash/sample"
   import { fade } from "svelte/transition"
-  import { urlFor, loadData, client } from "./sanity.js"
-  import { links, navigate } from "svelte-routing"
-  import MediaQuery from "svelte-media-query"
+  // import { urlFor, loadData, client } from "./sanity.js"
+  // import { links, navigate } from "svelte-routing"
+  // import MediaQuery from "svelte-media-query"
 
-  // *** COMPONENTS
+  // *** OVERLAYS
   import LoadingScreen from "./overlays/LoadingScreen.svelte"
   import Error from "./overlays/Error.svelte"
   import Reconnection from "./overlays/Reconnection.svelte"
-
-  // *** NEW COMPONENTS
-  import Players from "./Players.svelte"
-  import Menubar from "./Menubar.svelte"
-  import Target from "./TargetMarker.svelte"
-  import Caption from "./Caption.svelte"
-  import Onboarding from "./Onboarding.svelte"
-  import AmbientAudio from "./AmbientAudio.svelte"
-  import StreamPlayer from "./StreamPlayer.svelte"
-  import Chat from "./Chat.svelte"
-  import AuthenticationBox from "./AuthenticationBox.svelte"
-  import Objects from "./Objects.svelte"
+  // *** WORLD LAYERS
+  import Players from "./world-layers/Players.svelte"
+  import AmbientAudio from "./world-layers/AmbientAudio.svelte"
+  import Objects from "./world-layers/Objects.svelte"
+  import Target from "./world-layers/TargetMarker.svelte"
+  // *** UI COMPONENTS
+  import Menubar from "./ui-components/Menubar.svelte"
+  import AuthenticationBox from "./ui-components/AuthenticationBox.svelte"
+  import StreamPlayer from "./ui-components/StreamPlayer.svelte"
+  // *** TEXT COMPONENTS
+  import Caption from "./text-components/Caption.svelte"
+  import Onboarding from "./text-components/Onboarding.svelte"
+  // *** CHAT
+  import Chat from "./chat/Chat.svelte"
 
   // *** GLOBAL
-  import { nanoid, isOverlapping, QUERY } from "./global.js"
-  import { initializeWorld, moveTo, moveQ } from "./core/core.js"
+  import { nanoid, isOverlapping } from "./global.js"
+
+  import {
+    initializeWorld,
+    moveTo,
+    moveQ,
+    players,
+    chatMessages,
+    showTarget,
+    targetX,
+    targetY,
+  } from "./core/core.js"
+
   import {
     configureAuthClient,
     isAuthenticated,
   } from "./authentication/authentication.js"
 
-  // *** STORES
-  import {
-    localUserUUID,
-    localUserSessionID,
-    localUserName,
-    globalSettings,
-    currentArea,
-    maxDimension,
-    profileMeta,
-    profile,
-    players,
-    showTarget,
-    targetX,
-    targetY,
-  } from "./stores.js"
+  import { localPlayer } from "./local-player/local-player.js"
 
-  // $: console.log("$players", $players)
+  $: console.log("$localPlayer", $localPlayer)
+
+  import { mainAreaStyles } from "./data.js"
 
   // *** VARIABLES
   let reconnectionAttempts = 0
   let disconnectionCode = 0
 
-  let viewportElement = {}
-  let mapElement = {}
-
   let soundFile = false
   let streamUrl = false
 
   let captions = []
-  let chatMessages = []
-  let submitChat = {}
-  let showChat = false
+  // let submitChat = {}
+  // let showChat = false
 
   const pressedKeys = {
     UP: false,
@@ -79,50 +76,6 @@
     RIGHT: false,
   }
   let releasedKey = false
-
-  const mainArea = loadData(
-    '*[_id == "main-area"]{..., "bgImageUrl": backgroundImage.asset->url}[0]'
-  ).catch(err => {
-    console.log(err)
-  })
-
-  mainArea.then(mA => {
-    // console.log(mA)
-    let widthStyle = "width: " + mA.dimensions.width + "px;"
-    let heightStyle = "height: " + mA.dimensions.height + "px;"
-    let backgroundColorStyle =
-      "background-color:" + mA.backgroundColor.hex + ";"
-    let backgroundImageStyle = "background-image: url(" + mA.bgImageUrl + ");"
-
-    if (mA.backgroundSound) {
-      soundFile = mA.backgroundSound
-    }
-    mainAreaStyles =
-      widthStyle + heightStyle + backgroundColorStyle + backgroundImageStyle
-  })
-
-  let mainAreaStyles = ""
-
-  // ___ Get data from Sanity CMS
-  let rooms = []
-  loadData(QUERY.ROOMS)
-    .catch(err => {
-      console.log(err)
-    })
-    .then(rs => {
-      // console.log("rs", rs)
-      rooms = rs
-    })
-
-  let objects = loadData(QUERY.OBJECTS)
-
-  loadData(QUERY.GLOBAL_SETTINGS)
-    .then(gS => {
-      globalSettings.set(gS)
-    })
-    .catch(err => {
-      console.log(err)
-    })
 
   // ___ Set overarching state of the UI
   const STATE = {
@@ -321,10 +274,13 @@
   onMount(async () => {
     console.log("MOUNTING...")
     // ___ Give the local user a UUID
-    localUserUUID.set(nanoid())
+    localPlayer.update(lp => {
+      lp.uuid = nanoid()
+      return lp
+    })
 
     let playerObject = {
-      uuid: $localUserUUID,
+      uuid: $localPlayer.uuid,
       name: "",
       shape: "",
       onboarded: false,
@@ -342,17 +298,12 @@
 <Menubar />
 
 <!-- GAME WORLD -->
-<div
-  class="viewport"
-  bind:this={viewportElement}
-  class:blurred={UI.state == STATE.ONBOARDING}
->
+<div class="viewport" class:blurred={UI.state == STATE.ONBOARDING}>
   <!-- FIELD -->
   <div
     class="map"
     id="map"
-    bind:this={mapElement}
-    style={mainAreaStyles}
+    style={$mainAreaStyles}
     in:fade
     on:click={e => {
       // console.log(e.target.id)
@@ -361,9 +312,10 @@
       }
     }}
   >
-    <!-- PLAYERS -->
+    <!-- OBJECTS -->
+    <!-- <objects {objects} /> -->
+    <!-- PORTALS -->
     <!-- <Portals {portals} /> -->
-
     <!-- PLAYERS -->
     <Players players={$players} />
     <!-- TARGET -->
@@ -396,11 +348,16 @@
 {/if}
 
 <!-- CHAT-->
-{#if showChat}
-  <Chat
+<!-- {#if showChat} -->
+<!-- <Chat
     chatMessages={chatMessages.filter(m => m.room === $currentArea)}
     on:submit={submitChat}
-  />
+  /> -->
+<!-- {/if} -->
+
+<!-- AUTH TEST BOX -->
+{#if UI.state == STATE.READY}
+  <AuthenticationBox />
 {/if}
 
 <!-- ONBOARDING -->
@@ -425,11 +382,6 @@
 <!-- DISCONNECTED -->
 {#if UI.state == STATE.DISCONNECTED}
   <Reconnection {reconnectionAttempts} {disconnectionCode} />
-{/if}
-
-<!-- AUTH TEST BOX -->
-{#if UI.state == STATE.READY}
-  <AuthenticationBox />
 {/if}
 
 <style lang="scss">
@@ -471,140 +423,4 @@
     cursor: crosshair;
     background-size: 100px;
   }
-
-  // .screening-room {
-  //   position: absolute;
-  //   top: 50%;
-  //   left: 50%;
-  //   margin-left: -250px;
-  //   margin-top: -250px;
-  //   height: 500px;
-  //   width: 500px;
-  //   background: red;
-  //   cursor: crosshair;
-  //   // position: relative;
-  // }
-
-  // .exhibition-room {
-  //   position: absolute;
-  //   top: 50%;
-  //   left: 50%;
-  //   margin-left: -250px;
-  //   margin-top: -250px;
-  //   height: 500px;
-  //   width: 500px;
-  //   background: green;
-  //   cursor: crosshair;
-  //   // position: relative;
-  // }
-
-  // .meeting-room {
-  //   position: absolute;
-  //   top: 50%;
-  //   left: 50%;
-  //   margin-left: -250px;
-  //   margin-top: -250px;
-  //   height: 500px;
-  //   width: 500px;
-  //   background: yellow;
-  //   cursor: crosshair;
-  // }
-
-  // .door {
-  //   position: absolute;
-  //   width: 120px;
-  //   pointer-events: none;
-
-  //   &.meeting {
-  //     left: 800px;
-  //     top: 900px;
-  //   }
-
-  //   &.exhibition {
-  //     left: 950px;
-  //     top: 900px;
-  //   }
-
-  //   &.screening {
-  //     left: 1100px;
-  //     top: 900px;
-  //   }
-
-  //   &.team {
-  //     left: 700px;
-  //     top: 1050px;
-  //     transform: rotate(-90deg);
-  //   }
-
-  //   &.field {
-  //     right: 30px;
-  //     top: 30px;
-  //   }
-  // }
-
-  // .zone {
-  //   position: absolute;
-  //   top: 1200px;
-  //   left: 1100px;
-  //   width: 220px;
-  //   height: 80px;
-  //   border-radius: 50%;
-  //   border: 1px dashed black;
-  //   pointer-events: none;
-  //   display: flex;
-  //   justify-content: center;
-  //   align-items: center;
-  //   background: transparent;
-  //   transition: background 0.5s $transition;
-
-  //   .zone-name {
-  //     text-align: center;
-  //     font-size: $FONT_SIZE_SMALL;
-  //     opacity: 1;
-  //     transition: opacity 0.5s ease-out;
-  //   }
-
-  //   &.active {
-  //     background: yellow;
-  //   }
-
-  //   &:hover {
-  //     .zone-name {
-  //       opacity: 1;
-  //     }
-  //   }
-  // }
-
-  // .puddle {
-  //   position: absolute;
-  //   top: 1350px;
-  //   left: 400px;
-  //   width: 400px;
-  //   height: 160px;
-  //   border-radius: 50%;
-  //   border: 1px dashed black;
-  //   pointer-events: none;
-  //   display: flex;
-  //   justify-content: center;
-  //   align-items: center;
-  //   background: transparent;
-  //   transition: background 0.5s $transition;
-
-  //   .zone-name {
-  //     text-align: center;
-  //     font-size: $FONT_SIZE_SMALL;
-  //     opacity: 1;
-  //     transition: opacity 0.5s ease-out;
-  //   }
-
-  //   &.active {
-  //     background: rgb(222, 255, 239);
-  //   }
-
-  //   &:hover {
-  //     .zone-name {
-  //       opacity: 1;
-  //     }
-  //   }
-  // }
 </style>

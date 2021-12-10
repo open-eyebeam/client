@@ -39,7 +39,7 @@
 </div>
 
 <style lang="scss">
-  @import "./variables.scss";
+  @import "../variables.scss";
 
   .caption-box {
     padding: 15px;

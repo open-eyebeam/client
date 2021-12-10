@@ -120,7 +120,7 @@
 </div>
 
 <style lang="scss">
-  @import "./variables.scss";
+  @import "../variables.scss";
 
   .clock {
     font-family: $SERIF_STACK;

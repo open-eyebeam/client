@@ -478,3 +478,143 @@ sendKeyboardMove = () => {
           releasedKey = false
           // moveTo(players[$localUserUUID].x, players[$localUserUUID].y, true)
         }
+
+        <style>
+          
+            // .screening-room {
+  //   position: absolute;
+  //   top: 50%;
+  //   left: 50%;
+  //   margin-left: -250px;
+  //   margin-top: -250px;
+  //   height: 500px;
+  //   width: 500px;
+  //   background: red;
+  //   cursor: crosshair;
+  //   // position: relative;
+  // }
+
+  // .exhibition-room {
+  //   position: absolute;
+  //   top: 50%;
+  //   left: 50%;
+  //   margin-left: -250px;
+  //   margin-top: -250px;
+  //   height: 500px;
+  //   width: 500px;
+  //   background: green;
+  //   cursor: crosshair;
+  //   // position: relative;
+  // }
+
+  // .meeting-room {
+  //   position: absolute;
+  //   top: 50%;
+  //   left: 50%;
+  //   margin-left: -250px;
+  //   margin-top: -250px;
+  //   height: 500px;
+  //   width: 500px;
+  //   background: yellow;
+  //   cursor: crosshair;
+  // }
+
+  // .door {
+  //   position: absolute;
+  //   width: 120px;
+  //   pointer-events: none;
+
+  //   &.meeting {
+  //     left: 800px;
+  //     top: 900px;
+  //   }
+
+  //   &.exhibition {
+  //     left: 950px;
+  //     top: 900px;
+  //   }
+
+  //   &.screening {
+  //     left: 1100px;
+  //     top: 900px;
+  //   }
+
+  //   &.team {
+  //     left: 700px;
+  //     top: 1050px;
+  //     transform: rotate(-90deg);
+  //   }
+
+  //   &.field {
+  //     right: 30px;
+  //     top: 30px;
+  //   }
+  // }
+
+  // .zone {
+  //   position: absolute;
+  //   top: 1200px;
+  //   left: 1100px;
+  //   width: 220px;
+  //   height: 80px;
+  //   border-radius: 50%;
+  //   border: 1px dashed black;
+  //   pointer-events: none;
+  //   display: flex;
+  //   justify-content: center;
+  //   align-items: center;
+  //   background: transparent;
+  //   transition: background 0.5s $transition;
+
+  //   .zone-name {
+  //     text-align: center;
+  //     font-size: $FONT_SIZE_SMALL;
+  //     opacity: 1;
+  //     transition: opacity 0.5s ease-out;
+  //   }
+
+  //   &.active {
+  //     background: yellow;
+  //   }
+
+  //   &:hover {
+  //     .zone-name {
+  //       opacity: 1;
+  //     }
+  //   }
+  // }
+
+  // .puddle {
+  //   position: absolute;
+  //   top: 1350px;
+  //   left: 400px;
+  //   width: 400px;
+  //   height: 160px;
+  //   border-radius: 50%;
+  //   border: 1px dashed black;
+  //   pointer-events: none;
+  //   display: flex;
+  //   justify-content: center;
+  //   align-items: center;
+  //   background: transparent;
+  //   transition: background 0.5s $transition;
+
+  //   .zone-name {
+  //     text-align: center;
+  //     font-size: $FONT_SIZE_SMALL;
+  //     opacity: 1;
+  //     transition: opacity 0.5s ease-out;
+  //   }
+
+  //   &.active {
+  //     background: rgb(222, 255, 239);
+  //   }
+
+  //   &:hover {
+  //     .zone-name {
+  //       opacity: 1;
+  //     }
+  //   }
+  // }
+  
+  </style>

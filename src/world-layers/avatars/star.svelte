@@ -21,11 +21,13 @@
   style="enable-background:new 0 0 10 10;"
   xml:space="preserve"
 >
-  <polygon points="7.3,1 2.7,1 0.3,5 2.7,9 7.3,9 9.7,5 " />
+  <polygon
+    points="5,2.3 7.7,0.8 7.2,3.9 9.4,6 6.3,6.4 5,9.2 3.7,6.4 0.6,6 2.8,3.9 2.3,0.8 "
+  />
 </svg>
 
 <style lang="scss">
-  @import "../variables.scss";
+  @import "../../variables.scss";
 
   svg {
     cursor: pointer;

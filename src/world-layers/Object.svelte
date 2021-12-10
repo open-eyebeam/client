@@ -6,7 +6,7 @@
   // # # # # # # # # # # # # #
   import { fade } from "svelte/transition"
   import { onMount } from "svelte"
-  import { urlFor, renderBlockText } from "./sanity.js"
+  import { urlFor, renderBlockText } from "../sanity.js"
 
   //   *** PROPS
   export let object = {}
@@ -62,7 +62,8 @@
 {/if}
 
 <style lang="scss">
-  @import "./variables.scss";
+  @import "../variables.scss";
+
   .object {
     height: 30px;
     width: 30px;

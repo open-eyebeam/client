@@ -74,7 +74,7 @@
 </div>
 
 <style lang="scss">
-  @import "./variables.scss";
+  @import "../variables.scss";
 
   .chat-container {
     right: 50px;

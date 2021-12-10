@@ -52,7 +52,7 @@
 </div>
 
 <style lang="scss">
-  @import "./variables.scss";
+  @import "../variables.scss";
 
   .stream-container {
     position: absolute;

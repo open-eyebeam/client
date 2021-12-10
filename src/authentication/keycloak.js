@@ -1,9 +1,11 @@
 
+import createAuth0Client from "@auth0/auth0-spa-js"
 import Keycloak from "keycloak-js"
+// import Cookies from "js-cookie"
 import { writable, get } from 'svelte/store';
 
 // *** STORES
-export const isAuthenticated = writable(false);
+export const isAuthenticated = writable(false)
 
 // KEYCLOAK
 const keycloak = new Keycloak({
@@ -39,6 +41,7 @@ export const configureAuthClient = async () => {
 
 export const login = async () => {
     console.log(window.location.origin)
+    // keycloak.login({ redirectUri: 'http://localhost:5000' })
     keycloak.login({ redirectUri: window.location.origin })
     // keycloak.login({ redirectUri: 'https://open-eyebeam.netlify.app' })
 }
@@ -46,3 +49,4 @@ export const login = async () => {
 export const logout = () => {
     keycloak.logout({ redirectUri: window.location.origin })
 }
+

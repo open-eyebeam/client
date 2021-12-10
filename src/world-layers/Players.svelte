@@ -5,10 +5,7 @@
   //
   // # # # # # # # # # # # # #
   import { fly, scale, fade } from "svelte/transition"
-  import Avatar from "./Avatar.svelte"
-
-  // *** STORES
-  import { currentArea } from "./stores.js"
+  import Avatar from "./avatars/Avatar.svelte"
 
   //   *** PROPS
   export let players = {}

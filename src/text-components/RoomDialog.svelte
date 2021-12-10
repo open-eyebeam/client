@@ -43,7 +43,7 @@
 </div>
 
 <style lang="scss">
-  @import "./variables.scss";
+  @import "../variables.scss";
 
   .room-dialog-box {
     position: fixed;

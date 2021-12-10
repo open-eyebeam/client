@@ -25,7 +25,7 @@
 </svg>
 
 <style lang="scss">
-  @import "../variables.scss";
+  @import "../../variables.scss";
 
   svg {
     cursor: pointer;

@@ -10,10 +10,10 @@
   import truncate from "lodash/truncate"
 
   // *** SANITY
-  import { toPlainText, urlFor } from "./sanity.js"
+  import { toPlainText, urlFor } from "../sanity.js"
 
   // *** STORES
-  import { globalSettings } from "./stores.js"
+  import { globalSettings } from "../data.js"
 
   // *** PROPS
   export let post = {}

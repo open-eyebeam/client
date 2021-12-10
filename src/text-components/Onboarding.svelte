@@ -204,7 +204,7 @@
 </div>
 
 <style lang="scss">
-  @import "./variables.scss";
+  @import "../variables.scss";
 
   .onboarding-container {
     position: fixed;

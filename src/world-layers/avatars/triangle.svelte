@@ -11,6 +11,7 @@
 
 <svg
   version="1.1"
+  id="Layer_1"
   class:self
   xmlns="http://www.w3.org/2000/svg"
   xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -20,11 +21,11 @@
   style="enable-background:new 0 0 10 10;"
   xml:space="preserve"
 >
-  <polygon points="5,0.6 0.4,4 2.1,9.4 7.9,9.4 9.6,4 " />
+  <polygon points="5,1.2 0.6,8.8 9.4,8.8 " />
 </svg>
 
 <style lang="scss">
-  @import "../variables.scss";
+  @import "../../variables.scss";
 
   svg {
     cursor: pointer;

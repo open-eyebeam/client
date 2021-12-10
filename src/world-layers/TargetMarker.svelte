@@ -19,7 +19,7 @@
 />
 
 <style lang="scss">
-  @import "./variables.scss";
+  @import "../variables.scss";
 
   .target {
     height: 20px;

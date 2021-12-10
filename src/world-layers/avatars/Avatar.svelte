@@ -8,11 +8,11 @@
   import { onMount, onDestroy } from "svelte"
 
   // *** GRAPHICS
-  import Square from "./avatars/square.svelte"
-  import Star from "./avatars/star.svelte"
-  import Triangle from "./avatars/triangle.svelte"
-  import Pentagon from "./avatars/pentagon.svelte"
-  import Hexagon from "./avatars/hexagon.svelte"
+  import Square from "./square.svelte"
+  import Star from "./star.svelte"
+  import Triangle from "./triangle.svelte"
+  import Pentagon from "./pentagon.svelte"
+  import Hexagon from "./hexagon.svelte"
 
   //   *** PROPS
   export let player = {}
@@ -69,7 +69,7 @@
 </div>
 
 <style lang="scss">
-  @import "./variables.scss";
+  @import "../../variables.scss";
 
   .avatar {
     height: 30px;

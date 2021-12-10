@@ -10,13 +10,10 @@
   import anchorme from "anchorme"
 
   // *** GLOBALS
-  import { formattedChatDate } from "./global.js"
+  import { formattedChatDate } from "../global.js"
 
   // *** PROPS
   export let message = {}
-
-  // *** STORES
-  import { localUserName } from "./stores"
 </script>
 
 <div class="chat-message" transition:fade|local>
@@ -37,7 +34,7 @@
 </div>
 
 <style lang="scss">
-  @import "./variables.scss";
+  @import "../variables.scss";
 
   .chat-message {
     margin-bottom: $SPACE_XS;
