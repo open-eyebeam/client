@@ -41,7 +41,7 @@ export const configureAuthClient = async () => {
 
 export const login = async () => {
     console.log(window.location.origin)
-    keycloak.login({ redirectUri: 'https://open-eyebeam.netlify.app' })
+    keycloak.login({ redirectUri: window.location.origin })
     // await auth0.loginWithRedirect({
     //     redirect_uri: window.location.origin,
     // })
