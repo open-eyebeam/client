@@ -13,6 +13,8 @@
   // *** PROPS
   export let soundFile = false
 
+  console.log("soundFile", soundFile)
+
   // *** VARIABLES
   let audioURL = false
   let audioPlayer = {}

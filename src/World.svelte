@@ -60,11 +60,12 @@
     initializeKeyboardHandler,
   } from "./misc/keyboard-handler.js"
   import { UI, STATE, setUIState } from "./misc/ui-state.js"
+  import has from "lodash/has"
 
   // DEBUG
   // $: console.log("__ CHANGED: $localPlayer", $localPlayer)
   // $: console.log("__ CHANGED: $worldObject", $worldObject)
-  // $: console.log("currentRoom", currentRoom)
+  $: console.log("currentRoom", currentRoom)
 
   // *** VARIABLES
   let reconnectionAttempts = 0
@@ -116,7 +117,7 @@
         if (Object.values(pressedKeys).some(k => k)) {
           // console.log("KEY PRESSED", pressedKeys)
           if (pressedKeys["UP"]) {
-            console.log("UP")
+            // console.log("UP")
             if ($players[$localPlayer.uuid].y > 0) {
               players.update(ps => {
                 ps[$localPlayer.uuid].y -= 2
@@ -125,7 +126,7 @@
             }
           }
           if (pressedKeys["DOWN"]) {
-            console.log("DOWN")
+            // console.log("DOWN")
             if ($players[$localPlayer.uuid].y) {
               players.update(ps => {
                 ps[$localPlayer.uuid].y += 2
@@ -134,7 +135,7 @@
             }
           }
           if (pressedKeys["LEFT"]) {
-            console.log("LEFT")
+            // console.log("LEFT")
             if ($players[$localPlayer.uuid].x > 0) {
               players.update(ps => {
                 ps[$localPlayer.uuid].x -= 2
@@ -143,7 +144,7 @@
             }
           }
           if (pressedKeys["RIGHT"]) {
-            console.log("RIGHT")
+            // console.log("RIGHT")
             if ($players[$localPlayer.uuid].x) {
               players.update(ps => {
                 ps[$localPlayer.uuid].x += 2
@@ -173,7 +174,8 @@
               delete moveQ[key]
               if ($players[key].self) {
                 showTarget.set(false)
-                // checkDoorOverlap()
+                checkPortalOverlap()
+                checkZoneOverlap()
               }
             } else {
               // Get next step, adjusting for delta
@@ -183,9 +185,9 @@
               // console.log("$players[key]", $players[key])
               $players[key].x = step.x
               $players[key].y = step.y
-              if ($players[key].self) {
-                // checkDoorOverlap()
-              }
+              // if ($players[key].self) {
+              //   // checkDoorOverlap()
+              // }
             }
           } else {
             console.log("___ DONE")
@@ -215,8 +217,8 @@
     console.time("mount")
     console.log("__ => Mounting...")
 
-    await configureAuthClient()
-    console.log("✓ (1) Auth client configured ")
+    // await configureAuthClient()
+    // console.log("✓ (1) Auth client configured ")
 
     await buildWorld()
     console.log("✓ (2) World built")
@@ -283,9 +285,19 @@
   </div>
 {/if}
 
+<!-- AMBIENT AUDIO -->
+{#if has(currentRoom, "backgroundSound.asset")}
+  <AmbientAudio soundFile={currentRoom.backgroundSound} />
+{/if}
+
 <!-- AUTH TEST BOX -->
 {#if UI.state == STATE.READY}
   <AuthenticationBox />
+{/if}
+
+<!-- LIVE STREAM -->
+{#if currentRoom.stream}
+  <StreamPlayer streamUrl={currentRoom.stream} />
 {/if}
 
 <!-- CAPTION BOX -->
@@ -298,16 +310,6 @@
       goToRoom(e.detail.roomId)
     }}
   />
-{/if} -->
-
-<!-- AMBIENT AUDIO -->
-<!-- {#if soundFile}
-  <AmbientAudio {soundFile} />
-{/if} -->
-
-<!-- LIVE STREAM -->
-<!-- {#if streamUrl}
-  <StreamPlayer {streamUrl} />
 {/if} -->
 
 <!-- CHAT-->

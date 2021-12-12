@@ -105,13 +105,12 @@ export const connectToGameServer = playerObject => {
                         // }
 
                         // IGNORE LOCAL KEYBOARD NAVIGATION
-                        // if (
-                        //     player.uuid === get(localPlayer).uuid &&
-                        //     player.path.keyboardNavigation
-                        // ) {
-                        //     return
-                        // }
-                        // && player.onboarded
+                        if (
+                            player.uuid === get(localPlayer).uuid &&
+                            player.path.keyboardNavigation
+                        ) {
+                            return
+                        }
                         if (player.path.waypoints.length > 0) {
                             if (player.uuid === get(localPlayer).uuid) {
                                 targetX.set(player.x)
@@ -136,21 +135,21 @@ export const connectToGameServer = playerObject => {
                     delete moveQ[get(localPlayer).uuid]
                     showTarget.set(false)
                     // console.log('get(players)', get(players))
-                    // if (keyboardNavigation) {
-                    //     gameRoom.send("go", {
-                    //         x: x,
-                    //         y: y,
-                    //         keyboardNavigation: true,
-                    //     })
-                    // } else {
-                    gameRoom.send("go", {
-                        x: x,
-                        y: y,
-                        originX: get(players)[get(localPlayer).uuid].x,
-                        originY: get(players)[get(localPlayer).uuid].y,
-                        keyboardNavigation: false,
-                    })
-                    // }
+                    if (keyboardNavigation) {
+                        gameRoom.send("go", {
+                            x: x,
+                            y: y,
+                            keyboardNavigation: true,
+                        })
+                    } else {
+                        gameRoom.send("go", {
+                            x: x,
+                            y: y,
+                            originX: get(players)[get(localPlayer).uuid].x,
+                            originY: get(players)[get(localPlayer).uuid].y,
+                            keyboardNavigation: false,
+                        })
+                    }
                 }
 
                 // onboardUser = (username, shape) => {
