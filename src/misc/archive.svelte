@@ -618,3 +618,315 @@ sendKeyboardMove = () => {
   // }
   
   </style>
+
+  {#if $currentArea === "field"}
+<!-- DOORS -->
+<div class="door meeting" in:fade bind:this={meetingDoorElement}>
+    <EyebeamLogo />
+</div>
+<div class="door screening" in:fade bind:this={screeningDoorElement}>
+    <EyebeamLogo />
+</div>
+<div class="door exhibition" in:fade bind:this={exhibitionDoorElement}>
+    <EyebeamLogo />
+</div>
+{#if isAuthenticated}
+<div class="door team" in:fade bind:this={teamDoorElement}>
+    <EyebeamLogo />
+</div>
+{/if}
+<!-- ZONES -->
+<div class="zone" class:active={testZoneActive} in:fade bind:this={testZoneElement}>
+    <div class="zone-name">Test zone</div>
+</div>
+<!-- PUDDLE -->
+<div class="puddle" class:active={puddleZoneActive} in:fade bind:this={puddleZoneElement}>
+    <div class="zone-name">Puddle</div>
+</div>
+{:else}
+<div class="door field" in:fade bind:this={fieldDoorElement}>
+    <EyebeamLogo />
+</div>
+{/if}
+
+{#if $currentArea === "exhibition"}
+{#await objects then objects}
+<Objects {objects} />
+{/await}
+{/if}
+
+// IF: User is logged in => Set name and shape and state = READY
+// if (isAuthenticated) {
+// console.log("___ (1) User is authenticated")
+// profile.set(await auth0.getUser())
+// let sanityProfile = await loadData(
+// "*[_type == 'user' && _id == $sub][0]",
+// { sub: $profile.sub.replace(DISCORD_PREFIX, "") }
+// )
+// console.log(sanityProfile)
+// profileMeta.set(sanityProfile)
+// localUserName.set($profileMeta.name)
+// playerObject.name = $profileMeta.name
+// playerObject.shape = "star"
+// playerObject.onboarded = true
+// initializeWorld(playerObject)
+// return
+// }
+
+// IF: User is currently logging in => Set name and shape and state = READY
+// Check for the code and state parameters
+// const query = window.location.search
+// if (query.includes("code=") && query.includes("state=")) {
+// console.log("___ (2) User just logged in ")
+// // // Process the login state
+// await auth0.handleRedirectCallback()
+// isAuthenticated = await auth0.isAuthenticated()
+// // // Use replaceState to redirect the user away and remove the querystring parameters
+// window.history.replaceState({}, document.title, "/")
+// if (isAuthenticated) {
+// // let prof = await auth0.getUser()
+// // console.log("prof", prof)
+// profile.set(await auth0.getUser())
+// let sanityProfile = await loadData(
+// "*[_type == 'user' && _id == $sub][0]",
+// { sub: $profile.sub.replace(DISCORD_PREFIX, "") }
+// )
+// console.log(sanityProfile)
+// profileMeta.set(sanityProfile)
+// localUserName.set($profileMeta.name)
+// playerObject.name = $profileMeta.name
+// playerObject.shape = "star"
+// playerObject.onboarded = true
+// initializeWorld(playerObject)
+// return
+// }
+// }
+
+// $: console.log("$profileMeta", $profileMeta)
+
+// const usernameCookie = Cookies.get("open-eyebeam__name")
+// console.log("usernameCookie", usernameCookie)
+// const userShapeCookie = Cookies.get("open-eyebeam__shape")
+// console.log("userShapeCookie", userShapeCookie)
+// if (usernameCookie && userShapeCookie) {
+// console.log("___ (3) Cookies are set")
+// localUserName.set(usernameCookie)
+// playerObject.name = usernameCookie
+// playerObject.shape = userShapeCookie
+// playerObject.onboarded = true
+// initializeWorld(playerObject)
+// return
+// } else {
+// console.log("___ (4) New user. Start onboarding...")
+// setUIState(STATE.ONBOARDING)
+// initializeWorld(playerObject)
+// return
+// }
+
+// let testZoneActive = false
+// let puddleZoneActive = false
+
+// const checkDoorOverlap = () => {
+// const avatarElement = document.getElementById($localUserUUID)
+// if (avatarElement) {
+// if (
+// meetingDoorElement &&
+// isOverlapping(avatarElement, meetingDoorElement)
+// ) {
+// if (captions.findIndex(c => c.roomId === "meeting") === -1) {
+// captions = []
+// captions.push({
+// text: "Enter meeting room?",
+// roomId: "meeting",
+// type: "room",
+// })
+// captions = captions
+// }
+// return
+// }
+// if (
+// screeningDoorElement &&
+// isOverlapping(avatarElement, screeningDoorElement)
+// ) {
+// if (captions.findIndex(c => c.roomId === "screening") === -1) {
+// captions = []
+// captions.push({
+// text: "Enter screening room?",
+// roomId: "screening",
+// type: "room",
+// })
+// captions = captions
+// }
+// return
+// }
+// if (
+// exhibitionDoorElement &&
+// isOverlapping(avatarElement, exhibitionDoorElement)
+// ) {
+// if (captions.findIndex(c => c.roomId === "exhibition") === -1) {
+// captions = []
+// captions.push({
+// text: "Enter exhibition room?",
+// roomId: "exhibition",
+// type: "room",
+// })
+// captions = captions
+// }
+// return
+// }
+// if (fieldDoorElement && isOverlapping(avatarElement, fieldDoorElement)) {
+// if (captions.findIndex(c => c.roomId === "field") === -1) {
+// captions = []
+// captions.push({
+// text: "Return to the Field?",
+// roomId: "field",
+// type: "room",
+// })
+// captions = captions
+// }
+// return
+// }
+// if (testZoneElement && isOverlapping(avatarElement, testZoneElement)) {
+// if (captions.findIndex(c => c.roomId === "test-zone") === -1) {
+// captions = []
+// captions.push({
+// text: "You entered the test zone.",
+// roomId: "test-zone",
+// type: "introduction",
+// })
+// captions = captions
+// }
+// testZoneActive = true
+// return
+// }
+// if (
+// puddleZoneElement &&
+// isOverlapping(avatarElement, puddleZoneElement)
+// ) {
+// if (captions.findIndex(c => c.roomId === "test-zone") === -1) {
+// captions = []
+// captions.push({
+// text: "You entered the puddle.",
+// roomId: "puddle",
+// type: "introduction",
+// })
+// captions = captions
+// }
+// puddleZoneActive = true
+// return
+// }
+// if (teamDoorElement && isOverlapping(avatarElement, teamDoorElement)) {
+// if (captions.findIndex(c => c.roomId === "field") === -1) {
+// captions = []
+// captions.push({
+// text: "Enter team room?",
+// roomId: "team",
+// type: "room",
+// })
+// captions = captions
+// }
+// return
+// }
+// testZoneActive = false
+// puddleZoneActive = false
+// captions = []
+// }
+// }
+
+// const addIntroCaption = t => {
+// captions = []
+// // setTimeout(() => {
+// captions.push({ text: t, type: "introduction" })
+// captions = captions
+// }
+
+// $: {
+// // console.log($currentArea)
+// // console.log(rooms)
+// if ($currentArea) {
+// // console.log("–_—_—_ => Area changed")
+// const area = rooms.find(r => r.slug.current === $currentArea)
+// // console.log(area)
+// if (area) {
+// // TOGGLE CHAT
+// showChat = area.chat
+// // CHANGE CAPTION
+// if (area.introduction) {
+// addIntroCaption(area.introduction)
+// }
+// // CHANGE SOUND
+// if (area.soundFile && area.soundFile.asset) {
+// soundFile = area.soundFile
+// } else {
+// soundFile = false
+// }
+// // CHANGE STREAM
+// if (area.stream) {
+// streamUrl = area.stream
+// } else {
+// streamUrl = false
+// }
+// }
+// }
+// }
+
+// let meetingDoorElement = {}
+// let screeningDoorElement = {}
+// let exhibitionDoorElement = {}
+// let testZoneElement = {}
+// let puddleZoneElement = {}
+// let fieldDoorElement = false
+// let teamDoorElement = false
+
+// ROOM CHANGE
+// if (player.room !== players[player.uuid].room) {
+// // console.log("CHANGE ROOM", player.uuid, player.room)
+// // console.log(player)
+
+// if (player.uuid === $localUserUUID) {
+// // currentArea.set(player.room)
+// delete players[$localUserUUID]
+
+// let tl = gsap.timeline() //create the timeline
+// tl.to(viewportElement, 1, {
+// css: { backgroundColor: "rgb(226, 229, 223)" },
+// })
+// tl.to(viewportElement, 1, {
+// css: { backgroundColor: "rgb(14, 13, 13)" },
+// })
+
+// let tl2 = gsap.timeline() //create the timeline
+// tl2.to(mapElement, 1, {
+// css: { backgroundColor: "rgb(14, 13, 13)" },
+// })
+// tl2.to(mapElement, 1, {
+// css: { backgroundColor: "rgb(205 205 205)" },
+// })
+
+// tl2.play()
+// tl.play()
+
+// setTimeout(() => {
+// currentArea.set(player.room)
+// players[$localUserUUID] = {
+// name: player.name,
+// x: player.x,
+// y: player.y,
+// room: player.room,
+// shape: player.shape,
+// self: true,
+// onboarded: true,
+// }
+// }, 1000)
+
+// // tl.eventCallback("onComplete", () => {
+
+// // })
+// } else {
+// players[player.uuid].x = player.x
+// players[player.uuid].y = player.y
+// players[player.uuid].room = player.room
+// }
+
+// return
+// }

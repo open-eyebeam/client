@@ -6,7 +6,8 @@
   // # # # # # # # # # # # # #
   import { fade } from "svelte/transition"
   import { onMount } from "svelte"
-  import { urlFor, renderBlockText } from "../sanity.js"
+  import { urlFor, renderBlockText } from "../../sanity.js"
+  import { has } from "lodash"
 
   //   *** PROPS
   export let object = {}
@@ -15,6 +16,8 @@
   let showArticle = false
 
   // console.log("object", object)
+
+  const inlineStyles = `transform: translateY(${object.y}px) translateX(${object.x}px);`
 
   onMount(async () => {
     tippy(objectEl, {
@@ -35,11 +38,7 @@
   class:image={object.iconImage}
   id={object._id}
   alt={object.title}
-  style={"transform: translateY(" +
-    object.y +
-    "px) translateX(" +
-    object.x +
-    "px)"}
+  style={inlineStyles}
   on:click={() => {
     showArticle = true
   }}
@@ -57,12 +56,14 @@
       showArticle = false
     }}
   >
-    {@html renderBlockText(object.content.content)}
+    {#if has(object, "content.content")}
+      {@html renderBlockText(object.content.content)}
+    {/if}
   </div>
 {/if}
 
 <style lang="scss">
-  @import "../variables.scss";
+  @import "../../variables.scss";
 
   .object {
     height: 30px;

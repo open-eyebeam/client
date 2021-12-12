@@ -77,6 +77,6 @@
     position: absolute;
     top: 0;
     left: 0;
-    // transition: transform 0.2s linear;
+    z-index: 100;
   }
 </style>

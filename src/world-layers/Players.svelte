@@ -9,7 +9,7 @@
 
   //   *** PROPS
   export let players = {}
-  console.log("players", players)
+  // console.log("players", players)
 </script>
 
 {#each Object.entries(players) as [key, player] (key)}
