@@ -9,11 +9,12 @@
 
   //   *** PROPS
   export let players = {}
-  // console.log("players", players)
+  export let currentRoomId = ""
+  console.log("_A_A_ CurrentroomId", currentRoomId)
 </script>
 
 {#each Object.entries(players) as [key, player] (key)}
-  <!-- {#if player.onboarded && player.room === $currentArea} -->
-  <Avatar {player} {key} />
-  <!-- {/if} -->
+  {#if player.room === currentRoomId}
+    <Avatar {player} {key} />
+  {/if}
 {/each}

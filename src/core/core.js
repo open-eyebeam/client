@@ -11,8 +11,8 @@ export const showTarget = writable(false)
 export const targetX = writable(0)
 export const targetY = writable(0)
 
-const GAME_SERVER_URL = "wss://open.eyebeam.dev";
-// const GAME_SERVER_URL = "ws://localhost:2567"
+// const GAME_SERVER_URL = "wss://open.eyebeam.dev";
+const GAME_SERVER_URL = "ws://localhost:2567"
 
 // Public functions
 export let moveTo = {}
@@ -58,7 +58,7 @@ export const connectToGameServer = playerObject => {
                             name: player.name,
                             x: player.x,
                             y: player.y,
-                            room: "field",
+                            room: player.room,
                             self: player.uuid === get(localPlayer).uuid,
                         }
                         return (ps)
@@ -79,12 +79,13 @@ export const connectToGameServer = playerObject => {
 
                     // PLAYER => CHANGE
                     player.onChange = changes => {
-                        // console.log("__CHANGE", player)
+                        console.log("__CHANGE", player)
                         players.update(ps => {
                             // console.log(ps)
                             ps[player.uuid].onboarded = true
                             ps[player.uuid].name = player.name
                             ps[player.uuid].shape = player.shape
+                            ps[player.uuid].room = player.room
                             return (ps)
                         })
 
@@ -152,6 +153,15 @@ export const connectToGameServer = playerObject => {
                     }
                 }
 
+                goToRoom = room => {
+                    console.log(room)
+                    gameRoom.send("changeRoom", {
+                        id: room.id,
+                        x: room.x,
+                        y: room.y,
+                    })
+                }
+
                 // onboardUser = (username, shape) => {
                 //     // console.log("username", username)
                 //     // console.log("shape", shape)
@@ -162,12 +172,7 @@ export const connectToGameServer = playerObject => {
                 //     // setUIState(STATE.READY)
                 // }
 
-                goToRoom = roomId => {
-                    // console.log(roomId)
-                    gameRoom.send("changeRoom", {
-                        id: roomId,
-                    })
-                }
+
 
                 // *******
                 // MESSAGE

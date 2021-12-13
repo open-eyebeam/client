@@ -34,11 +34,12 @@
   import Chat from "./chat/Chat.svelte"
 
   // *** GLOBAL
-  import { nanoid, isOverlapping } from "./global.js"
+  import { nanoid, isOverlapping, getRandomInt } from "./global.js"
 
   import {
     connectToGameServer,
     moveTo,
+    goToRoom,
     moveQ,
     players,
     chatMessages,
@@ -65,6 +66,7 @@
   // DEBUG
   // $: console.log("__ CHANGED: $localPlayer", $localPlayer)
   // $: console.log("__ CHANGED: $worldObject", $worldObject)
+  $: console.log("__ CHANGED: $players", $players)
   $: console.log("currentRoom", currentRoom)
 
   // *** VARIABLES
@@ -107,6 +109,17 @@
   const changeRoom = id => {
     console.log("CHANGE ROOM", id)
     currentRoom = $worldObject[id]
+    goToRoom({
+      id: currentRoom._id,
+      x: getRandomInt(
+        get(currentRoom, "landingZone.minX", 0),
+        get(currentRoom, "landingZone.maxX", 100)
+      ),
+      y: getRandomInt(
+        get(currentRoom, "landingZone.minY", 0),
+        get(currentRoom, "landingZone.maxY", 100)
+      ),
+    })
   }
 
   const animationLoop = () => {
@@ -217,8 +230,8 @@
     console.time("mount")
     console.log("__ => Mounting...")
 
-    // await configureAuthClient()
-    // console.log("✓ (1) Auth client configured ")
+    await configureAuthClient()
+    console.log("✓ (1) Auth client configured ")
 
     await buildWorld()
     console.log("✓ (2) World built")
@@ -239,11 +252,18 @@
     let playerObject = {
       uuid: $localPlayer.uuid,
       name: "",
-      shape: "",
-      onboarded: false,
+      shape: "star",
+      onboarded: true,
+      room: currentRoom._id,
+      x: getRandomInt(
+        get(currentRoom, "landingZone.minX", 0),
+        get(currentRoom, "landingZone.maxX", 100)
+      ),
+      y: getRandomInt(
+        get(currentRoom, "landingZone.minY", 0),
+        get(currentRoom, "landingZone.maxY", 100)
+      ),
     }
-    playerObject.shape = "star"
-    playerObject.onboarded = true
     await connectToGameServer(playerObject)
     console.log("✓ (3) Game server connected")
 
@@ -270,7 +290,9 @@
       }}
     >
       <!-- PLAYERS -->
-      <Players players={$players} />
+      <!-- {#if Array.isArray($players)} -->
+      <Players players={$players} currentRoomId={currentRoom._id} />
+      <!-- {/if} -->
       <!-- OBJECTS -->
       <Objects objects={get(currentRoom, "objects", [])} />
       <!-- ZONES -->
