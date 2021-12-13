@@ -16,7 +16,7 @@
   export let roomId = ""
 </script>
 
-<div class="room-dialog-box" transition:fade>
+<div class="room-dialog-box">
   <div>{text}</div>
   <div class="multiple-choice">
     <div

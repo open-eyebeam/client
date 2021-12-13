@@ -10,7 +10,6 @@
   //   *** PROPS
   export let players = {}
   export let currentRoomId = ""
-  console.log("_A_A_ CurrentroomId", currentRoomId)
 </script>
 
 {#each Object.entries(players) as [key, player] (key)}

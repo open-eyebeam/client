@@ -7,8 +7,7 @@
 
   // *** IMPORTS
   import { onMount } from "svelte"
-  import { get, sample } from "lodash"
-  import { fade } from "svelte/transition"
+  import { get, sample, has } from "lodash"
   // import { links, navigate } from "svelte-routing"
   // import MediaQuery from "svelte-media-query"
   // *** OVERLAYS
@@ -61,26 +60,22 @@
     initializeKeyboardHandler,
   } from "./misc/keyboard-handler.js"
   import { UI, STATE, setUIState } from "./misc/ui-state.js"
-  import has from "lodash/has"
+  import { transitionWorldIn, transitionWorldOut } from "./misc/transitions.js"
 
   // DEBUG
   // $: console.log("__ CHANGED: $localPlayer", $localPlayer)
   // $: console.log("__ CHANGED: $worldObject", $worldObject)
-  $: console.log("__ CHANGED: $players", $players)
+  // $: console.log("__ CHANGED: $players", $players)
   $: console.log("currentRoom", currentRoom)
 
   // *** VARIABLES
   let reconnectionAttempts = 0
   let disconnectionCode = 0
-
-  let soundFile = false
-  let streamUrl = false
-
   let captions = []
   // let submitChat = {}
   // let showChat = false
-
   let currentRoom = false
+  let viewportElement = {}
 
   const checkPortalOverlap = () => {
     // console.log("__ Check portal overlap...")
@@ -106,8 +101,9 @@
     })
   }
 
-  const changeRoom = id => {
+  const changeRoom = async id => {
     console.log("CHANGE ROOM", id)
+    await transitionWorldOut(viewportElement)
     currentRoom = $worldObject[id]
     goToRoom({
       id: currentRoom._id,
@@ -120,6 +116,7 @@
         get(currentRoom, "landingZone.maxY", 100)
       ),
     })
+    await transitionWorldIn(viewportElement)
   }
 
   const animationLoop = () => {
@@ -236,7 +233,11 @@
     console.time("mount")
     console.log("__ => Mounting...")
 
-    await configureAuthClient()
+    try {
+      await configureAuthClient()
+    } catch (e) {
+      console.log("Error in authentication:", e)
+    }
     console.log("✓ (1) Auth client configured ")
 
     await buildWorld()
@@ -288,7 +289,11 @@
 
 <!-- GAME WORLD -->
 {#if currentRoom}
-  <div class="viewport" class:blurred={UI.state == STATE.ONBOARDING}>
+  <div
+    class="viewport"
+    bind:this={viewportElement}
+    class:blurred={UI.state == STATE.ONBOARDING}
+  >
     <Room
       room={currentRoom}
       on:move={e => {
