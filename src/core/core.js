@@ -11,8 +11,8 @@ export const showTarget = writable(false)
 export const targetX = writable(0)
 export const targetY = writable(0)
 
-// const GAME_SERVER_URL = "wss://open.eyebeam.dev";
-const GAME_SERVER_URL = "ws://localhost:2567"
+const GAME_SERVER_URL = "wss://open.eyebeam.dev";
+// const GAME_SERVER_URL = "ws://localhost:2567"
 
 // Public functions
 export let moveTo = {}

@@ -140,7 +140,10 @@
           }
           if (pressedKeys["DOWN"]) {
             // console.log("DOWN")
-            if ($players[$localPlayer.uuid].y) {
+            if (
+              $players[$localPlayer.uuid].y <
+              currentRoom.dimensions.height - 30
+            ) {
               players.update(ps => {
                 ps[$localPlayer.uuid].y += 2
                 return ps
@@ -158,7 +161,10 @@
           }
           if (pressedKeys["RIGHT"]) {
             // console.log("RIGHT")
-            if ($players[$localPlayer.uuid].x) {
+            if (
+              $players[$localPlayer.uuid].x <
+              currentRoom.dimensions.width - 30
+            ) {
               players.update(ps => {
                 ps[$localPlayer.uuid].x += 2
                 return ps
