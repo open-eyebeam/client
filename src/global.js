@@ -1,32 +1,6 @@
 import { format, getYear } from "date-fns"
 
 export const SANITY_PROJECT_ID = "58ueii0w"
-export const GAME_SERVER_URL = "wss://open.eyebeam.dev";
-// export const GAME_SERVER_URL = "ws://localhost:2567"
-
-export const AREA = { YELLOW: 2, RED: 3, GREEN: 4, BLUE: 5, MAGENTA: 6, CYAN: 7, PURPLE: 8, TEAL: 9 }
-export const REVERSE_HEX_MAP = { '#FFFF00': 'yellow','#FF0000':'red','#00FF00': 'green', '#0000FF': 'blue', '#FF00FF': 'magenta', '#00FFFF': 'cyan', '#880088': 'purple',  '#008888': 'teal' }
-export const HEX_MAP = { YELLOW: '#FFFF00', RED: '#FF0000', GREEN: '#00FF00', BLUE: '#0000FF', MAGENTA: '#FF00FF', CYAN: '#00FFFF', PURPLE: '#880088', TEAL: '#008888' }
-export const FORMATMAP = {
-  pdfBlock: "PDF",
-  videoBlock: "VIDEO",
-  audioBlock: "AUDIO",
-  imageBlock: "IMAGE",
-}
-
-export const MAP = { WIDTH: 1000, HEIGHT: 1000 }
-
-export const QUERY = {
-  GRAPHICS_SETTINGS:
-    "*[_id == 'graphics-settings']{..., mapLink->{'mainImage': mainImage,'miniImage': miniImage,'pathfindingGridUrl': pathfindingGrid.asset->url}, activeAvatars[]->{title, _id, notRandom, 'spriteJsonURL': spriteJson.asset->url}}[0]",
-  ACTIVE_STREAMS:
-    "*[_id == 'active-streams']{..., mainStreamEvent->{..., moderators[]->{slug,name,username}, participants[]->{slug,name,username}, connectedCaseStudies[]->{...,participants[]->{slug,name,username}}}}[0]",
-  GLOBAL_SETTINGS: "*[_id == 'global-settings']{..., welcomeCard->{...}}[0]",
-  ROOMS:
-  "*[_type == 'room']{...}",
-  OBJECTS:
-  "*[_type == 'exob']{...}",
-}
 
 // const mainFormat = "MMM dd yyyy – HH:mm"
 // const mainFormat = "MMM dd – HH:mm"
@@ -96,16 +70,16 @@ export const formattedChatDate = start => {
 export const nanoid = (t = 21) => {
   let e = "",
     r = crypto.getRandomValues(new Uint8Array(t))
-  for (; t--; ) {
+  for (; t--;) {
     let n = 63 & r[t]
     e +=
       n < 36
         ? n.toString(36)
         : n < 62
-        ? (n - 26).toString(36).toUpperCase()
-        : n < 63
-        ? "_"
-        : "-"
+          ? (n - 26).toString(36).toUpperCase()
+          : n < 63
+            ? "_"
+            : "-"
   }
   return e
 }
@@ -129,7 +103,7 @@ export function debounce(fn, wait = 1) {
  * @param {Element, Element} Element object of DOM
  * @return {Boolean} overlap status or null if native object not received
  */
-  export const isOverlapping = (e1, e2) => {
+export const isOverlapping = (e1, e2) => {
   if (e1.length && e1.length > 1) {
     e1 = e1[0]
   }
