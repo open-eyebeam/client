@@ -9,6 +9,8 @@
   import { links, navigate } from "svelte-routing"
   import Clock from "./Clock.svelte"
 
+  export let currentRoom = {}
+
   let selectValue = ""
 
   $: if (selectValue === "https://eyebeam.org") {
@@ -20,7 +22,9 @@
   <!-- TITLE -->
   <div class="title">
     <select bind:value={selectValue}>
-      <option value="https://open-eyebeam.netlify.app">open.eyebeam.org</option>
+      <option value="https://open-eyebeam.netlify.app"
+        >open.eyebeam.org : {currentRoom.title}</option
+      >
       <option value="https://eyebeam.org">eyebeam.org</option>
     </select>
   </div>

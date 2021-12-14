@@ -27,7 +27,7 @@
   import AuthenticationBox from "./ui-components/AuthenticationBox.svelte"
   import StreamPlayer from "./ui-components/StreamPlayer.svelte"
   // *** TEXT COMPONENTS
-  import Caption from "./text-components/Caption.svelte"
+  import RoomEntryBox from "./text-components/RoomEntryBox.svelte"
   import Onboarding from "./text-components/Onboarding.svelte"
   // *** CHAT
   import Chat from "./chat/Chat.svelte"
@@ -62,6 +62,8 @@
   import { UI, STATE, setUIState } from "./misc/ui-state.js"
   import { transitionWorldIn, transitionWorldOut } from "./misc/transitions.js"
 
+  const AVATARS = ["star", "square", "triangle", "haxagon", "pentagon"]
+
   // DEBUG
   // $: console.log("__ CHANGED: $localPlayer", $localPlayer)
   // $: console.log("__ CHANGED: $worldObject", $worldObject)
@@ -77,6 +79,10 @@
   let currentRoom = false
   let viewportElement = {}
 
+  let roomIntent = false
+
+  $: console.log("roomIntent", roomIntent)
+
   const checkPortalOverlap = () => {
     // console.log("__ Check portal overlap...")
     const avatarElement = document.getElementById($localPlayer.uuid)
@@ -84,7 +90,11 @@
       // console.log(p)
       let portalElement = document.getElementById(p._id)
       if (portalElement && isOverlapping(avatarElement, portalElement)) {
-        changeRoom(p.targetArea._ref)
+        // showRoomCaption(p.targetArea._ref)
+        roomIntent = p.targetArea._ref
+        // changeRoom(p.targetArea._ref)
+      } else {
+        roomIntent = false
       }
     })
   }
@@ -259,7 +269,7 @@
     let playerObject = {
       uuid: $localPlayer.uuid,
       name: "",
-      shape: "star",
+      shape: sample(AVATARS),
       onboarded: true,
       room: currentRoom._id,
       x: getRandomInt(
@@ -285,7 +295,7 @@
 </script>
 
 <!-- MENUBAR -->
-<Menubar />
+<Menubar {currentRoom} />
 
 <!-- GAME WORLD -->
 {#if currentRoom}
@@ -334,16 +344,16 @@
 {/if}
 
 <!-- CAPTION BOX -->
-<!-- {#if UI.state == STATE.READY}
-  <Caption
-    {captions}
+{#if roomIntent}
+  <RoomEntryBox
+    {roomIntent}
+    roomTitle={$worldObject[roomIntent].title}
     on:room={e => {
-      // console.log(e)
-      captions = []
-      goToRoom(e.detail.roomId)
+      changeRoom(roomIntent)
+      roomIntent = false
     }}
   />
-{/if} -->
+{/if}
 
 <!-- CHAT-->
 <!-- {#if showChat} -->

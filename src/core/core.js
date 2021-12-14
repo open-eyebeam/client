@@ -79,7 +79,7 @@ export const connectToGameServer = playerObject => {
 
                     // PLAYER => CHANGE
                     player.onChange = changes => {
-                        console.log("__CHANGE", player)
+                        // console.log("__CHANGE", player)
                         players.update(ps => {
                             // console.log(ps)
                             ps[player.uuid].onboarded = true

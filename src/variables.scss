@@ -1,5 +1,23 @@
 // TYPOGRAPHY
 $SERIF_STACK: 'Literata', serif;
+
+$SCALE_FACTOR: 1;
+$font-size-extra-small: 12px * $SCALE_FACTOR;
+$font-size-small: 14px * $SCALE_FACTOR;
+$font-size-body: 16px * $SCALE_FACTOR;
+$font-size-medium: 22px * $SCALE_FACTOR;
+$font-size-h2: 32px * $SCALE_FACTOR;
+$font-size-h1: 54px * $SCALE_FACTOR;
+
+// COLORS
+// ==> E-INK
+$black: rgb(34, 31, 32); //#221F20
+$white: rgb(245, 244, 238); //#F5F4EE
+$grey: rgb(224, 222, 215); // #DFDDD6
+$transparent-grey: rgba(224, 222, 215, 0.95);
+
+$border-style: 1px solid $black;
+
 $FONT_SIZE_SMALL: 12px;
 $FONT_SIZE_BASE: 18px;
 $FONT_SIZE_MEDIUM: $FONT_SIZE_BASE;
@@ -14,6 +32,8 @@ $COLOR_MID_1: rgb(197, 197, 197);
 $COLOR_MID_15: rgb(187, 187, 187);
 $COLOR_MID_2: rgb(153, 153, 153);
 $COLOR_MID_3: rgb(85, 85, 85);
+
+
 
 // SPACING
 $SPACE_BASE: 12px;
