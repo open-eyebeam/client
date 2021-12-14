@@ -58,17 +58,19 @@
   import {
     pressedKeys,
     initializeKeyboardHandler,
+    keyReleased,
   } from "./misc/keyboard-handler.js"
   import { UI, STATE, setUIState } from "./misc/ui-state.js"
   import { transitionWorldIn, transitionWorldOut } from "./misc/transitions.js"
 
-  const AVATARS = ["star", "square", "triangle", "haxagon", "pentagon"]
+  const AVATARS = ["star", "square", "triangle", "hexagon", "pentagon"]
 
   // DEBUG
   // $: console.log("__ CHANGED: $localPlayer", $localPlayer)
   // $: console.log("__ CHANGED: $worldObject", $worldObject)
   // $: console.log("__ CHANGED: $players", $players)
   $: console.log("currentRoom", currentRoom)
+  $: console.log("$keyReleased", $keyReleased)
 
   // *** VARIABLES
   let reconnectionAttempts = 0
@@ -82,6 +84,11 @@
   let roomIntent = false
 
   $: console.log("roomIntent", roomIntent)
+
+  // $: if ($keyReleased) {
+  //   moveTo($players[$localPlayer.uuid].x, $players[$localPlayer.uuid].y, true)
+  //   $keyReleased.set(false)
+  // }
 
   const checkPortalOverlap = () => {
     // console.log("__ Check portal overlap...")

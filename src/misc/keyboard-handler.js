@@ -1,10 +1,13 @@
+import { writable } from "svelte/store"
+
 export const pressedKeys = {
     UP: false,
     DOWN: false,
     LEFT: false,
     RIGHT: false,
 }
-let releasedKey = false
+
+export const keyReleased = writable(false)
 
 export const initializeKeyboardHandler = () => {
     return new Promise((resolve, reject) => {
@@ -34,18 +37,22 @@ export const initializeKeyboardHandler = () => {
             // if (UI.state == STATE.READY) {
             // W Key is 87 & Up arrow is 87
             if (key.keyCode === 38) {
+                keyReleased.set(true)
                 pressedKeys["UP"] = false
             }
             // S Key is 83 & Down arrow is 40
             if (key.keyCode === 40) {
+                keyReleased.set(true)
                 pressedKeys["DOWN"] = false
             }
             // A Key is 65 & Left arrow is 37
             if (key.keyCode === 37) {
+                keyReleased.set(true)
                 pressedKeys["LEFT"] = false
             }
             // D Key is 68 & Right arrow is 39
             if (key.keyCode === 39) {
+                keyReleased.set(true)
                 pressedKeys["RIGHT"] = false
             }
             // }

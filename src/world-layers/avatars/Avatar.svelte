@@ -78,5 +78,6 @@
     top: 0;
     left: 0;
     z-index: 100;
+    transition: transform 0.1s linear;
   }
 </style>
