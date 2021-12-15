@@ -7,12 +7,14 @@
 
   //   *** PROPS
   export let self = false
+  export let npc = false
 </script>
 
 <svg
   version="1.1"
   id="Layer_1"
   class:self
+  class:npc
   xmlns="http://www.w3.org/2000/svg"
   xmlns:xlink="http://www.w3.org/1999/xlink"
   x="0px"
@@ -60,4 +62,16 @@
       }
     }
   }
+
+  // @keyframes rotating {
+  //   from {
+  //     transform: rotate(0deg);
+  //   }
+  //   to {
+  //     transform: rotate(360deg);
+  //   }
+  // }
+  // .npc {
+  //   animation: rotating 10s linear infinite;
+  // }
 </style>

@@ -24,6 +24,7 @@
       content: object.title,
       arrow: false,
       offset: [0, 5],
+      theme: "name",
       //   showOnCreate: true,
       sticky: true,
       //   hideOnClick: false,

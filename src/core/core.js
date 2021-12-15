@@ -63,6 +63,7 @@ export const connectToGameServer = playerObject => {
                             x: player.x,
                             y: player.y,
                             room: player.room,
+                            npc: player.npc,
                             inTransit: false,
                             self: player.uuid === get(localPlayer).uuid,
                         }

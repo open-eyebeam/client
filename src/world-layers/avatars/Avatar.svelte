@@ -35,8 +35,9 @@
       clearTimeout(chatTimeOut)
     }
 
-    if (avatarEl) {
+    if (avatarEl && avatarEl.nodeName) {
       // console.log("Show message:", msg)
+      console.log("showMessage", avatarEl)
       chatPopUp = tippy(avatarEl, {
         content: msg.text,
         arrow: false,
@@ -75,14 +76,14 @@
 
   let avatarEl = {}
 
-  // console.log("player", player)
+  console.log("player", player)
 
   onMount(async () => {
     // console.log("player", player)
     // console.log("player.name", player.name)
     if (!player.self) {
       tippy(avatarEl, {
-        content: key,
+        content: player.name,
         arrow: false,
         offset: [0, 10],
         followCursor: true,
@@ -109,19 +110,19 @@
     "px)"}
 >
   {#if player.shape === "square"}
-    <Square self={player.self} />
+    <Square self={player.self} npc={player.npc} />
   {/if}
   {#if player.shape === "triangle"}
-    <Triangle self={player.self} />
+    <Triangle self={player.self} npc={player.npc} />
   {/if}
   {#if player.shape === "hexagon"}
-    <Hexagon self={player.self} />
+    <Hexagon self={player.self} npc={player.npc} />
   {/if}
   {#if player.shape === "pentagon"}
-    <Pentagon self={player.self} />
+    <Pentagon self={player.self} npc={player.npc} />
   {/if}
   {#if player.shape === "star"}
-    <Star self={player.self} />
+    <Star self={player.self} npc={player.npc} />
   {/if}
 </div>
 
@@ -137,4 +138,16 @@
     z-index: 100;
     transition: transform 0.1s linear;
   }
+
+  // @keyframes rotating {
+  //   from {
+  //     opacity: 0;
+  //   }
+  //   to {
+  //     opacity: 1;
+  //   }
+  // }
+  // .npc {
+  //   animation: rotating 2s linear infinite;
+  // }
 </style>
