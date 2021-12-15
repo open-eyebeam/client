@@ -120,17 +120,19 @@
 
   const changeRoom = async id => {
     console.log("CHANGE ROOM", id)
+    let newRoom = $worldObject[id]
+
     await transitionWorldOut(viewportElement)
-    currentRoom = $worldObject[id]
+    currentRoom = newRoom
     goToRoom({
-      id: currentRoom._id,
+      id: newRoom._id,
       x: getRandomInt(
-        get(currentRoom, "landingZone.minX", 0),
-        get(currentRoom, "landingZone.maxX", 100)
+        get(newRoom, "landingZone.minX", 0),
+        get(newRoom, "landingZone.maxX", 100)
       ),
       y: getRandomInt(
-        get(currentRoom, "landingZone.minY", 0),
-        get(currentRoom, "landingZone.maxY", 100)
+        get(newRoom, "landingZone.minY", 0),
+        get(newRoom, "landingZone.maxY", 100)
       ),
     })
     await transitionWorldIn(viewportElement)
@@ -196,6 +198,8 @@
       }
 
       for (let key in moveQ) {
+        // console.log("$players[key]", $players[key].room)
+        // && $players[key].room === currentRoom._id
         if ($players[key]) {
           if (moveQ[key].length > 0) {
             if (moveQ[key].length - $deltaJump < 0) {

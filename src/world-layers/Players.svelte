@@ -13,7 +13,7 @@
 </script>
 
 {#each Object.entries(players) as [key, player] (key)}
-  {#if player.room === currentRoomId}
+  {#if player.room === currentRoomId && !player.inTransit}
     <Avatar {player} {key} />
   {/if}
 {/each}

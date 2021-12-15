@@ -12,11 +12,8 @@ export const buildWorld = () => {
         const objects = await loadData('*[_type == "exob"]')
         const portals = await loadData('*[_type == "portal"]{..., "bgImageUrl": backgroundImage.asset->url}')
 
-        let innerWorld = {}
-
-        console.log('portals', portals)
-
         // --> Construct world object by rooms:
+        let innerWorld = {}
         rooms.forEach(room => innerWorld[room._id] = room)
         for (const [key, value] of Object.entries(innerWorld)) {
             // Create containers

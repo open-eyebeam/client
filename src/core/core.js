@@ -63,6 +63,7 @@ export const connectToGameServer = playerObject => {
                             x: player.x,
                             y: player.y,
                             room: player.room,
+                            inTransit: false,
                             self: player.uuid === get(localPlayer).uuid,
                         }
                         return (ps)
@@ -83,31 +84,30 @@ export const connectToGameServer = playerObject => {
 
                     // PLAYER => CHANGE
                     player.onChange = changes => {
-                        // console.log("__CHANGE", player)
-                        players.update(ps => {
-                            // console.log(ps)
-                            ps[player.uuid].onboarded = true
-                            ps[player.uuid].name = player.name
-                            ps[player.uuid].shape = player.shape
-                            ps[player.uuid].room = player.room
-                            return (ps)
-                        })
-
-                        // ONBOARDING COMPLETED
-                        // if (player.onboarded && !get(players)[player.uuid].onboarded) {
-                        //     // console.log("ONBOARDING COMPLETED")
-                        //     // console.log(player)
-                        //     players[player.uuid].onboarded = true
-                        //     players[player.uuid].name = player.name
-                        //     players[player.uuid].shape = player.shape
-
-                        //     if (player.uuid === get(localPlayer).uuid && !get(isAuthenticated)) {
-                        //         // Cookies.set("open-eyebeam__shape", player.shape)
-                        //         // Cookies.set("open-eyebeam__name", player.name)
-                        //     }
-                        //     // !!! Ignore movements on load
-                        //     return
-                        // }
+                        console.log("__CHANGE", player)
+                        if (get(players)[player.uuid].room !== player.room) {
+                            console.log('!!! NEW ROOM')
+                            players.update(ps => {
+                                ps[player.uuid].name = player.name
+                                ps[player.uuid].shape = player.shape
+                                ps[player.uuid].room = player.room
+                                ps[player.uuid].inTransit = true
+                                return (ps)
+                            })
+                            setTimeout(() => {
+                                console.log('!!! TRANSTION DNO')
+                                players.update(ps => {
+                                    ps[player.uuid].inTransit = false
+                                    return (ps)
+                                })
+                            }, 1000)
+                        } else {
+                            players.update(ps => {
+                                ps[player.uuid].name = player.name
+                                ps[player.uuid].shape = player.shape
+                                return (ps)
+                            })
+                        }
 
                         // IGNORE LOCAL KEYBOARD NAVIGATION
                         if (
@@ -127,6 +127,24 @@ export const connectToGameServer = playerObject => {
                                 (_, i) => (i + 1) % 5
                             )
                         }
+
+                        // ONBOARDING COMPLETED
+                        // if (player.onboarded && !get(players)[player.uuid].onboarded) {
+                        //     // console.log("ONBOARDING COMPLETED")
+                        //     // console.log(player)
+                        //     players[player.uuid].onboarded = true
+                        //     players[player.uuid].name = player.name
+                        //     players[player.uuid].shape = player.shape
+
+                        //     if (player.uuid === get(localPlayer).uuid && !get(isAuthenticated)) {
+                        //         // Cookies.set("open-eyebeam__shape", player.shape)
+                        //         // Cookies.set("open-eyebeam__name", player.name)
+                        //     }
+                        //     // !!! Ignore movements on load
+                        //     return
+                        // }
+
+
                     }
                 }
 
