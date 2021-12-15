@@ -1,5 +1,7 @@
 import * as Colyseus from "colyseus.js"
 import { writable, get } from 'svelte/store';
+import { nanoid } from "../global.js"
+
 
 import {
     localPlayer
@@ -18,11 +20,13 @@ const GAME_SERVER_URL = "wss://open.eyebeam.dev";
 export let moveTo = {}
 export let goToRoom = {}
 export let onboardUser = {}
+export let submitChat = {}
 
 // Public variables
 export let moveQ = []
 
 let disconnectionCode = 0
+let reconnectionAttempts = 0
 
 // __ Connect to Colyseus gameserver
 const gameClient = new Colyseus.Client(GAME_SERVER_URL)
@@ -179,9 +183,13 @@ export const connectToGameServer = playerObject => {
                 // *******
 
                 // MESSAGE => ADD
-                // gameRoom.state.messages.onAdd = message => {
-                //     chatMessages = [...chatMessages, message]
-                // }
+                gameRoom.state.messages.onAdd = message => {
+                    chatMessages.update(cM => {
+                        cM.push(message)
+                        // = [...chatMessages, message]
+                        return cM
+                    })
+                }
 
                 // MESSAGE => REMOVE
                 // gameRoom.onMessage("nukeMessage", msgIdToRemove => {
@@ -193,53 +201,56 @@ export const connectToGameServer = playerObject => {
                 // })
 
                 // MESSAGE => SUBMIT
-                // submitChat = event => {
-                //     try {
-                //         gameRoom.send("submitChatMessage", {
-                //             msgId: nanoid(),
-                //             uuid: get(localPlayer).uuid,
-                //             name: players[get(localPlayer).uuid].name,
-                //             text: event.detail.text,
-                //             room: get(currentArea),
-                //         })
-                //     } catch (err) {
-                //         // setUIState(STATE.ERROR, err)
-                //         console.dir(err)
-                //     }
-                // }
+                submitChat = (event, currentRoom) => {
+                    console.log('submitting chat')
+                    // console.log('get(localPlayer).uuid', get(localPlayer).uuid)
+                    // console.log('get(players)[get(localPlayer).uuid].name', get(players)[get(localPlayer).uuid].name)
+                    try {
+                        gameRoom.send("submitChatMessage", {
+                            msgId: nanoid(),
+                            uuid: get(localPlayer).uuid,
+                            name: get(players)[get(localPlayer).uuid].name,
+                            text: event.detail.text,
+                            room: currentRoom._id,
+                        })
+                    } catch (err) {
+                        // setUIState(STATE.ERROR, err)
+                        console.dir(err)
+                    }
+                }
 
                 // ******************************
                 // CLIENT LEFT / WAS DISCONNECTED
                 // ******************************
                 gameRoom.onLeave(code => {
                     const exitMsg = "Disconnected from server. Code: " + code
-                    // console.log(exitMsg);
+                    console.log(exitMsg);
                     // __ Show notification of disconnection
                     // setUIState(STATE.DISCONNECTED)
                     disconnectionCode = code
                     reconnectionAttempts = 1
                     // TODO: Try to reconnect
-                    const reconnect = i => {
-                        console.log(
-                            "Trying to reconnect user:",
-                            get(localUserSessionID),
-                            "....",
-                            i
-                        )
-                        gameClient
-                            .reconnect("game", get(localUserSessionID))
-                            .then(room => {
-                                // __ Successfully reconnected
-                                // setUIState(STATE.READY)
-                            })
-                            .catch(e => {
-                                console.error("join error", e)
-                            })
-                        //   setInterval(() => {
-                        //   reconnectionAttempts++
-                        // }, 5000)
-                    }
-                    reconnect(1)
+                    // const reconnect = i => {
+                    //     console.log(
+                    //         "Trying to reconnect user:",
+                    //         get(localUserSessionID),
+                    //         "....",
+                    //         i
+                    //     )
+                    //     gameClient
+                    //         .reconnect("game", get(localUserSessionID))
+                    //         .then(room => {
+                    //             // __ Successfully reconnected
+                    //             // setUIState(STATE.READY)
+                    //         })
+                    //         .catch(e => {
+                    //             console.error("join error", e)
+                    //         })
+                    //     //   setInterval(() => {
+                    //     //   reconnectionAttempts++
+                    //     // }, 5000)
+                    // }
+                    // reconnect(1)
                 })
 
                 // ************************

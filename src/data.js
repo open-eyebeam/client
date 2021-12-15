@@ -7,12 +7,14 @@ export let worldObject = writable({})
 
 export const buildWorld = () => {
     return new Promise(async (resolve, reject) => {
-        const rooms = await loadData('*[_type == "room"]')
-        const zones = await loadData('*[_type == "zone"]')
+        const rooms = await loadData('*[_type == "room"]{..., "bgImageUrl": backgroundImage.asset->url}')
+        const zones = await loadData('*[_type == "zone"]{..., "bgImageUrl": backgroundImage.asset->url}')
         const objects = await loadData('*[_type == "exob"]')
-        const portals = await loadData('*[_type == "portal"]')
+        const portals = await loadData('*[_type == "portal"]{..., "bgImageUrl": backgroundImage.asset->url}')
 
         let innerWorld = {}
+
+        console.log('portals', portals)
 
         // --> Construct world object by rooms:
         rooms.forEach(room => innerWorld[room._id] = room)

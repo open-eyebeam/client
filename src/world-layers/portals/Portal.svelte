@@ -18,7 +18,11 @@
     portal.x
   }px); width: ${portal.dimensions.width}px; height: ${
     portal.dimensions.height
-  }px; background-color: ${get(portal, "backgroundColor.hex", "#ff0000")};`
+  }px; background-color: ${get(
+    portal,
+    "backgroundColor.hex",
+    "#ff0000"
+  )}; background-image: url("${get(portal, "bgImageUrl", "")}");"`
 
   onMount(async () => {
     // tippy(portalEl, {
@@ -36,7 +40,6 @@
   transition:fade
   class="portal"
   bind:this={portalEl}
-  class:image={portal.iconImage}
   id={portal._id}
   alt={portal.title}
   style={inlineStyles}
@@ -52,7 +55,7 @@
   .portal {
     height: 30px;
     width: 30px;
-    border-radius: 50%;
+    // border-radius: 50%;
     background: $COLOR_DARK;
     border: 1px solid $COLOR_DARK;
     position: absolute;
@@ -61,21 +64,6 @@
     cursor: pointer;
     transition: opacity 0.5s $transition;
     pointer-events: none;
-
-    &.image {
-      border-radius: 0;
-      background: unset;
-      height: 80px;
-      width: auto;
-      border: 1px solid transparent;
-
-      img {
-        max-height: 100%;
-      }
-
-      &:hover {
-        border: 1px solid $COLOR_DARK;
-      }
-    }
+    background-size: contain;
   }
 </style>

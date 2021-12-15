@@ -17,6 +17,14 @@ const intlFormat = new Intl.DateTimeFormat('en-DE', {
   timeZone: 'CET',
 })
 
+export const toRGBA = color => {
+  if (color && color.rgb) {
+    return `rgba(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}, ${color.rgb.a})`
+  } else {
+    return 'rgba(255, 255, 255, 1)'
+  }
+}
+
 export const formattedDate = (start, end) => {
   try {
     if (!start) {

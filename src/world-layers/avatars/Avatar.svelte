@@ -6,6 +6,61 @@
   // # # # # # # # # # # # # #
   import { fly, scale, fade } from "svelte/transition"
   import { onMount, onDestroy } from "svelte"
+  import { chatMessages } from "../../core/core.js"
+
+  // $: console.log(
+  //   key,
+  //   $chatMessages.filter(m => m.uuid == key)
+  // )
+
+  $: {
+    let lastMessage = $chatMessages[$chatMessages.length - 1]
+    if (lastMessage.uuid == key && Date.now() - lastMessage.timestamp < 5000) {
+      // console.log("new message", key)
+      // console.log(lastMessage)
+      // console.log(lastMessage.timestamp)
+      // console.log(Date.now())
+      // console.log(Date.now() - lastMessage.timestamp)
+      showMessage(lastMessage)
+    }
+  }
+
+  let chatPopUp = {}
+  let chatTimeOut = {}
+
+  const showMessage = msg => {
+    if (chatPopUp.popper) {
+      chatPopUp.hide()
+      chatPopUp.destroy()
+      clearTimeout(chatTimeOut)
+    }
+
+    if (avatarEl) {
+      // console.log("Show message:", msg)
+      chatPopUp = tippy(avatarEl, {
+        content: msg.text,
+        arrow: false,
+        offset: [0, 5],
+        sticky: true,
+        animation: "fade",
+        inertia: true,
+        theme: "chat",
+        // offset: [10, 10],
+        //   hideOnClick: false,
+      })
+
+      chatPopUp.show()
+
+      // console.log(chatPopUp)
+
+      chatTimeOut = setTimeout(() => {
+        chatPopUp.hide()
+        setTimeout(() => {
+          chatPopUp.destroy()
+        }, 500)
+      }, 4000)
+    }
+  }
 
   // *** GRAPHICS
   import Square from "./square.svelte"
@@ -27,11 +82,13 @@
     // console.log("player.name", player.name)
     if (!player.self) {
       tippy(avatarEl, {
-        content: player.name,
+        content: key,
         arrow: false,
-        offset: [0, 5],
+        offset: [0, 10],
+        followCursor: true,
         //   showOnCreate: true,
         sticky: true,
+        theme: "name",
         //   hideOnClick: false,
       })
     }

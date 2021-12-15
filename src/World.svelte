@@ -45,6 +45,7 @@
     showTarget,
     targetX,
     targetY,
+    submitChat,
   } from "./core/core.js"
 
   import {
@@ -69,15 +70,14 @@
   // $: console.log("__ CHANGED: $localPlayer", $localPlayer)
   // $: console.log("__ CHANGED: $worldObject", $worldObject)
   // $: console.log("__ CHANGED: $players", $players)
-  $: console.log("currentRoom", currentRoom)
-  $: console.log("$keyReleased", $keyReleased)
+  // $: console.log("currentRoom", currentRoom)
+  // $: console.log("$keyReleased", $keyReleased)
+  // $: console.log("$chatMessages", $chatMessages)
 
   // *** VARIABLES
   let reconnectionAttempts = 0
   let disconnectionCode = 0
   let captions = []
-  // let submitChat = {}
-  // let showChat = false
   let currentRoom = false
   let viewportElement = {}
 
@@ -275,7 +275,7 @@
 
     let playerObject = {
       uuid: $localPlayer.uuid,
-      name: "",
+      name: "Test player",
       shape: sample(AVATARS),
       onboarded: true,
       room: currentRoom._id,
@@ -364,10 +364,14 @@
 
 <!-- CHAT-->
 <!-- {#if showChat} -->
-<!-- <Chat
-    chatMessages={chatMessages.filter(m => m.room === $currentArea)}
-    on:submit={submitChat}
-  /> -->
+<!-- $chatMessages.filter(m => m.room === currentRoom) -->
+<Chat
+  chatMessages={$chatMessages.filter(m => m.room === currentRoom._id)}
+  on:submit={e => {
+    console.log("e", e)
+    submitChat(e, currentRoom)
+  }}
+/>
 <!-- {/if} -->
 
 <!-- ONBOARDING -->

@@ -28,29 +28,29 @@
   // *** PROPS
   export let chatMessages = []
 
-  afterUpdate(() => {
-    if (messageContainerEl) {
-      messageContainerEl.scrollTo({
-        top: messageContainerEl.scrollHeight,
-        left: 0,
-      })
-    }
-  })
+  // afterUpdate(() => {
+  //   if (messageContainerEl) {
+  //     messageContainerEl.scrollTo({
+  //       top: messageContainerEl.scrollHeight,
+  //       left: 0,
+  //     })
+  //   }
+  // })
 
-  onMount(async () => {
-    if (messageContainerEl) {
-      setTimeout(() => {
-        messageContainerEl.scrollTo({
-          top: messageContainerEl.scrollHeight,
-          left: 0,
-        })
-      }, 2000)
-    }
-  })
+  // onMount(async () => {
+  //   if (messageContainerEl) {
+  //     setTimeout(() => {
+  //       messageContainerEl.scrollTo({
+  //         top: messageContainerEl.scrollHeight,
+  //         left: 0,
+  //       })
+  //     }, 2000)
+  //   }
+  // })
 </script>
 
 <div class="chat-container">
-  <div
+  <!-- <div
     id="message-container"
     class="message-container"
     bind:this={messageContainerEl}
@@ -58,7 +58,7 @@
     {#each chatMessages as message (message.msgId)}
       <ChatMessage {message} />
     {/each}
-  </div>
+  </div> -->
   <div class="chat-input" use:links>
     <input
       placeholder="Write a message..."
@@ -77,16 +77,16 @@
   @import "../variables.scss";
 
   .chat-container {
-    right: 50px;
-    bottom: 50px;
+    right: 40px;
+    bottom: 40px;
     position: fixed;
-    height: 360px;
-    width: 260px;
+    height: 50px;
+    width: 300px;
     background: $COLOR_LIGHT;
 
-    @include screen-size("small") {
-      height: calc(100% - 40px);
-    }
+    // @include screen-size("small") {
+    //   height: calc(100% - 40px);
+    // }
   }
 
   .header {
@@ -97,7 +97,7 @@
     padding-bottom: 7px;
     width: 100%;
     color: $COLOR_DARK;
-    border-bottom: 1px solid $COLOR_LIGHT;
+    border-bottom: $border-style;
     text-align: left;
   }
 
@@ -110,27 +110,27 @@
     padding-top: $SPACE_S;
     @include hide-scroll;
 
-    @include screen-size("small") {
-      height: 100%;
-      padding-bottom: 0;
-      padding-top: 0;
-      &.expanded {
-        padding-bottom: $SPACE_S;
-        padding-top: $SPACE_S;
-        height: calc(100% - 28px);
-      }
-    }
+    // @include screen-size("small") {
+    //   height: 100%;
+    //   padding-bottom: 0;
+    //   padding-top: 0;
+    //   &.expanded {
+    //     padding-bottom: $SPACE_S;
+    //     padding-top: $SPACE_S;
+    //     height: calc(100% - 28px);
+    //   }
+    // }
   }
 
   .chat-input {
     width: 100%;
-    height: 60px;
+    height: 50px;
     padding-left: 7px;
     padding-right: $SPACE_S;
     display: flex;
     align-items: center;
     user-select: none;
-    border-top: 1px solid $COLOR_MID;
+    border-top: $border-style;
 
     input {
       font-family: $SERIF_STACK;
@@ -139,7 +139,7 @@
       width: 100%;
       display: block;
       background: transparent;
-      border: 1px solid $COLOR_MID;
+      border: $border-style;
       color: $COLOR_DARK;
       padding: $SPACE_S;
       border-radius: 0;
@@ -170,7 +170,7 @@
       float: right;
       display: block;
       background: transparent;
-      border: 1px solid $COLOR_MID;
+      border: $border-style;
       color: $COLOR_DARK;
       outline: none;
       cursor: pointer;

@@ -8,17 +8,16 @@
   import { onMount } from "svelte"
   import { urlFor } from "../../sanity.js"
   import { get } from "lodash"
+  import { toRGBA } from "../../global.js"
 
   //   *** PROPS
   export let zone = {}
-
-  let zoneEl = {}
 
   const inlineStyles = `transform: translateY(${zone.y}px) translateX(${
     zone.x
   }px); width: ${zone.dimensions.width}px; height: ${
     zone.dimensions.height
-  }px; background-color: ${get(zone, "backgroundColor.hex", "#ff0000")};`
+  }px; background-color: ${toRGBA(zone.backgroundColor)};`
 
   onMount(async () => {
     // tippy(zoneEl, {
@@ -35,8 +34,6 @@
 <div
   transition:fade
   class="zone"
-  bind:this={zoneEl}
-  class:image={zone.iconImage}
   id={zone._id}
   alt={zone.title}
   style={inlineStyles}
