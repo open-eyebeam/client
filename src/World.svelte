@@ -66,14 +66,6 @@
 
   const AVATARS = ["star", "square", "triangle", "pentagon"]
 
-  // DEBUG
-  // $: console.log("__ CHANGED: $localPlayer", $localPlayer)
-  // $: console.log("__ CHANGED: $worldObject", $worldObject)
-  // $: console.log("__ CHANGED: $players", $players)
-  // $: console.log("currentRoom", currentRoom)
-  // $: console.log("$keyReleased", $keyReleased)
-  // $: console.log("$chatMessages", $chatMessages)
-
   // *** VARIABLES
   let reconnectionAttempts = 0
   let disconnectionCode = 0
@@ -83,7 +75,50 @@
 
   let roomIntent = false
 
-  $: console.log("roomIntent", roomIntent)
+  // DEBUG
+  // $: console.log("__ CHANGED: $localPlayer", $localPlayer)
+  // $: console.log("__ CHANGED: $worldObject", $worldObject)
+  // $: console.log("__ CHANGED: $players", $players)
+  // $: console.log("currentRoom", currentRoom)
+  // $: console.log("$keyReleased", $keyReleased)
+  // $: console.log("$chatMessages", $chatMessages)
+  // $: console.log("roomIntent", roomIntent)
+
+  let windowHeight = window.innerHeight
+  let windowWidth = window.innerWidth
+
+  const calculateWindowSize = () => {
+    windowHeight = window.innerHeight
+    windowWidth = window.innerWidth
+  }
+
+  $: {
+    console.log("windowHeight", windowHeight)
+    console.log("windowWidth", windowWidth)
+  }
+
+  // $: {
+  //   if (currentRoom.dimensions) {
+  //     console.log("currentRoom.dimensions.width", currentRoom.dimensions.width)
+  //     console.log(
+  //       "currentRoom.dimensions.height",
+  //       currentRoom.dimensions.height
+  //     )
+  //   }
+  // }
+
+  // $: {
+  //   if ($players[$localPlayer.uuid]) {
+  //     console.log(
+  //       "$players[$localPlayer.uuid].x,",
+  //       $players[$localPlayer.uuid].x
+  //     )
+  //     console.log(
+  //       "$players[$localPlayer.uuid].y",
+  //       $players[$localPlayer.uuid].y
+  //     )
+  //   }
+  // }
 
   // $: if ($keyReleased) {
   //   moveTo($players[$localPlayer.uuid].x, $players[$localPlayer.uuid].y, true)
@@ -119,9 +154,8 @@
   }
 
   const changeRoom = async id => {
-    console.log("CHANGE ROOM", id)
+    // console.log("CHANGE ROOM", id)
     let newRoom = $worldObject[id]
-
     await transitionWorldOut(viewportElement)
     currentRoom = newRoom
     goToRoom({
@@ -227,7 +261,7 @@
               // }
             }
           } else {
-            console.log("___ DONE")
+            // console.log("___ DONE")
             // Destination reached
             // console.log($players[key])
             if ($players[key].self) {
@@ -253,6 +287,8 @@
   onMount(async () => {
     console.time("mount")
     console.log("__ => Mounting...")
+
+    window.onresize = calculateWindowSize
 
     try {
       await configureAuthClient()
@@ -317,6 +353,8 @@
   >
     <Room
       room={currentRoom}
+      x={get($players[$localPlayer.uuid], "x", 100)}
+      y={get($players[$localPlayer.uuid], "y", 100)}
       on:move={e => {
         moveTo(e.detail.x, e.detail.y, false)
       }}
@@ -372,7 +410,7 @@
 <Chat
   chatMessages={$chatMessages.filter(m => m.room === currentRoom._id)}
   on:submit={e => {
-    console.log("e", e)
+    // console.log("e", e)
     submitChat(e, currentRoom)
   }}
 />
@@ -417,6 +455,7 @@
     top: 0;
     left: 0;
     overflow: hidden;
+    // overflow: scroll;
     opacity: 1;
     transition: opacity 1s ease-out filter 1s ease-out;
     background: $COLOR_DARK;

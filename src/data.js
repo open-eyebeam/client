@@ -45,23 +45,17 @@ export const buildWorld = () => {
             }
         })
 
-        // console.log('innerWorld', innerWorld)
-
         worldObject.set(innerWorld)
         resolve()
     })
 }
 
 const parseStyleProperties = r => {
-    // console.log('r', r)
     let widthStyle = "width: " + get(r, 'dimensions.width', '') + "px;"
     let heightStyle = "height: " + get(r, 'dimensions.height', '') + "px;"
     let backgroundColorStyle =
         "background-color:" + get(r, 'backgroundColor.hex', '#ff0000') + ";"
     let backgroundImageStyle = "background-image: url(" + r.bgImageUrl + ");"
-    // if (mA.backgroundSound) {
-    //     soundFile = mA.backgroundSound
-    // }
     return widthStyle + heightStyle + backgroundColorStyle + backgroundImageStyle;
 }
 

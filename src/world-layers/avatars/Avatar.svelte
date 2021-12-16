@@ -37,7 +37,6 @@
 
     if (avatarEl && avatarEl.nodeName) {
       // console.log("Show message:", msg)
-      console.log("showMessage", avatarEl)
       chatPopUp = tippy(avatarEl, {
         content: msg.text,
         arrow: false,
@@ -75,8 +74,6 @@
   export let key = ""
 
   let avatarEl = {}
-
-  console.log("player", player)
 
   onMount(async () => {
     // console.log("player", player)

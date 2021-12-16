@@ -85,9 +85,9 @@ export const connectToGameServer = playerObject => {
 
                     // PLAYER => CHANGE
                     player.onChange = changes => {
-                        console.log("__CHANGE", player)
+                        // console.log("__CHANGE", player)
                         if (get(players)[player.uuid].room !== player.room) {
-                            console.log('!!! NEW ROOM')
+                            // console.log('!!! NEW ROOM')
                             players.update(ps => {
                                 ps[player.uuid].name = player.name
                                 ps[player.uuid].shape = player.shape
@@ -96,7 +96,7 @@ export const connectToGameServer = playerObject => {
                                 return (ps)
                             })
                             setTimeout(() => {
-                                console.log('!!! TRANSTION DNO')
+                                // console.log('!!! TRANSTION DNO')
                                 players.update(ps => {
                                     ps[player.uuid].inTransit = false
                                     return (ps)

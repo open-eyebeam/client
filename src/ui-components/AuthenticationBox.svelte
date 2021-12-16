@@ -41,10 +41,9 @@
 
   .auth-box {
     position: fixed;
-    top: 50px;
-    left: 30px;
-    background: $COLOR_LIGHT;
-    border: 1px solid $COLOR_DARK;
+    top: 40px;
+    left: 20px;
+    background: $white;
     padding: 5px;
     cursor: pointer;
     font-size: $FONT_SIZE_SMALL;
