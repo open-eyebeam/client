@@ -64,7 +64,7 @@
   import { UI, STATE, setUIState } from "./misc/ui-state.js"
   import { transitionWorldIn, transitionWorldOut } from "./misc/transitions.js"
 
-  const AVATARS = ["star", "square", "triangle", "hexagon", "pentagon"]
+  const AVATARS = ["star", "square", "triangle", "pentagon"]
 
   // DEBUG
   // $: console.log("__ CHANGED: $localPlayer", $localPlayer)

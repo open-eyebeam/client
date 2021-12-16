@@ -88,7 +88,7 @@
         offset: [0, 10],
         followCursor: true,
         //   showOnCreate: true,
-        sticky: true,
+        // sticky: true,
         theme: "name",
         //   hideOnClick: false,
       })

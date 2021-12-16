@@ -14,14 +14,13 @@
 
   let portalEl = {}
 
-  const inlineStyles = `transform: translateY(${portal.y}px) translateX(${
-    portal.x
-  }px); width: ${portal.dimensions.width}px; height: ${
+
+  const inlineStyles = `transform: translateY(${portal.y}px) translateX(${portal.x}px); width: ${portal.dimensions.width}px; height: ${
     portal.dimensions.height
   }px; background-color: ${get(
     portal,
     "backgroundColor.hex",
-    "#ff0000"
+    ""
   )}; background-image: url("${get(portal, "bgImageUrl", "")}");"`
 
   onMount(async () => {
@@ -53,11 +52,10 @@
   @import "../../variables.scss";
 
   .portal {
-    height: 30px;
+    height: auto;
     width: 30px;
     // border-radius: 50%;
-    background: $COLOR_DARK;
-    border: 1px solid $COLOR_DARK;
+    // border: 1px solid $COLOR_DARK;
     position: absolute;
     top: 0;
     left: 0;
@@ -65,5 +63,6 @@
     transition: opacity 0.5s $transition;
     pointer-events: none;
     background-size: contain;
+    background-repeat: no-repeat;
   }
 </style>

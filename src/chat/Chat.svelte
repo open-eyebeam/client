@@ -83,6 +83,7 @@
     height: 50px;
     width: 300px;
     background: $COLOR_LIGHT;
+    border-radius: 5px;
 
     // @include screen-size("small") {
     //   height: calc(100% - 40px);
@@ -130,7 +131,6 @@
     display: flex;
     align-items: center;
     user-select: none;
-    border-top: $border-style;
 
     input {
       font-family: $SERIF_STACK;
