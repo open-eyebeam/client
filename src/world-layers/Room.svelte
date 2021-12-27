@@ -69,8 +69,8 @@
 
   .center-view {
     position: fixed;
-    top: 40px;
-    right: 20px;
+    bottom: 50px;
+    left: 20px;
     padding: 5px;
     background: $white;
     cursor: pointer;

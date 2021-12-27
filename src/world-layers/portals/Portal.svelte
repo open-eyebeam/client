@@ -6,16 +6,30 @@
   // # # # # # # # # # # # # #
   import { fade } from "svelte/transition"
   import { onMount } from "svelte"
-  import { urlFor, renderBlockText } from "../../sanity.js"
-  import { has, get } from "lodash"
+  import { urlFor } from "../../sanity.js"
+  import { get } from "lodash"
+  import { showLabels } from "../../stores.js"
 
-  //   *** PROPS
+  // *** PROPS
   export let portal = {}
 
+  // *** VARIABLES
   let portalEl = {}
+  let label = {}
 
+  $: {
+    if (label.popper) {
+      if ($showLabels) {
+        label.show()
+      } else {
+        label.hide()
+      }
+    }
+  }
 
-  const inlineStyles = `transform: translateY(${portal.y}px) translateX(${portal.x}px); width: ${portal.dimensions.width}px; height: ${
+  const inlineStyles = `transform: translateY(${portal.y}px) translateX(${
+    portal.x
+  }px); width: ${portal.dimensions.width}px; height: ${
     portal.dimensions.height
   }px; background-color: ${get(
     portal,
@@ -24,14 +38,15 @@
   )}; background-image: url("${get(portal, "bgImageUrl", "")}");"`
 
   onMount(async () => {
-    // tippy(portalEl, {
-    //   content: portal.title,
-    //   arrow: false,
-    //   offset: [0, 5],
-    //   //   showOnCreate: true,
-    //   sticky: true,
-    //   //   hideOnClick: false,
-    // })
+    label = tippy(portalEl, {
+      content: get(portal, "targetArea.title", ""),
+      arrow: false,
+      offset: [0, 5],
+      theme: "name",
+      hideOnClick: false,
+      sticky: true,
+      trigger: "manual",
+    })
   })
 </script>
 

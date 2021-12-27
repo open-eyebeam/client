@@ -8,26 +8,39 @@
   import { onMount } from "svelte"
   import { urlFor, renderBlockText } from "../../sanity.js"
   import { has } from "lodash"
+  import { showLabels } from "../../stores.js"
 
   //   *** PROPS
   export let object = {}
 
+  // *** VARIABLES
   let objectEl = {}
   let showArticle = false
+  let label = {}
 
   // console.log("object", object)
+
+  $: {
+    if (label.popper) {
+      if ($showLabels) {
+        label.show()
+      } else {
+        label.hide()
+      }
+    }
+  }
 
   const inlineStyles = `transform: translateY(${object.y}px) translateX(${object.x}px);`
 
   onMount(async () => {
-    tippy(objectEl, {
+    label = tippy(objectEl, {
       content: object.title,
       arrow: false,
       offset: [0, 5],
       theme: "name",
-      //   showOnCreate: true,
+      hideOnClick: false,
       sticky: true,
-      //   hideOnClick: false,
+      trigger: "manual",
     })
   })
 </script>

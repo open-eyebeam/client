@@ -134,7 +134,7 @@
       let portalElement = document.getElementById(p._id)
       if (portalElement && isOverlapping(avatarElement, portalElement)) {
         // showRoomCaption(p.targetArea._ref)
-        roomIntent = p.targetArea._ref
+        roomIntent = p.targetArea._id
         // changeRoom(p.targetArea._ref)
       } else {
         roomIntent = false
@@ -379,7 +379,7 @@
 {/if}
 
 <!-- AMBIENT AUDIO -->
-{#if has(currentRoom, "backgroundSound.asset")}
+{#if has(currentRoom, "backgroundSound.asset") && $playSound}
   <AmbientAudio soundFile={currentRoom.backgroundSound} />
 {/if}
 
@@ -441,13 +441,34 @@
   <Reconnection {reconnectionAttempts} {disconnectionCode} />
 {/if}
 
+<!-- OPTIONS -->
+<div class="options">
+  <div
+    class="option sound"
+    on:click={() => {
+      playSound.set(!$playSound)
+    }}
+  >
+    sound {$playSound ? "off" : "on"}
+  </div>
+  <div
+    class="option labels"
+    on:click={() => {
+      showLabels.set(!$showLabels)
+    }}
+  >
+    labels {$showLabels ? "off" : "on"}
+  </div>
+</div>
+
+<!-- DEBUG: GRID grid-toggle -->
 <div
   class="grid-toggle"
   on:click={() => {
     showGrid.set(!$showGrid)
   }}
 >
-  {$showGrid ? "Hide" : "Show"} grid
+  {$showGrid ? "Hide" : "Show"} grid (Debug)
 </div>
 
 <style lang="scss">
@@ -485,7 +506,7 @@
     position: fixed;
     bottom: 20px;
     left: 20px;
-    padding: 10px;
+    padding: 5px;
     background: $white;
     font-size: 10px;
     text-transform: uppercase;
@@ -494,6 +515,28 @@
 
     &:hover {
       background: $grey;
+    }
+  }
+
+  .options {
+    position: fixed;
+    top: 40px;
+    right: 20px;
+
+    .option {
+      margin-left: 5px;
+      font-size: 10px;
+      background: $white;
+      text-transform: uppercase;
+      float: right;
+      padding: 5px;
+      user-select: none;
+      cursor: pointer;
+
+      &:hover {
+        background: $black;
+        color: $white;
+      }
     }
   }
 </style>

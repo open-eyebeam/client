@@ -10,7 +10,7 @@ export const buildWorld = () => {
         const rooms = await loadData('*[_type == "room"]{..., "bgImageUrl": backgroundImage.asset->url}')
         const zones = await loadData('*[_type == "zone"]{..., "bgImageUrl": backgroundImage.asset->url}')
         const objects = await loadData('*[_type == "exob"]')
-        const portals = await loadData('*[_type == "portal"]{..., "bgImageUrl": backgroundImage.asset->url}')
+        const portals = await loadData('*[_type == "portal"]{..., targetArea->{...}, "bgImageUrl": backgroundImage.asset->url}')
 
         // --> Construct world object by rooms:
         let innerWorld = {}
