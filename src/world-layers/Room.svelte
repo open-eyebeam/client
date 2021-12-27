@@ -5,9 +5,9 @@
   //
   // # # # # # # # # # # # # #
 
-  import { players } from "../core/core.js"
+  import Grid from "./Grid.svelte"
 
-  import { localPlayer } from "../local-player/local-player.js"
+  import { showGrid, showLabels, playSound } from "../stores.js"
 
   import { createEventDispatcher } from "svelte"
   const dispatch = createEventDispatcher()
@@ -47,6 +47,9 @@
     move(e)
   }}
 >
+  {#if $showGrid}
+    <Grid />
+  {/if}
   <slot />
 </div>
 

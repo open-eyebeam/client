@@ -63,6 +63,7 @@
   } from "./misc/keyboard-handler.js"
   import { UI, STATE, setUIState } from "./misc/ui-state.js"
   import { transitionWorldIn, transitionWorldOut } from "./misc/transitions.js"
+  import { showGrid, showLabels, playSound } from "./stores.js"
 
   const AVATARS = ["star", "square", "triangle", "pentagon"]
 
@@ -440,6 +441,15 @@
   <Reconnection {reconnectionAttempts} {disconnectionCode} />
 {/if}
 
+<div
+  class="grid-toggle"
+  on:click={() => {
+    showGrid.set(!$showGrid)
+  }}
+>
+  {$showGrid ? "Hide" : "Show"} grid
+</div>
+
 <style lang="scss">
   @import "./variables.scss";
 
@@ -468,6 +478,22 @@
     &.blurred {
       filter: blur(3px);
       pointer-events: none;
+    }
+  }
+
+  .grid-toggle {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    padding: 10px;
+    background: $white;
+    font-size: 10px;
+    text-transform: uppercase;
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+      background: $grey;
     }
   }
 </style>
