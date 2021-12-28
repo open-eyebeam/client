@@ -106,7 +106,7 @@
     player.x +
     "px)"}
 >
-  {#if player.shape === "square"}
+  <!-- {#if player.shape === "square"}
     <Square self={player.self} npc={player.npc} />
   {/if}
   {#if player.shape === "triangle"}
@@ -120,7 +120,7 @@
   {/if}
   {#if player.shape === "star"}
     <Star self={player.self} npc={player.npc} />
-  {/if}
+  {/if} -->
 </div>
 
 <style lang="scss">
@@ -134,6 +134,7 @@
     left: 0;
     z-index: 100;
     transition: transform 0.1s linear;
+    background-image: url("/g2.png");
   }
 
   // @keyframes rotating {

@@ -12,11 +12,9 @@
   export let y = 0
 </script>
 
-<div
-  transition:scale={{ duration: 500 }}
-  class="target"
-  style={"top: " + y + "px; left: " + x + "px;"}
-/>
+<!-- transition:scale={{ duration: 500 }} -->
+
+<div class="target" style={"top: " + y + "px; left: " + x + "px;"} />
 
 <style lang="scss">
   @import "../variables.scss";
@@ -24,12 +22,21 @@
   .target {
     height: 20px;
     width: 20px;
-    border-radius: 50%;
     position: absolute;
     top: 0;
     left: 0;
-    background: rgba(33, 33, 33, 0.4);
-    // animation: flash 0.5s linear infinite;
+    background: $COLOR_DARK;
+    animation: rotating 5s ease-in infinite;
+    opacity: 0.5;
+  }
+
+  @keyframes rotating {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
   }
 
   @keyframes flash {
