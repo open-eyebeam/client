@@ -16,8 +16,8 @@
 
   let gridPosY = zone.y * GRID_SIZE
   let gridPosX = zone.x * GRID_SIZE
-  let gridWidth = zone.dimensions.width * GRID_SIZE
-  let gridHeight = zone.dimensions.height * GRID_SIZE
+  let gridWidth = get(zone, "dimensions.width", 1) * GRID_SIZE
+  let gridHeight = get(zone, "dimensions.height", 1) * GRID_SIZE
 
   const inlineStyles = `transform: translateY(${gridPosY}px) translateX(${gridPosX}px); width: ${gridWidth}px; height: ${gridHeight}px; background-color: ${toRGBA(
     zone.backgroundColor

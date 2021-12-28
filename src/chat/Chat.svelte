@@ -83,43 +83,9 @@
     height: 50px;
     width: 300px;
     background: $COLOR_LIGHT;
-    border-radius: 5px;
 
     // @include screen-size("small") {
     //   height: calc(100% - 40px);
-    // }
-  }
-
-  .header {
-    font-size: $FONT_SIZE_SMALL;
-    padding-left: $SPACE_S;
-    padding-right: $SPACE_S;
-    padding-top: 7px;
-    padding-bottom: 7px;
-    width: 100%;
-    color: $COLOR_DARK;
-    border-bottom: $border-style;
-    text-align: left;
-  }
-
-  .message-container {
-    width: 100%;
-    height: calc(100% - 60px);
-    overflow-y: auto;
-    overflow-x: hidden;
-    // padding-bottom: $SPACE_S;
-    padding-top: $SPACE_S;
-    @include hide-scroll;
-
-    // @include screen-size("small") {
-    //   height: 100%;
-    //   padding-bottom: 0;
-    //   padding-top: 0;
-    //   &.expanded {
-    //     padding-bottom: $SPACE_S;
-    //     padding-top: $SPACE_S;
-    //     height: calc(100% - 28px);
-    //   }
     // }
   }
 

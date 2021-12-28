@@ -128,18 +128,24 @@
   const checkPortalOverlap = () => {
     console.log("__ Check portal overlap...")
     const avatarElement = document.getElementById($localPlayer.uuid)
-    let overlapIndex = false
-    currentRoom.portals.forEach(p => {
-      // console.log(p)
-      let portalElement = document.getElementById(p._id)
-      if (portalElement && isOverlapping(avatarElement, portalElement)) {
-        overlapIndex = p.targetArea._id
+    if (
+      avatarElement &&
+      currentRoom.portals &&
+      Array.isArray(currentRoom.portals)
+    ) {
+      let overlapIndex = false
+      currentRoom.portals.forEach(p => {
+        // console.log(p)
+        let portalElement = document.getElementById(p._id)
+        if (portalElement && isOverlapping(avatarElement, portalElement)) {
+          overlapIndex = p.targetArea._id
+        }
+      })
+      if (overlapIndex) {
+        roomIntent = overlapIndex
+      } else {
+        roomIntent = false
       }
-    })
-    if (overlapIndex) {
-      roomIntent = overlapIndex
-    } else {
-      roomIntent = false
     }
     // console.log("roomIntent", roomIntent)
   }
@@ -401,7 +407,9 @@
     {roomIntent}
     roomTitle={$worldObject[roomIntent].title}
     on:room={e => {
-      changeRoom(roomIntent)
+      if (e.detail.roomId) {
+        changeRoom(roomIntent)
+      }
       roomIntent = false
     }}
   />

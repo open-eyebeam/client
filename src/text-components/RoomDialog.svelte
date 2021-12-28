@@ -35,7 +35,18 @@
       <div class="marker">▸</div>
       Yes
     </div>
-    <div class="choice" tabindex="0">
+    <div
+      class="choice"
+      on:click={e => {
+        dispatch("room", { roomId: false })
+      }}
+      on:keydown={e => {
+        if (e.code === "Enter") {
+          dispatch("room", { roomId: false })
+        }
+      }}
+      tabindex="0"
+    >
       <div class="marker">▸</div>
       No
     </div>
