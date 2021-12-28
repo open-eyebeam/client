@@ -5,6 +5,8 @@ import { has, get } from "lodash"
 export const globalSettings = writable({})
 export let worldObject = writable({})
 
+export const GRID_SIZE = 32
+
 export const buildWorld = () => {
     return new Promise(async (resolve, reject) => {
         const rooms = await loadData('*[_type == "room"]{..., "bgImageUrl": backgroundImage.asset->url}')
@@ -51,8 +53,8 @@ export const buildWorld = () => {
 }
 
 const parseStyleProperties = r => {
-    let widthStyle = "width: " + get(r, 'dimensions.width', '') + "px;"
-    let heightStyle = "height: " + get(r, 'dimensions.height', '') + "px;"
+    let widthStyle = "width: " + (get(r, 'dimensions.width', 0) * GRID_SIZE) + "px;"
+    let heightStyle = "height: " + (get(r, 'dimensions.height', 0) * GRID_SIZE) + "px;"
     let backgroundColorStyle =
         "background-color:" + get(r, 'backgroundColor.hex', '#ff0000') + ";"
     let backgroundImageStyle = "background-image: url(" + r.bgImageUrl + ");"
