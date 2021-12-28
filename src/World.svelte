@@ -26,6 +26,7 @@
   import Menubar from "./ui-components/Menubar.svelte"
   import AuthenticationBox from "./ui-components/AuthenticationBox.svelte"
   import StreamPlayer from "./ui-components/StreamPlayer.svelte"
+  import ArticleBox from "./ui-components/ArticleBox.svelte"
   // *** TEXT COMPONENTS
   import RoomEntryBox from "./text-components/RoomEntryBox.svelte"
   import Onboarding from "./text-components/Onboarding.svelte"
@@ -63,7 +64,7 @@
   } from "./misc/keyboard-handler.js"
   import { UI, STATE, setUIState } from "./misc/ui-state.js"
   import { transitionWorldIn, transitionWorldOut } from "./misc/transitions.js"
-  import { showGrid, showLabels, playSound } from "./stores.js"
+  import { showGrid, showLabels, playSound, activeArticle } from "./stores.js"
 
   const AVATARS = ["star", "square", "triangle", "pentagon"]
 
@@ -83,6 +84,7 @@
   // $: console.log("$keyReleased", $keyReleased)
   // $: console.log("$chatMessages", $chatMessages)
   // $: console.log("roomIntent", roomIntent)
+  $: console.log("$activeArticle", $activeArticle)
 
   let windowHeight = window.innerHeight
   let windowWidth = window.innerWidth
@@ -413,6 +415,11 @@
       roomIntent = false
     }}
   />
+{/if}
+
+<!-- ARTICLE BOX -->
+{#if $activeArticle}
+  <ArticleBox article={$activeArticle} />
 {/if}
 
 <!-- CHAT-->
