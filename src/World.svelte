@@ -54,7 +54,7 @@
   } from "./authentication/authentication.js"
 
   import { localPlayer } from "./local-player/local-player.js"
-  import { buildWorld, worldObject } from "./data.js"
+  import { buildWorld, worldObject, GRID_SIZE } from "./data.js"
   import { deltaJump } from "./misc/page-visibility.js"
   import {
     pressedKeys,
@@ -73,7 +73,6 @@
   let captions = []
   let currentRoom = false
   let viewportElement = {}
-
   let roomIntent = false
 
   // DEBUG
@@ -127,19 +126,22 @@
   // }
 
   const checkPortalOverlap = () => {
-    // console.log("__ Check portal overlap...")
+    console.log("__ Check portal overlap...")
     const avatarElement = document.getElementById($localPlayer.uuid)
+    let overlapIndex = false
     currentRoom.portals.forEach(p => {
       // console.log(p)
       let portalElement = document.getElementById(p._id)
       if (portalElement && isOverlapping(avatarElement, portalElement)) {
-        // showRoomCaption(p.targetArea._ref)
-        roomIntent = p.targetArea._id
-        // changeRoom(p.targetArea._ref)
-      } else {
-        roomIntent = false
+        overlapIndex = p.targetArea._id
       }
     })
+    if (overlapIndex) {
+      roomIntent = overlapIndex
+    } else {
+      roomIntent = false
+    }
+    // console.log("roomIntent", roomIntent)
   }
 
   const checkZoneOverlap = () => {
@@ -193,7 +195,7 @@
             // console.log("DOWN")
             if (
               $players[$localPlayer.uuid].y <
-              currentRoom.dimensions.height - 30
+              currentRoom.dimensions.height * GRID_SIZE - 30
             ) {
               players.update(ps => {
                 ps[$localPlayer.uuid].y += 2
@@ -214,7 +216,7 @@
             // console.log("RIGHT")
             if (
               $players[$localPlayer.uuid].x <
-              currentRoom.dimensions.width - 30
+              currentRoom.dimensions.width * GRID_SIZE - 30
             ) {
               players.update(ps => {
                 ps[$localPlayer.uuid].x += 2

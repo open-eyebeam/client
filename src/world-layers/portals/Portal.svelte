@@ -9,6 +9,7 @@
   import { urlFor } from "../../sanity.js"
   import { get } from "lodash"
   import { showLabels } from "../../stores.js"
+  import { GRID_SIZE } from "../../data.js"
 
   // *** PROPS
   export let portal = {}
@@ -16,6 +17,9 @@
   // *** VARIABLES
   let portalEl = {}
   let label = {}
+
+  let gridPosY = portal.y * GRID_SIZE
+  let gridPosX = portal.x * GRID_SIZE
 
   $: {
     if (label.popper) {
@@ -27,11 +31,7 @@
     }
   }
 
-  const inlineStyles = `transform: translateY(${portal.y}px) translateX(${
-    portal.x
-  }px); width: ${portal.dimensions.width}px; height: ${
-    portal.dimensions.height
-  }px; background-color: ${get(
+  const inlineStyles = `transform: translateY(${gridPosY}px) translateX(${gridPosX}px); width: ${GRID_SIZE}px; height: ${GRID_SIZE}px; background-color: ${get(
     portal,
     "backgroundColor.hex",
     ""
@@ -67,8 +67,8 @@
   @import "../../variables.scss";
 
   .portal {
-    height: auto;
-    width: 30px;
+    height: 32px;
+    width: 32px;
     // border-radius: 50%;
     // border: 1px solid $COLOR_DARK;
     position: absolute;

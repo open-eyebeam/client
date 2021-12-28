@@ -112,6 +112,8 @@ export function debounce(fn, wait = 1) {
  * @return {Boolean} overlap status or null if native object not received
  */
 export const isOverlapping = (e1, e2) => {
+
+  // console.log('isOverlapping', e1, e2);
   if (e1.length && e1.length > 1) {
     e1 = e1[0]
   }

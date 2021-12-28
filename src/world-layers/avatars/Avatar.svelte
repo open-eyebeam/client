@@ -127,8 +127,8 @@
   @import "../../variables.scss";
 
   .avatar {
-    height: 30px;
-    width: 30px;
+    height: 32px;
+    width: 32px;
     position: absolute;
     top: 0;
     left: 0;
