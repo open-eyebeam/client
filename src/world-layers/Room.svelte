@@ -69,7 +69,7 @@
 
   .center-view {
     position: fixed;
-    bottom: 50px;
+    top: 100px;
     left: 20px;
     padding: 5px;
     background: $white;

@@ -506,7 +506,7 @@
 
   .grid-toggle {
     position: fixed;
-    bottom: 20px;
+    top: 70px;
     left: 20px;
     padding: 5px;
     background: $white;

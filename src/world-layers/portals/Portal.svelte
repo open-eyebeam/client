@@ -17,7 +17,6 @@
   // *** VARIABLES
   let portalEl = {}
   let label = {}
-
   let gridPosY = portal.y * GRID_SIZE
   let gridPosX = portal.x * GRID_SIZE
 

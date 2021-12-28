@@ -9,15 +9,19 @@
   import { urlFor } from "../../sanity.js"
   import { get } from "lodash"
   import { toRGBA } from "../../global.js"
+  import { GRID_SIZE } from "../../data.js"
 
   //   *** PROPS
   export let zone = {}
 
-  const inlineStyles = `transform: translateY(${zone.y}px) translateX(${
-    zone.x
-  }px); width: ${zone.dimensions.width}px; height: ${
-    zone.dimensions.height
-  }px; background-color: ${toRGBA(zone.backgroundColor)};`
+  let gridPosY = zone.y * GRID_SIZE
+  let gridPosX = zone.x * GRID_SIZE
+  let gridWidth = zone.dimensions.width * GRID_SIZE
+  let gridHeight = zone.dimensions.height * GRID_SIZE
+
+  const inlineStyles = `transform: translateY(${gridPosY}px) translateX(${gridPosX}px); width: ${gridWidth}px; height: ${gridHeight}px; background-color: ${toRGBA(
+    zone.backgroundColor
+  )};`
 
   onMount(async () => {
     // tippy(zoneEl, {
@@ -47,11 +51,9 @@
   @import "../../variables.scss";
 
   .zone {
-    height: 30px;
-    width: 30px;
-    border-radius: 50%;
+    height: 32px;
+    width: 32px;
     background: $COLOR_DARK;
-    border: 1px solid $COLOR_DARK;
     position: absolute;
     top: 0;
     left: 0;
