@@ -55,7 +55,7 @@
   } from "./authentication/authentication.js"
 
   import { localPlayer } from "./local-player/local-player.js"
-  import { buildWorld, worldObject, GRID_SIZE } from "./data.js"
+  import { buildWorld, worldObject, loadAvatars, GRID_SIZE } from "./data.js"
   import { deltaJump } from "./misc/page-visibility.js"
   import {
     pressedKeys,
@@ -66,8 +66,6 @@
   import { transitionWorldIn, transitionWorldOut } from "./misc/transitions.js"
   import { showGrid, showLabels, playSound, activeArticle } from "./stores.js"
 
-  const AVATARS = ["star", "square", "triangle", "pentagon"]
-
   // *** VARIABLES
   let reconnectionAttempts = 0
   let disconnectionCode = 0
@@ -75,6 +73,7 @@
   let currentRoom = false
   let viewportElement = {}
   let roomIntent = false
+  let avatars = []
 
   // DEBUG
   // $: console.log("__ CHANGED: $localPlayer", $localPlayer)
@@ -94,10 +93,10 @@
     windowWidth = window.innerWidth
   }
 
-  $: {
-    console.log("windowHeight", windowHeight)
-    console.log("windowWidth", windowWidth)
-  }
+  // $: {
+  //   console.log("windowHeight", windowHeight)
+  //   console.log("windowWidth", windowWidth)
+  // }
 
   // $: {
   //   if (currentRoom.dimensions) {
@@ -128,7 +127,7 @@
   // }
 
   const checkPortalOverlap = () => {
-    console.log("__ Check portal overlap...")
+    // console.log("__ Check portal overlap...")
     const avatarElement = document.getElementById($localPlayer.uuid)
     if (
       avatarElement &&
@@ -318,6 +317,9 @@
       }
     }
 
+    avatars = await loadAvatars()
+    console.log("✓ (3) Avatars loaded")
+
     // ___ Give the local user a UUID
     localPlayer.update(lp => {
       lp.uuid = nanoid()
@@ -327,7 +329,7 @@
     let playerObject = {
       uuid: $localPlayer.uuid,
       name: "Test player",
-      shape: sample(AVATARS),
+      shape: sample(avatars)._id,
       onboarded: true,
       room: currentRoom._id,
       x: getRandomInt(
@@ -339,14 +341,15 @@
         get(currentRoom, "landingZone.maxY", 100)
       ),
     }
+
     await connectToGameServer(playerObject)
-    console.log("✓ (3) Game server connected")
+    console.log("✓ (4) Game server connected")
 
     await initializeKeyboardHandler()
-    console.log("✓ (4) Keyboard initialized")
+    console.log("✓ (5) Keyboard initialized")
 
     animationLoop()
-    console.log("✓ (5) Animation loop started")
+    console.log("✓ (6) Animation loop started")
 
     console.timeEnd("mount")
   })
@@ -372,7 +375,7 @@
     >
       <!-- PLAYERS -->
       <!-- {#if Array.isArray($players)} -->
-      <Players players={$players} currentRoomId={currentRoom._id} />
+      <Players players={$players} currentRoomId={currentRoom._id} {avatars} />
       <!-- {/if} -->
       <!-- OBJECTS -->
       <Objects objects={get(currentRoom, "objects", [])} />

@@ -71,9 +71,11 @@
 
   //   *** PROPS
   export let player = {}
+  export let avatars = []
   export let key = ""
 
   let avatarEl = {}
+  const avatar = avatars.find(a => a._id === player.shape)
 
   onMount(async () => {
     // console.log("player", player)
@@ -83,11 +85,9 @@
         content: player.name,
         arrow: false,
         offset: [0, 10],
-        followCursor: true,
-        //   showOnCreate: true,
-        // sticky: true,
+        // followCursor: true,
         theme: "name",
-        //   hideOnClick: false,
+        hideOnClick: false,
       })
     }
   })
@@ -106,21 +106,7 @@
     player.x +
     "px)"}
 >
-  <!-- {#if player.shape === "square"}
-    <Square self={player.self} npc={player.npc} />
-  {/if}
-  {#if player.shape === "triangle"}
-    <Triangle self={player.self} npc={player.npc} />
-  {/if}
-  {#if player.shape === "hexagon"}
-    <Hexagon self={player.self} npc={player.npc} />
-  {/if}
-  {#if player.shape === "pentagon"}
-    <Pentagon self={player.self} npc={player.npc} />
-  {/if}
-  {#if player.shape === "star"}
-    <Star self={player.self} npc={player.npc} />
-  {/if} -->
+  <img src={avatar && avatar.imageUrl ? avatar.imageUrl : "/g2.png"} />
 </div>
 
 <style lang="scss">
@@ -134,7 +120,12 @@
     left: 0;
     z-index: 100;
     transition: transform 0.1s linear;
-    background-image: url("/g2.png");
+
+    img {
+      width: 100%;
+      height: 100%;
+      image-rendering: pixelated;
+    }
   }
 
   // @keyframes rotating {

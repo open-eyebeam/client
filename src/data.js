@@ -52,6 +52,13 @@ export const buildWorld = () => {
     })
 }
 
+export const loadAvatars = () => {
+    return new Promise(async (resolve, reject) => {
+        const ax = await loadData('*[_type == "avatar"]{..., "imageUrl": image.asset->url}')
+        resolve(ax)
+    })
+}
+
 const parseStyleProperties = r => {
     let widthStyle = "width: " + (get(r, 'dimensions.width', 0) * GRID_SIZE) + "px;"
     let heightStyle = "height: " + (get(r, 'dimensions.height', 0) * GRID_SIZE) + "px;"
