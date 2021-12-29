@@ -8,6 +8,7 @@
     login,
     logout,
     isAuthenticated,
+    profile,
   } from "../authentication/authentication.js"
 </script>
 
@@ -22,17 +23,11 @@
   }}
 >
   {#if $isAuthenticated}
-    <!-- {#if $profileMeta.name}
     <div>
-      {$profileMeta.name}
-      {#if $profileMeta.roles && $profileMeta.roles.length > 0}
-        {#each $profileMeta.roles as role}
-          <span>({role}) </span>
-        {/each}
-      {/if}
+      {$profile && $profile.username
+        ? $profile.username + " (Log out)"
+        : "Log out"}
     </div>
-  {/if} -->
-    <div>Log out</div>
   {:else}Login{/if}
 </div>
 

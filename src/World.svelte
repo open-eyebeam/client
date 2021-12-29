@@ -52,6 +52,7 @@
   import {
     configureAuthClient,
     isAuthenticated,
+    profile,
   } from "./authentication/authentication.js"
 
   import { localPlayer } from "./local-player/local-player.js"
@@ -306,6 +307,8 @@
       console.log("Error in authentication:", e)
     }
     console.log("✓ (1) Auth client configured ")
+
+    console.log("$profile", $profile)
 
     await buildWorld()
     console.log("✓ (2) World built")
