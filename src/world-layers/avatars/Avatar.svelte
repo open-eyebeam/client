@@ -45,6 +45,18 @@
         animation: "fade",
         inertia: true,
         theme: "chat",
+        popperOptions: {
+          modifiers: [
+            {
+              name: "flip",
+              enabled: false,
+            },
+            {
+              name: "preventOverflow",
+              enabled: false,
+            },
+          ],
+        },
         // offset: [10, 10],
         //   hideOnClick: false,
       })

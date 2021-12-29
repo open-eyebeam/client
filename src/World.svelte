@@ -308,8 +308,6 @@
     }
     console.log("✓ (1) Auth client configured ")
 
-    console.log("$profile", $profile)
-
     await buildWorld()
     console.log("✓ (2) World built")
     // Set first room
@@ -331,7 +329,7 @@
 
     let playerObject = {
       uuid: $localPlayer.uuid,
-      name: "Test player",
+      name: $profile && $profile.username ? $profile.username : "Test player",
       shape: sample(avatars)._id,
       onboarded: true,
       room: currentRoom._id,

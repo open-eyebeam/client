@@ -43,7 +43,7 @@
     height: 30px;
     padding-left: 7px;
     background: $COLOR_DARK;
-    z-index: 1000;
+    z-index: 10000;
     display: flex;
     justify-content: space-between;
     align-items: center;
