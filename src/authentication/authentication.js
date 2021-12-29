@@ -4,6 +4,7 @@ import { writable, get } from 'svelte/store';
 
 // *** STORES
 export const isAuthenticated = writable(false);
+export const profile = writable(false);
 
 // KEYCLOAK
 const keycloak = new Keycloak({
@@ -22,18 +23,19 @@ export const configureAuthClient = async () => {
             console.log(authenticated ? 'authenticated' : 'not authenticated');
             console.log('keycloak', keycloak);
             isAuthenticated.set(authenticated)
-            resolve()
-            // keycloak.updateToken(30).then(function() {
-            //     loadData();
-            // }).catch(function() {
-            //     alert('Failed to refresh token');
-            // });
-            // keycloak.loadUserProfile()
-            //     .then(function (profile) {
-            //         alert(JSON.stringify(profile, null, "  "))
-            //     }).catch(function () {
-            //         alert('Failed to load user profile');
-            //     });
+            if (authenticated) {
+                keycloak.loadUserProfile()
+                    .then(p => {
+                        console.log('profile', p);
+                        profile.set(p);
+                    }).catch(() => {
+                        console.log('Failed to load user profile');
+                    }).finally(() => {
+                        resolve()
+                    })
+            } else {
+                resolve()
+            }
         }).catch(e => {
             console.log(e)
             console.log('failed to initialize');
