@@ -25,6 +25,7 @@
       dispatch("close")
     }}
     in:fade={transitionSettings}
+    out:fade={{ duration: 100 }}
   >
     {@html renderBlockText(text)}
   </div>

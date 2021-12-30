@@ -22,8 +22,6 @@
   let gridWidth = get(object, "dimensions.width", 1) * GRID_SIZE
   let gridHeight = get(object, "dimensions.height", 1) * GRID_SIZE
 
-  // console.log("object", object)
-
   $: {
     if (label.popper) {
       if ($showLabels) {
@@ -41,10 +39,13 @@
       content: object.title,
       arrow: false,
       offset: [0, 5],
-      theme: "name",
+      theme: object.static ? "static" : "name",
       hideOnClick: false,
       sticky: true,
       trigger: "manual",
+      popperOptions: {
+        placement: object.static ? "bottom" : "top",
+      },
     })
   })
 </script>
@@ -52,6 +53,7 @@
 <div
   transition:fade
   class="object"
+  class:static={object.static}
   bind:this={objectEl}
   class:image={object.iconImage}
   id={object._id}
@@ -62,7 +64,7 @@
   }}
 >
   {#if object.iconImage}
-    <img src={urlFor(object.iconImage).quality(100).height(100).url()} />
+    <img src={urlFor(object.iconImage).quality(100).height(300).url()} />
   {/if}
 </div>
 
@@ -83,13 +85,16 @@
       opacity: 0.8;
     }
 
-    &.image {
-      img {
-        height: 100%;
-        width: 100%;
-        object-fit: cover;
-        image-rendering: pixelated;
-      }
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      image-rendering: pixelated;
+    }
+
+    &.static {
+      pointer-events: none;
+      cursor: default;
     }
   }
 </style>
