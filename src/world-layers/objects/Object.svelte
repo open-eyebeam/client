@@ -73,7 +73,6 @@
     height: 32px;
     width: 32px;
     overflow: hidden;
-    background: red;
     position: absolute;
     top: 0;
     left: 0;

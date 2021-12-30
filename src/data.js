@@ -62,10 +62,10 @@ export const loadAvatars = () => {
 const parseStyleProperties = r => {
     let widthStyle = "width: " + (get(r, 'dimensions.width', 0) * GRID_SIZE) + "px;"
     let heightStyle = "height: " + (get(r, 'dimensions.height', 0) * GRID_SIZE) + "px;"
-    let backgroundColorStyle =
-        "background-color:" + get(r, 'backgroundColor.hex', '#ff0000') + ";"
+    // let backgroundColorStyle =
+    //     "background-color:" + get(r, 'backgroundColor.hex', '#ff0000') + ";"
     let backgroundImageStyle = "background-image: url(" + r.bgImageUrl + ");"
-    return widthStyle + heightStyle + backgroundColorStyle + backgroundImageStyle;
+    return widthStyle + heightStyle + backgroundImageStyle;
 }
 
 // ===> GLOBAL SETTINGS
