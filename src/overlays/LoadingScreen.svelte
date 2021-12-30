@@ -29,11 +29,11 @@
     .box {
       font-family: $SERIF_STACK;
       padding: 20px;
-      font-size: 18px;
+      font-size: $font-size-small;
       text-align: center;
       user-select: none;
       @include screen-size("small") {
-        font-size: 12px;
+        font-size: $font-size-extra-small;
       }
     }
   }

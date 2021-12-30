@@ -41,7 +41,7 @@
     background: $white;
     padding: 5px;
     cursor: pointer;
-    font-size: $FONT_SIZE_SMALL;
+    font-size: $font-size-extra-small;
 
     &:hover {
       background: $COLOR_MID;

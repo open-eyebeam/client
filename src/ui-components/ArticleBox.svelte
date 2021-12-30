@@ -54,7 +54,7 @@
       z-index: 10000;
       padding: 20px;
       overflow-y: scroll;
-      font-size: $FONT_SIZE_SMALL;
+      font-size: $font-size-small;
     }
   }
 

@@ -41,7 +41,7 @@
       padding: 20px;
       background: $COLOR_LIGHT;
       color: $COLOR_DARK;
-      font-size: $FONT_SIZE_BASE;
+      font-size: $font-size-small;
       text-align: center;
       user-select: none;
 

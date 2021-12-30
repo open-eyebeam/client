@@ -37,12 +37,13 @@
     color: $black;
     border: $border-style;
     z-index: 1000;
+    font-size: $font-size-small;
   }
 
   .caption-container {
     position: fixed;
-    bottom: 50px;
-    left: 30px;
+    bottom: 20px;
+    left: 20px;
     z-index: 1000;
   }
 </style>

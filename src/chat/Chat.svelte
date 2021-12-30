@@ -77,8 +77,8 @@
   @import "../variables.scss";
 
   .chat-container {
-    right: 40px;
-    bottom: 40px;
+    right: 20px;
+    bottom: 20px;
     position: fixed;
     height: 50px;
     width: 300px;
@@ -100,7 +100,7 @@
 
     input {
       font-family: $SERIF_STACK;
-      font-size: $FONT_SIZE_SMALL;
+      font-size: $font-size-small;
       float: left;
       width: 100%;
       display: block;
@@ -131,7 +131,7 @@
 
     button {
       font-family: $SERIF_STACK;
-      font-size: $FONT_SIZE_SMALL;
+      font-size: $font-size-small;
       width: 60px;
       float: right;
       display: block;

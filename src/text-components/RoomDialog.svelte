@@ -58,8 +58,8 @@
 
   .room-dialog-box {
     position: fixed;
-    bottom: 30px;
-    left: 30px;
+    bottom: 20px;
+    left: 20px;
     padding: 15px;
     background: #e8eae6;
     color: $COLOR_DARK;

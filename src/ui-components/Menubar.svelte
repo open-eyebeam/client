@@ -47,10 +47,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
     color: $COLOR_LIGHT;
-    font-size: $FONT_SIZE_SMALL;
+    font-size: $font-size-extra-small;
   }
 
   select {

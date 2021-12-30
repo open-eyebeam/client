@@ -42,7 +42,7 @@
     padding-left: $SPACE_S;
     padding-right: $SPACE_S;
     color: $COLOR_DARK;
-    font-size: $FONT_SIZE_SMALL;
+    font-size: $font-size-small;
     user-select: none;
 
     .meta {

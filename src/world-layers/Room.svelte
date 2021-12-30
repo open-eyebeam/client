@@ -74,7 +74,8 @@
     padding: 5px;
     background: $white;
     cursor: pointer;
-    font-size: 10px;
+    font-size: $font-size-small;
+    display: none;
 
     &:hover {
       background: $black;

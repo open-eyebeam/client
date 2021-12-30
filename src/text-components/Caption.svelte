@@ -7,7 +7,7 @@
 
   // *** IMPORTS
   import { fade } from "svelte/transition"
-  import RoomDialog from "./RoomDialog.svelte"
+  import { renderBlockText } from "../sanity.js"
   import { createEventDispatcher } from "svelte"
 
   const dispatch = createEventDispatcher()
@@ -15,27 +15,19 @@
   const transitionSettings = { duration: 500 }
 
   // *** PROPS
-  export let captions = []
+  export let text = []
 </script>
 
 <div class="caption-container">
-  {#each captions as caption (caption.text)}
-    {#if caption.type === "introduction"}
-      <div class="caption-box" transition:fade={transitionSettings}>
-        {caption.text}
-      </div>
-    {/if}
-    {#if caption.type === "room"}
-      <RoomDialog
-        text={caption.text}
-        roomId={caption.roomId}
-        on:room={e => {
-          console.log(e)
-          dispatch("room", { roomId: e.detail.roomId })
-        }}
-      />
-    {/if}
-  {/each}
+  <div
+    class="caption-box"
+    on:click={e => {
+      dispatch("close")
+    }}
+    in:fade={transitionSettings}
+  >
+    {@html renderBlockText(text)}
+  </div>
 </div>
 
 <style lang="scss">
@@ -43,16 +35,20 @@
 
   .caption-box {
     padding: 15px;
-    background: #e8eae6;
+    background: $COLOR_LIGHT;
     color: $COLOR_DARK;
     border: 1px solid $COLOR_DARK;
     z-index: 1000;
+    font-size: $font-size-small;
+    padding-bottom: 0;
+    cursor: pointer;
   }
 
   .caption-container {
     position: fixed;
-    bottom: 50px;
-    left: 30px;
+    bottom: 20px;
+    left: 20px;
     z-index: 1000;
+    max-width: 460px;
   }
 </style>

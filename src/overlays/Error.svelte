@@ -34,7 +34,7 @@
     .box {
       font-family: $SERIF_STACK;
       padding: 20px;
-      font-size: $FONT_SIZE_LARGE;
+      font-size: $font-size-small;
       text-align: center;
       user-select: none;
     }

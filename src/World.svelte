@@ -30,6 +30,7 @@
   // *** TEXT COMPONENTS
   import RoomEntryBox from "./text-components/RoomEntryBox.svelte"
   import Onboarding from "./text-components/Onboarding.svelte"
+  import Caption from "./text-components/Caption.svelte"
   // *** CHAT
   import Chat from "./chat/Chat.svelte"
 
@@ -75,6 +76,7 @@
   let viewportElement = {}
   let roomIntent = false
   let avatars = []
+  let newRoomIntroduction = false
 
   // DEBUG
   // $: console.log("__ CHANGED: $localPlayer", $localPlayer)
@@ -126,6 +128,12 @@
   //   moveTo($players[$localPlayer.uuid].x, $players[$localPlayer.uuid].y, true)
   //   $keyReleased.set(false)
   // }
+
+  $: {
+    if (roomIntent) {
+      newRoomIntroduction = false
+    }
+  }
 
   const checkPortalOverlap = () => {
     // console.log("__ Check portal overlap...")
@@ -181,6 +189,12 @@
       ),
     })
     await transitionWorldIn(viewportElement)
+    console.log("newRoom", newRoom)
+    if (has(newRoom, "introduction.content")) {
+      newRoomIntroduction = newRoom.introduction.content
+    } else {
+      newRoomIntroduction = false
+    }
   }
 
   const animationLoop = () => {
@@ -352,6 +366,11 @@
     animationLoop()
     console.log("✓ (6) Animation loop started")
 
+    if (has(currentRoom, "introduction.content")) {
+      newRoomIntroduction = currentRoom.introduction.content
+    }
+    console.log("✓ (7) Show main room introduction")
+
     console.timeEnd("mount")
   })
 </script>
@@ -417,6 +436,15 @@
         changeRoom(roomIntent)
       }
       roomIntent = false
+    }}
+  />
+{/if}
+
+{#if newRoomIntroduction}
+  <Caption
+    text={newRoomIntroduction}
+    on:close={e => {
+      newRoomIntroduction = false
     }}
   />
 {/if}
@@ -533,6 +561,7 @@
     text-transform: uppercase;
     cursor: pointer;
     user-select: none;
+    display: none;
 
     &:hover {
       background: $grey;
@@ -546,7 +575,7 @@
 
     .option {
       margin-left: 5px;
-      font-size: 10px;
+      font-size: $font-size-extra-small;
       background: $white;
       text-transform: uppercase;
       float: right;

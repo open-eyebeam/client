@@ -124,7 +124,7 @@
 
   .clock {
     font-family: $SERIF_STACK;
-    font-size: $FONT_SIZE_SMALL;
+    font-size: $font-size-extra-small;
     color: $COLOR_LIGHT;
     display: flex;
 

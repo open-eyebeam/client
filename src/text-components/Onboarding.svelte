@@ -220,7 +220,7 @@
     border: 1px solid $COLOR_DARK;
     cursor: pointer;
     user-select: none;
-    font-size: $FONT_SIZE_BASE;
+    font-size: $font-size-small;
     margin-top: 0.5em;
 
     &.text-input {
@@ -233,7 +233,7 @@
     background: transparent;
     border: none;
     outline: none;
-    font-size: $FONT_SIZE_BASE;
+    font-size: $font-size-small;
     font-family: $SERIF_STACK;
     width: 200px;
   }
