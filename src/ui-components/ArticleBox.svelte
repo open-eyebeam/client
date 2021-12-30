@@ -8,6 +8,8 @@
   import { renderBlockText } from "../sanity.js"
   import { has } from "lodash"
   import { activeArticle } from "../stores.js"
+  // *** UI COMPONENTS
+  import StreamPlayer from "./StreamPlayer.svelte"
 
   //   *** PROPS
   export let article = {}
@@ -21,11 +23,13 @@
     activeArticle.set(false)
   }}
 >
-  <div class="inner">
-    {#if has(article, "content.content")}
+  {#if article.contentType === "video"}
+    <StreamPlayer streamUrl={article.videoUrl} />
+  {:else if has(article, "content.content")}
+    <div class="inner">
       {@html renderBlockText(article.content.content)}
-    {/if}
-  </div>
+    </div>
+  {/if}
 </div>
 
 <style lang="scss">
