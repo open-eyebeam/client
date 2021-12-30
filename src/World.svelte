@@ -29,7 +29,6 @@
   import ArticleBox from "./ui-components/ArticleBox.svelte"
   // *** TEXT COMPONENTS
   import RoomEntryBox from "./text-components/RoomEntryBox.svelte"
-  import Onboarding from "./text-components/Onboarding.svelte"
   import Caption from "./text-components/Caption.svelte"
   // *** CHAT
   import Chat from "./chat/Chat.svelte"
@@ -62,7 +61,6 @@
   import {
     pressedKeys,
     initializeKeyboardHandler,
-    keyReleased,
   } from "./misc/keyboard-handler.js"
   import { UI, STATE, setUIState } from "./misc/ui-state.js"
   import { transitionWorldIn, transitionWorldOut } from "./misc/transitions.js"
@@ -175,6 +173,7 @@
   const changeRoom = async id => {
     // console.log("CHANGE ROOM", id)
     let newRoom = $worldObject[id]
+    showLabels.set(false)
     await transitionWorldOut(viewportElement)
     currentRoom = newRoom
     goToRoom({
@@ -189,6 +188,7 @@
       ),
     })
     await transitionWorldIn(viewportElement)
+    showLabels.set(true)
     console.log("newRoom", newRoom)
     if (has(newRoom, "introduction.content")) {
       newRoomIntroduction = newRoom.introduction.content
