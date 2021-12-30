@@ -8,42 +8,55 @@
   import { onMount } from "svelte"
   import { urlFor } from "../../sanity.js"
   import { get } from "lodash"
-  import { toRGBA } from "../../global.js"
+  import { showLabels } from "../../stores.js"
   import { GRID_SIZE } from "../../data.js"
 
   //   *** PROPS
   export let zone = {}
 
+  // *** VARIABLES
+  let zoneEl = {}
+  let label = {}
   let gridPosY = zone.y * GRID_SIZE
   let gridPosX = zone.x * GRID_SIZE
   let gridWidth = get(zone, "dimensions.width", 1) * GRID_SIZE
   let gridHeight = get(zone, "dimensions.height", 1) * GRID_SIZE
 
-  const inlineStyles = `transform: translateY(${gridPosY}px) translateX(${gridPosX}px); width: ${gridWidth}px; height: ${gridHeight}px; background-color: ${toRGBA(
-    zone.backgroundColor
-  )};`
+  $: {
+    if (label.popper) {
+      if ($showLabels) {
+        label.show()
+      } else {
+        label.hide()
+      }
+    }
+  }
+
+  const inlineStyles = `transform: translateY(${gridPosY}px) translateX(${gridPosX}px); width: ${gridWidth}px; height: ${gridHeight}px;};`
 
   onMount(async () => {
-    // tippy(zoneEl, {
-    //   content: zone.title,
-    //   arrow: false,
-    //   offset: [0, 5],
-    //   //   showOnCreate: true,
-    //   sticky: true,
-    //   //   hideOnClick: false,
-    // })<
+    label = tippy(zoneEl, {
+      content: zone.title,
+      arrow: false,
+      offset: [0, 5],
+      theme: "name",
+      hideOnClick: false,
+      sticky: true,
+      trigger: "manual",
+    })
   })
 </script>
 
 <div
   transition:fade
   class="zone"
+  bind:this={zoneEl}
   id={zone._id}
   alt={zone.title}
   style={inlineStyles}
 >
-  {#if zone.iconImage}
-    <img src={urlFor(zone.iconImage).quality(100).height(100).url()} />
+  {#if zone.backgroundImage}
+    <img src={urlFor(zone.backgroundImage).quality(100).url()} />
   {/if}
 </div>
 
@@ -53,7 +66,6 @@
   .zone {
     height: 32px;
     width: 32px;
-    background: $COLOR_DARK;
     position: absolute;
     top: 0;
     left: 0;
@@ -74,6 +86,7 @@
 
       img {
         max-height: 100%;
+        image-rendering: pixelated;
       }
 
       &:hover {
