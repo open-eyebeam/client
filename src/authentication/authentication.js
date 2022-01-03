@@ -16,8 +16,8 @@ const keycloak = new Keycloak({
 export const configureAuthClient = async () => {
     return new Promise((resolve, reject) => {
         keycloak.init({
-            onLoad: 'login-required',
-            // onLoad: 'check-sso',
+            // onLoad: 'login-required',
+            onLoad: 'check-sso',
             // silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html'
         }).then(authenticated => {
             console.log(authenticated ? 'authenticated' : 'not authenticated');
