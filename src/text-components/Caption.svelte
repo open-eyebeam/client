@@ -36,9 +36,9 @@
 
   .caption-box {
     padding: 15px;
-    background: $COLOR_LIGHT;
-    color: $COLOR_DARK;
-    border: 1px solid $COLOR_DARK;
+    background: $white;
+    color: $black;
+    border: 1px solid $black;
     z-index: 1000;
     font-size: $font-size-small;
     padding-bottom: 0;
@@ -49,7 +49,7 @@
     position: fixed;
     bottom: 20px;
     left: 20px;
-    z-index: 1000;
+    z-index: 10000;
     max-width: 460px;
   }
 </style>

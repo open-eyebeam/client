@@ -43,6 +43,8 @@
       hideOnClick: false,
       sticky: true,
       trigger: "manual",
+      flip: false,
+      placement: "bottom",
     })
   })
 </script>
@@ -90,7 +92,7 @@
       }
 
       &:hover {
-        border: 1px solid $COLOR_DARK;
+        border: 1px solid $black;
       }
     }
   }

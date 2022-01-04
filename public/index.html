@@ -158,9 +158,13 @@
     .tippy-box[data-theme~='name'] {
       background: #0e0d0d;
       border-radius: 0;
-      padding: 0px 0px;
+      padding: 0;
       color: rgb(245, 244, 238);
       font-size: 12px;
+
+      .tippy-content {
+        padding: 0px 1px;
+      }
     }
 
     .tippy-box[data-theme~='static'] {
@@ -169,6 +173,17 @@
       padding: 0px 0px;
       color: #0e0d0d;
       font-size: 12px;
+
+
+    }
+
+    .tippy-box[data-theme~='static'] .tippy-content {
+      padding: 0px 1px;
+    }
+
+
+    .tippy-box[data-theme~='name'] .tippy-content {
+      padding: 0px 1px;
     }
   </style>
 </head>

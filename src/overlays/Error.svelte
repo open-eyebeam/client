@@ -24,8 +24,8 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: $COLOR_DARK;
-    color: $COLOR_LIGHT;
+    background: $black;
+    color: $white;
     display: flex;
     justify-content: center;
     align-items: center;

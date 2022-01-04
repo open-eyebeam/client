@@ -59,7 +59,7 @@
     top: 60px;
     left: 60px;
     width: 360px;
-    border: 5px solid $COLOR_LIGHT;
+    border: 5px solid $white;
 
     .embed {
       width: 100%;

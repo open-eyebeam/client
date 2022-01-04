@@ -61,9 +61,9 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    background: #dfded6;
+    background: $grey;
+    background: red;
     cursor: crosshair;
-    background-size: 100px;
     transition: transform 0.3s ease-out;
   }
 

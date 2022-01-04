@@ -45,6 +45,8 @@
       hideOnClick: false,
       sticky: true,
       trigger: "manual",
+      flip: false,
+      placement: "bottom",
     })
   })
 </script>
@@ -69,7 +71,7 @@
     height: 32px;
     width: 32px;
     // border-radius: 50%;
-    // border: 1px solid $COLOR_DARK;
+    // border: 1px solid $black;
     position: absolute;
     top: 0;
     left: 0;
@@ -78,5 +80,6 @@
     pointer-events: none;
     background-size: contain;
     background-repeat: no-repeat;
+    background-color: $grey;
   }
 </style>

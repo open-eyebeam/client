@@ -41,24 +41,24 @@
     padding-bottom: $SPACE_XS;
     padding-left: $SPACE_S;
     padding-right: $SPACE_S;
-    color: $COLOR_DARK;
+    color: $black;
     font-size: $font-size-small;
     user-select: none;
 
     .meta {
       width: 100%;
       display: inline-block;
-      color: $COLOR_DARK;
+      color: $black;
 
       .name {
         float: left;
         svg {
           path {
-            fill: $COLOR_MID;
+            fill: $grey;
           }
           &:hover {
             path {
-              fill: $COLOR_LIGHT;
+              fill: $white;
             }
           }
         }
@@ -72,12 +72,12 @@
     }
 
     .body {
-      border-left: 1px solid $COLOR_MID;
+      border-left: 1px solid $grey;
       padding-left: $SPACE_S;
       padding-right: $SPACE_XS;
 
       :global(a) {
-        color: $COLOR_DARK;
+        color: $black;
       }
     }
   }

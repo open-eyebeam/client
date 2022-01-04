@@ -43,9 +43,8 @@
       hideOnClick: false,
       sticky: true,
       trigger: "manual",
-      popperOptions: {
-        placement: object.static ? "bottom" : "top",
-      },
+      flip: false,
+      placement: "bottom",
     })
   })
 </script>
@@ -80,6 +79,7 @@
     left: 0;
     cursor: pointer;
     transition: opacity 0.5s $transition;
+    background: $grey;
 
     &:hover {
       opacity: 0.8;

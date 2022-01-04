@@ -80,9 +80,8 @@
     right: 20px;
     bottom: 20px;
     position: fixed;
-    height: 50px;
     width: 300px;
-    background: $COLOR_LIGHT;
+    z-index: 10000;
 
     // @include screen-size("small") {
     //   height: calc(100% - 40px);
@@ -91,9 +90,6 @@
 
   .chat-input {
     width: 100%;
-    height: 50px;
-    padding-left: 7px;
-    padding-right: $SPACE_S;
     display: flex;
     align-items: center;
     user-select: none;
@@ -104,9 +100,9 @@
       float: left;
       width: 100%;
       display: block;
-      background: transparent;
+      background: $white;
       border: $border-style;
-      color: $COLOR_DARK;
+      color: $black;
       padding: $SPACE_S;
       border-radius: 0;
       outline: none;
@@ -120,7 +116,7 @@
       input[type="text"] {
         -webkit-appearance: none;
         &::placeholder {
-          color: $COLOR_DARK;
+          color: $black;
         }
       }
 
@@ -135,9 +131,9 @@
       width: 60px;
       float: right;
       display: block;
-      background: transparent;
+      background: $white;
       border: $border-style;
-      color: $COLOR_DARK;
+      color: $black;
       outline: none;
       cursor: pointer;
       border-radius: 0;

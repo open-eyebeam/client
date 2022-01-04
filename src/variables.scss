@@ -13,7 +13,8 @@ $font-size-h1: 54px * $SCALE_FACTOR;
 // ==> E-INK
 $black: rgb(34, 31, 32); //#221F20
 $white: rgb(245, 244, 238); //#F5F4EE
-$grey: rgb(224, 222, 215); // #DFDDD6
+// $grey: rgb(224, 222, 215); // #DFDDD6
+$grey: #dedcd5;
 $transparent-grey: rgba(224, 222, 215, 0.95);
 
 $border-style: 1px solid $black;
@@ -23,15 +24,6 @@ $FONT_SIZE_BASE: 18px;
 $FONT_SIZE_MEDIUM: $FONT_SIZE_BASE;
 $FONT_SIZE_LARGE: $FONT_SIZE_BASE;
 
-// COLOR
-$COLOR_DARK: rgb(14, 13, 13);
-$COLOR_MID: rgb(196, 199, 193);
-$COLOR_LIGHT: rgb(226, 229, 223);
-$COLOR_DARK_OPACITY: rgba(0, 0, 0, 0.8);
-$COLOR_MID_1: rgb(197, 197, 197);
-$COLOR_MID_15: rgb(187, 187, 187);
-$COLOR_MID_2: rgb(153, 153, 153);
-$COLOR_MID_3: rgb(85, 85, 85);
 
 // SPACING
 $SPACE_BASE: 12px;

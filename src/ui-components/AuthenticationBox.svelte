@@ -44,7 +44,7 @@
     font-size: $font-size-extra-small;
 
     &:hover {
-      background: $COLOR_MID;
+      background: $grey;
     }
   }
 </style>

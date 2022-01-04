@@ -538,7 +538,7 @@
     // overflow: scroll;
     opacity: 1;
     transition: opacity 1s ease-out filter 1s ease-out;
-    background: $COLOR_DARK;
+    background: $black;
 
     &.disabled {
       opacity: 0.3;
@@ -561,7 +561,6 @@
     text-transform: uppercase;
     cursor: pointer;
     user-select: none;
-    display: none;
 
     &:hover {
       background: $grey;

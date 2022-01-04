@@ -42,14 +42,14 @@
     width: 100%;
     height: 30px;
     padding-left: 7px;
-    background: $COLOR_DARK;
+    background: $black;
     z-index: 10000;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding-left: 10px;
     padding-right: 10px;
-    color: $COLOR_LIGHT;
+    color: $white;
     font-size: $font-size-extra-small;
   }
 

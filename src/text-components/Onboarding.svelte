@@ -216,8 +216,8 @@
   .caption-box {
     padding: 15px;
     background: #e8eae6;
-    color: $COLOR_DARK;
-    border: 1px solid $COLOR_DARK;
+    color: $black;
+    border: 1px solid $black;
     cursor: pointer;
     user-select: none;
     font-size: $font-size-small;
@@ -241,11 +241,11 @@
   .submit-name {
     width: 60px;
     border-radius: 0;
-    border: 1px solid $COLOR_DARK;
+    border: 1px solid $black;
     cursor: pointer;
 
     &:hover {
-      background: $COLOR_MID;
+      background: $grey;
     }
   }
 

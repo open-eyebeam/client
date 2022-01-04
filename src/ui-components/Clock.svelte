@@ -125,7 +125,7 @@
   .clock {
     font-family: $SERIF_STACK;
     font-size: $font-size-extra-small;
-    color: $COLOR_LIGHT;
+    color: $white;
     display: flex;
 
     .weather {
@@ -137,7 +137,7 @@
     }
 
     a {
-      color: $COLOR_LIGHT;
+      color: $white;
       text-decoration: none;
     }
   }

@@ -32,7 +32,7 @@
     polygon,
     rect {
       fill: none;
-      stroke: $COLOR_DARK;
+      stroke: $black;
       stroke-width: 0.5;
       stroke-miterlimit: 10;
     }
@@ -40,7 +40,7 @@
     &:hover {
       polygon,
       rect {
-        fill: $COLOR_LIGHT;
+        fill: $white;
       }
     }
 
@@ -48,13 +48,13 @@
       cursor: default;
       polygon,
       rect {
-        fill: $COLOR_DARK;
+        fill: $black;
       }
 
       &:hover {
         polygon,
         rect {
-          fill: $COLOR_DARK;
+          fill: $black;
         }
       }
     }
