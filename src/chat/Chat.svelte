@@ -100,9 +100,9 @@
       float: left;
       width: 100%;
       display: block;
-      background: $white;
+      background: $e-ink-light;
       border: $border-style;
-      color: $black;
+      color: $e-ink-dark;
       padding: $SPACE_S;
       border-radius: 0;
       outline: none;
@@ -116,7 +116,7 @@
       input[type="text"] {
         -webkit-appearance: none;
         &::placeholder {
-          color: $black;
+          color: $e-ink-dark;
         }
       }
 
@@ -131,9 +131,9 @@
       width: 60px;
       float: right;
       display: block;
-      background: $white;
+      background: $e-ink-light;
       border: $border-style;
-      color: $black;
+      color: $e-ink-dark;
       outline: none;
       cursor: pointer;
       border-radius: 0;

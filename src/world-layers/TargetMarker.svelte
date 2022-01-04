@@ -26,7 +26,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    background: $black;
+    background: $e-ink-dark;
     // animation: rotating 5s ease-in infinite;
     opacity: 0.2;
   }

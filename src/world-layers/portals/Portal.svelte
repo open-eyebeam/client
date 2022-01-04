@@ -71,7 +71,7 @@
     height: 32px;
     width: 32px;
     // border-radius: 50%;
-    // border: 1px solid $black;
+    // border: 1px solid $e-ink-dark;
     position: absolute;
     top: 0;
     left: 0;
@@ -80,6 +80,6 @@
     pointer-events: none;
     background-size: contain;
     background-repeat: no-repeat;
-    background-color: $grey;
+    background-color: $e-ink-medium;
   }
 </style>

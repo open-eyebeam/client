@@ -49,8 +49,8 @@
     align-items: center;
 
     .inner {
-      background: $white;
-      color: $black;
+      background: $e-ink-light;
+      color: $e-ink-dark;
       width: 600px;
       height: 700px;
       max-width: 90%;

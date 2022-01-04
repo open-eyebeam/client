@@ -42,15 +42,16 @@
     width: 100%;
     height: 30px;
     padding-left: 7px;
-    background: $black;
+    background: $e-ink-dark;
     z-index: 10000;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding-left: 10px;
     padding-right: 10px;
-    color: $white;
+    color: $e-ink-light;
     font-size: $font-size-extra-small;
+    border-bottom: 1px solid $e-ink-almost-dark;
   }
 
   select {

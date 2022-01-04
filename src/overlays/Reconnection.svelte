@@ -39,8 +39,8 @@
     .box {
       font-family: $SERIF_STACK;
       padding: 20px;
-      background: $white;
-      color: $black;
+      background: $e-ink-light;
+      color: $e-ink-dark;
       font-size: $font-size-small;
       text-align: center;
       user-select: none;

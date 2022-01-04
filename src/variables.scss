@@ -10,14 +10,12 @@ $font-size-h2: 32px * $SCALE_FACTOR;
 $font-size-h1: 54px * $SCALE_FACTOR;
 
 // COLORS
-// ==> E-INK
-$black: rgb(34, 31, 32); //#221F20
-$white: rgb(245, 244, 238); //#F5F4EE
-// $grey: rgb(224, 222, 215); // #DFDDD6
-$grey: #dedcd5;
-$transparent-grey: rgba(224, 222, 215, 0.95);
+$e-ink-light: #f5f4ee;
+$e-ink-medium: #dedcd5;
+$e-ink-almost-dark: #070101;
+$e-ink-dark: #221f20;
 
-$border-style: 1px solid $black;
+$border-style: 1px solid $e-ink-dark;
 
 $FONT_SIZE_SMALL: 12px;
 $FONT_SIZE_BASE: 18px;

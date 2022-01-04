@@ -79,7 +79,7 @@
     left: 0;
     cursor: pointer;
     transition: opacity 0.5s $transition;
-    background: $grey;
+    background: $e-ink-medium;
 
     &:hover {
       opacity: 0.8;

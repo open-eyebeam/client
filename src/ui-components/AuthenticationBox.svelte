@@ -38,13 +38,13 @@
     position: fixed;
     top: 40px;
     left: 20px;
-    background: $white;
+    background: $e-ink-light;
     padding: 5px;
     cursor: pointer;
     font-size: $font-size-extra-small;
 
     &:hover {
-      background: $grey;
+      background: $e-ink-medium;
     }
   }
 </style>

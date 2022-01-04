@@ -33,8 +33,8 @@
 
   .caption-box {
     padding: 15px;
-    background: $white;
-    color: $black;
+    background: $e-ink-light;
+    color: $e-ink-dark;
     border: $border-style;
     z-index: 1000;
     font-size: $font-size-small;

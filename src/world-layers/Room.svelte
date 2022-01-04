@@ -61,8 +61,7 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    background: $grey;
-    background: red;
+    background: $e-ink-medium;
     cursor: crosshair;
     transition: transform 0.3s ease-out;
   }
@@ -72,14 +71,14 @@
     top: 100px;
     left: 20px;
     padding: 5px;
-    background: $white;
+    background: $e-ink-light;
     cursor: pointer;
     font-size: $font-size-small;
     display: none;
 
     &:hover {
-      background: $black;
-      color: $white;
+      background: $e-ink-dark;
+      color: $e-ink-light;
     }
   }
 </style>

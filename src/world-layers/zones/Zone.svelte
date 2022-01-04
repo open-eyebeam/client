@@ -92,7 +92,7 @@
       }
 
       &:hover {
-        border: 1px solid $black;
+        border: 1px solid $e-ink-dark;
       }
     }
   }

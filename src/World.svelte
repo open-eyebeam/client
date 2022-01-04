@@ -32,6 +32,9 @@
   import Caption from "./text-components/Caption.svelte"
   // *** CHAT
   import Chat from "./chat/Chat.svelte"
+  // *** GRAPHICS
+  import SoundOn from "./graphics/SoundOn.svelte"
+  import SoundOff from "./graphics/SoundOff.svelte"
 
   // *** GLOBAL
   import { nanoid, isOverlapping, getRandomInt } from "./global.js"
@@ -498,7 +501,11 @@
       playSound.set(!$playSound)
     }}
   >
-    sound {$playSound ? "off" : "on"}
+    {#if $playSound}
+      <SoundOn />
+    {:else}
+      <SoundOff />
+    {/if}
   </div>
   <div
     class="option labels"
@@ -506,7 +513,7 @@
       showLabels.set(!$showLabels)
     }}
   >
-    labels {$showLabels ? "off" : "on"}
+    abc
   </div>
 </div>
 
@@ -538,7 +545,7 @@
     // overflow: scroll;
     opacity: 1;
     transition: opacity 1s ease-out filter 1s ease-out;
-    background: $black;
+    background: $e-ink-dark;
 
     &.disabled {
       opacity: 0.3;
@@ -556,14 +563,14 @@
     top: 70px;
     left: 20px;
     padding: 5px;
-    background: $white;
+    background: $e-ink-light;
     font-size: 10px;
     text-transform: uppercase;
     cursor: pointer;
     user-select: none;
 
     &:hover {
-      background: $grey;
+      background: $e-ink-medium;
     }
   }
 
@@ -575,16 +582,15 @@
     .option {
       margin-left: 5px;
       font-size: $font-size-extra-small;
-      background: $white;
-      text-transform: uppercase;
+      background: $e-ink-light;
       float: right;
       padding: 5px;
       user-select: none;
       cursor: pointer;
+      border: 1px solid $e-ink-light;
 
       &:hover {
-        background: $black;
-        color: $white;
+        border: 1px solid $e-ink-dark;
       }
     }
   }

@@ -62,8 +62,8 @@
     left: 20px;
     padding: 15px;
     background: #e8eae6;
-    color: $black;
-    border: 1px solid $black;
+    color: $e-ink-dark;
+    border: 1px solid $e-ink-dark;
     z-index: 1000;
     user-select: none;
   }
