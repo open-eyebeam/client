@@ -90,12 +90,7 @@
     top: 0;
     left: 0;
     cursor: pointer;
-    transition: opacity 0.5s $transition;
     background: $e-ink-medium;
-
-    &:hover {
-      opacity: 0.8;
-    }
 
     img {
       height: 100%;

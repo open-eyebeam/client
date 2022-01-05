@@ -38,7 +38,7 @@
 
   onMount(async () => {
     label = tippy(portalEl, {
-      content: get(portal, "targetArea.title", ""),
+      content: "door to " + get(portal, "targetArea.title", ""),
       arrow: false,
       offset: [0, 5],
       theme: "name",

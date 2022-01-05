@@ -490,11 +490,12 @@
   </div>
   <div
     class="option labels"
+    class:on={$showLabels}
     on:click={() => {
       showLabels.set(!$showLabels)
     }}
   >
-    abc
+    <span>abc</span>
   </div>
 </div>
 
@@ -568,10 +569,25 @@
       padding: 5px;
       user-select: none;
       cursor: pointer;
-      border: 1px solid $e-ink-light;
+      border: 1px solid $e-ink-dark;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      // &:hover {
+      //   border: 1px solid $e-ink-dark;
+      // }
 
-      &:hover {
-        border: 1px solid $e-ink-dark;
+      span {
+        line-height: 1.2em;
+      }
+
+      &.on {
+        span {
+          background: $e-ink-dark;
+          color: $e-ink-light;
+        }
       }
     }
   }
