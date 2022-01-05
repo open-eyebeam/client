@@ -89,14 +89,6 @@
   // $: console.log("roomIntent", roomIntent)
   $: console.log("$activeArticle", $activeArticle)
 
-  let windowHeight = window.innerHeight
-  let windowWidth = window.innerWidth
-
-  const calculateWindowSize = () => {
-    windowHeight = window.innerHeight
-    windowWidth = window.innerWidth
-  }
-
   // $: {
   //   console.log("windowHeight", windowHeight)
   //   console.log("windowWidth", windowWidth)
@@ -125,10 +117,13 @@
   //   }
   // }
 
-  // $: if ($keyReleased) {
-  //   moveTo($players[$localPlayer.uuid].x, $players[$localPlayer.uuid].y, true)
-  //   $keyReleased.set(false)
-  // }
+  let windowHeight = window.innerHeight
+  let windowWidth = window.innerWidth
+
+  const calculateWindowSize = () => {
+    windowHeight = window.innerHeight
+    windowWidth = window.innerWidth
+  }
 
   $: {
     if (roomIntent) {
@@ -138,17 +133,15 @@
 
   const checkPortalOverlap = () => {
     // console.log("__ Check portal overlap...")
-    const avatarElement = document.getElementById($localPlayer.uuid)
-    if (
-      avatarElement &&
-      currentRoom.portals &&
-      Array.isArray(currentRoom.portals)
-    ) {
+    if (currentRoom.portals && Array.isArray(currentRoom.portals)) {
+      console.log("currentRoom.portals", currentRoom.portals)
+      console.log("$players[$localPlayer.uuid]", $players[$localPlayer.uuid])
       let overlapIndex = false
       currentRoom.portals.forEach(p => {
-        // console.log(p)
-        let portalElement = document.getElementById(p._id)
-        if (portalElement && isOverlapping(avatarElement, portalElement)) {
+        if (
+          $players[$localPlayer.uuid].x === p.x &&
+          $players[$localPlayer.uuid].y === p.y
+        ) {
           overlapIndex = p.targetArea._id
         }
       })
@@ -158,7 +151,6 @@
         roomIntent = false
       }
     }
-    // console.log("roomIntent", roomIntent)
   }
 
   const checkZoneOverlap = () => {
@@ -181,14 +173,8 @@
     currentRoom = newRoom
     goToRoom({
       id: newRoom._id,
-      x: getRandomInt(
-        get(newRoom, "landingZone.minX", 0),
-        get(newRoom, "landingZone.maxX", 100)
-      ),
-      y: getRandomInt(
-        get(newRoom, "landingZone.minY", 0),
-        get(newRoom, "landingZone.maxY", 100)
-      ),
+      x: getRandomInt(4, 6),
+      y: getRandomInt(4, 6),
     })
     await transitionWorldIn(viewportElement)
     showLabels.set(true)
@@ -206,12 +192,12 @@
       // __ Keyboard navigation
       if ($players[$localPlayer.uuid]) {
         if (Object.values(pressedKeys).some(k => k)) {
-          // console.log("KEY PRESSED", pressedKeys)
+          console.log("KEY PRESSED", pressedKeys)
           if (pressedKeys["UP"]) {
             // console.log("UP")
             if ($players[$localPlayer.uuid].y > 0) {
               players.update(ps => {
-                ps[$localPlayer.uuid].y -= 2
+                ps[$localPlayer.uuid].y -= 1
                 return ps
               })
             }
@@ -223,7 +209,7 @@
               currentRoom.dimensions.height * GRID_SIZE - 30
             ) {
               players.update(ps => {
-                ps[$localPlayer.uuid].y += 2
+                ps[$localPlayer.uuid].y += 1
                 return ps
               })
             }
@@ -232,7 +218,7 @@
             // console.log("LEFT")
             if ($players[$localPlayer.uuid].x > 0) {
               players.update(ps => {
-                ps[$localPlayer.uuid].x -= 2
+                ps[$localPlayer.uuid].x -= 1
                 return ps
               })
             }
@@ -244,7 +230,7 @@
               currentRoom.dimensions.width * GRID_SIZE - 30
             ) {
               players.update(ps => {
-                ps[$localPlayer.uuid].x += 2
+                ps[$localPlayer.uuid].x += 1
                 return ps
               })
             }
@@ -256,6 +242,10 @@
           )
           checkPortalOverlap()
           checkZoneOverlap()
+          pressedKeys["UP"] = false
+          pressedKeys["DOWN"] = false
+          pressedKeys["LEFT"] = false
+          pressedKeys["RIGHT"] = false
         }
       }
 
@@ -316,7 +306,7 @@
     console.time("mount")
     console.log("__ => Mounting...")
 
-    window.onresize = calculateWindowSize
+    // window.onresize = calculateWindowSize
 
     try {
       await configureAuthClient()
@@ -350,14 +340,8 @@
       shape: sample(avatars)._id,
       onboarded: true,
       room: currentRoom._id,
-      x: getRandomInt(
-        get(currentRoom, "landingZone.minX", 0),
-        get(currentRoom, "landingZone.maxX", 100)
-      ),
-      y: getRandomInt(
-        get(currentRoom, "landingZone.minY", 0),
-        get(currentRoom, "landingZone.maxY", 100)
-      ),
+      x: getRandomInt(10, 30),
+      y: getRandomInt(5, 15),
     }
 
     await connectToGameServer(playerObject)
@@ -458,8 +442,6 @@
 {/if}
 
 <!-- CHAT-->
-<!-- {#if showChat} -->
-<!-- $chatMessages.filter(m => m.room === currentRoom) -->
 <Chat
   chatMessages={$chatMessages.filter(m => m.room === currentRoom._id)}
   on:submit={e => {
@@ -467,7 +449,6 @@
     submitChat(e, currentRoom)
   }}
 />
-<!-- {/if} -->
 
 <!-- ONBOARDING -->
 <!-- {#if UI.state == STATE.ONBOARDING}

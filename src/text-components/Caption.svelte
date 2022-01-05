@@ -49,7 +49,7 @@
     position: fixed;
     bottom: 20px;
     left: 20px;
-    z-index: 10000;
+    z-index: 100000;
     max-width: 460px;
   }
 </style>

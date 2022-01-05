@@ -6,7 +6,7 @@
   // # # # # # # # # # # # # #
 
   import Grid from "./Grid.svelte"
-
+  import { GRID_SIZE } from "../data.js"
   import { showGrid, showLabels, playSound } from "../stores.js"
 
   import { createEventDispatcher } from "svelte"
@@ -25,28 +25,30 @@
   export let room = {}
   export let x = 0
   export let y = 0
-  // $: console.log("x", x)
-  // $: console.log("y", y)
+  $: console.log("x", x)
+  $: console.log("y", y)
+
+  $: {
+    centerViewOnPlayer(x, y)
+  }
 
   let roomElement = {}
 
   let inlineStyles = ""
   $: inlineStyles = `${room.inlineStyles} transform: translateX(-50%) translateY(-50%);`
 
-  const centerViewOnPlayer = () => {
-    inlineStyles = `${room.inlineStyles} transform: translateX(-${x}px) translateY(-${y}px);`
+  const centerViewOnPlayer = (x, y) => {
+    inlineStyles = `${room.inlineStyles} transform: translateX(-${
+      x * GRID_SIZE
+    }px) translateY(-${y * GRID_SIZE}px);`
   }
 </script>
 
-<div
-  class="room"
-  id="room"
-  bind:this={roomElement}
-  style={inlineStyles}
-  on:click={e => {
-    move(e)
-  }}
->
+<!-- on:click={e => {
+  move(e)
+}} -->
+
+<div class="room" id="room" bind:this={roomElement} style={inlineStyles}>
   {#if $showGrid}
     <Grid />
   {/if}
@@ -62,8 +64,7 @@
     top: 50%;
     left: 50%;
     background: $e-ink-medium;
-    cursor: crosshair;
-    transition: transform 0.3s ease-out;
+    // transition: transform 0.3s ease-out;
   }
 
   .center-view {

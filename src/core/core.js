@@ -85,7 +85,7 @@ export const connectToGameServer = playerObject => {
 
                     // PLAYER => CHANGE
                     player.onChange = changes => {
-                        // console.log("__CHANGE", player)
+                        console.log("__CHANGE", player)
                         if (get(players)[player.uuid].room !== player.room) {
                             // console.log('!!! NEW ROOM')
                             players.update(ps => {
@@ -117,35 +117,12 @@ export const connectToGameServer = playerObject => {
                         ) {
                             return
                         }
-                        if (player.path.waypoints.length > 0) {
-                            if (player.uuid === get(localPlayer).uuid) {
-                                targetX.set(player.x)
-                                targetY.set(player.y)
-                                showTarget.set(true)
-                            }
-                            // __ Normal movement
-                            moveQ[player.uuid] = player.path.waypoints.filter(
-                                (_, i) => (i + 1) % 5
-                            )
-                        }
 
-                        // ONBOARDING COMPLETED
-                        // if (player.onboarded && !get(players)[player.uuid].onboarded) {
-                        //     // console.log("ONBOARDING COMPLETED")
-                        //     // console.log(player)
-                        //     players[player.uuid].onboarded = true
-                        //     players[player.uuid].name = player.name
-                        //     players[player.uuid].shape = player.shape
-
-                        //     if (player.uuid === get(localPlayer).uuid && !get(isAuthenticated)) {
-                        //         // Cookies.set("open-eyebeam__shape", player.shape)
-                        //         // Cookies.set("open-eyebeam__name", player.name)
-                        //     }
-                        //     // !!! Ignore movements on load
-                        //     return
-                        // }
-
-
+                        players.update(ps => {
+                            ps[player.uuid].x = player.x
+                            ps[player.uuid].y = player.y
+                            return (ps)
+                        })
                     }
                 }
 
@@ -194,8 +171,6 @@ export const connectToGameServer = playerObject => {
                 //     })
                 //     // setUIState(STATE.READY)
                 // }
-
-
 
                 // *******
                 // MESSAGE

@@ -6,9 +6,7 @@
   // # # # # # # # # # # # # #
 
   // *** COMPONENTS
-  import { afterUpdate, onMount } from "svelte"
-  import ChatMessage from "./ChatMessage.svelte"
-  import { links, navigate } from "svelte-routing"
+  import { links } from "svelte-routing"
   import { createEventDispatcher } from "svelte"
   const dispatch = createEventDispatcher()
 
@@ -22,43 +20,11 @@
     chatInputValue = ""
   }
 
-  // *** DOM REFERENCES
-  let messageContainerEl = {}
-
   // *** PROPS
   export let chatMessages = []
-
-  // afterUpdate(() => {
-  //   if (messageContainerEl) {
-  //     messageContainerEl.scrollTo({
-  //       top: messageContainerEl.scrollHeight,
-  //       left: 0,
-  //     })
-  //   }
-  // })
-
-  // onMount(async () => {
-  //   if (messageContainerEl) {
-  //     setTimeout(() => {
-  //       messageContainerEl.scrollTo({
-  //         top: messageContainerEl.scrollHeight,
-  //         left: 0,
-  //       })
-  //     }, 2000)
-  //   }
-  // })
 </script>
 
 <div class="chat-container">
-  <!-- <div
-    id="message-container"
-    class="message-container"
-    bind:this={messageContainerEl}
-  >
-    {#each chatMessages as message (message.msgId)}
-      <ChatMessage {message} />
-    {/each}
-  </div> -->
   <div class="chat-input" use:links>
     <input
       placeholder="Write a message..."
@@ -82,10 +48,6 @@
     position: fixed;
     width: 300px;
     z-index: 10000;
-
-    // @include screen-size("small") {
-    //   height: calc(100% - 40px);
-    // }
   }
 
   .chat-input {

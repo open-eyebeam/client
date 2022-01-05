@@ -7,20 +7,15 @@
   import { fly, scale, fade } from "svelte/transition"
   import { onMount, onDestroy } from "svelte"
   import { chatMessages } from "../../core/core.js"
-
-  // $: console.log(
-  //   key,
-  //   $chatMessages.filter(m => m.uuid == key)
-  // )
+  import { GRID_SIZE } from "../../data.js"
 
   $: {
     let lastMessage = $chatMessages[$chatMessages.length - 1]
-    if (lastMessage.uuid == key && Date.now() - lastMessage.timestamp < 5000) {
-      // console.log("new message", key)
-      // console.log(lastMessage)
-      // console.log(lastMessage.timestamp)
-      // console.log(Date.now())
-      // console.log(Date.now() - lastMessage.timestamp)
+    if (
+      lastMessage &&
+      lastMessage.uuid == key &&
+      Date.now() - lastMessage.timestamp < 5000
+    ) {
       showMessage(lastMessage)
     }
   }
@@ -57,8 +52,6 @@
             },
           ],
         },
-        // offset: [10, 10],
-        //   hideOnClick: false,
       })
 
       chatPopUp.show()
@@ -74,20 +67,26 @@
     }
   }
 
-  // *** GRAPHICS
-  import Square from "./square.svelte"
-  import Star from "./star.svelte"
-  import Triangle from "./triangle.svelte"
-  import Pentagon from "./pentagon.svelte"
-  import Hexagon from "./hexagon.svelte"
-
   //   *** PROPS
   export let player = {}
   export let avatars = []
   export let key = ""
 
+  // *** VARIABLES
   let avatarEl = {}
   const avatar = avatars.find(a => a._id === player.shape)
+  let gridPosY = player.y * GRID_SIZE
+  let gridPosX = player.x * GRID_SIZE
+
+  $: {
+    gridPosY = player.y * GRID_SIZE
+    gridPosX = player.x * GRID_SIZE
+  }
+
+  // $: {
+  //   console.log("gridPosY", player.y, gridPosY)
+  //   console.log("gridPosX", player.x, gridPosX)
+  // }
 
   onMount(async () => {
     // console.log("player", player)
@@ -96,10 +95,22 @@
       tippy(avatarEl, {
         content: player.name,
         arrow: false,
-        offset: [0, 10],
-        // followCursor: true,
+        offset: [0, 5],
         theme: "name",
         hideOnClick: false,
+        placement: "bottom",
+        popperOptions: {
+          modifiers: [
+            {
+              name: "flip",
+              enabled: false,
+            },
+            {
+              name: "preventOverflow",
+              enabled: false,
+            },
+          ],
+        },
       })
     }
   })
@@ -113,9 +124,9 @@
   id={key}
   alt={player.name}
   style={"transform: translateY(" +
-    player.y +
+    gridPosY +
     "px) translateX(" +
-    player.x +
+    gridPosX +
     "px)"}
 >
   <img src={avatar && avatar.imageUrl ? avatar.imageUrl : "/g2.png"} />
@@ -131,24 +142,17 @@
     top: 0;
     left: 0;
     z-index: 100;
-    transition: transform 0.1s linear;
+    // transition: transform 0.1s linear;
+    background: $e-ink-medium;
 
     img {
       width: 100%;
       height: 100%;
       image-rendering: pixelated;
     }
-  }
 
-  // @keyframes rotating {
-  //   from {
-  //     opacity: 0;
-  //   }
-  //   to {
-  //     opacity: 1;
-  //   }
-  // }
-  // .npc {
-  //   animation: rotating 2s linear infinite;
-  // }
+    &.self {
+      z-index: 100000;
+    }
+  }
 </style>

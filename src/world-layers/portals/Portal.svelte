@@ -47,6 +47,18 @@
       trigger: "manual",
       flip: false,
       placement: "bottom",
+      popperOptions: {
+        modifiers: [
+          {
+            name: "flip",
+            enabled: false,
+          },
+          {
+            name: "preventOverflow",
+            enabled: false,
+          },
+        ],
+      },
     })
   })
 </script>
