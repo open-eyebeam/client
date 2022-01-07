@@ -36,6 +36,31 @@ $border_radius: 4px;
 // TRANSITIONS
 $transition: cubic-bezier(0.23, 1, 0.32, 1);
 
+// MISC
+$transition: cubic-bezier(0.23, 1, 0.32, 1);
+$one-third: calc(100% / 3);
+$two-third: calc((100% / 3) * 2);
+$HEADER_HEIGHT: 440px;
+$LOGO_WIDTH: 220px;
+$SIDEBAR_HEIGHT: 660px;
+$button-padding: 8px 12px;
+
+// SPACING
+$extra-small-margin: 15px;
+$small-margin: 20px;
+$large-margin: 40px;
+$vertical-space: 20px;
+
+@mixin text-margins {
+  margin-left: $small-margin;
+  margin-right: $large-margin;
+}
+
+@mixin phone-margins {
+  margin-left: 0;
+  margin-right: 0;
+}
+
 // RESPONSIVE
 $breakpoints: (
   "small": (

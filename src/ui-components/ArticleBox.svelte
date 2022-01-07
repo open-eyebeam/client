@@ -5,11 +5,12 @@
   //
   // # # # # # # # # # # # # #
   import { fade } from "svelte/transition"
-  import { renderBlockText } from "../sanity.js"
   import { has } from "lodash"
   import { activeArticle } from "../stores.js"
+
   // *** UI COMPONENTS
   import StreamPlayer from "./StreamPlayer.svelte"
+  import Blocks from "../blocks/blocks.svelte"
 
   //   *** PROPS
   export let article = {}
@@ -17,17 +18,20 @@
 </script>
 
 <div
-  class="article"
-  transition:fade
+  class="return-button"
   on:click={() => {
     activeArticle.set(false)
   }}
 >
+  return
+</div>
+
+<div class="article" transition:fade>
   {#if article.contentType === "video"}
     <StreamPlayer streamUrl={article.videoUrl} />
   {:else if has(article, "content.content")}
     <div class="inner">
-      {@html renderBlockText(article.content.content)}
+      <Blocks blocks={article.content.content} />
     </div>
   {/if}
 </div>
@@ -35,26 +39,38 @@
 <style lang="scss">
   @import "../variables.scss";
 
+  .return-button {
+    position: fixed;
+    top: 40px;
+    left: 20px;
+    background: $e-ink-light;
+    color: $e-ink-dark;
+    padding: 5px;
+    font-size: $font-size-extra-small;
+    z-index: 100000;
+    cursor: pointer;
+  }
+
   .article {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(5px);
+    background: $e-ink-dark;
     z-index: 10000;
     display: flex;
+    padding-top: 60px;
+    padding-bottom: 60px;
     justify-content: center;
-    align-items: center;
+    // align-items: center;
+    // overflow-y: auto;
 
     .inner {
-      background: $e-ink-light;
+      background: $e-ink-medium;
       color: $e-ink-dark;
-      width: 600px;
-      height: 700px;
+      width: 800px;
       max-width: 90%;
-      max-height: 85%;
       z-index: 10000;
       padding: 20px;
       overflow-y: scroll;

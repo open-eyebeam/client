@@ -24,6 +24,7 @@
   import Target from "./world-layers/TargetMarker.svelte"
   // *** UI COMPONENTS
   import Menubar from "./ui-components/Menubar.svelte"
+  import Header from "./header/header.svelte"
   import AuthenticationBox from "./ui-components/AuthenticationBox.svelte"
   import StreamPlayer from "./ui-components/StreamPlayer.svelte"
   import ArticleBox from "./ui-components/ArticleBox.svelte"
@@ -67,7 +68,13 @@
   } from "./misc/keyboard-handler.js"
   import { UI, STATE, setUIState } from "./misc/ui-state.js"
   import { transitionWorldIn, transitionWorldOut } from "./misc/transitions.js"
-  import { showGrid, showLabels, playSound, activeArticle } from "./stores.js"
+  import {
+    showGrid,
+    showLabels,
+    playSound,
+    activeArticle,
+    trayOpen,
+  } from "./stores.js"
 
   // *** VARIABLES
   let reconnectionAttempts = 0
@@ -362,13 +369,14 @@
   })
 </script>
 
-<!-- MENUBAR -->
-<Menubar {currentRoom} />
+<!-- Header -->
+<Header {currentRoom} />
 
 <!-- GAME WORLD -->
 {#if currentRoom}
   <div
     class="viewport"
+    class:pushed={$trayOpen}
     bind:this={viewportElement}
     class:blurred={UI.state == STATE.ONBOARDING}
   >
@@ -427,13 +435,15 @@
   />
 {/if}
 
-{#if newRoomIntroduction}
-  <Caption
-    text={newRoomIntroduction}
-    on:close={e => {
-      newRoomIntroduction = false
-    }}
-  />
+{#if !$trayOpen && !$activeArticle}
+  {#if newRoomIntroduction}
+    <Caption
+      text={newRoomIntroduction}
+      on:close={e => {
+        newRoomIntroduction = false
+      }}
+    />
+  {/if}
 {/if}
 
 <!-- ARTICLE BOX -->
@@ -442,13 +452,15 @@
 {/if}
 
 <!-- CHAT-->
-<Chat
-  chatMessages={$chatMessages.filter(m => m.room === currentRoom._id)}
-  on:submit={e => {
-    // console.log("e", e)
-    submitChat(e, currentRoom)
-  }}
-/>
+{#if !$trayOpen && !$activeArticle}
+  <Chat
+    chatMessages={$chatMessages.filter(m => m.room === currentRoom._id)}
+    on:submit={e => {
+      // console.log("e", e)
+      submitChat(e, currentRoom)
+    }}
+  />
+{/if}
 
 <!-- ONBOARDING -->
 <!-- {#if UI.state == STATE.ONBOARDING}
@@ -475,29 +487,31 @@
 {/if}
 
 <!-- OPTIONS -->
-<div class="options">
-  <div
-    class="option sound"
-    on:click={() => {
-      playSound.set(!$playSound)
-    }}
-  >
-    {#if $playSound}
-      <SoundOn />
-    {:else}
-      <SoundOff />
-    {/if}
+{#if !$trayOpen && !$activeArticle}
+  <div class="options">
+    <div
+      class="option sound"
+      on:click={() => {
+        playSound.set(!$playSound)
+      }}
+    >
+      {#if $playSound}
+        <SoundOn />
+      {:else}
+        <SoundOff />
+      {/if}
+    </div>
+    <div
+      class="option labels"
+      class:on={$showLabels}
+      on:click={() => {
+        showLabels.set(!$showLabels)
+      }}
+    >
+      <span>abc</span>
+    </div>
   </div>
-  <div
-    class="option labels"
-    class:on={$showLabels}
-    on:click={() => {
-      showLabels.set(!$showLabels)
-    }}
-  >
-    <span>abc</span>
-  </div>
-</div>
+{/if}
 
 <!-- DEBUG: GRID grid-toggle -->
 <div
@@ -526,8 +540,12 @@
     overflow: hidden;
     // overflow: scroll;
     opacity: 1;
-    transition: opacity 1s ease-out filter 1s ease-out;
+    transition: transform 0.5s $transition;
     background: $e-ink-dark;
+
+    &.pushed {
+      transform: translateY(240px);
+    }
 
     &.disabled {
       opacity: 0.3;
