@@ -4,20 +4,48 @@
   //  Article box
   //
   // # # # # # # # # # # # # #
+  import { onMount, onDestroy } from "svelte"
   import { fade } from "svelte/transition"
   import { has } from "lodash"
   import { activeArticle } from "../stores.js"
-
   import { trayOpen } from "../stores.js"
-
   // *** UI COMPONENTS
   import StreamPlayer from "./StreamPlayer.svelte"
   import Blocks from "../blocks/blocks.svelte"
 
+  import { enterArticle, leaveArticle, players } from "../core/core.js"
+
   //   *** PROPS
   export let article = {}
   console.log("article", article)
+
+  let viewCount = 0
+  let viewCountText = ""
+
+  $: {
+    viewCount = 0
+    for (const [key, value] of Object.entries($players)) {
+      if (value.viewing === article._id) {
+        viewCount++
+      }
+    }
+  }
+
+  $: viewCountText =
+    viewCount === 1
+      ? "You are the only one here."
+      : `${viewCount} people are here.`
+
+  onMount(async () => {
+    enterArticle(article)
+  })
+
+  onDestroy(async () => {
+    leaveArticle()
+  })
 </script>
+
+<div class="viewer-count">{viewCountText}</div>
 
 <div
   class="return-button"
@@ -51,7 +79,7 @@
 
   .return-button {
     position: fixed;
-    top: 40px;
+    top: 60px;
     left: 20px;
     background: $e-ink-light;
     color: $e-ink-dark;
@@ -59,6 +87,16 @@
     font-size: $font-size-extra-small;
     z-index: 100000;
     cursor: pointer;
+  }
+
+  .viewer-count {
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: $e-ink-light;
+    font-size: $font-size-extra-small;
+    z-index: 100000;
   }
 
   .article {

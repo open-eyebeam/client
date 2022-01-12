@@ -19,6 +19,8 @@ const GAME_SERVER_URL = "wss://open.eyebeam.dev";
 // Public functions
 export let moveTo = {}
 export let goToRoom = {}
+export let enterArticle = {}
+export let leaveArticle = {}
 export let onboardUser = {}
 export let submitChat = {}
 
@@ -93,6 +95,7 @@ export const connectToGameServer = playerObject => {
                                 ps[player.uuid].shape = player.shape
                                 ps[player.uuid].room = player.room
                                 ps[player.uuid].inTransit = true
+                                ps[player.uuid].viewing = player.viewing
                                 return (ps)
                             })
                             setTimeout(() => {
@@ -106,6 +109,7 @@ export const connectToGameServer = playerObject => {
                             players.update(ps => {
                                 ps[player.uuid].name = player.name
                                 ps[player.uuid].shape = player.shape
+                                ps[player.uuid].viewing = player.viewing
                                 return (ps)
                             })
                         }
@@ -160,6 +164,18 @@ export const connectToGameServer = playerObject => {
                         x: room.x,
                         y: room.y,
                     })
+                }
+
+                enterArticle = article => {
+                    console.log('ENTER'.article)
+                    gameRoom.send("enterArticle", {
+                        id: article._id,
+                    })
+                }
+
+                leaveArticle = () => {
+                    console.log('LEAVE')
+                    gameRoom.send("leaveArticle")
                 }
 
                 // onboardUser = (username, shape) => {
