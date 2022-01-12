@@ -8,6 +8,8 @@
   import { has } from "lodash"
   import { activeArticle } from "../stores.js"
 
+  import { trayOpen } from "../stores.js"
+
   // *** UI COMPONENTS
   import StreamPlayer from "./StreamPlayer.svelte"
   import Blocks from "../blocks/blocks.svelte"
@@ -23,18 +25,26 @@
     activeArticle.set(false)
   }}
 >
-  return
+  Return
 </div>
 
-<div class="article" transition:fade>
-  {#if article.contentType === "video"}
+{#if article.contentType === "video"}
+  <div class="video" class:pushed={$trayOpen} transition:fade>
     <StreamPlayer streamUrl={article.videoUrl} />
-  {:else if has(article, "content.content")}
+  </div>
+{:else if has(article, "content.content")}
+  <div class="article" class:pushed={$trayOpen} transition:fade>
     <div class="inner">
       <Blocks blocks={article.content.content} />
     </div>
-  {/if}
-</div>
+  </div>
+{/if}
+
+{#if article.infoText}
+  <div class="info-text">
+    {article.infoText}
+  </div>
+{/if}
 
 <style lang="scss">
   @import "../variables.scss";
@@ -61,10 +71,8 @@
     z-index: 10000;
     display: flex;
     padding-top: 60px;
-    padding-bottom: 60px;
+    padding-bottom: 80px;
     justify-content: center;
-    // align-items: center;
-    // overflow-y: auto;
 
     .inner {
       background: $e-ink-medium;
@@ -76,9 +84,48 @@
       overflow-y: scroll;
       font-size: $font-size-small;
     }
+
+    transition: transform 0.5s $transition;
+
+    &.pushed {
+      transform: translateY(240px);
+    }
   }
 
   :global(.article img) {
     max-width: 100%;
+  }
+
+  .video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: $e-ink-dark;
+    z-index: 10000;
+    display: flex;
+    padding-top: 60px;
+    padding-bottom: 60px;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.5s $transition;
+
+    &.pushed {
+      transform: translateY(240px);
+    }
+  }
+
+  .info-text {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: $e-ink-dark;
+    z-index: 10000;
+    display: flex;
+    padding: 10px;
+    font-size: $font-size-small;
+    color: $e-ink-light;
+    border: 1px solid $e-ink-light;
   }
 </style>

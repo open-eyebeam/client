@@ -62,6 +62,13 @@
   resolved "https://registry.yarnpkg.com/@colyseus/schema/-/schema-1.0.26.tgz#c952d772f0fd79cda6068ddd6a1e84c343c9ddf2"
   integrity sha512-YbTTO3L7lcpxK0Bw64AwU9l0bJwaobzVn/PQQ+nc3uqZvusw7V0HBNfcAYHXc5TcDp4BuZ6c0fIttj1bx9IuGQ==
 
+"@peertube/embed-api@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@peertube/embed-api/-/embed-api-0.0.5.tgz#e8e0534b49d07404766e3bf3e656bd90f41b5430"
+  integrity sha512-yjMdIIbDE3y/fsa0eQ3/2VcueWAAmJw7WhwvbCgP9OdRm4F3E4wa1DH2V318vEFSyHFR3EV78pghzQ3MFPKHAA==
+  dependencies:
+    jschannel "^1.0.2"
+
 "@polka/url@^1.0.0-next.9":
   version "1.0.0-next.11"
   resolved "https://registry.yarnpkg.com/@polka/url/-/url-1.0.0-next.11.tgz#aeb16f50649a91af79dbe36574b66d0f9e4d9f71"
@@ -1585,6 +1592,11 @@ jsbn@~0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/jsbn/-/jsbn-0.1.1.tgz#a5e654c2e5a2deb5f201d96cefbca80c0ef2f513"
   integrity sha1-peZUwuWi3rXyAdls77yoDA7y9RM=
+
+jschannel@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/jschannel/-/jschannel-1.0.2.tgz#8932010e9c6042a27bc93b918dac2e267976ae14"
+  integrity sha1-iTIBDpxgQqJ7yTuRjawuJnl2rhQ=
 
 json-parse-even-better-errors@^2.3.0:
   version "2.3.1"

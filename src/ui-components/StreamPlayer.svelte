@@ -12,8 +12,6 @@
 
   // *** PROPS
   export let streamUrl = ""
-
-  // console.log("streamUrl", streamUrl)
 </script>
 
 <div class="stream-container" in:fade={{ duration: 300, easing: quartOut }}>
@@ -25,7 +23,7 @@
           height="1280"
           src={"https://www.youtube.com/embed/" +
             getVideoId(streamUrl).id +
-            "?autoplay=1&rel=0&color=white"}
+            "?rel=0&color=white"}
           frameborder="no"
           allow="autoplay; fullscreen"
           allowfullscreen
@@ -36,9 +34,7 @@
         <iframe
           width="720"
           height="480"
-          src={"https://player.vimeo.com/video/" +
-            getVideoId(streamUrl).id +
-            "?autoplay=1"}
+          src={"https://player.vimeo.com/video/" + getVideoId(streamUrl).id}
           frameborder="no"
           scrolling="no"
           byline="false"
@@ -47,19 +43,36 @@
           allowfullscreen
         />
       </div>
+    {:else if streamUrl.includes("undersco.re")}
+      <div class="peertube-container">
+        <iframe
+          width="720"
+          height="480"
+          src={streamUrl}
+          frameborder="no"
+          color="#ffffff"
+          allow="autoplay; fullscreen"
+          sandbox="allow-same-origin allow-scripts allow-popups"
+          allowfullscreen
+        />
+      </div>
     {/if}
   </div>
 </div>
 
+<!-- ?autoplay=1 -->
+
+<!-- +
+"?autoplay=1" -->
 <style lang="scss">
   @import "../variables.scss";
 
   .stream-container {
-    position: absolute;
-    top: 60px;
-    left: 60px;
-    width: 360px;
-    border: 5px solid $e-ink-light;
+    // position: absolute;
+    // top: 60px;
+    // left: 60px;
+    width: 720px;
+    // border: 5px solid $e-ink-light;
 
     .embed {
       width: 100%;
@@ -68,6 +81,7 @@
       justify-content: center;
       align-items: center;
 
+      .peertube-container,
       .youtube-container,
       .vimeo-container {
         position: relative;
