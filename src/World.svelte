@@ -186,8 +186,8 @@
     await transitionWorldIn(viewportElement)
     showLabels.set(true)
     console.log("newRoom", newRoom)
-    if (has(newRoom, "introduction.content")) {
-      newRoomIntroduction = newRoom.introduction.content
+    if (has(newRoom, "introductionTexts")) {
+      newRoomIntroduction = newRoom.introductionTexts
     } else {
       newRoomIntroduction = false
     }
@@ -360,8 +360,8 @@
     animationLoop()
     console.log("✓ (6) Animation loop started")
 
-    if (has(currentRoom, "introduction.content")) {
-      newRoomIntroduction = currentRoom.introduction.content
+    if (has(currentRoom, "introductionTexts")) {
+      newRoomIntroduction = currentRoom.introductionTexts
     }
     console.log("✓ (7) Show main room introduction")
 
@@ -514,15 +514,15 @@
 {/if}
 
 <!-- DEBUG: GRID grid-toggle -->
-<div
+
+<!-- <div
   class="grid-toggle"
   on:click={() => {
     showGrid.set(!$showGrid)
   }}
 >
   {$showGrid ? "Hide" : "Show"} grid (Debug)
-</div>
-
+</div> -->
 <style lang="scss">
   @import "./variables.scss";
 

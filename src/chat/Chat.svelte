@@ -62,7 +62,7 @@
       float: left;
       width: 100%;
       display: block;
-      background: $e-ink-light;
+      background: $e-ink-medium;
       border: $border-style;
       color: $e-ink-dark;
       padding: $SPACE_S;
@@ -93,7 +93,7 @@
       width: 60px;
       float: right;
       display: block;
-      background: $e-ink-light;
+      background: $e-ink-medium;
       border: $border-style;
       color: $e-ink-dark;
       outline: none;

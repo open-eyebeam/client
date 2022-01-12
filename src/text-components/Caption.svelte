@@ -16,18 +16,30 @@
 
   // *** PROPS
   export let text = []
+
+  let textIndex = 0
+  let currentText = false
+
+  if (text.length > 0) {
+    currentText = text[textIndex]
+  }
 </script>
 
 <div class="caption-container">
   <div
     class="caption-box"
     on:click={e => {
-      dispatch("close")
+      if (textIndex < text.length - 1) {
+        textIndex++
+        currentText = text[textIndex]
+      } else {
+        dispatch("close")
+      }
     }}
     in:fade={transitionSettings}
     out:fade={{ duration: 100 }}
   >
-    {@html renderBlockText(text)}
+    {@html renderBlockText(currentText.text.content)}
   </div>
 </div>
 

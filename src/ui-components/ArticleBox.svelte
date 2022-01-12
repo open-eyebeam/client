@@ -45,7 +45,9 @@
   })
 </script>
 
-<div class="viewer-count">{viewCountText}</div>
+{#if article.contentType === "video"}
+  <div class="viewer-count">{viewCountText}</div>
+{/if}
 
 <div
   class="return-button"
@@ -60,10 +62,19 @@
   <div class="video" class:pushed={$trayOpen} transition:fade>
     <StreamPlayer streamUrl={article.videoUrl} />
   </div>
-{:else if has(article, "content.content")}
-  <div class="article" class:pushed={$trayOpen} transition:fade>
+{:else if article.contentType === "video"}
+  {#if has(article, "content.content")}
+    <div class="article" class:pushed={$trayOpen} transition:fade>
+      <div class="inner">
+        <Blocks blocks={article.content.content} />
+      </div>
+    </div>
+  {/if}
+{:else if article.contentType === "bulletinBoard"}
+  <div class="bulletin-board" class:pushed={$trayOpen} transition:fade>
     <div class="inner">
-      <Blocks blocks={article.content.content} />
+      <h1>Welcome to the Bulletin Board</h1>
+      <!-- <Blocks blocks={article.content.content} /> -->
     </div>
   </div>
 {/if}
@@ -165,5 +176,36 @@
     font-size: $font-size-small;
     color: $e-ink-light;
     border: 1px solid $e-ink-light;
+  }
+
+  .bulletin-board {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: $e-ink-dark;
+    z-index: 10000;
+    display: flex;
+    padding-top: 60px;
+    padding-bottom: 80px;
+    justify-content: center;
+
+    .inner {
+      background: $e-ink-medium;
+      color: $e-ink-dark;
+      width: 800px;
+      max-width: 90%;
+      z-index: 10000;
+      padding: 20px;
+      overflow-y: scroll;
+      font-size: $font-size-small;
+    }
+
+    transition: transform 0.5s $transition;
+
+    &.pushed {
+      transform: translateY(240px);
+    }
   }
 </style>
