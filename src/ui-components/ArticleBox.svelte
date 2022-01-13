@@ -10,7 +10,7 @@
   import { activeArticle } from "../stores.js"
   import { trayOpen } from "../stores.js"
   // *** UI COMPONENTS
-  import StreamPlayer from "./StreamPlayer.svelte"
+  import VideoPlayer from "./VideoPlayer.svelte"
   import Blocks from "../blocks/blocks.svelte"
 
   import { enterArticle, leaveArticle, players } from "../core/core.js"
@@ -60,9 +60,9 @@
 
 {#if article.contentType === "video"}
   <div class="video" class:pushed={$trayOpen} transition:fade>
-    <StreamPlayer streamUrl={article.videoUrl} />
+    <VideoPlayer streamUrl={article.videoUrl} />
   </div>
-{:else if article.contentType === "video"}
+{:else if article.contentType === "text"}
   {#if has(article, "content.content")}
     <div class="article" class:pushed={$trayOpen} transition:fade>
       <div class="inner">
@@ -74,6 +74,7 @@
   <div class="bulletin-board" class:pushed={$trayOpen} transition:fade>
     <div class="inner">
       <h1>Welcome to the Bulletin Board</h1>
+      <img src="/placeholder.png" />
       <!-- <Blocks blocks={article.content.content} /> -->
     </div>
   </div>
@@ -143,6 +144,11 @@
 
   :global(.article img) {
     max-width: 100%;
+  }
+
+  :global(.bulletin-board img) {
+    max-width: 100%;
+    border: 5px solid yellow;
   }
 
   .video {

@@ -44,7 +44,7 @@
     connectToGameServer,
     moveTo,
     goToRoom,
-    moveQ,
+    // moveQ,
     players,
     chatMessages,
     showTarget,
@@ -65,6 +65,7 @@
   import {
     pressedKeys,
     initializeKeyboardHandler,
+    keyReleased,
   } from "./misc/keyboard-handler.js"
   import { UI, STATE, setUIState } from "./misc/ui-state.js"
   import { transitionWorldIn, transitionWorldOut } from "./misc/transitions.js"
@@ -76,6 +77,8 @@
     trayOpen,
   } from "./stores.js"
 
+  import { initializeStreamsHandler, streams } from "./misc/streams.js"
+
   // *** VARIABLES
   let reconnectionAttempts = 0
   let disconnectionCode = 0
@@ -85,6 +88,7 @@
   let roomIntent = false
   let avatars = []
   let newRoomIntroduction = false
+  let activeZone = false
 
   // DEBUG
   // $: console.log("__ CHANGED: $localPlayer", $localPlayer)
@@ -94,35 +98,9 @@
   // $: console.log("$keyReleased", $keyReleased)
   // $: console.log("$chatMessages", $chatMessages)
   // $: console.log("roomIntent", roomIntent)
-  $: console.log("$activeArticle", $activeArticle)
-
-  // $: {
-  //   console.log("windowHeight", windowHeight)
-  //   console.log("windowWidth", windowWidth)
-  // }
-
-  // $: {
-  //   if (currentRoom.dimensions) {
-  //     console.log("currentRoom.dimensions.width", currentRoom.dimensions.width)
-  //     console.log(
-  //       "currentRoom.dimensions.height",
-  //       currentRoom.dimensions.height
-  //     )
-  //   }
-  // }
-
-  // $: {
-  //   if ($players[$localPlayer.uuid]) {
-  //     console.log(
-  //       "$players[$localPlayer.uuid].x,",
-  //       $players[$localPlayer.uuid].x
-  //     )
-  //     console.log(
-  //       "$players[$localPlayer.uuid].y",
-  //       $players[$localPlayer.uuid].y
-  //     )
-  //   }
-  // }
+  // $: console.log("$activeArticle", $activeArticle)
+  $: console.log("$streams", $streams)
+  $: console.log("activeZone", activeZone)
 
   let windowHeight = window.innerHeight
   let windowWidth = window.innerWidth
@@ -131,6 +109,18 @@
     windowHeight = window.innerHeight
     windowWidth = window.innerWidth
   }
+
+  // const timedKeyRelease = () => {
+  //   window.setTimeout(() => {
+  //     keyReleased.set(true)
+  //   }, 400)
+  // }
+
+  // $: {
+  //   if (!$keyReleased) {
+  //     timedKeyRelease()
+  //   }
+  // }
 
   $: {
     if (roomIntent) {
@@ -141,8 +131,8 @@
   const checkPortalOverlap = () => {
     // console.log("__ Check portal overlap...")
     if (currentRoom.portals && Array.isArray(currentRoom.portals)) {
-      console.log("currentRoom.portals", currentRoom.portals)
-      console.log("$players[$localPlayer.uuid]", $players[$localPlayer.uuid])
+      // console.log("currentRoom.portals", currentRoom.portals)
+      // console.log("$players[$localPlayer.uuid]", $players[$localPlayer.uuid])
       let overlapIndex = false
       currentRoom.portals.forEach(p => {
         if (
@@ -167,7 +157,9 @@
       // console.log(z)
       let zoneElement = document.getElementById(z._id)
       if (zoneElement && isOverlapping(avatarElement, zoneElement)) {
-        console.log("in zone", z)
+        activeZone = z
+      } else {
+        activeZone = false
       }
     })
   }
@@ -195,11 +187,12 @@
 
   const animationLoop = () => {
     const step = timestamp => {
+      // console.log("step", timestamp)
       // console.log("moveQ", moveQ)
       // __ Keyboard navigation
       if ($players[$localPlayer.uuid]) {
         if (Object.values(pressedKeys).some(k => k)) {
-          console.log("KEY PRESSED", pressedKeys)
+          // console.log("KEY PRESSED", pressedKeys)
           if (pressedKeys["UP"]) {
             // console.log("UP")
             if ($players[$localPlayer.uuid].y > 0) {
@@ -255,65 +248,14 @@
           pressedKeys["RIGHT"] = false
         }
       }
-
-      for (let key in moveQ) {
-        // console.log("$players[key]", $players[key].room)
-        // && $players[key].room === currentRoom._id
-        if ($players[key]) {
-          if (moveQ[key].length > 0) {
-            if (moveQ[key].length - $deltaJump < 0) {
-              // User reached destination while the window was out of focus
-              // Move to final step and clear users's move queue
-              let step = moveQ[key][moveQ[key].length - 1]
-              $players[key].x = step.x
-              $players[key].y = step.y
-              delete moveQ[key]
-              if ($players[key].self) {
-                showTarget.set(false)
-                checkPortalOverlap()
-                checkZoneOverlap()
-              }
-            } else {
-              // Get next step, adjusting for delta
-              moveQ[key].splice(0, $deltaJump - 1)
-              let step = moveQ[key].shift()
-              // console.log(step.x, step.y)
-              // console.log("$players[key]", $players[key])
-              $players[key].x = step.x
-              $players[key].y = step.y
-              // if ($players[key].self) {
-              //   // checkDoorOverlap()
-              // }
-            }
-          } else {
-            // console.log("___ DONE")
-            // Destination reached
-            // console.log($players[key])
-            if ($players[key].self) {
-              targetX.set(0)
-              targetY.set(0)
-              showTarget.set(false)
-              checkPortalOverlap()
-              checkZoneOverlap()
-            }
-            delete moveQ[key]
-          }
-        } else {
-          delete moveQ[key]
-        }
-      }
-      deltaJump.set(0)
       window.requestAnimationFrame(step)
     }
-    // !!! TODO: CENTER VIEW ON PLAYER
     window.requestAnimationFrame(step)
   }
 
   onMount(async () => {
     console.time("mount")
     console.log("__ => Mounting...")
-
-    // window.onresize = calculateWindowSize
 
     try {
       await configureAuthClient()
@@ -357,8 +299,11 @@
     await initializeKeyboardHandler()
     console.log("✓ (5) Keyboard initialized")
 
+    initializeStreamsHandler()
+    console.log("✓ (6) Stream listener initialized")
+
     animationLoop()
-    console.log("✓ (6) Animation loop started")
+    console.log("✓ (7) Animation loop started")
 
     if (has(currentRoom, "introductionTexts")) {
       newRoomIntroduction = currentRoom.introductionTexts
@@ -417,9 +362,11 @@
 {/if}
 
 <!-- LIVE STREAM -->
-{#if currentRoom.stream}
-  <StreamPlayer streamUrl={currentRoom.stream} />
-{/if}
+{#each $streams as stream}
+  {#if currentRoom._id == stream.parentArea._ref || activeZone._id == stream.parentArea._ref}
+    <StreamPlayer streamUrl={stream.videoUrl} />
+  {/if}
+{/each}
 
 <!-- CAPTION BOX -->
 {#if roomIntent}
@@ -582,7 +529,7 @@
     .option {
       margin-left: 5px;
       font-size: $font-size-extra-small;
-      background: $e-ink-light;
+      background: $e-ink-medium;
       float: right;
       padding: 5px;
       user-select: none;

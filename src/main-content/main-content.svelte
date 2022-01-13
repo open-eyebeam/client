@@ -20,8 +20,8 @@
 
   // *** PROPS
   export let page
-  console.log("MAIN CONTENT", page)
-  console.log("page._type", page._type)
+  // console.log("MAIN CONTENT", page)
+  // console.log("page._type", page._type)
 
   const BOXED_TYPES = ["program", "note"]
   let boxed = BOXED_TYPES.includes(page._type) ? true : false

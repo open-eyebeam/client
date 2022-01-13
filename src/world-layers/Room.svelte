@@ -25,8 +25,6 @@
   export let room = {}
   export let x = 0
   export let y = 0
-  $: console.log("x", x)
-  $: console.log("y", y)
 
   $: {
     centerViewOnPlayer(x, y)

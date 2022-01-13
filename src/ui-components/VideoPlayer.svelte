@@ -14,10 +14,7 @@
   export let streamUrl = ""
 </script>
 
-<div
-  class="stream-container"
-  transition:fade={{ duration: 300, easing: quartOut }}
->
+<div class="stream-container" in:fade={{ duration: 300, easing: quartOut }}>
   <div class="embed">
     {#if streamUrl.includes("youtube") || streamUrl.includes("youtu.be")}
       <div class="youtube-container">
@@ -26,7 +23,7 @@
           height="1280"
           src={"https://www.youtube.com/embed/" +
             getVideoId(streamUrl).id +
-            "?autoplay=1&rel=0&color=white"}
+            "?rel=0&color=white"}
           frameborder="no"
           allow="autoplay; fullscreen"
           allowfullscreen
@@ -37,9 +34,7 @@
         <iframe
           width="720"
           height="480"
-          src={"https://player.vimeo.com/video/" +
-            getVideoId(streamUrl).id +
-            "?autoplay=1"}
+          src={"https://player.vimeo.com/video/" + getVideoId(streamUrl).id}
           frameborder="no"
           scrolling="no"
           byline="false"
@@ -65,15 +60,19 @@
   </div>
 </div>
 
+<!-- ?autoplay=1 -->
+
+<!-- +
+  "?autoplay=1" -->
 <style lang="scss">
   @import "../variables.scss";
 
   .stream-container {
-    position: absolute;
-    top: 40px;
-    left: 80px;
-    width: 380px;
-    border: 1px solid $e-ink-light;
+    // position: absolute;
+    // top: 60px;
+    // left: 60px;
+    width: 720px;
+    // border: 5px solid $e-ink-light;
 
     .embed {
       width: 100%;

@@ -25,7 +25,7 @@ export let onboardUser = {}
 export let submitChat = {}
 
 // Public variables
-export let moveQ = []
+// export let moveQ = []
 
 let disconnectionCode = 0
 let reconnectionAttempts = 0
@@ -87,7 +87,7 @@ export const connectToGameServer = playerObject => {
 
                     // PLAYER => CHANGE
                     player.onChange = changes => {
-                        console.log("__CHANGE", player)
+                        // console.log("__CHANGE", player)
                         if (get(players)[player.uuid].room !== player.room) {
                             // console.log('!!! NEW ROOM')
                             players.update(ps => {
@@ -137,7 +137,7 @@ export const connectToGameServer = playerObject => {
 
                 moveTo = (x, y, keyboardNavigation) => {
                     // console.log(x, y)
-                    delete moveQ[get(localPlayer).uuid]
+                    // delete moveQ[get(localPlayer).uuid]
                     showTarget.set(false)
                     // console.log('get(players)', get(players))
                     if (keyboardNavigation) {
@@ -167,7 +167,7 @@ export const connectToGameServer = playerObject => {
                 }
 
                 enterArticle = article => {
-                    console.log('ENTER'.article)
+                    console.log('ENTER', article)
                     gameRoom.send("enterArticle", {
                         id: article._id,
                     })

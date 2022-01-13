@@ -153,7 +153,7 @@ document.addEventListener("keydown", key => {
   // W Key is 87
   // Up arrow is 87
   if (key.keyCode === 87 || key.keyCode === 38) {
-    console.log("__pressed: UP")
+    // console.log("__pressed: UP")
     pressedKeys["UP"] = true
     // __ Cancel current movement
     // delete moveQ[$localUserSessionID]
@@ -189,7 +189,7 @@ document.addEventListener("keydown", key => {
 })
 
 document.addEventListener("keyup", key => {
-  console.log("keyup")
+  // console.log("keyup")
   // W Key is 87
   // Up arrow is 87
   if (key.keyCode === 87 || key.keyCode === 38) {
@@ -236,8 +236,8 @@ teleportTo = area => {
 sendKeyboardMove = () => {
   let targetX = localPlayers[$localUserSessionID].avatar.x
   let targetY = localPlayers[$localUserSessionID].avatar.y
-  console.log("targetX", targetX)
-  console.log("targetY", targetY)
+  // console.log("targetX", targetX)
+  // console.log("targetY", targetY)
   gameRoom.send("go", {
     x: targetX,
     y: targetY,
@@ -930,3 +930,82 @@ sendKeyboardMove = () => {
 
 // return
 // }
+
+
+
+      // for (let key in moveQ) {
+      //   // console.log("$players[key]", $players[key].room)
+      //   // && $players[key].room === currentRoom._id
+      //   if ($players[key]) {
+      //     if (moveQ[key].length > 0) {
+      //       if (moveQ[key].length - $deltaJump < 0) {
+      //         // User reached destination while the window was out of focus
+      //         // Move to final step and clear users's move queue
+      //         let step = moveQ[key][moveQ[key].length - 1]
+      //         $players[key].x = step.x
+      //         $players[key].y = step.y
+      //         delete moveQ[key]
+      //         if ($players[key].self) {
+      //           showTarget.set(false)
+      //           checkPortalOverlap()
+      //           checkZoneOverlap()
+      //         }
+      //       } else {
+      //         // Get next step, adjusting for delta
+      //         moveQ[key].splice(0, $deltaJump - 1)
+      //         let step = moveQ[key].shift()
+      //         // console.log(step.x, step.y)
+      //         // console.log("$players[key]", $players[key])
+      //         $players[key].x = step.x
+      //         $players[key].y = step.y
+      //         // if ($players[key].self) {
+      //         //   // checkDoorOverlap()
+      //         // }
+      //       }
+      //     } else {
+      //       // console.log("___ DONE")
+      //       // Destination reached
+      //       // console.log($players[key])
+      //       if ($players[key].self) {
+      //         targetX.set(0)
+      //         targetY.set(0)
+      //         showTarget.set(false)
+      //         checkPortalOverlap()
+      //         checkZoneOverlap()
+      //       }
+      //       delete moveQ[key]
+      //     }
+      //   } else {
+      //     delete moveQ[key]
+      //   }
+      // }
+      // deltaJump.set(0)
+      // window.requestAnimationFrame(step)
+
+        // $: {
+  //   console.log("windowHeight", windowHeight)
+  //   console.log("windowWidth", windowWidth)
+  // }
+
+  // $: {
+  //   if (currentRoom.dimensions) {
+  //     console.log("currentRoom.dimensions.width", currentRoom.dimensions.width)
+  //     console.log(
+  //       "currentRoom.dimensions.height",
+  //       currentRoom.dimensions.height
+  //     )
+  //   }
+  // }
+
+  // $: {
+  //   if ($players[$localPlayer.uuid]) {
+  //     console.log(
+  //       "$players[$localPlayer.uuid].x,",
+  //       $players[$localPlayer.uuid].x
+  //     )
+  //     console.log(
+  //       "$players[$localPlayer.uuid].y",
+  //       $players[$localPlayer.uuid].y
+  //     )
+  //   }
+  // }

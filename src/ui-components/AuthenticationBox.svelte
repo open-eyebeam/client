@@ -38,7 +38,8 @@
     position: fixed;
     top: 40px;
     left: 20px;
-    background: $e-ink-light;
+    background: $e-ink-medium;
+    border: 1px solid $e-ink-dark;
     padding: 5px;
     cursor: pointer;
     font-size: $font-size-extra-small;

@@ -40,7 +40,7 @@ export const initializeKeyboardHandler = () => {
         })
         // PLAYER => KEY UP
         document.addEventListener("keyup", key => {
-            console.log('keyup')
+            // console.log('keyup')
             keyReleased.set(true)
         })
         resolve()
