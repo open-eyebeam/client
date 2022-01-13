@@ -7,7 +7,7 @@
 
   // *** IMPORTS
   import { onMount } from "svelte"
-  import { get, sample, has } from "lodash"
+  import { get, sample, has, inRange } from "lodash"
   // import { links, navigate } from "svelte-routing"
   // import MediaQuery from "svelte-media-query"
   // *** OVERLAYS
@@ -23,7 +23,6 @@
   import Portals from "./world-layers/portals/Portals.svelte"
   import Target from "./world-layers/TargetMarker.svelte"
   // *** UI COMPONENTS
-  import Menubar from "./ui-components/Menubar.svelte"
   import Header from "./header/header.svelte"
   import AuthenticationBox from "./ui-components/AuthenticationBox.svelte"
   import StreamPlayer from "./ui-components/StreamPlayer.svelte"
@@ -38,7 +37,7 @@
   import SoundOff from "./graphics/SoundOff.svelte"
 
   // *** GLOBAL
-  import { nanoid, isOverlapping, getRandomInt } from "./global.js"
+  import { nanoid, getRandomInt } from "./global.js"
 
   import {
     connectToGameServer,
@@ -153,15 +152,21 @@
   const checkZoneOverlap = () => {
     // console.log("__ Check zone overlap...")
     const avatarElement = document.getElementById($localPlayer.uuid)
+    let overlapIndex = false
     currentRoom.zones.forEach(z => {
-      // console.log(z)
-      let zoneElement = document.getElementById(z._id)
-      if (zoneElement && isOverlapping(avatarElement, zoneElement)) {
-        activeZone = z
-      } else {
-        activeZone = false
+      console.log(z)
+      if (
+        inRange($players[$localPlayer.uuid].x, z.x, z.x + z.dimensions.width) &&
+        inRange($players[$localPlayer.uuid].y, z.y, z.y + z.dimensions.height)
+      ) {
+        overlapIndex = z
       }
     })
+    if (overlapIndex) {
+      activeZone = overlapIndex
+    } else {
+      activeZone = false
+    }
   }
 
   const changeRoom = async id => {

@@ -83,7 +83,9 @@
       <!-- BREADCRUMBS -->
       <div class="breadcrumbs">
         <span class="arrow-down"><ArrowDown /></span>
-        <a href="/">open.eyebeam.org / {currentRoom.title}</a>
+        <a href="/">
+          open.eyebeam.org {#if currentRoom.title} / {currentRoom.title}{/if}
+        </a>
       </div>
       <!-- TRAY TOGGLE-->
       <div class="tray-toggle" on:click={toggleTray}>

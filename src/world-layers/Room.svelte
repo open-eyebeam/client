@@ -7,7 +7,7 @@
 
   import Grid from "./Grid.svelte"
   import { GRID_SIZE } from "../data.js"
-  import { showGrid, showLabels, playSound } from "../stores.js"
+  import { showGrid } from "../stores.js"
 
   import { createEventDispatcher } from "svelte"
   const dispatch = createEventDispatcher()
