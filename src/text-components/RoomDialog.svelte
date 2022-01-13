@@ -71,6 +71,8 @@
   .choice {
     display: flex;
     cursor: pointer;
+    outline-color: $e-ink-dark;
+    outline-width: 1px;
 
     .marker {
       opacity: 0;
