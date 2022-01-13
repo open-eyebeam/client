@@ -10,6 +10,9 @@
   import { renderBlockText } from "../sanity.js"
   import { createEventDispatcher } from "svelte"
 
+  // *** GRAPHICS
+  import TriangleDown from "../graphics/triangle-down.svelte"
+
   const dispatch = createEventDispatcher()
 
   const transitionSettings = { duration: 500 }
@@ -41,6 +44,17 @@
   >
     {@html renderBlockText(currentText.text.content)}
   </div>
+  {#if textIndex < text.length - 1}
+    <div
+      class="next-caption"
+      on:click={e => {
+        textIndex++
+        currentText = text[textIndex]
+      }}
+    >
+      <TriangleDown />
+    </div>
+  {/if}
 </div>
 
 <style lang="scss">
@@ -62,6 +76,23 @@
     bottom: 20px;
     left: 20px;
     z-index: 100000;
-    max-width: 460px;
+    max-width: 520px;
+    display: flex;
+  }
+
+  .next-caption {
+    padding-left: 15px;
+    padding-right: 15px;
+    background: $e-ink-medium;
+    color: $e-ink-dark;
+    border: 1px solid $e-ink-dark;
+    z-index: 1000;
+    font-size: $font-size-small;
+    padding-bottom: 0;
+    cursor: pointer;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 </style>

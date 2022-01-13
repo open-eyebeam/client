@@ -14,8 +14,9 @@
   @import "../variables.scss";
 
   svg {
+    transform: rotate(270deg);
     path {
-      fill: $e-ink-light;
+      fill: $e-ink-dark;
     }
   }
 </style>
