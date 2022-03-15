@@ -74,6 +74,7 @@
     playSound,
     activeArticle,
     trayOpen,
+    currentRoom,
   } from "./stores.js"
 
   import { initializeStreamsHandler, streams } from "./misc/streams.js"
@@ -82,7 +83,6 @@
   let reconnectionAttempts = 0
   let disconnectionCode = 0
   let captions = []
-  let currentRoom = false
   let viewportElement = {}
   let roomIntent = false
   let avatars = []
@@ -93,7 +93,7 @@
   // $: console.log("__ CHANGED: $localPlayer", $localPlayer)
   // $: console.log("__ CHANGED: $worldObject", $worldObject)
   // $: console.log("__ CHANGED: $players", $players)
-  // $: console.log("currentRoom", currentRoom)
+  // $: console.log("$currentRoom", $currentRoom)
   // $: console.log("$keyReleased", $keyReleased)
   // $: console.log("$chatMessages", $chatMessages)
   // $: console.log("roomIntent", roomIntent)
@@ -127,13 +127,22 @@
     }
   }
 
+  $: {
+    if ($players[$localPlayer.uuid]) {
+      if ($players[$localPlayer.uuid].x || $players[$localPlayer.uuid].x) {
+        checkPortalOverlap()
+        checkZoneOverlap()
+      }
+    }
+  }
+
   const checkPortalOverlap = () => {
     // console.log("__ Check portal overlap...")
-    if (currentRoom.portals && Array.isArray(currentRoom.portals)) {
+    if ($currentRoom.portals && Array.isArray($currentRoom.portals)) {
       // console.log("currentRoom.portals", currentRoom.portals)
       // console.log("$players[$localPlayer.uuid]", $players[$localPlayer.uuid])
       let overlapIndex = false
-      currentRoom.portals.forEach(p => {
+      $currentRoom.portals.forEach(p => {
         if (
           $players[$localPlayer.uuid].x === p.x &&
           $players[$localPlayer.uuid].y === p.y
@@ -153,7 +162,7 @@
     // console.log("__ Check zone overlap...")
     const avatarElement = document.getElementById($localPlayer.uuid)
     let overlapIndex = false
-    currentRoom.zones.forEach(z => {
+    $currentRoom.zones.forEach(z => {
       console.log(z)
       if (
         inRange($players[$localPlayer.uuid].x, z.x, z.x + z.dimensions.width) &&
@@ -174,7 +183,7 @@
     let newRoom = $worldObject[id]
     showLabels.set(false)
     await transitionWorldOut(viewportElement)
-    currentRoom = newRoom
+    currentRoom.set(newRoom)
     goToRoom({
       id: newRoom._id,
       x: getRandomInt(4, 6),
@@ -190,73 +199,73 @@
     }
   }
 
-  const animationLoop = () => {
-    const step = timestamp => {
-      // console.log("step", timestamp)
-      // console.log("moveQ", moveQ)
-      // __ Keyboard navigation
-      if ($players[$localPlayer.uuid]) {
-        if (Object.values(pressedKeys).some(k => k)) {
-          // console.log("KEY PRESSED", pressedKeys)
-          if (pressedKeys["UP"]) {
-            // console.log("UP")
-            if ($players[$localPlayer.uuid].y > 0) {
-              players.update(ps => {
-                ps[$localPlayer.uuid].y -= 1
-                return ps
-              })
-            }
-          }
-          if (pressedKeys["DOWN"]) {
-            // console.log("DOWN")
-            if (
-              $players[$localPlayer.uuid].y <
-              currentRoom.dimensions.height * GRID_SIZE - 30
-            ) {
-              players.update(ps => {
-                ps[$localPlayer.uuid].y += 1
-                return ps
-              })
-            }
-          }
-          if (pressedKeys["LEFT"]) {
-            // console.log("LEFT")
-            if ($players[$localPlayer.uuid].x > 0) {
-              players.update(ps => {
-                ps[$localPlayer.uuid].x -= 1
-                return ps
-              })
-            }
-          }
-          if (pressedKeys["RIGHT"]) {
-            // console.log("RIGHT")
-            if (
-              $players[$localPlayer.uuid].x <
-              currentRoom.dimensions.width * GRID_SIZE - 30
-            ) {
-              players.update(ps => {
-                ps[$localPlayer.uuid].x += 1
-                return ps
-              })
-            }
-          }
-          moveTo(
-            $players[$localPlayer.uuid].x,
-            $players[$localPlayer.uuid].y,
-            true
-          )
-          checkPortalOverlap()
-          checkZoneOverlap()
-          pressedKeys["UP"] = false
-          pressedKeys["DOWN"] = false
-          pressedKeys["LEFT"] = false
-          pressedKeys["RIGHT"] = false
-        }
-      }
-      window.requestAnimationFrame(step)
-    }
-    window.requestAnimationFrame(step)
-  }
+  // const animationLoop = () => {
+  //   const step = timestamp => {
+  //     // console.log("step", timestamp)
+  //     // console.log("moveQ", moveQ)
+  //     // __ Keyboard navigation
+  //     if ($players[$localPlayer.uuid]) {
+  //       if (Object.values(pressedKeys).some(k => k)) {
+  //         // console.log("KEY PRESSED", pressedKeys)
+  //         if (pressedKeys["UP"]) {
+  //           // console.log("UP")
+  //           if ($players[$localPlayer.uuid].y > 0) {
+  //             players.update(ps => {
+  //               ps[$localPlayer.uuid].y -= 1
+  //               return ps
+  //             })
+  //           }
+  //         }
+  //         if (pressedKeys["DOWN"]) {
+  //           // console.log("DOWN")
+  //           if (
+  //             $players[$localPlayer.uuid].y <
+  //             $currentRoom.dimensions.height * GRID_SIZE - 30
+  //           ) {
+  //             players.update(ps => {
+  //               ps[$localPlayer.uuid].y += 1
+  //               return ps
+  //             })
+  //           }
+  //         }
+  //         if (pressedKeys["LEFT"]) {
+  //           // console.log("LEFT")
+  //           if ($players[$localPlayer.uuid].x > 0) {
+  //             players.update(ps => {
+  //               ps[$localPlayer.uuid].x -= 1
+  //               return ps
+  //             })
+  //           }
+  //         }
+  //         if (pressedKeys["RIGHT"]) {
+  //           // console.log("RIGHT")
+  //           if (
+  //             $players[$localPlayer.uuid].x <
+  //             $currentRoom.dimensions.width * GRID_SIZE - 30
+  //           ) {
+  //             players.update(ps => {
+  //               ps[$localPlayer.uuid].x += 1
+  //               return ps
+  //             })
+  //           }
+  //         }
+  //         moveTo(
+  //           $players[$localPlayer.uuid].x,
+  //           $players[$localPlayer.uuid].y,
+  //           true
+  //         )
+  //         checkPortalOverlap()
+  //         checkZoneOverlap()
+  //         pressedKeys["UP"] = false
+  //         pressedKeys["DOWN"] = false
+  //         pressedKeys["LEFT"] = false
+  //         pressedKeys["RIGHT"] = false
+  //       }
+  //     }
+  //     window.requestAnimationFrame(step)
+  //   }
+  //   window.requestAnimationFrame(step)
+  // }
 
   onMount(async () => {
     console.time("mount")
@@ -274,7 +283,7 @@
     // Set first room
     for (const [key, value] of Object.entries($worldObject)) {
       if ($worldObject[key].mainArea) {
-        currentRoom = $worldObject[key]
+        currentRoom.set($worldObject[key])
         break
       }
     }
@@ -293,7 +302,7 @@
       name: $profile && $profile.username ? $profile.username : "Test player",
       shape: sample(avatars)._id,
       onboarded: true,
-      room: currentRoom._id,
+      room: $currentRoom._id,
       x: getRandomInt(10, 30),
       y: getRandomInt(5, 15),
     }
@@ -307,11 +316,11 @@
     initializeStreamsHandler()
     console.log("✓ (6) Stream listener initialized")
 
-    animationLoop()
-    console.log("✓ (7) Animation loop started")
+    // animationLoop()
+    // console.log("✓ (7) Animation loop started")
 
-    if (has(currentRoom, "introductionTexts")) {
-      newRoomIntroduction = currentRoom.introductionTexts
+    if (has($currentRoom, "introductionTexts")) {
+      newRoomIntroduction = $currentRoom.introductionTexts
     }
     console.log("✓ (7) Show main room introduction")
 
@@ -320,10 +329,10 @@
 </script>
 
 <!-- Header -->
-<Header {currentRoom} />
+<Header currentRoom={$currentRoom} />
 
 <!-- GAME WORLD -->
-{#if currentRoom}
+{#if $currentRoom}
   <div
     class="viewport"
     class:pushed={$trayOpen}
@@ -331,7 +340,7 @@
     class:blurred={UI.state == STATE.ONBOARDING}
   >
     <Room
-      room={currentRoom}
+      room={$currentRoom}
       x={get($players[$localPlayer.uuid], "x", 100)}
       y={get($players[$localPlayer.uuid], "y", 100)}
       on:move={e => {
@@ -340,14 +349,14 @@
     >
       <!-- PLAYERS -->
       <!-- {#if Array.isArray($players)} -->
-      <Players players={$players} currentRoomId={currentRoom._id} {avatars} />
+      <Players players={$players} currentRoomId={$currentRoom._id} {avatars} />
       <!-- {/if} -->
       <!-- OBJECTS -->
-      <Objects objects={get(currentRoom, "objects", [])} />
+      <Objects objects={get($currentRoom, "objects", [])} />
       <!-- ZONES -->
-      <Zones zones={get(currentRoom, "zones", [])} />
+      <Zones zones={get($currentRoom, "zones", [])} />
       <!-- PORTALS -->
-      <Portals portals={get(currentRoom, "portals", [])} />
+      <Portals portals={get($currentRoom, "portals", [])} />
       <!-- TARGET -->
       {#if $showTarget}
         <Target x={$targetX} y={$targetY} />
@@ -357,8 +366,8 @@
 {/if}
 
 <!-- AMBIENT AUDIO -->
-{#if has(currentRoom, "backgroundSound.asset") && $playSound}
-  <AmbientAudio soundFile={currentRoom.backgroundSound} />
+{#if has($currentRoom, "backgroundSound.asset") && $playSound}
+  <AmbientAudio soundFile={$currentRoom.backgroundSound} />
 {/if}
 
 <!-- AUTH TEST BOX -->
@@ -368,7 +377,7 @@
 
 <!-- LIVE STREAM -->
 {#each $streams as stream}
-  {#if currentRoom._id == stream.parentArea._ref || activeZone._id == stream.parentArea._ref}
+  {#if $currentRoom._id == stream.parentArea._ref || activeZone._id == stream.parentArea._ref}
     <StreamPlayer streamUrl={stream.videoUrl} />
   {/if}
 {/each}
@@ -387,7 +396,7 @@
   />
 {/if}
 
-{#if !$trayOpen && !$activeArticle}
+{#if !$trayOpen && !$activeArticle && !roomIntent}
   {#if newRoomIntroduction}
     <Caption
       text={newRoomIntroduction}
@@ -406,10 +415,10 @@
 <!-- CHAT-->
 {#if !$trayOpen && !$activeArticle}
   <Chat
-    chatMessages={$chatMessages.filter(m => m.room === currentRoom._id)}
+    chatMessages={$chatMessages.filter(m => m.room === $currentRoom._id)}
     on:submit={e => {
       // console.log("e", e)
-      submitChat(e, currentRoom)
+      submitChat(e, $currentRoom)
     }}
   />
 {/if}
