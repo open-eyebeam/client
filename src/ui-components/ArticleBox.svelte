@@ -9,6 +9,7 @@
   import { has } from "lodash"
   import { activeArticle } from "../stores.js"
   import { trayOpen } from "../stores.js"
+  import { loadDataFromMainSite } from "../sanity.js"
   // *** UI COMPONENTS
   import VideoPlayer from "./VideoPlayer.svelte"
   import Blocks from "../blocks/blocks.svelte"
@@ -21,6 +22,7 @@
 
   let viewCount = 0
   let viewCountText = ""
+  let importedPost
 
   $: {
     viewCount = 0
@@ -38,6 +40,11 @@
 
   onMount(async () => {
     enterArticle(article)
+    if (article.contentType === "importedPost" && article.importedPost) {
+      importedPost = await loadDataFromMainSite(
+        "*[_id == '" + article.importedPost + "'][0]"
+      )
+    }
   })
 
   onDestroy(async () => {
@@ -70,6 +77,17 @@
       </div>
     </div>
   {/if}
+{:else if article.contentType === "importedPost"}
+  <div class="article" class:pushed={$trayOpen} transition:fade>
+    <div class="inner">
+      {#if importedPost && importedPost.title}
+        {importedPost.title}
+        {#if has(importedPost, "content.content")}
+          <Blocks blocks={importedPost.content.content} mainSite={true} />
+        {/if}
+      {/if}
+    </div>
+  </div>
 {:else if article.contentType === "bulletinBoard"}
   <div class="bulletin-board" class:pushed={$trayOpen} transition:fade>
     <div class="inner">

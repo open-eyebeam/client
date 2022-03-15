@@ -8,7 +8,7 @@
   // __ IMPORT
   import { links, navigate } from "svelte-routing"
   import Clock from "../clock/clock.svelte"
-  import { loadWebsiteData } from "../website-sanity.js"
+  import { loadDataFromMainSite } from "../sanity.js"
   import has from "lodash/has.js"
 
   // __ COMPONENTS
@@ -23,7 +23,7 @@
 
   export let currentRoom = {}
 
-  const cities = loadWebsiteData('*[_id == "cities"][0]')
+  const cities = loadDataFromMainSite('*[_id == "cities"][0]')
 
   cities.then(c => {
     // console.log("cities", c)

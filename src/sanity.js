@@ -223,3 +223,26 @@ export const loadData = async (query, params) => {
     return Promise.reject(new Error(404))
   }
 }
+
+export const mainSiteClient = sanityClient({
+  projectId: "3knpqano",
+  dataset: "production",
+  apiVersion: '2021-10-05', // use a UTC date string
+  useCdn: false, // `false` if you want to ensure fresh data
+})
+
+export const loadDataFromMainSite = async (query, params) => {
+  try {
+    const res = await mainSiteClient.fetch(query, params)
+    if (res === null) {
+      return Promise.reject(new Error(404))
+    }
+    return res
+  } catch (err) {
+    return Promise.reject(new Error(404))
+  }
+}
+
+const mainSitebuilder = imageUrlBuilder(mainSiteClient)
+
+export const urlForMainSite = source => mainSitebuilder.image(source)

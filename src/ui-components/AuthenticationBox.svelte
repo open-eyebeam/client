@@ -43,6 +43,7 @@
     padding: 5px;
     cursor: pointer;
     font-size: $font-size-extra-small;
+    z-index: 10000;
 
     &:hover {
       background: $e-ink-medium;

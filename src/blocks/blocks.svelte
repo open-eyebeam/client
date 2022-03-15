@@ -8,6 +8,7 @@
   // __ BLOCKS
   import Text from "./text.svelte"
   import Image from "./image.svelte"
+  import ImageFromMainSite from "./imageFromMainSite.svelte"
   import InvertedBlock from "./invertedBlock.svelte"
   import LogoBlock from "./logoBlock.svelte"
   import Embed from "./embed.svelte"
@@ -20,6 +21,7 @@
 
   // *** PROPS
   export let blocks = []
+  export let mainSite = false
 </script>
 
 {#each blocks as b}
@@ -33,7 +35,11 @@
     {/if}
   {/if}
   {#if b._type == "image"}
-    <Image {b} />
+    {#if mainSite}
+      <ImageFromMainSite {b} />
+    {:else}
+      <Image {b} />
+    {/if}
   {/if}
   {#if b._type == "embedBlock"}
     <Embed {b} />
