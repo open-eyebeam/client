@@ -44,7 +44,7 @@ export const initializeKeyboardHandler = () => {
                 keyReleased.set(false)
                 if (
                     get(players)[get(localPlayer).uuid].y * GRID_SIZE <
-                    get(currentRoom).dimensions.height * GRID_SIZE - 30
+                    get(currentRoom).dimensions.height * GRID_SIZE - 60
                 ) {
                     players.update(ps => {
                         ps[get(localPlayer).uuid].y += 1
@@ -68,8 +68,8 @@ export const initializeKeyboardHandler = () => {
                 pressedKeys["RIGHT"] = true
                 keyReleased.set(false)
                 if (
-                    get(players)[get(localPlayer).uuid].x <
-                    get(currentRoom).dimensions.width * GRID_SIZE - 30
+                    get(players)[get(localPlayer).uuid].x * GRID_SIZE <
+                    get(currentRoom).dimensions.width * GRID_SIZE - 60
                 ) {
                     players.update(ps => {
                         ps[get(localPlayer).uuid].x += 1
