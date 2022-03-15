@@ -74,6 +74,7 @@
     left: 80px;
     width: 380px;
     border: 1px solid $e-ink-light;
+    z-index: 10000;
 
     .embed {
       width: 100%;
