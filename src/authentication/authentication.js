@@ -17,7 +17,7 @@ const updateUser = async profile => {
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json")
     const requestOptions = {
-        method: 'GET',
+        method: 'POST',
         headers: myHeaders,
         body: JSON.stringify(profile),
         redirect: 'follow'
