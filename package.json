@@ -22,12 +22,14 @@
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.18.0",
     "@peertube/embed-api": "^0.0.5",
+    "@rollup/plugin-replace": "^4.0.0",
     "@sanity/block-content-to-html": "^2.0.0",
     "@sanity/client": "^2.16.0",
     "@sanity/image-url": "^0.140.22",
     "anchorme": "^2.1.2",
     "colyseus.js": "^0.14.13",
     "date-fns": "^2.23.0",
+    "dotenv": "^16.0.0",
     "flickity": "^2.2.2",
     "fuse.js": "^6.4.6",
     "get-video-id": "^3.2.0",
@@ -38,6 +40,7 @@
     "slugify": "^1.6.5",
     "svelte-media-query": "^1.1.1",
     "svelte-routing": "^1.6.0",
-    "tippy.js": "^6.3.1"
+    "tippy.js": "^6.3.1",
+    "uuid": "^8.3.2"
   }
 }

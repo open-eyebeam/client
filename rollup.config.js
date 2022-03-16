@@ -5,6 +5,8 @@ import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import sveltePreprocess from 'svelte-preprocess'
 import builtins from 'rollup-plugin-node-builtins';
+import { config } from 'dotenv';
+import replace from '@rollup/plugin-replace';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -39,6 +41,15 @@ export default {
 			dedupe: ['svelte']
 		}),
 		commonjs(),
+		replace({
+			// stringify the object       
+			__myapp: JSON.stringify({
+				env: {
+					isProd: production,
+					...config().parsed // attached the .env config
+				}
+			}),
+		}),
 
 		// In dev mode, call `npm run start` once
 		// the bundle has been generated
