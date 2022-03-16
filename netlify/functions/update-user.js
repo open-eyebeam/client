@@ -25,7 +25,7 @@ exports.handler = async (event, context) => {
     const doc = {
         _type: 'user',
         _id: authObject.id,
-        name: authObject.username,
+        name: authObject.username.split('#')[0],
         discordName: authObject.username,
         // avatarURL: event.user.picture,
         // roles: roles,
