@@ -13,6 +13,21 @@ const keycloak = new Keycloak({
     clientId: 'underscore_openeyebeam'
 });
 
+const updateUser = async profile => {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json")
+    const requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        body: JSON.stringify(profile),
+        redirect: 'follow'
+    }
+    fetch("https://open-eyebeam.netlify.app/.netlify/functions/update-user", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error))
+}
+
 export const configureAuthClient = async () => {
     return new Promise((resolve, reject) => {
         keycloak.init({
@@ -28,6 +43,7 @@ export const configureAuthClient = async () => {
                     .then(p => {
                         console.log('profile', p);
                         profile.set(p);
+                        updateUser(p);
                     }).catch(() => {
                         console.log('Failed to load user profile');
                     }).finally(() => {

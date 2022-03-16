@@ -26,6 +26,7 @@ exports.handler = async (event, context) => {
         _type: 'user',
         _id: authObject.id,
         name: authObject.username,
+        discordName: authObject.username,
         // avatarURL: event.user.picture,
         // roles: roles,
         email: authObject.email,
