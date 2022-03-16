@@ -37,6 +37,7 @@
     "js-cookie": "^3.0.0",
     "keycloak-js": "^15.0.2",
     "lodash": "^4.17.21",
+    "slug": "^5.3.0",
     "slugify": "^1.6.5",
     "svelte-media-query": "^1.1.1",
     "svelte-routing": "^1.6.0",
