@@ -13,6 +13,7 @@
   // *** UI COMPONENTS
   import VideoPlayer from "./VideoPlayer.svelte"
   import Blocks from "../blocks/blocks.svelte"
+  import BulletinBoardEvent from "../bulletin-board-event/bulletin-board-event.svelte"
 
   import { enterArticle, leaveArticle, players } from "../core/core.js"
 
@@ -88,12 +89,18 @@
       {/if}
     </div>
   </div>
-{:else if article.contentType === "bulletinBoard"}
+{:else if article.isBulletinBoard}
   <div class="bulletin-board" class:pushed={$trayOpen} transition:fade>
     <div class="inner">
       <h1>Welcome to the Bulletin Board</h1>
-      <img src="/placeholder.png" />
-      <!-- <Blocks blocks={article.content.content} /> -->
+      <div class="bulletin-board-actions">
+        <div class="action">Subscribe to Calendar</div>
+      </div>
+      <div class="bulletin-board-events">
+        {#each article.events as event}
+          <BulletinBoardEvent {event} />
+        {/each}
+      </div>
     </div>
   </div>
 {/if}
@@ -164,11 +171,6 @@
     max-width: 100%;
   }
 
-  :global(.bulletin-board img) {
-    max-width: 100%;
-    border: 5px solid yellow;
-  }
-
   .video {
     position: fixed;
     top: 0;
@@ -224,6 +226,20 @@
       padding: 20px;
       overflow-y: scroll;
       font-size: $font-size-small;
+
+      .bulletin-board-actions {
+        .action {
+          padding: 10px;
+          border: $border-style;
+          display: inline-block;
+        }
+      }
+
+      .bulletin-board-actions {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        display: inline-block;
+      }
     }
 
     transition: transform 0.5s $transition;

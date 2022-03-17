@@ -13,6 +13,8 @@ export const buildWorld = () => {
         const zones = await loadData('*[_type == "zone"]{..., "bgImageUrl": backgroundImage.asset->url}')
         const objects = await loadData('*[_type == "exob"]')
         const portals = await loadData('*[_type == "portal"]{..., targetArea->{...}, "bgImageUrl": backgroundImage.asset->url}')
+        const events = await loadData('*[_type == "event"]')
+        const bulletinBoard = await loadData('*[_id == "bulletin-board-settings"][0]')
 
         // --> Construct world object by rooms:
         let innerWorld = {}
@@ -32,6 +34,16 @@ export const buildWorld = () => {
                 innerWorld[object.parentArea._ref].objects.push(object)
             }
         })
+
+        // Add bulletin board icon
+        console.log('bulletinBoard', bulletinBoard)
+        console.log('events', events)
+        if (bulletinBoard) {
+            bulletinBoard.isBulletinBoard = true
+            bulletinBoard.title = 'Bulletin Board'
+            bulletinBoard.events = events
+            innerWorld[bulletinBoard.parentArea._ref].objects.push(bulletinBoard)
+        }
 
         // Add zones to rooms
         zones.forEach(zone => {
