@@ -1,5 +1,6 @@
 import { format, getYear, parseISO, formatDistanceToNow, isFuture } from "date-fns"
 
+// export const SANITY_PROJECT_ID = __myapp.env.SANITY_ID
 export const SANITY_PROJECT_ID = "58ueii0w"
 
 // const mainFormat = "MMM dd yyyy – HH:mm"
