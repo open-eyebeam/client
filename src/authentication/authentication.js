@@ -13,6 +13,7 @@ const keycloak = new Keycloak({
     clientId: 'underscore_openeyebeam'
 });
 
+// Update the user information stored in the sanity database and return the new user object
 const updateUser = async profile => {
     console.log('updateUser', profile);
     const myHeaders = new Headers();
@@ -23,10 +24,14 @@ const updateUser = async profile => {
         body: JSON.stringify(profile),
         redirect: 'follow'
     }
-    fetch("https://open-eyebeam.netlify.app/.netlify/functions/update-user", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error))
+    const response = fetch("https://open-eyebeam.netlify.app/.netlify/functions/update-user", requestOptions)
+    if (!response.ok) {
+        const message = `An error has occured: ${response.status}`;
+        throw new Error(message);
+    }
+    const userProfile = await response.json();
+    console.log('userProfile', userProfile);
+    return userProfile
 }
 
 export const configureAuthClient = async () => {
@@ -65,7 +70,6 @@ export const configureAuthClient = async () => {
 export const login = async () => {
     console.log(window.location.origin)
     keycloak.login({ redirectUri: window.location.origin })
-    // keycloak.login({ redirectUri: 'https://open-eyebeam.netlify.app/' })
 }
 
 export const logout = () => {
