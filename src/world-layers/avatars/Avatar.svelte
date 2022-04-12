@@ -74,9 +74,13 @@
   export let avatars = []
   export let key = ""
 
+  console.log("avatars", avatars)
+  console.log("player", player)
+
   // *** VARIABLES
   let avatarEl = {}
-  const avatar = avatars.find(a => a._id === get(player, "avatar._ref", ""))
+  // let avatar = avatars.find(a => a._id === get(player, "avatar._ref", ""))
+  let avatar = avatars.find(a => a._id === player.shape)
   let gridPosY = player.y * GRID_SIZE
   let gridPosX = player.x * GRID_SIZE
 
