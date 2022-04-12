@@ -24,7 +24,7 @@ const updateUser = async profile => {
         body: JSON.stringify(profile),
         redirect: 'follow'
     }
-    const response = fetch("https://open-eyebeam.netlify.app/.netlify/functions/update-user", requestOptions)
+    const response = await fetch("https://open-eyebeam.netlify.app/.netlify/functions/update-user", requestOptions)
     if (!response.ok) {
         const message = `An error has occured: ${response.status}`;
         throw new Error(message);
