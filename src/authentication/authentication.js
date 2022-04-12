@@ -14,8 +14,8 @@ const keycloak = new Keycloak({
 });
 
 // Update the user information stored in the sanity database and return the new user object
-const updateUser = async profile => {
-    return new Promise((resolve, reject) => {
+const updateUser = profile => {
+    return new Promise(async (resolve, reject) => {
         console.log('updateUser', profile);
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json")
