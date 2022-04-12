@@ -15,23 +15,25 @@ const keycloak = new Keycloak({
 
 // Update the user information stored in the sanity database and return the new user object
 const updateUser = async profile => {
-    console.log('updateUser', profile);
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json")
-    const requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: JSON.stringify(profile),
-        redirect: 'follow'
-    }
-    const response = await fetch("https://open-eyebeam.netlify.app/.netlify/functions/update-user", requestOptions)
-    if (!response.ok) {
-        const message = `An error has occured: ${response.status}`;
-        throw new Error(message);
-    }
-    const userProfile = await response.json();
-    console.log('userProfile', userProfile);
-    return userProfile
+    return new Promise((resolve, reject) => {
+        console.log('updateUser', profile);
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json")
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: JSON.stringify(profile),
+            redirect: 'follow'
+        }
+        const response = await fetch("https://open-eyebeam.netlify.app/.netlify/functions/update-user", requestOptions)
+        if (!response.ok) {
+            const message = `An error has occured: ${response.status}`;
+            throw new Error(message);
+        }
+        const userProfile = await response.json();
+        console.log('userProfile', userProfile);
+        resolve(userProfile);
+    })
 }
 
 export const configureAuthClient = async () => {
@@ -46,9 +48,9 @@ export const configureAuthClient = async () => {
             isAuthenticated.set(authenticated)
             if (authenticated) {
                 keycloak.loadUserProfile()
-                    .then(p => {
+                    .then(async (p) => {
                         console.log('profile', p);
-                        let fullProfile = updateUser(p);
+                        const fullProfile = await updateUser(p);
                         console.log('fullProfile', fullProfile);
                         profile.set(fullProfile);
                     }).catch(() => {
