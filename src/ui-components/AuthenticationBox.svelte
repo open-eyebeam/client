@@ -24,9 +24,7 @@
 >
   {#if $isAuthenticated}
     <div>
-      {$profile && $profile.username
-        ? $profile.username + " (Log out)"
-        : "Log out"}
+      {$profile && $profile.name ? $profile.name + " (Log out)" : "Log out"}
     </div>
   {:else}Login{/if}
 </div>

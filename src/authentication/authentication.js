@@ -14,6 +14,7 @@ const keycloak = new Keycloak({
 });
 
 const updateUser = async profile => {
+    console.log('updateUser', profile);
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json")
     const requestOptions = {
@@ -42,8 +43,9 @@ export const configureAuthClient = async () => {
                 keycloak.loadUserProfile()
                     .then(p => {
                         console.log('profile', p);
-                        profile.set(p);
-                        updateUser(p);
+                        let fullProfile = updateUser(p);
+                        console.log('fullProfile', fullProfile);
+                        profile.set(fullProfile);
                     }).catch(() => {
                         console.log('Failed to load user profile');
                     }).finally(() => {
