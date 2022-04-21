@@ -7,7 +7,7 @@
 
   // __ IMPORTS
   import { longFormatDate } from "$lib/modules/global.js"
-  import { has } from "lodash"
+  import has from "lodash/has.js"
 
   // __ COMPONENTS
   import Blocks from "./blocks.svelte"

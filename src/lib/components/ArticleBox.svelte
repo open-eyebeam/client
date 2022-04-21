@@ -6,7 +6,7 @@
   // # # # # # # # # # # # # #
   import { onMount, onDestroy } from "svelte"
   import { fade } from "svelte/transition"
-  import { has } from "lodash"
+  import has from "lodash/has.js"
   import { activeArticle, trayOpen } from "$lib/modules//ui.js"
   import { loadDataFromMainSite } from "$lib/modules//sanity.js"
   import { enterArticle, leaveArticle, players } from "$lib/modules//core.js"

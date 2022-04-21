@@ -1,5 +1,5 @@
 import { writable, get } from "svelte/store"
-import { throttle } from 'lodash'
+import throttle from 'lodash/throttle.js'
 import {
     players, moveTo,
 } from "$lib/modules/core.js"

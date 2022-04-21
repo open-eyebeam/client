@@ -4,7 +4,10 @@
   //  METADATA
   //
   // # # # # # # # # # # # # #
-  import { has, isArray, isEmpty, truncate } from "lodash"
+  import has from "lodash/has.js"
+  import isArray from "lodash/isArray.js"
+  import isEmpty from "lodash/isEmpty.js"
+  import truncate from "lodash/truncate.js"
   import { toPlainText, urlFor } from "$lib/modules/sanity.js"
   import { globalSettings } from "$lib/modules/data.js"
 

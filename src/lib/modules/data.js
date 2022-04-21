@@ -1,6 +1,7 @@
 import { loadData } from "$lib/modules/sanity.js"
 import { writable } from "svelte/store"
-import { has, get } from "lodash"
+import has from "lodash/has.js"
+import get from "lodash/get.js"
 
 export const globalSettings = writable({})
 export let worldObject = writable({})

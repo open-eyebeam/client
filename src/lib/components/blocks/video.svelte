@@ -7,7 +7,7 @@
 
   // __ IMPORTS
   import { loadData, urlFor } from "$lib/modules/sanity.js"
-  import { get } from "lodash"
+  import get from "lodash/get.js"
 
   // __ GRAPHICS
   import PlayArrow from "$lib/components/graphics/play-arrow.svelte"

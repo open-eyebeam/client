@@ -6,7 +6,7 @@
   // # # # # # # # # # # # # #
   import { fade } from "svelte/transition"
   import { onMount } from "svelte"
-  import { get } from "lodash"
+  import get from "lodash/get.js"
   import { urlFor } from "$lib/modules/sanity.js"
   import { showLabels } from "$lib/modules/ui.js"
   import { GRID_SIZE } from "$lib/modules/data.js"

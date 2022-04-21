@@ -5,7 +5,8 @@
   //
   // # # # # # # # # # # # # #
   // __ IMPORT
-  import { has, inRange } from "lodash"
+  import has from "lodash/has.js"
+  import inRange from "lodash/inRange.js"
   import { fade } from "svelte/transition"
 
   // __ STORES

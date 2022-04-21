@@ -6,7 +6,6 @@
   // # # # # # # # # # # # # #
 
   // *** COMPONENTS
-  import { links } from "svelte-routing"
   import { createEventDispatcher } from "svelte"
   const dispatch = createEventDispatcher()
 
@@ -25,7 +24,7 @@
 </script>
 
 <div class="chat-container">
-  <div class="chat-input" use:links>
+  <div class="chat-input">
     <input
       placeholder="Write a message..."
       type="[text]"

@@ -6,7 +6,7 @@
   // # # # # # # # # # # # # #
 
   // __ IMPORTS
-  import { has } from "lodash"
+  import has from "lodash/has.js"
   import getVideoId from "get-video-id"
 
   // __ BLOCKS

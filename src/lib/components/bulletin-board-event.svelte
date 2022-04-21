@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte"
-  import { has } from "lodash"
+  import has from "lodash/has.js"
   import {
     loadDataFromMainSite,
     urlForMainSite,

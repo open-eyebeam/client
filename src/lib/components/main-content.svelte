@@ -6,7 +6,7 @@
   // # # # # # # # # # # # # #
 
   // __ IMPORTS
-  import { has } from "lodash"
+  import has from "lodash/has.js"
   import { urlFor } from "$lib/modules/sanity.js"
   import { dateTimeFormat, longFormatDate } from "$lib/modules/global.js"
 

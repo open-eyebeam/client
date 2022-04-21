@@ -6,12 +6,7 @@ import { writable, get } from 'svelte/store';
 export const isAuthenticated = writable(false);
 export const profile = writable(false);
 
-// KEYCLOAK
-const keycloak = new Keycloak({
-    url: 'https://hello.undersco.re/auth/',
-    realm: 'undersco_re',
-    clientId: 'underscore_openeyebeam'
-});
+let keycloak = {}
 
 // Update the user information stored in the sanity database and return the new user object
 const updateUser = profile => {
@@ -38,6 +33,13 @@ const updateUser = profile => {
 
 export const configureAuthClient = async () => {
     return new Promise((resolve, reject) => {
+
+        keycloak = new Keycloak({
+            url: 'https://hello.undersco.re/auth/',
+            realm: 'undersco_re',
+            clientId: 'underscore_openeyebeam'
+        });
+
         keycloak.init({
             // onLoad: 'login-required',
             onLoad: 'check-sso',

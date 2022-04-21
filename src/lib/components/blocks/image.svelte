@@ -7,7 +7,7 @@
 
   // __ IMPORTS
   import { urlFor } from "$lib/modules/sanity.js"
-  import { has } from "lodash"
+  import has from "lodash/has.js"
 
   // __ BLOCKS
   import Blocks from "./blocks.svelte"

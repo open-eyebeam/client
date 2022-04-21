@@ -10,7 +10,7 @@
   import { onMount } from "svelte"
   import { loadData, urlFor } from "$lib/modules/sanity.js"
   import { roleToRoleName } from "$lib/modules/global.js"
-  import { get } from "lodash"
+  import get from "lodash/get.js"
 
   // __ PROPS
   export let person = false

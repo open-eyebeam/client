@@ -4,10 +4,12 @@
   //  WORLD
   //
   // # # # # # # # # # # # # #
-
   // *** IMPORTS
   import { onMount } from "svelte"
-  import { get, sample, has, inRange } from "lodash"
+  import get from "lodash/get.js"
+  import sample from "lodash/sample.js"
+  import has from "lodash/has.js"
+  import inRange from "lodash/inRange.js"
   // *** OVERLAYS
   import LoadingScreen from "$lib/components/overlays/LoadingScreen.svelte"
   import Error from "$lib/components/overlays/Error.svelte"
@@ -33,14 +35,12 @@
   // *** GRAPHICS
   import SoundOn from "$lib/components/graphics/SoundOn.svelte"
   import SoundOff from "$lib/components/graphics/SoundOff.svelte"
-
   // *** GLOBAL
   import { nanoid, getRandomInt } from "$lib/modules/global.js"
   import {
     connectToGameServer,
     moveTo,
     goToRoom,
-    // moveQ,
     players,
     chatMessages,
     showTarget,
@@ -102,8 +102,8 @@
   // $: infoLogger("$chatMessages", $chatMessages)
   // $: infoLogger("roomIntent", roomIntent)
   // $: infoLogger("$activeArticle", $activeArticle)
-  $: infoLogger("$streams", $streams)
-  $: infoLogger("activeZone", activeZone)
+  // $: infoLogger("$streams", $streams)
+  // $: infoLogger("activeZone", activeZone)
 
   // let windowHeight = window.innerHeight
   // let windowWidth = window.innerWidth

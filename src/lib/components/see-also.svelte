@@ -7,7 +7,7 @@
 
   // __ IMPORTS
   import { postTypeToName, postTypeToCategory } from "$lib/modules/global.js"
-  import { get } from "lodash"
+  import get from "lodash/get.js"
 
   // __ GRAPHICS
   import ExternalLink from "$lib/components/graphics/external-link.svelte"

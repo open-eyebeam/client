@@ -8,7 +8,7 @@
   // __ IMPORT
   import Clock from "$lib/components/Clock.svelte"
   import { loadDataFromMainSite } from "$lib/modules/sanity.js"
-  import { has } from "lodash"
+  import has from "lodash/has.js"
 
   // __ COMPONENTS
   import Blocks from "$lib/components/blocks/blocks.svelte"

@@ -8,7 +8,8 @@
   import { onMount } from "svelte"
   import { chatMessages } from "$lib/modules/core.js"
   import { GRID_SIZE } from "$lib/modules/data.js"
-  import { get, sample } from "lodash"
+  import get from "lodash/get.js"
+  import sample from "lodash/sample.js"
 
   $: {
     let lastMessage = $chatMessages[$chatMessages.length - 1]

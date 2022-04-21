@@ -7,7 +7,7 @@
 
   // *** IMPORTS
   import { Howl } from "howler"
-  import { get } from "lodash"
+  import get from "lodash/get.js"
   import { onDestroy } from "svelte"
 
   // *** PROPS
