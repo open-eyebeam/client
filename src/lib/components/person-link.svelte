@@ -8,7 +8,7 @@
   //  __ IMPORTS
   import { createPopper } from "@popperjs/core"
   import { onMount } from "svelte"
-  import { loadData, urlFor } from "$lib/modules/sanity.js"
+  import { loadDataFromMainSite, urlFor } from "$lib/modules//sanity.js"
   import { roleToRoleName } from "$lib/modules/global.js"
   import get from "lodash/get.js"
 
@@ -40,7 +40,6 @@
 
   const show = () => {
     if (isDesktop.matches) {
-      console.log("SHOW")
       popEl.classList.add("show")
       // Enable the event listeners
       popper.setOptions(options => ({
@@ -58,7 +57,6 @@
 
   const hide = () => {
     if (isDesktop.matches) {
-      console.log("hide")
       popEl.classList.remove("show")
       // Disable the event listeners
       popper.setOptions(options => ({
@@ -74,8 +72,7 @@
   const renderNewLines = t => t.replace(/(?:\r\n|\r|\n)/g, "<br>")
 
   if (personId) {
-    console.log("loading-data")
-    loadData('*[_id == "' + personId + '"][0]').then(p => {
+    loadDataFromMainSite('*[_id == "' + personId + '"][0]').then(p => {
       person = p
       setTimeout(initPopper, 1000)
     })

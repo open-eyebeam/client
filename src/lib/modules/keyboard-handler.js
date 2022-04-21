@@ -18,8 +18,6 @@ export const pressedKeys = {
 
 export const keyReleased = writable(true)
 
-// $: console.log('keyReleased', get(keyReleased))
-
 export const initializeKeyboardHandler = () => {
     return new Promise((resolve, reject) => {
         // PLAYER => KEY DOWN

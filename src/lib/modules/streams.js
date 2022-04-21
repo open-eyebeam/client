@@ -9,7 +9,6 @@ export const initializeStreamsHandler = async () => {
     streams.set(sx.activeStreams)
     // __ Listen for changes to the active streams post
     client.listen(STREAMS_QUERY).subscribe(update => {
-        console.log('UPDATE!!', update)
         streams.set(update.result.activeStreams)
     })
 }

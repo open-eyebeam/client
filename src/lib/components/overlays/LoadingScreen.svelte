@@ -4,10 +4,14 @@
   //  LOADING SCREEN
   //
   // # # # # # # # # # # # # #
+  import { fade } from "svelte/transition"
+  import AnimatedBeam from "$lib/components/graphics/animated-beam.svelte"
 </script>
 
-<div class="loading-screen">
-  <div class="box">loading...</div>
+<div class="loading-screen" transition:fade={{ delay: 500 }}>
+  <div class="box">
+    <AnimatedBeam />
+  </div>
 </div>
 
 <style lang="scss">
@@ -29,6 +33,7 @@
     .box {
       font-family: $SERIF_STACK;
       padding: 20px;
+      height: 200px;
       font-size: $font-size-small;
       text-align: center;
       user-select: none;

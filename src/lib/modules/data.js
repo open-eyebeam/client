@@ -37,8 +37,6 @@ export const buildWorld = () => {
         })
 
         // Add bulletin board icon
-        console.log('bulletinBoard', bulletinBoard)
-        console.log('events', events)
         if (bulletinBoard) {
             bulletinBoard.isBulletinBoard = true
             bulletinBoard.title = 'Bulletin Board'
@@ -84,7 +82,6 @@ const parseStyleProperties = r => {
 // ===> GLOBAL SETTINGS
 loadData('*[_id == "global-settings"]')
     .then(gS => {
-        // console.log('gS', gS)
         globalSettings.set(gS)
     })
     .catch(err => {

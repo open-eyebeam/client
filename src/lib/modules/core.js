@@ -156,7 +156,6 @@ export const connectToGameServer = playerObject => {
                 }
 
                 goToRoom = room => {
-                    console.log(room)
                     gameRoom.send("changeRoom", {
                         id: room.id,
                         x: room.x,
@@ -165,14 +164,12 @@ export const connectToGameServer = playerObject => {
                 }
 
                 enterArticle = article => {
-                    console.log('ENTER', article)
                     gameRoom.send("enterArticle", {
                         id: article._id,
                     })
                 }
 
                 leaveArticle = () => {
-                    console.log('LEAVE')
                     gameRoom.send("leaveArticle")
                 }
 
@@ -210,9 +207,6 @@ export const connectToGameServer = playerObject => {
 
                 // MESSAGE => SUBMIT
                 submitChat = (event, currentRoom) => {
-                    console.log('submitting chat')
-                    // console.log('get(localPlayer).uuid', get(localPlayer).uuid)
-                    // console.log('get(players)[get(localPlayer).uuid].name', get(players)[get(localPlayer).uuid].name)
                     try {
                         gameRoom.send("submitChatMessage", {
                             msgId: nanoid(),

@@ -72,7 +72,7 @@
     path,
     line {
       fill: none;
-      stroke: $e-ink-dark;
+      stroke: $e-ink-light;
       stroke-width: 0.7px;
       stroke-miterlimit: 10;
       opacity: 0;

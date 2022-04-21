@@ -6,5 +6,3 @@ export const localPlayer = writable({
   name: '',
   profile: {}
 })
-
-

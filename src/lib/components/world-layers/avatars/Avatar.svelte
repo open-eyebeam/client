@@ -71,9 +71,6 @@
   export let avatars = []
   export let key = ""
 
-  console.log("avatars", avatars)
-  console.log("player", player)
-
   // *** VARIABLES
   let avatarEl = {}
   // let avatar = avatars.find(a => a._id === get(player, "avatar._ref", ""))
@@ -87,8 +84,6 @@
   }
 
   onMount(async () => {
-    // console.log("player", player)
-    // console.log("player.name", player.name)
     if (!player.self) {
       tippy(avatarEl, {
         content: player.name,

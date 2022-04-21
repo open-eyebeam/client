@@ -17,13 +17,13 @@ var __copyProps = (to, from, except, desc) => {
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var stdin_exports = {};
 __export(stdin_exports, {
-  a: () => safe_not_equal,
-  b: () => subscribe,
+  a: () => subscribe,
+  b: () => each,
   c: () => create_ssr_component,
-  d: () => createEventDispatcher,
-  e: () => add_attribute,
-  f: () => each,
-  g: () => escape,
+  d: () => safe_not_equal,
+  e: () => escape,
+  f: () => add_attribute,
+  g: () => createEventDispatcher,
   i: () => is_promise,
   m: () => missing_component,
   n: () => noop,
