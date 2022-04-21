@@ -29,7 +29,6 @@ var import_sample = __toESM(require("lodash/sample.js"));
 var import_has = __toESM(require("lodash/has.js"));
 var import_inRange = __toESM(require("lodash/inRange.js"));
 var import_authentication_c97a205c = require("../../chunks/authentication-c97a205c.js");
-var Colyseus = __toESM(require("colyseus.js"));
 var import_date_fns = require("date-fns");
 var import_howler = require("howler");
 var import_get_video_id = __toESM(require("get-video-id"));
@@ -96,9 +95,7 @@ const chatMessages = (0, import_authentication_c97a205c.w)([]);
 const showTarget = (0, import_authentication_c97a205c.w)(false);
 const targetX = (0, import_authentication_c97a205c.w)(0);
 const targetY = (0, import_authentication_c97a205c.w)(0);
-const GAME_SERVER_URL = "wss://open.eyebeam.dev";
 let leaveArticle = {};
-new Colyseus.Client(GAME_SERVER_URL);
 var Avatar_svelte_svelte_type_style_lang = "";
 const css$d = {
   code: ".avatar.svelte-zqf5vo.svelte-zqf5vo{height:32px;width:32px;position:absolute;top:0;left:0;z-index:100;background:#dedcd5}.avatar.svelte-zqf5vo img.svelte-zqf5vo{width:100%;height:100%;image-rendering:pixelated}.avatar.self.svelte-zqf5vo.svelte-zqf5vo{z-index:100000}",

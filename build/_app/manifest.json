@@ -1,6 +1,6 @@
 {
   ".svelte-kit/runtime/client/start.js": {
-    "file": "start-21d8dfcb.js",
+    "file": "start-63935cca.js",
     "src": ".svelte-kit/runtime/client/start.js",
     "isEntry": true,
     "imports": [
@@ -14,13 +14,13 @@
     ]
   },
   "src/routes/__layout.svelte": {
-    "file": "pages/__layout.svelte-47cc8f83.js",
+    "file": "pages/__layout.svelte-3bdcfb05.js",
     "src": "src/routes/__layout.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-a7942797.js",
-      "_authentication-58239eb6.js",
+      "_authentication-8640a51f.js",
       "_index-2a8d61f9.js"
     ],
     "css": [
@@ -37,13 +37,13 @@
     ]
   },
   "src/routes/index.svelte": {
-    "file": "pages/index.svelte-d4ed6661.js",
+    "file": "pages/index.svelte-1c01f62d.js",
     "src": "src/routes/index.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
       "_index-a7942797.js",
-      "_authentication-58239eb6.js",
+      "_authentication-8640a51f.js",
       "_index-2a8d61f9.js"
     ],
     "css": [
@@ -59,8 +59,8 @@
       "_index-a7942797.js"
     ]
   },
-  "_authentication-58239eb6.js": {
-    "file": "chunks/authentication-58239eb6.js",
+  "_authentication-8640a51f.js": {
+    "file": "chunks/authentication-8640a51f.js",
     "imports": [
       "_index-a7942797.js",
       "_index-2a8d61f9.js"

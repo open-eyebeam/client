@@ -1,4 +1,4 @@
-import * as Colyseus from "colyseus.js"
+// import * as Colyseus from "colyseus.js"
 import { writable, get } from 'svelte/store';
 import { nanoid } from "$lib/modules/global.js"
 import {
@@ -29,9 +29,10 @@ let disconnectionCode = 0
 let reconnectionAttempts = 0
 
 // __ Connect to Colyseus gameserver
-const gameClient = new Colyseus.Client(GAME_SERVER_URL)
+let gameClient = {}
 
 export const connectToGameServer = playerObject => {
+    gameClient = new Colyseus.Client(GAME_SERVER_URL)
     return new Promise((resolve, reject) => {
 
         // console.log('Initializing world')
