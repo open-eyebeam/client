@@ -28,22 +28,21 @@ var import_get = __toESM(require("lodash/get.js"));
 var import_sample = __toESM(require("lodash/sample.js"));
 var import_has = __toESM(require("lodash/has.js"));
 var import_inRange = __toESM(require("lodash/inRange.js"));
-var import_authentication_6f4ff4ab = require("../../chunks/authentication-6f4ff4ab.js");
+var import_authentication_c97a205c = require("../../chunks/authentication-c97a205c.js");
 var Colyseus = __toESM(require("colyseus.js"));
 var import_date_fns = require("date-fns");
 var import_howler = require("howler");
 var import_get_video_id = __toESM(require("get-video-id"));
 var import_slugify = require("slugify");
-var import_core = require("@popperjs/core");
 var import_throttle = require("lodash/throttle.js");
 var import_client = require("@sanity/client");
 var import_block_content_to_html = require("@sanity/block-content-to-html");
 var import_image_url = require("@sanity/image-url");
 var import_keycloak_js = require("keycloak-js");
-const globalSettings = (0, import_authentication_6f4ff4ab.w)({});
-let worldObject = (0, import_authentication_6f4ff4ab.w)({});
+const globalSettings = (0, import_authentication_c97a205c.w)({});
+let worldObject = (0, import_authentication_c97a205c.w)({});
 const GRID_SIZE = 32;
-(0, import_authentication_6f4ff4ab.e)('*[_id == "global-settings"]').then((gS) => {
+(0, import_authentication_c97a205c.e)('*[_id == "global-settings"]').then((gS) => {
   globalSettings.set(gS);
 }).catch((err) => {
   console.log(err);
@@ -55,7 +54,7 @@ const css$e = {
 };
 const Room = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, slots) => {
   let $showGrid, $$unsubscribe_showGrid;
-  $$unsubscribe_showGrid = (0, import_index_18e7c772.a)(import_authentication_6f4ff4ab.f, (value) => $showGrid = value);
+  $$unsubscribe_showGrid = (0, import_index_18e7c772.a)(import_authentication_c97a205c.f, (value) => $showGrid = value);
   (0, import_index_18e7c772.g)();
   let { room = {} } = $$props;
   let { x = 0 } = $$props;
@@ -86,17 +85,17 @@ const Room = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, slots)
 
 <div class="${"center-view svelte-ib3ibm"}">CENTER VIEW (DEBUG)</div>`;
 });
-const localPlayer = (0, import_authentication_6f4ff4ab.w)({
+const localPlayer = (0, import_authentication_c97a205c.w)({
   uuid: "",
   sessionId: "",
   name: "",
   profile: {}
 });
-const players = (0, import_authentication_6f4ff4ab.w)({});
-const chatMessages = (0, import_authentication_6f4ff4ab.w)([]);
-const showTarget = (0, import_authentication_6f4ff4ab.w)(false);
-const targetX = (0, import_authentication_6f4ff4ab.w)(0);
-const targetY = (0, import_authentication_6f4ff4ab.w)(0);
+const players = (0, import_authentication_c97a205c.w)({});
+const chatMessages = (0, import_authentication_c97a205c.w)([]);
+const showTarget = (0, import_authentication_c97a205c.w)(false);
+const targetX = (0, import_authentication_c97a205c.w)(0);
+const targetY = (0, import_authentication_c97a205c.w)(0);
 const GAME_SERVER_URL = "wss://open.eyebeam.dev";
 let leaveArticle = {};
 new Colyseus.Client(GAME_SERVER_URL);
@@ -194,7 +193,7 @@ const css$c = {
 };
 const Object$1 = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, slots) => {
   let $showLabels, $$unsubscribe_showLabels;
-  $$unsubscribe_showLabels = (0, import_index_18e7c772.a)(import_authentication_6f4ff4ab.s, (value) => $showLabels = value);
+  $$unsubscribe_showLabels = (0, import_index_18e7c772.a)(import_authentication_c97a205c.s, (value) => $showLabels = value);
   let { object = {} } = $$props;
   let objectEl = {};
   let label = {};
@@ -221,7 +220,7 @@ const Object$1 = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, sl
   return `<div class="${[
     "object svelte-1qmh4za",
     (object.static ? "static" : "") + " " + (object.iconImage ? "image" : "")
-  ].join(" ").trim()}"${(0, import_index_18e7c772.f)("id", object._id, 0)}${(0, import_index_18e7c772.f)("alt", object.title, 0)}${(0, import_index_18e7c772.f)("style", inlineStyles, 0)}${(0, import_index_18e7c772.f)("this", objectEl, 0)}>${object.iconImage ? `<img${(0, import_index_18e7c772.f)("src", (0, import_authentication_6f4ff4ab.g)(object.iconImage).quality(100).height(300).url(), 0)} class="${"svelte-1qmh4za"}">` : ``}
+  ].join(" ").trim()}"${(0, import_index_18e7c772.f)("id", object._id, 0)}${(0, import_index_18e7c772.f)("alt", object.title, 0)}${(0, import_index_18e7c772.f)("style", inlineStyles, 0)}${(0, import_index_18e7c772.f)("this", objectEl, 0)}>${object.iconImage ? `<img${(0, import_index_18e7c772.f)("src", (0, import_authentication_c97a205c.g)(object.iconImage).quality(100).height(300).url(), 0)} class="${"svelte-1qmh4za"}">` : ``}
 </div>`;
 });
 const Objects = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, slots) => {
@@ -239,7 +238,7 @@ const css$b = {
 };
 const Zone = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, slots) => {
   let $showLabels, $$unsubscribe_showLabels;
-  $$unsubscribe_showLabels = (0, import_index_18e7c772.a)(import_authentication_6f4ff4ab.s, (value) => $showLabels = value);
+  $$unsubscribe_showLabels = (0, import_index_18e7c772.a)(import_authentication_c97a205c.s, (value) => $showLabels = value);
   let { zone = {} } = $$props;
   let zoneEl = {};
   let label = {};
@@ -263,7 +262,7 @@ const Zone = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, slots)
     }
   }
   $$unsubscribe_showLabels();
-  return `<div class="${"zone svelte-1sqo6n0"}"${(0, import_index_18e7c772.f)("id", zone._id, 0)}${(0, import_index_18e7c772.f)("alt", zone.title, 0)}${(0, import_index_18e7c772.f)("style", inlineStyles, 0)}${(0, import_index_18e7c772.f)("this", zoneEl, 0)}>${zone.backgroundImage ? `<img${(0, import_index_18e7c772.f)("src", (0, import_authentication_6f4ff4ab.g)(zone.backgroundImage).quality(100).url(), 0)}>` : ``}
+  return `<div class="${"zone svelte-1sqo6n0"}"${(0, import_index_18e7c772.f)("id", zone._id, 0)}${(0, import_index_18e7c772.f)("alt", zone.title, 0)}${(0, import_index_18e7c772.f)("style", inlineStyles, 0)}${(0, import_index_18e7c772.f)("this", zoneEl, 0)}>${zone.backgroundImage ? `<img${(0, import_index_18e7c772.f)("src", (0, import_authentication_c97a205c.g)(zone.backgroundImage).quality(100).url(), 0)}>` : ``}
 </div>`;
 });
 const Zones = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, slots) => {
@@ -312,7 +311,7 @@ const css$a = {
 };
 const Portal = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, slots) => {
   let $showLabels, $$unsubscribe_showLabels;
-  $$unsubscribe_showLabels = (0, import_index_18e7c772.a)(import_authentication_6f4ff4ab.s, (value) => $showLabels = value);
+  $$unsubscribe_showLabels = (0, import_index_18e7c772.a)(import_authentication_c97a205c.s, (value) => $showLabels = value);
   let { portal = {} } = $$props;
   let portalEl = {};
   let label = {};
@@ -334,7 +333,7 @@ const Portal = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, slot
     }
   }
   $$unsubscribe_showLabels();
-  return `<div class="${"portal svelte-1ulo7kp"}"${(0, import_index_18e7c772.f)("id", portal._id, 0)}${(0, import_index_18e7c772.f)("alt", portal.title, 0)}${(0, import_index_18e7c772.f)("style", inlineStyles, 0)}${(0, import_index_18e7c772.f)("this", portalEl, 0)}>${portal.iconImage ? `<img${(0, import_index_18e7c772.f)("src", (0, import_authentication_6f4ff4ab.g)(portal.iconImage).quality(100).height(100).url(), 0)}>` : ``}
+  return `<div class="${"portal svelte-1ulo7kp"}"${(0, import_index_18e7c772.f)("id", portal._id, 0)}${(0, import_index_18e7c772.f)("alt", portal.title, 0)}${(0, import_index_18e7c772.f)("style", inlineStyles, 0)}${(0, import_index_18e7c772.f)("this", portalEl, 0)}>${portal.iconImage ? `<img${(0, import_index_18e7c772.f)("src", (0, import_authentication_c97a205c.g)(portal.iconImage).quality(100).height(100).url(), 0)}>` : ``}
 </div>`;
 });
 const Portals = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, slots) => {
@@ -413,7 +412,7 @@ const ArticleBox = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, 
   let $players, $$unsubscribe_players;
   let $trayOpen, $$unsubscribe_trayOpen;
   $$unsubscribe_players = (0, import_index_18e7c772.a)(players, (value) => $players = value);
-  $$unsubscribe_trayOpen = (0, import_index_18e7c772.a)(import_authentication_6f4ff4ab.t, (value) => $trayOpen = value);
+  $$unsubscribe_trayOpen = (0, import_index_18e7c772.a)(import_authentication_c97a205c.t, (value) => $trayOpen = value);
   let { article = {} } = $$props;
   let viewCount = 0;
   let viewCountText = "";
@@ -441,7 +440,7 @@ const ArticleBox = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, 
 <div class="${"return-button svelte-at985a"}">Return
 </div>
 
-${article.contentType === "video" ? `<div class="${["video svelte-at985a", $trayOpen ? "pushed" : ""].join(" ").trim()}">${(0, import_index_18e7c772.v)(VideoPlayer, "VideoPlayer").$$render($$result, { streamUrl: article.videoUrl }, {}, {})}</div>` : `${article.contentType === "text" ? `${(0, import_has.default)(article, "content.content") ? `<div class="${["article svelte-at985a", $trayOpen ? "pushed" : ""].join(" ").trim()}"><div class="${"inner svelte-at985a"}">${(0, import_index_18e7c772.v)(import_authentication_6f4ff4ab.B, "Blocks").$$render($$result, { blocks: article.content.content }, {}, {})}</div></div>` : ``}` : `${article.contentType === "importedPost" ? `<div class="${["article svelte-at985a", $trayOpen ? "pushed" : ""].join(" ").trim()}"><div class="${"inner svelte-at985a"}">${``}</div></div>` : `${article.isBulletinBoard ? `<div class="${["bulletin-board svelte-at985a", $trayOpen ? "pushed" : ""].join(" ").trim()}"><div class="${"inner svelte-at985a"}"><h1>Welcome to the Bulletin Board</h1>
+${article.contentType === "video" ? `<div class="${["video svelte-at985a", $trayOpen ? "pushed" : ""].join(" ").trim()}">${(0, import_index_18e7c772.v)(VideoPlayer, "VideoPlayer").$$render($$result, { streamUrl: article.videoUrl }, {}, {})}</div>` : `${article.contentType === "text" ? `${(0, import_has.default)(article, "content.content") ? `<div class="${["article svelte-at985a", $trayOpen ? "pushed" : ""].join(" ").trim()}"><div class="${"inner svelte-at985a"}">${(0, import_index_18e7c772.v)(import_authentication_c97a205c.B, "Blocks").$$render($$result, { blocks: article.content.content }, {}, {})}</div></div>` : ``}` : `${article.contentType === "importedPost" ? `<div class="${["article svelte-at985a", $trayOpen ? "pushed" : ""].join(" ").trim()}"><div class="${"inner svelte-at985a"}">${``}</div></div>` : `${article.isBulletinBoard ? `<div class="${["bulletin-board svelte-at985a", $trayOpen ? "pushed" : ""].join(" ").trim()}"><div class="${"inner svelte-at985a"}"><h1>Welcome to the Bulletin Board</h1>
       <div class="${"bulletin-board-actions svelte-at985a"}"><div class="${"action svelte-at985a"}">Subscribe to Calendar</div></div>
       <div class="${"bulletin-board-events"}">${(0, import_index_18e7c772.b)(article.events, (event) => {
     return `${(0, import_index_18e7c772.v)(Bulletin_board_event, "BulletinBoardEvent").$$render($$result, { event }, {}, {})}`;
@@ -517,7 +516,7 @@ const Caption = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, slo
   if ($$props.text === void 0 && $$bindings.text && text !== void 0)
     $$bindings.text(text);
   $$result.css.add(css$1);
-  return `<div class="${"caption-container svelte-10yrac0"}"><div class="${"caption-box svelte-10yrac0"}"><!-- HTML_TAG_START -->${(0, import_authentication_6f4ff4ab.r)(currentText.text.content)}<!-- HTML_TAG_END --></div>
+  return `<div class="${"caption-container svelte-10yrac0"}"><div class="${"caption-box svelte-10yrac0"}"><!-- HTML_TAG_START -->${(0, import_authentication_c97a205c.r)(currentText.text.content)}<!-- HTML_TAG_END --></div>
   ${textIndex < text.length - 1 ? `<div class="${"next-caption svelte-10yrac0"}">${(0, import_index_18e7c772.v)(Triangle_down, "TriangleDown").$$render($$result, {}, {}, {})}</div>` : ``}
 </div>`;
 });
@@ -537,7 +536,7 @@ const Chat = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, slots)
     <button class="${"svelte-oqrtp3"}">Send</button></div>
 </div>`;
 });
-const streams = (0, import_authentication_6f4ff4ab.w)([]);
+const streams = (0, import_authentication_c97a205c.w)([]);
 const Routes = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, slots) => {
   let $currentRoom, $$unsubscribe_currentRoom;
   let $$unsubscribe_profile;
@@ -552,18 +551,18 @@ const Routes = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, slot
   let $streams, $$unsubscribe_streams;
   let $activeArticle, $$unsubscribe_activeArticle;
   let $chatMessages, $$unsubscribe_chatMessages;
-  $$unsubscribe_currentRoom = (0, import_index_18e7c772.a)(import_authentication_6f4ff4ab.c, (value) => $currentRoom = value);
-  $$unsubscribe_profile = (0, import_index_18e7c772.a)(import_authentication_6f4ff4ab.p, (value) => value);
+  $$unsubscribe_currentRoom = (0, import_index_18e7c772.a)(import_authentication_c97a205c.c, (value) => $currentRoom = value);
+  $$unsubscribe_profile = (0, import_index_18e7c772.a)(import_authentication_c97a205c.p, (value) => value);
   $$unsubscribe_localPlayer = (0, import_index_18e7c772.a)(localPlayer, (value) => $localPlayer = value);
   $$unsubscribe_worldObject = (0, import_index_18e7c772.a)(worldObject, (value) => $worldObject = value);
   $$unsubscribe_players = (0, import_index_18e7c772.a)(players, (value) => $players = value);
-  $$unsubscribe_trayOpen = (0, import_index_18e7c772.a)(import_authentication_6f4ff4ab.t, (value) => $trayOpen = value);
+  $$unsubscribe_trayOpen = (0, import_index_18e7c772.a)(import_authentication_c97a205c.t, (value) => $trayOpen = value);
   $$unsubscribe_showTarget = (0, import_index_18e7c772.a)(showTarget, (value) => $showTarget = value);
   $$unsubscribe_targetX = (0, import_index_18e7c772.a)(targetX, (value) => $targetX = value);
   $$unsubscribe_targetY = (0, import_index_18e7c772.a)(targetY, (value) => $targetY = value);
-  $$unsubscribe_playSound = (0, import_index_18e7c772.a)(import_authentication_6f4ff4ab.d, (value) => $playSound = value);
+  $$unsubscribe_playSound = (0, import_index_18e7c772.a)(import_authentication_c97a205c.d, (value) => $playSound = value);
   $$unsubscribe_streams = (0, import_index_18e7c772.a)(streams, (value) => $streams = value);
-  $$unsubscribe_activeArticle = (0, import_index_18e7c772.a)(import_authentication_6f4ff4ab.b, (value) => $activeArticle = value);
+  $$unsubscribe_activeArticle = (0, import_index_18e7c772.a)(import_authentication_c97a205c.b, (value) => $activeArticle = value);
   $$unsubscribe_chatMessages = (0, import_index_18e7c772.a)(chatMessages, (value) => $chatMessages = value);
   let viewportElement = {};
   let roomIntent = false;

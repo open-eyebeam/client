@@ -16,7 +16,7 @@
     "isEntry": true,
     "imports": [
       "_index-18e7c772.js",
-      "_authentication-6f4ff4ab.js"
+      "_authentication-c97a205c.js"
     ],
     "css": [
       "assets/entries/pages/__layout.svelte-e879deef.css"
@@ -36,7 +36,7 @@
     "isEntry": true,
     "imports": [
       "_index-18e7c772.js",
-      "_authentication-6f4ff4ab.js"
+      "_authentication-c97a205c.js"
     ],
     "css": [
       "assets/entries/pages/index.svelte-95b6991e.css"
@@ -45,13 +45,13 @@
   "_index-18e7c772.js": {
     "file": "chunks/index-18e7c772.js"
   },
-  "_authentication-6f4ff4ab.js": {
-    "file": "chunks/authentication-6f4ff4ab.js",
+  "_authentication-c97a205c.js": {
+    "file": "chunks/authentication-c97a205c.js",
     "imports": [
       "_index-18e7c772.js"
     ],
     "css": [
-      "assets/authentication-584b5625.css"
+      "assets/authentication-5352f68f.css"
     ]
   },
   ".svelte-kit/build/hooks.js": {

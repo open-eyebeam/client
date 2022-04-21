@@ -27,9 +27,8 @@ var import_index_18e7c772 = require("../../chunks/index-18e7c772.js");
 var import_tween = __toESM(require("@tweenjs/tween.js"));
 var import_has = __toESM(require("lodash/has.js"));
 var import_inRange = __toESM(require("lodash/inRange.js"));
-var import_authentication_6f4ff4ab = require("../../chunks/authentication-6f4ff4ab.js");
+var import_authentication_c97a205c = require("../../chunks/authentication-c97a205c.js");
 var import_slugify = require("slugify");
-var import_core = require("@popperjs/core");
 var import_client = require("@sanity/client");
 var import_block_content_to_html = require("@sanity/block-content-to-html");
 var import_image_url = require("@sanity/image-url");
@@ -102,7 +101,7 @@ const css$7 = {
 };
 const Clock = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, slots) => {
   let $activeCity, $$unsubscribe_activeCity;
-  $$unsubscribe_activeCity = (0, import_index_18e7c772.a)(import_authentication_6f4ff4ab.a, (value) => $activeCity = value);
+  $$unsubscribe_activeCity = (0, import_index_18e7c772.a)(import_authentication_c97a205c.a, (value) => $activeCity = value);
   const API_KEY = "a9b67d6b5ed093b28c410750ef6a70cd";
   let currentTime;
   let currentWeather = { description: "", temperature: 0 };
@@ -187,13 +186,13 @@ const css$4 = {
 const Menubar = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, slots) => {
   let $trayOpen, $$unsubscribe_trayOpen;
   let $activeCity, $$unsubscribe_activeCity;
-  $$unsubscribe_trayOpen = (0, import_index_18e7c772.a)(import_authentication_6f4ff4ab.t, (value) => $trayOpen = value);
-  $$unsubscribe_activeCity = (0, import_index_18e7c772.a)(import_authentication_6f4ff4ab.a, (value) => $activeCity = value);
+  $$unsubscribe_trayOpen = (0, import_index_18e7c772.a)(import_authentication_c97a205c.t, (value) => $trayOpen = value);
+  $$unsubscribe_activeCity = (0, import_index_18e7c772.a)(import_authentication_c97a205c.a, (value) => $activeCity = value);
   let { currentRoom: currentRoom2 = {} } = $$props;
-  const cities = (0, import_authentication_6f4ff4ab.l)('*[_id == "cities"][0]');
+  const cities = (0, import_authentication_c97a205c.l)('*[_id == "cities"][0]');
   cities.then((c) => {
     if (c.cities && c.cities[0]) {
-      import_authentication_6f4ff4ab.a.set(c.cities[0]);
+      import_authentication_c97a205c.a.set(c.cities[0]);
     }
   });
   if ($$props.currentRoom === void 0 && $$bindings.currentRoom && currentRoom2 !== void 0)
@@ -226,7 +225,7 @@ const Menubar = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, slo
         ].join(" ").trim()}">${(0, import_index_18e7c772.e)(city.name)}
               </div>`;
       })}</div>
-          <div class="${"city-text svelte-y5o8h9"}">${(0, import_has.default)(cities2, "content.content", []) ? `<div>${(0, import_index_18e7c772.v)(import_authentication_6f4ff4ab.B, "Blocks").$$render($$result, { blocks: cities2.content.content }, {}, {})}</div>` : ``}</div>
+          <div class="${"city-text svelte-y5o8h9"}">${(0, import_has.default)(cities2, "content.content", []) ? `<div>${(0, import_index_18e7c772.v)(import_authentication_c97a205c.B, "Blocks").$$render($$result, { blocks: cities2.content.content }, {}, {})}</div>` : ``}</div>
         `;
     }(__value);
   }(cities)}</div></div></div>
@@ -247,8 +246,8 @@ const css$3 = {
 const AuthenticationBox = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, slots) => {
   let $isAuthenticated, $$unsubscribe_isAuthenticated;
   let $profile, $$unsubscribe_profile;
-  $$unsubscribe_isAuthenticated = (0, import_index_18e7c772.a)(import_authentication_6f4ff4ab.i, (value) => $isAuthenticated = value);
-  $$unsubscribe_profile = (0, import_index_18e7c772.a)(import_authentication_6f4ff4ab.p, (value) => $profile = value);
+  $$unsubscribe_isAuthenticated = (0, import_index_18e7c772.a)(import_authentication_c97a205c.i, (value) => $isAuthenticated = value);
+  $$unsubscribe_profile = (0, import_index_18e7c772.a)(import_authentication_c97a205c.p, (value) => $profile = value);
   $$result.css.add(css$3);
   $$unsubscribe_isAuthenticated();
   $$unsubscribe_profile();
@@ -287,12 +286,12 @@ const _layout = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, slo
   let $activeArticle, $$unsubscribe_activeArticle;
   let $playSound, $$unsubscribe_playSound;
   let $showLabels, $$unsubscribe_showLabels;
-  $$unsubscribe_uiState = (0, import_index_18e7c772.a)(import_authentication_6f4ff4ab.u, (value) => $uiState = value);
-  $$unsubscribe_currentRoom = (0, import_index_18e7c772.a)(import_authentication_6f4ff4ab.c, (value) => $currentRoom = value);
-  $$unsubscribe_trayOpen = (0, import_index_18e7c772.a)(import_authentication_6f4ff4ab.t, (value) => $trayOpen = value);
-  $$unsubscribe_activeArticle = (0, import_index_18e7c772.a)(import_authentication_6f4ff4ab.b, (value) => $activeArticle = value);
-  $$unsubscribe_playSound = (0, import_index_18e7c772.a)(import_authentication_6f4ff4ab.d, (value) => $playSound = value);
-  $$unsubscribe_showLabels = (0, import_index_18e7c772.a)(import_authentication_6f4ff4ab.s, (value) => $showLabels = value);
+  $$unsubscribe_uiState = (0, import_index_18e7c772.a)(import_authentication_c97a205c.u, (value) => $uiState = value);
+  $$unsubscribe_currentRoom = (0, import_index_18e7c772.a)(import_authentication_c97a205c.c, (value) => $currentRoom = value);
+  $$unsubscribe_trayOpen = (0, import_index_18e7c772.a)(import_authentication_c97a205c.t, (value) => $trayOpen = value);
+  $$unsubscribe_activeArticle = (0, import_index_18e7c772.a)(import_authentication_c97a205c.b, (value) => $activeArticle = value);
+  $$unsubscribe_playSound = (0, import_index_18e7c772.a)(import_authentication_c97a205c.d, (value) => $playSound = value);
+  $$unsubscribe_showLabels = (0, import_index_18e7c772.a)(import_authentication_c97a205c.s, (value) => $showLabels = value);
   $$result.css.add(css);
   $$unsubscribe_uiState();
   $$unsubscribe_currentRoom();
@@ -301,22 +300,22 @@ const _layout = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, slo
   $$unsubscribe_playSound();
   $$unsubscribe_showLabels();
   return `
-${$uiState == import_authentication_6f4ff4ab.S.READY ? `${(0, import_index_18e7c772.v)(Menubar, "Menubar").$$render($$result, { currentRoom: $currentRoom }, {}, {})}` : ``}
+${$uiState == import_authentication_c97a205c.S.READY ? `${(0, import_index_18e7c772.v)(Menubar, "Menubar").$$render($$result, { currentRoom: $currentRoom }, {}, {})}` : ``}
 
 
 ${slots.default ? slots.default({}) : ``}
 
 
-${$uiState == import_authentication_6f4ff4ab.S.READY ? `${(0, import_index_18e7c772.v)(AuthenticationBox, "AuthenticationBox").$$render($$result, {}, {}, {})}` : ``}
+${$uiState == import_authentication_c97a205c.S.READY ? `${(0, import_index_18e7c772.v)(AuthenticationBox, "AuthenticationBox").$$render($$result, {}, {}, {})}` : ``}
 
 
-${$uiState == import_authentication_6f4ff4ab.S.LOADING ? `${(0, import_index_18e7c772.v)(LoadingScreen, "LoadingScreen").$$render($$result, {}, {}, {})}` : ``}
+${$uiState == import_authentication_c97a205c.S.LOADING ? `${(0, import_index_18e7c772.v)(LoadingScreen, "LoadingScreen").$$render($$result, {}, {}, {})}` : ``}
 
 
-${$uiState == import_authentication_6f4ff4ab.S.ERROR ? `${(0, import_index_18e7c772.v)(Error2, "Error").$$render($$result, { message: "" }, {}, {})}` : ``}
+${$uiState == import_authentication_c97a205c.S.ERROR ? `${(0, import_index_18e7c772.v)(Error2, "Error").$$render($$result, { message: "" }, {}, {})}` : ``}
 
 
-${$uiState == import_authentication_6f4ff4ab.S.DISCONNECTED ? `${(0, import_index_18e7c772.v)(Reconnection, "Reconnection").$$render($$result, { reconnectionAttempts, disconnectionCode }, {}, {})}` : ``}
+${$uiState == import_authentication_c97a205c.S.DISCONNECTED ? `${(0, import_index_18e7c772.v)(Reconnection, "Reconnection").$$render($$result, { reconnectionAttempts, disconnectionCode }, {}, {})}` : ``}
 
 
 ${!$trayOpen && !$activeArticle ? `<div class="${"options svelte-10dwrrh"}"><div class="${"option sound svelte-10dwrrh"}">${$playSound ? `${(0, import_index_18e7c772.v)(SoundOn, "SoundOn").$$render($$result, {}, {}, {})}` : `${(0, import_index_18e7c772.v)(SoundOff, "SoundOff").$$render($$result, {}, {}, {})}`}</div>

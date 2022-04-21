@@ -41,7 +41,6 @@ __export(stdin_exports, {
 module.exports = __toCommonJS(stdin_exports);
 var import_index_18e7c772 = require("./index-18e7c772.js");
 var import_slugify = __toESM(require("slugify"));
-var import_core = require("@popperjs/core");
 var import_client = __toESM(require("@sanity/client"));
 var import_block_content_to_html = __toESM(require("@sanity/block-content-to-html"));
 var import_image_url = __toESM(require("@sanity/image-url"));
@@ -116,12 +115,6 @@ const longFormatDate = (date) => {
   } catch (err) {
     console.dir(err);
   }
-};
-const roleToRoleName = {
-  artist: "Artist",
-  staff: "Staff",
-  board: "Board",
-  advisoryCommittee: "Advisory Committee"
 };
 const client = (0, import_client.default)({
   projectId: SANITY_PROJECT_ID,
@@ -288,32 +281,17 @@ const mainSitebuilder = (0, import_image_url.default)(mainSiteClient);
 const urlForMainSite = (source) => mainSitebuilder.image(source);
 var personLink_svelte_svelte_type_style_lang = "";
 const css$g = {
-  code: ".pop-up.svelte-18s68xb.svelte-18s68xb{background:#f5f4ee;padding:20px;border:1px solid #221f20;z-index:1000;color:#221f20;position:relative;display:none;max-width:360px}.pop-up.svelte-18s68xb .name.svelte-18s68xb{font-weight:bold;margin-right:10px}.pop-up.show{display:flex !important}a.svelte-18s68xb.svelte-18s68xb{color:#221f20;background:#dedcd5;text-decoration:none;margin-bottom:3px;display:inline-block}.column.first.svelte-18s68xb.svelte-18s68xb{padding-right:20px}",
+  code: "a.svelte-zgjpki{color:#221f20;background:#dedcd5;text-decoration:none;margin-bottom:3px;display:inline-block}",
   map: null
 };
 const Person_link = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, slots) => {
   let { person = false } = $$props;
   let { overrideText = false } = $$props;
   let { personId = false } = $$props;
-  let linkEl = {};
-  let popEl = {};
-  const initPopper = () => {
-    (0, import_core.createPopper)(linkEl, popEl, {
-      placement: "bottom-start",
-      modifiers: [
-        {
-          name: "offset",
-          options: { offset: [10, 5] }
-        },
-        { name: "eventListeners", enabled: false }
-      ]
-    });
-  };
   const renderNewLines = (t) => t.replace(/(?:\r\n|\r|\n)/g, "<br>");
   if (personId) {
     loadDataFromMainSite('*[_id == "' + personId + '"][0]').then((p) => {
       person = p;
-      setTimeout(initPopper, 1e3);
     });
   }
   if ($$props.person === void 0 && $$bindings.person && person !== void 0)
@@ -323,21 +301,7 @@ const Person_link = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings,
   if ($$props.personId === void 0 && $$bindings.personId && personId !== void 0)
     $$bindings.personId(personId);
   $$result.css.add(css$g);
-  return `${person ? `<a${(0, import_index_18e7c772.f)("href", "/people/" + (0, import_get.default)(person, "slug.current"), 0)} sveltekit:prefetch class="${"svelte-18s68xb"}"${(0, import_index_18e7c772.f)("this", linkEl, 0)}><!-- HTML_TAG_START -->${overrideText ? renderNewLines(overrideText) : person.title}<!-- HTML_TAG_END --></a>
-
-  <div class="${"pop-up svelte-18s68xb"}"${(0, import_index_18e7c772.f)("this", popEl, 0)}>
-    
-    
-    <div class="${"column first svelte-18s68xb"}">
-      <div class="${"name svelte-18s68xb"}">${(0, import_index_18e7c772.e)(person.title)}</div>
-      
-      <div class="${"badges"}">${person.role ? `<div class="${"badge"}">${(0, import_index_18e7c772.e)(roleToRoleName[person.role])}</div>` : ``}
-        ${person.groupTags ? `${(0, import_index_18e7c772.b)(person.groupTags, (tag) => {
-    return `<div class="${"badge"}">${(0, import_index_18e7c772.e)(tag.label)}</div>`;
-  })}` : ``}</div></div>
-    
-    <div class="${"column second"}">
-      ${person.mainImage ? `<img class="${"image"}"${(0, import_index_18e7c772.f)("alt", person.title, 0)}${(0, import_index_18e7c772.f)("src", urlFor(person.mainImage).quality(90).saturation(-100).width(100).height(100).url(), 0)}>` : ``}</div></div>` : ``}`;
+  return `${person ? `<a${(0, import_index_18e7c772.f)("href", "/people/" + (0, import_get.default)(person, "slug.current"), 0)} class="${"svelte-zgjpki"}"><!-- HTML_TAG_START -->${overrideText ? renderNewLines(overrideText) : person.title}<!-- HTML_TAG_END --></a>` : ``}`;
 });
 var externalLink_svelte_svelte_type_style_lang = "";
 const css$f = {
