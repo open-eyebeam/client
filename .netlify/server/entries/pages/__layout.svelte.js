@@ -23,25 +23,26 @@ __export(stdin_exports, {
   default: () => _layout
 });
 module.exports = __toCommonJS(stdin_exports);
-var import_index_18e7c772 = require("../../chunks/index-18e7c772.js");
+var import_index_fb0a7752 = require("../../chunks/index-fb0a7752.js");
 var import_tween = __toESM(require("@tweenjs/tween.js"));
 var import_has = __toESM(require("lodash/has.js"));
 var import_inRange = __toESM(require("lodash/inRange.js"));
-var import_authentication_c97a205c = require("../../chunks/authentication-c97a205c.js");
+var import_movement_6bb91b26 = require("../../chunks/movement-6bb91b26.js");
 var import_slugify = require("slugify");
+var import_get = require("lodash/get.js");
+var import_get_video_id = require("get-video-id");
+var import_date_fns = require("date-fns");
+var import_keycloak_js = require("keycloak-js");
+var import_throttle = require("lodash/throttle.js");
 var import_client = require("@sanity/client");
 var import_block_content_to_html = require("@sanity/block-content-to-html");
 var import_image_url = require("@sanity/image-url");
-var import_get_video_id = require("get-video-id");
-var import_get = require("lodash/get.js");
-var import_date_fns = require("date-fns");
-var import_keycloak_js = require("keycloak-js");
 var animatedBeam_svelte_svelte_type_style_lang = "";
 const css$b = {
   code: "svg.svelte-1heccwf.svelte-1heccwf{height:90%}svg.svelte-1heccwf path.svelte-1heccwf,svg.svelte-1heccwf line.svelte-1heccwf{fill:none;stroke:#f5f4ee;stroke-width:0.7px;stroke-miterlimit:10;opacity:0}svg.svelte-1heccwf path.shown.svelte-1heccwf,svg.svelte-1heccwf line.shown.svelte-1heccwf{opacity:1}",
   map: null
 };
-const Animated_beam = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, slots) => {
+const Animated_beam = (0, import_index_fb0a7752.c)(($$result, $$props, $$bindings, slots) => {
   const EASING = import_tween.default.Easing.Cubic.Out;
   let counter = { value: 1 };
   let pos = 1;
@@ -58,9 +59,9 @@ const css$a = {
   code: '.loading-screen.svelte-xaiy3m.svelte-xaiy3m{position:fixed;top:0;left:0;width:100vw;height:100vh;background:#221f20;color:#f5f4ee;display:flex;justify-content:center;align-items:center;z-index:100000}.loading-screen.svelte-xaiy3m .box.svelte-xaiy3m{font-family:"Literata", serif;padding:20px;height:200px;font-size:14px;text-align:center;user-select:none}@media(max-width: 800px){.loading-screen.svelte-xaiy3m .box.svelte-xaiy3m{font-size:12px}}',
   map: null
 };
-const LoadingScreen = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, slots) => {
+const LoadingScreen = (0, import_index_fb0a7752.c)(($$result, $$props, $$bindings, slots) => {
   $$result.css.add(css$a);
-  return `<div class="${"loading-screen svelte-xaiy3m"}"><div class="${"box svelte-xaiy3m"}">${(0, import_index_18e7c772.v)(Animated_beam, "AnimatedBeam").$$render($$result, {}, {}, {})}</div>
+  return `<div class="${"loading-screen svelte-xaiy3m"}"><div class="${"box svelte-xaiy3m"}">${(0, import_index_fb0a7752.v)(Animated_beam, "AnimatedBeam").$$render($$result, {}, {}, {})}</div>
 </div>`;
 });
 var Error_svelte_svelte_type_style_lang = "";
@@ -68,12 +69,12 @@ const css$9 = {
   code: '.error-screen.svelte-5oxc6r.svelte-5oxc6r{position:fixed;top:0;left:0;width:100vw;height:100vh;background:#221f20;color:#f5f4ee;display:flex;justify-content:center;align-items:center;z-index:100000}.error-screen.svelte-5oxc6r .box.svelte-5oxc6r{font-family:"Literata", serif;padding:20px;font-size:14px;text-align:center;user-select:none}',
   map: null
 };
-const Error2 = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, slots) => {
+const Error2 = (0, import_index_fb0a7752.c)(($$result, $$props, $$bindings, slots) => {
   let { message = "" } = $$props;
   if ($$props.message === void 0 && $$bindings.message && message !== void 0)
     $$bindings.message(message);
   $$result.css.add(css$9);
-  return `<div class="${"error-screen svelte-5oxc6r"}"><div class="${"box svelte-5oxc6r"}"><div class="${"header"}">ERROR: ${(0, import_index_18e7c772.e)(message)}</div></div>
+  return `<div class="${"error-screen svelte-5oxc6r"}"><div class="${"box svelte-5oxc6r"}"><div class="${"header"}">ERROR: ${(0, import_index_fb0a7752.e)(message)}</div></div>
 </div>`;
 });
 var Reconnection_svelte_svelte_type_style_lang = "";
@@ -81,7 +82,7 @@ const css$8 = {
   code: '.reconnection.svelte-sbvr22.svelte-sbvr22{position:fixed;bottom:15px;left:15px;display:flex;justify-content:center;align-items:center;z-index:10}@media(max-width: 800px){.reconnection.svelte-sbvr22.svelte-sbvr22{bottom:55px;left:0}}.reconnection.svelte-sbvr22 .box.svelte-sbvr22{font-family:"Literata", serif;padding:20px;background:#f5f4ee;color:#221f20;font-size:14px;text-align:center;user-select:none}@media(max-width: 800px){.reconnection.svelte-sbvr22 .box.svelte-sbvr22{width:calc(100% - 20px)}}',
   map: null
 };
-const Reconnection = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, slots) => {
+const Reconnection = (0, import_index_fb0a7752.c)(($$result, $$props, $$bindings, slots) => {
   let { reconnectionAttempts: reconnectionAttempts2 = 0 } = $$props;
   let { disconnectionCode: disconnectionCode2 = 0 } = $$props;
   if ($$props.reconnectionAttempts === void 0 && $$bindings.reconnectionAttempts && reconnectionAttempts2 !== void 0)
@@ -89,7 +90,7 @@ const Reconnection = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings
   if ($$props.disconnectionCode === void 0 && $$bindings.disconnectionCode && disconnectionCode2 !== void 0)
     $$bindings.disconnectionCode(disconnectionCode2);
   $$result.css.add(css$8);
-  return `<div class="${"reconnection svelte-sbvr22"}"><div class="${"box svelte-sbvr22"}"><div class="${"header"}">You have been disconnected from the gameserver. (Error: ${(0, import_index_18e7c772.e)(disconnectionCode2)})
+  return `<div class="${"reconnection svelte-sbvr22"}"><div class="${"box svelte-sbvr22"}"><div class="${"header"}">You have been disconnected from the gameserver. (Error: ${(0, import_index_fb0a7752.e)(disconnectionCode2)})
     </div>
     <div class="${"header"}">Please reload the page to attempt to reconnect.</div></div>
 </div>`;
@@ -99,9 +100,9 @@ const css$7 = {
   code: ".clock.svelte-13is0nm{font-size:12px;color:#f5f4ee}",
   map: null
 };
-const Clock = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, slots) => {
+const Clock = (0, import_index_fb0a7752.c)(($$result, $$props, $$bindings, slots) => {
   let $activeCity, $$unsubscribe_activeCity;
-  $$unsubscribe_activeCity = (0, import_index_18e7c772.a)(import_authentication_c97a205c.a, (value) => $activeCity = value);
+  $$unsubscribe_activeCity = (0, import_index_fb0a7752.a)(import_movement_6bb91b26.a, (value) => $activeCity = value);
   const API_KEY = "a9b67d6b5ed093b28c410750ef6a70cd";
   let currentTime;
   let currentWeather = { description: "", temperature: 0 };
@@ -155,14 +156,14 @@ const Clock = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, slots
     }
   }
   $$unsubscribe_activeCity();
-  return `<div class="${"clock svelte-13is0nm"}">${showClock && $activeCity.name ? `<span>It\u2019s ${(0, import_index_18e7c772.e)(currentTime)} and ${(0, import_index_18e7c772.e)(currentWeather.description)} in ${(0, import_index_18e7c772.e)($activeCity.name)}</span>` : ``}
+  return `<div class="${"clock svelte-13is0nm"}">${showClock && $activeCity.name ? `<span>It\u2019s ${(0, import_index_fb0a7752.e)(currentTime)} and ${(0, import_index_fb0a7752.e)(currentWeather.description)} in ${(0, import_index_fb0a7752.e)($activeCity.name)}</span>` : ``}
 </div>`;
 });
 const css$6 = {
   code: "svg.svelte-hhwbji path.svelte-hhwbji{fill:#f5f4ee}",
   map: null
 };
-const Arrow_down = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, slots) => {
+const Arrow_down = (0, import_index_fb0a7752.c)(($$result, $$props, $$bindings, slots) => {
   $$result.css.add(css$6);
   return `<svg width="${"9"}" height="${"8"}" viewBox="${"0 0 9 8"}" fill="${"none"}" xmlns="${"http://www.w3.org/2000/svg"}" class="${"svelte-hhwbji"}"><path d="${"M4.78393 7.78516L0.640486 0.608508L8.92737 0.608508L4.78393 7.78516Z"}" class="${"svelte-hhwbji"}"></path></svg>`;
 });
@@ -171,7 +172,7 @@ const css$5 = {
   code: "svg.svelte-1wdefg6.svelte-1wdefg6{width:100%}svg.svelte-1wdefg6 path.svelte-1wdefg6{fill:none;stroke:#f5f4ee;stroke-width:0.75;stroke-miterlimit:10}svg.black.svelte-1wdefg6 path.svelte-1wdefg6{stroke:#221f20}",
   map: null
 };
-const Full_beam = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, slots) => {
+const Full_beam = (0, import_index_fb0a7752.c)(($$result, $$props, $$bindings, slots) => {
   let { black = false } = $$props;
   if ($$props.black === void 0 && $$bindings.black && black !== void 0)
     $$bindings.black(black);
@@ -183,16 +184,16 @@ const css$4 = {
   code: "header.svelte-y5o8h9.svelte-y5o8h9{position:absolute;top:0;left:0;width:100%;z-index:100000;height:240px;transition:transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);transform:translateY(-240px);font-size:12px}@media(max-width: 800px){header.svelte-y5o8h9.svelte-y5o8h9{display:none}}header.open.svelte-y5o8h9.svelte-y5o8h9{transform:translateY(0)}header.svelte-y5o8h9 .menubar.svelte-y5o8h9{width:100%;height:30px;background:#221f20;color:#f5f4ee;line-height:30px;padding-left:15px;padding-right:10px;overflow:hidden;border-bottom:1px solid #070101}header.svelte-y5o8h9 .menubar .inner-text.svelte-y5o8h9{opacity:1}header.svelte-y5o8h9 .menubar .breadcrumbs.svelte-y5o8h9{float:left}header.svelte-y5o8h9 .menubar .arrow-down.svelte-y5o8h9{margin-right:5px}header.svelte-y5o8h9 .menubar a.svelte-y5o8h9{color:#f5f4ee;text-decoration:none}header.svelte-y5o8h9 .menubar .clock.svelte-y5o8h9{float:right}header.svelte-y5o8h9 .menubar .tray-toggle.svelte-y5o8h9{float:right;width:18px;height:30px;display:flex;justify-content:center;align-items:center;margin-left:12px;cursor:pointer}header.svelte-y5o8h9 .settings.svelte-y5o8h9{height:240px;background:#dedcd5;color:#221f20;overflow:hidden}header.svelte-y5o8h9 .settings .settings-bar.svelte-y5o8h9{height:30px;line-height:30px;padding-left:5px;padding-right:10px;cursor:pointer;border-bottom:1px solid #221f20;color:#221f20;width:100%}header.svelte-y5o8h9 .settings .settings-bar .tray-toggle.svelte-y5o8h9{width:18px;height:30px;display:flex;margin-right:8px;justify-content:center;align-items:center;margin-left:8px;cursor:pointer;float:left}header.svelte-y5o8h9 .settings .settings-content.svelte-y5o8h9{display:flex;padding-left:15px;padding-right:15px}header.svelte-y5o8h9 .settings .settings-content .section.svelte-y5o8h9{padding-top:20px}header.svelte-y5o8h9 .settings .settings-content .section .section-header.svelte-y5o8h9{margin-bottom:10px}header.svelte-y5o8h9 .settings .settings-content .section.theme.svelte-y5o8h9{width:20%}header.svelte-y5o8h9 .settings .settings-content .section.text.svelte-y5o8h9{width:30%}header.svelte-y5o8h9 .settings .settings-content .section.city.svelte-y5o8h9{width:50%}.city-button.svelte-y5o8h9.svelte-y5o8h9{padding:8px 12px;display:inline-block;border-top:1px solid #221f20;border-right:1px solid #221f20;border-bottom:1px solid #221f20;user-select:none;cursor:pointer}.city-button.svelte-y5o8h9.svelte-y5o8h9:first-child{border-left:1px solid #221f20}.city-button.active.svelte-y5o8h9.svelte-y5o8h9{background:#221f20;color:#f5f4ee}.city-button.svelte-y5o8h9.svelte-y5o8h9:hover{background:#221f20;color:#f5f4ee}.city-text.svelte-y5o8h9.svelte-y5o8h9{max-width:520px}",
   map: null
 };
-const Menubar = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, slots) => {
+const Menubar = (0, import_index_fb0a7752.c)(($$result, $$props, $$bindings, slots) => {
   let $trayOpen, $$unsubscribe_trayOpen;
   let $activeCity, $$unsubscribe_activeCity;
-  $$unsubscribe_trayOpen = (0, import_index_18e7c772.a)(import_authentication_c97a205c.t, (value) => $trayOpen = value);
-  $$unsubscribe_activeCity = (0, import_index_18e7c772.a)(import_authentication_c97a205c.a, (value) => $activeCity = value);
+  $$unsubscribe_trayOpen = (0, import_index_fb0a7752.a)(import_movement_6bb91b26.t, (value) => $trayOpen = value);
+  $$unsubscribe_activeCity = (0, import_index_fb0a7752.a)(import_movement_6bb91b26.a, (value) => $activeCity = value);
   let { currentRoom: currentRoom2 = {} } = $$props;
-  const cities = (0, import_authentication_c97a205c.l)('*[_id == "cities"][0]');
+  const cities = (0, import_movement_6bb91b26.l)('*[_id == "cities"][0]');
   cities.then((c) => {
     if (c.cities && c.cities[0]) {
-      import_authentication_c97a205c.a.set(c.cities[0]);
+      import_movement_6bb91b26.a.set(c.cities[0]);
     }
   });
   if ($$props.currentRoom === void 0 && $$bindings.currentRoom && currentRoom2 !== void 0)
@@ -201,7 +202,7 @@ const Menubar = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, slo
   $$unsubscribe_trayOpen();
   $$unsubscribe_activeCity();
   return `<header class="${["svelte-y5o8h9", $trayOpen ? "open" : ""].join(" ").trim()}"><div class="${"settings svelte-y5o8h9"}">
-    <div class="${"settings-bar svelte-y5o8h9"}"><div class="${"tray-toggle svelte-y5o8h9"}">${(0, import_index_18e7c772.v)(Full_beam, "FullBeam").$$render($$result, { black: true }, {}, {})}</div>
+    <div class="${"settings-bar svelte-y5o8h9"}"><div class="${"tray-toggle svelte-y5o8h9"}">${(0, import_index_fb0a7752.v)(Full_beam, "FullBeam").$$render($$result, { black: true }, {}, {})}</div>
       Settings
     </div>
     
@@ -212,30 +213,30 @@ const Menubar = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, slo
       
       <div class="${"section city svelte-y5o8h9"}"><div class="${"section-header svelte-y5o8h9"}">City</div>
         ${function(__value) {
-    if ((0, import_index_18e7c772.i)(__value)) {
-      __value.then(null, import_index_18e7c772.n);
+    if ((0, import_index_fb0a7752.i)(__value)) {
+      __value.then(null, import_index_fb0a7752.n);
       return ``;
     }
     return function(cities2) {
       return `
-          <div class="${"city-switches"}">${(0, import_index_18e7c772.b)(cities2.cities, (city) => {
+          <div class="${"city-switches"}">${(0, import_index_fb0a7752.b)(cities2.cities, (city) => {
         return `<div class="${[
           "city-button svelte-y5o8h9",
           $activeCity._key === city._key ? "active" : ""
-        ].join(" ").trim()}">${(0, import_index_18e7c772.e)(city.name)}
+        ].join(" ").trim()}">${(0, import_index_fb0a7752.e)(city.name)}
               </div>`;
       })}</div>
-          <div class="${"city-text svelte-y5o8h9"}">${(0, import_has.default)(cities2, "content.content", []) ? `<div>${(0, import_index_18e7c772.v)(import_authentication_c97a205c.B, "Blocks").$$render($$result, { blocks: cities2.content.content }, {}, {})}</div>` : ``}</div>
+          <div class="${"city-text svelte-y5o8h9"}">${(0, import_has.default)(cities2, "content.content", []) ? `<div>${(0, import_index_fb0a7752.v)(import_movement_6bb91b26.B, "Blocks").$$render($$result, { blocks: cities2.content.content }, {}, {})}</div>` : ``}</div>
         `;
     }(__value);
   }(cities)}</div></div></div>
   <nav class="${"menubar svelte-y5o8h9"}"><div class="${"inner-text svelte-y5o8h9"}">
-      <div class="${"breadcrumbs svelte-y5o8h9"}"><span class="${"arrow-down svelte-y5o8h9"}">${(0, import_index_18e7c772.v)(Arrow_down, "ArrowDown").$$render($$result, {}, {}, {})}</span>
-        <a href="${"/"}" class="${"svelte-y5o8h9"}">open.eyebeam.org ${currentRoom2.title ? `/ ${(0, import_index_18e7c772.e)(currentRoom2.title)}` : ``}</a></div>
+      <div class="${"breadcrumbs svelte-y5o8h9"}"><span class="${"arrow-down svelte-y5o8h9"}">${(0, import_index_fb0a7752.v)(Arrow_down, "ArrowDown").$$render($$result, {}, {}, {})}</span>
+        <a href="${"/"}" class="${"svelte-y5o8h9"}">open.eyebeam.org ${currentRoom2.title ? `/ ${(0, import_index_fb0a7752.e)(currentRoom2.title)}` : ``}</a></div>
       
-      <div class="${"tray-toggle svelte-y5o8h9"}">${(0, import_index_18e7c772.v)(Full_beam, "FullBeam").$$render($$result, {}, {}, {})}</div>
+      <div class="${"tray-toggle svelte-y5o8h9"}">${(0, import_index_fb0a7752.v)(Full_beam, "FullBeam").$$render($$result, {}, {}, {})}</div>
       
-      <div class="${"clock svelte-y5o8h9"}">${(0, import_index_18e7c772.v)(Clock, "Clock").$$render($$result, {}, {}, {})}</div></div></nav>
+      <div class="${"clock svelte-y5o8h9"}">${(0, import_index_fb0a7752.v)(Clock, "Clock").$$render($$result, {}, {}, {})}</div></div></nav>
 </header>`;
 });
 var AuthenticationBox_svelte_svelte_type_style_lang = "";
@@ -243,15 +244,15 @@ const css$3 = {
   code: ".auth-box.svelte-1rukz97{position:fixed;top:40px;left:20px;background:#dedcd5;border:1px solid #221f20;padding:5px;cursor:pointer;font-size:12px;z-index:10000}.auth-box.svelte-1rukz97:hover{background:#dedcd5}",
   map: null
 };
-const AuthenticationBox = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, slots) => {
+const AuthenticationBox = (0, import_index_fb0a7752.c)(($$result, $$props, $$bindings, slots) => {
   let $isAuthenticated, $$unsubscribe_isAuthenticated;
   let $profile, $$unsubscribe_profile;
-  $$unsubscribe_isAuthenticated = (0, import_index_18e7c772.a)(import_authentication_c97a205c.i, (value) => $isAuthenticated = value);
-  $$unsubscribe_profile = (0, import_index_18e7c772.a)(import_authentication_c97a205c.p, (value) => $profile = value);
+  $$unsubscribe_isAuthenticated = (0, import_index_fb0a7752.a)(import_movement_6bb91b26.i, (value) => $isAuthenticated = value);
+  $$unsubscribe_profile = (0, import_index_fb0a7752.a)(import_movement_6bb91b26.p, (value) => $profile = value);
   $$result.css.add(css$3);
   $$unsubscribe_isAuthenticated();
   $$unsubscribe_profile();
-  return `<div class="${"auth-box svelte-1rukz97"}">${$isAuthenticated ? `<div>${(0, import_index_18e7c772.e)($profile && $profile.name ? $profile.name + " (Log out)" : "Log out")}</div>` : `Login`}
+  return `<div class="${"auth-box svelte-1rukz97"}">${$isAuthenticated ? `<div>${(0, import_index_fb0a7752.e)($profile && $profile.name ? $profile.name + " (Log out)" : "Log out")}</div>` : `Login`}
 </div>`;
 });
 var SoundOn_svelte_svelte_type_style_lang = "";
@@ -259,7 +260,7 @@ const css$2 = {
   code: "svg.svelte-1iwhujd.svelte-1iwhujd{height:14px}svg.svelte-1iwhujd path.svelte-1iwhujd{fill:#221f20}",
   map: null
 };
-const SoundOn = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, slots) => {
+const SoundOn = (0, import_index_fb0a7752.c)(($$result, $$props, $$bindings, slots) => {
   $$result.css.add(css$2);
   return `<svg version="${"1.1"}" id="${"Layer_1"}" xmlns="${"http://www.w3.org/2000/svg"}" xmlns:xlink="${"http://www.w3.org/1999/xlink"}" x="${"0px"}" y="${"0px"}" viewBox="${"0 0 18.3 17.6"}" style="${"enable-background:new 0 0 18.3 17.6;"}" xml:space="${"preserve"}" class="${"svelte-1iwhujd"}"><path d="${"M1.6,11.5l4.3,4.7l-1.3,1.2c-0.2,0.2-0.4,0.3-0.5,0.3c-0.1,0-0.3-0.1-0.5-0.3l-3.4-3.7C0.1,13.4,0,13.2,0,13.1\n		c0-0.1,0.1-0.3,0.3-0.5L1.6,11.5z M9.5,3.1c0.7,0.2,1.4,0.4,2,0.8c0.6,0.4,1.2,0.9,1.7,1.5c0.5,0.6,1,1.1,1.3,1.8\n		c0.4,0.7,0.6,1.4,0.7,2.1l-1.3,0c-0.1-0.6-0.3-1.2-0.6-1.7c-0.3-0.5-0.6-0.9-1-1.3c-0.4-0.4-0.8-0.8-1.3-1.1\n		c-0.5-0.3-1-0.6-1.6-0.7L9.5,3.1z M9.7,0c1,0.2,1.9,0.6,2.9,1.2c0.9,0.6,1.8,1.4,2.7,2.3c0.8,0.9,1.5,1.9,2.1,2.9s0.8,2,0.9,3\n		l-1.3,0c-0.1-0.8-0.4-1.7-0.8-2.5c-0.5-0.8-1.1-1.7-1.8-2.5c-0.7-0.8-1.5-1.4-2.3-2c-0.8-0.5-1.6-0.8-2.4-1L9.7,0z M4.1,2.1\n		C4.2,2,4.3,1.9,4.5,2C4.6,2,4.8,2.1,5,2.3l10.5,11.3c0.2,0.2,0.3,0.4,0.3,0.6c0,0.1,0,0.3-0.2,0.4c-0.1,0.1-0.4,0.2-0.9,0.2\n		l-7.9,0.4l-4.3-4.7l1.2-7.6c0-0.2,0.1-0.4,0.1-0.5C4,2.3,4,2.2,4.1,2.1"}" class="${"svelte-1iwhujd"}"></path></svg>`;
 });
@@ -268,7 +269,7 @@ const css$1 = {
   code: "svg.svelte-y4dmoz.svelte-y4dmoz{height:14px}svg.svelte-y4dmoz path.svelte-y4dmoz{fill:#221f20}.b.svelte-y4dmoz.svelte-y4dmoz{opacity:0}",
   map: null
 };
-const SoundOff = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, slots) => {
+const SoundOff = (0, import_index_fb0a7752.c)(($$result, $$props, $$bindings, slots) => {
   $$result.css.add(css$1);
   return `<svg xmlns="${"http://www.w3.org/2000/svg"}" viewBox="${"0 0 18.3 17.7"}" class="${"svelte-y4dmoz"}"><path class="${"a svelte-y4dmoz"}" d="${"M1.6,11.5l4.3,4.7L4.6,17.4a.91.91,0,0,1-.5.3.91.91,0,0,1-.5-.3L.2,13.7a3.93,3.93,0,0,1-.2-.6.91.91,0,0,1,.3-.5Z"}"></path><path class="${"b svelte-y4dmoz"}" d="${"M9.5,3.1a7,7,0,0,1,2,.8,8,8,0,0,1,1.7,1.5,7.49,7.49,0,0,1,1.3,1.8,5.79,5.79,0,0,1,.7,2.1H13.9a4.92,4.92,0,0,0-.6-1.7,6.42,6.42,0,0,0-1-1.3A6.89,6.89,0,0,0,11,5.2a4.59,4.59,0,0,0-1.6-.7Z"}"></path><path class="${"b svelte-y4dmoz"}" d="${"M9.7,0a8.94,8.94,0,0,1,2.9,1.2,18.37,18.37,0,0,1,2.7,2.3,19.41,19.41,0,0,1,2.1,2.9,6.91,6.91,0,0,1,.9,3H17a8.09,8.09,0,0,0-.8-2.5,19.5,19.5,0,0,0-1.8-2.5,14.34,14.34,0,0,0-2.3-2,8.18,8.18,0,0,0-2.4-1Z"}"></path><path class="${"a svelte-y4dmoz"}" d="${"M4.1,2.1c.1-.1.2-.2.4-.1a.91.91,0,0,1,.5.3L15.5,13.6a.86.86,0,0,1,.3.6.4.4,0,0,1-.2.4,1.44,1.44,0,0,1-.9.2l-7.9.4L2.5,10.5,3.7,2.9a4.33,4.33,0,0,1,.1-.5c.2-.1.2-.2.3-.3"}"></path></svg>`;
 });
@@ -279,45 +280,46 @@ const css = {
 };
 let reconnectionAttempts = 0;
 let disconnectionCode = 0;
-const _layout = (0, import_index_18e7c772.c)(($$result, $$props, $$bindings, slots) => {
+const _layout = (0, import_index_fb0a7752.c)(($$result, $$props, $$bindings, slots) => {
   let $uiState, $$unsubscribe_uiState;
   let $currentRoom, $$unsubscribe_currentRoom;
-  let $trayOpen, $$unsubscribe_trayOpen;
   let $activeArticle, $$unsubscribe_activeArticle;
+  let $trayOpen, $$unsubscribe_trayOpen;
   let $playSound, $$unsubscribe_playSound;
   let $showLabels, $$unsubscribe_showLabels;
-  $$unsubscribe_uiState = (0, import_index_18e7c772.a)(import_authentication_c97a205c.u, (value) => $uiState = value);
-  $$unsubscribe_currentRoom = (0, import_index_18e7c772.a)(import_authentication_c97a205c.c, (value) => $currentRoom = value);
-  $$unsubscribe_trayOpen = (0, import_index_18e7c772.a)(import_authentication_c97a205c.t, (value) => $trayOpen = value);
-  $$unsubscribe_activeArticle = (0, import_index_18e7c772.a)(import_authentication_c97a205c.b, (value) => $activeArticle = value);
-  $$unsubscribe_playSound = (0, import_index_18e7c772.a)(import_authentication_c97a205c.d, (value) => $playSound = value);
-  $$unsubscribe_showLabels = (0, import_index_18e7c772.a)(import_authentication_c97a205c.s, (value) => $showLabels = value);
+  $$unsubscribe_uiState = (0, import_index_fb0a7752.a)(import_movement_6bb91b26.u, (value) => $uiState = value);
+  $$unsubscribe_currentRoom = (0, import_index_fb0a7752.a)(import_movement_6bb91b26.c, (value) => $currentRoom = value);
+  $$unsubscribe_activeArticle = (0, import_index_fb0a7752.a)(import_movement_6bb91b26.b, (value) => $activeArticle = value);
+  $$unsubscribe_trayOpen = (0, import_index_fb0a7752.a)(import_movement_6bb91b26.t, (value) => $trayOpen = value);
+  $$unsubscribe_playSound = (0, import_index_fb0a7752.a)(import_movement_6bb91b26.d, (value) => $playSound = value);
+  $$unsubscribe_showLabels = (0, import_index_fb0a7752.a)(import_movement_6bb91b26.s, (value) => $showLabels = value);
+  console.log("in layout");
   $$result.css.add(css);
   $$unsubscribe_uiState();
   $$unsubscribe_currentRoom();
-  $$unsubscribe_trayOpen();
   $$unsubscribe_activeArticle();
+  $$unsubscribe_trayOpen();
   $$unsubscribe_playSound();
   $$unsubscribe_showLabels();
   return `
-${$uiState == import_authentication_c97a205c.S.READY ? `${(0, import_index_18e7c772.v)(Menubar, "Menubar").$$render($$result, { currentRoom: $currentRoom }, {}, {})}` : ``}
+${$uiState == import_movement_6bb91b26.S.READY ? `${(0, import_index_fb0a7752.v)(Menubar, "Menubar").$$render($$result, { currentRoom: $currentRoom }, {}, {})}` : ``}
 
 
 ${slots.default ? slots.default({}) : ``}
 
 
-${$uiState == import_authentication_c97a205c.S.READY ? `${(0, import_index_18e7c772.v)(AuthenticationBox, "AuthenticationBox").$$render($$result, {}, {}, {})}` : ``}
+${$uiState == import_movement_6bb91b26.S.READY && !$activeArticle ? `${(0, import_index_fb0a7752.v)(AuthenticationBox, "AuthenticationBox").$$render($$result, {}, {}, {})}` : ``}
 
 
-${$uiState == import_authentication_c97a205c.S.LOADING ? `${(0, import_index_18e7c772.v)(LoadingScreen, "LoadingScreen").$$render($$result, {}, {}, {})}` : ``}
+${$uiState == import_movement_6bb91b26.S.LOADING ? `${(0, import_index_fb0a7752.v)(LoadingScreen, "LoadingScreen").$$render($$result, {}, {}, {})}` : ``}
 
 
-${$uiState == import_authentication_c97a205c.S.ERROR ? `${(0, import_index_18e7c772.v)(Error2, "Error").$$render($$result, { message: "" }, {}, {})}` : ``}
+${$uiState == import_movement_6bb91b26.S.ERROR ? `${(0, import_index_fb0a7752.v)(Error2, "Error").$$render($$result, { message: "" }, {}, {})}` : ``}
 
 
-${$uiState == import_authentication_c97a205c.S.DISCONNECTED ? `${(0, import_index_18e7c772.v)(Reconnection, "Reconnection").$$render($$result, { reconnectionAttempts, disconnectionCode }, {}, {})}` : ``}
+${$uiState == import_movement_6bb91b26.S.DISCONNECTED ? `${(0, import_index_fb0a7752.v)(Reconnection, "Reconnection").$$render($$result, { reconnectionAttempts, disconnectionCode }, {}, {})}` : ``}
 
 
-${!$trayOpen && !$activeArticle ? `<div class="${"options svelte-10dwrrh"}"><div class="${"option sound svelte-10dwrrh"}">${$playSound ? `${(0, import_index_18e7c772.v)(SoundOn, "SoundOn").$$render($$result, {}, {}, {})}` : `${(0, import_index_18e7c772.v)(SoundOff, "SoundOff").$$render($$result, {}, {}, {})}`}</div>
+${!$trayOpen && !$activeArticle ? `<div class="${"options svelte-10dwrrh"}"><div class="${"option sound svelte-10dwrrh"}">${$playSound ? `${(0, import_index_fb0a7752.v)(SoundOn, "SoundOn").$$render($$result, {}, {}, {})}` : `${(0, import_index_fb0a7752.v)(SoundOff, "SoundOff").$$render($$result, {}, {}, {})}`}</div>
     <div class="${["option labels svelte-10dwrrh", $showLabels ? "on" : ""].join(" ").trim()}"><span class="${"svelte-10dwrrh"}">abc</span></div></div>` : ``}`;
 });

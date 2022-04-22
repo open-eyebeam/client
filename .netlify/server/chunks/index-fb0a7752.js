@@ -23,7 +23,8 @@ __export(stdin_exports, {
   d: () => safe_not_equal,
   e: () => escape,
   f: () => add_attribute,
-  g: () => createEventDispatcher,
+  g: () => get_store_value,
+  h: () => createEventDispatcher,
   i: () => is_promise,
   m: () => missing_component,
   n: () => noop,
@@ -55,6 +56,11 @@ function subscribe(store, ...callbacks) {
   }
   const unsub = store.subscribe(...callbacks);
   return unsub.unsubscribe ? () => unsub.unsubscribe() : unsub;
+}
+function get_store_value(store) {
+  let value;
+  subscribe(store, (_) => value = _)();
+  return value;
 }
 function custom_event(type, detail, bubbles = false) {
   const e = document.createEvent("CustomEvent");

@@ -25,10 +25,10 @@ __export(stdin_exports, {
 module.exports = __toCommonJS(stdin_exports);
 const manifest = {
   appDir: "_app",
-  assets: /* @__PURE__ */ new Set([".DS_Store", "images/1.gif", "images/favicon.png", "images/g2.png", "images/grid.png", "images/old-g2.png", "images/placeholder.png"]),
-  mimeTypes: { ".gif": "image/gif", ".png": "image/png" },
+  assets: /* @__PURE__ */ new Set([".DS_Store", "images/1.gif", "images/favicon.png", "images/g2.png", "images/grid.png", "images/old-g2.png", "images/placeholder.png", "silent-check-sso.html"]),
+  mimeTypes: { ".gif": "image/gif", ".png": "image/png", ".html": "text/html" },
   _: {
-    entry: { "file": "start-63935cca.js", "js": ["start-63935cca.js", "chunks/index-a7942797.js", "chunks/index-2a8d61f9.js"], "css": [] },
+    entry: { "file": "start-4bb5b1bd.js", "js": ["start-4bb5b1bd.js", "chunks/index-d2e0416a.js", "chunks/index-34c2ee49.js"], "css": [] },
     nodes: [
       () => Promise.resolve().then(() => __toESM(require("./nodes/0.js"))),
       () => Promise.resolve().then(() => __toESM(require("./nodes/1.js"))),
@@ -45,6 +45,14 @@ const manifest = {
         shadow: null,
         a: [0, 2],
         b: [1]
+      },
+      {
+        type: "endpoint",
+        id: "api/update-user",
+        pattern: /^\/api\/update-user\/?$/,
+        names: [],
+        types: [],
+        load: () => Promise.resolve().then(() => __toESM(require("./entries/endpoints/api/update-user/index.js")))
       }
     ],
     matchers: async () => {
