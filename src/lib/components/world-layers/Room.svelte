@@ -18,6 +18,8 @@
     top: 50%;
     left: 50%;
     background: $e-ink-medium;
+    background-repeat: no-repeat;
+    background-size: cover;
     will-change: transform;
     transition: transform 0.5s ease-out;
   }
