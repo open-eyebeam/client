@@ -63,19 +63,46 @@
 </div>
 
 {#if article.contentType === "video"}
-  <div class="video" class:pushed={$trayOpen} transition:fade>
+  <div
+    class="video"
+    class:pushed={$trayOpen}
+    transition:fade
+    on:click={e => {
+      if (e.target.classList.contains("video")) {
+        activeArticle.set(false)
+      }
+    }}
+  >
     <VideoPlayer streamUrl={article.videoUrl} />
   </div>
 {:else if article.contentType === "text"}
   {#if has(article, "content.content")}
-    <div class="article" class:pushed={$trayOpen} transition:fade>
+    <div
+      class="article"
+      class:pushed={$trayOpen}
+      transition:fade
+      on:click={e => {
+        if (e.target.classList.contains("article")) {
+          activeArticle.set(false)
+        }
+      }}
+    >
       <div class="inner">
         <Blocks blocks={article.content.content} />
       </div>
     </div>
   {/if}
 {:else if article.contentType === "importedPost"}
-  <div class="article" class:pushed={$trayOpen} transition:fade>
+  <div
+    class="article"
+    class:pushed={$trayOpen}
+    transition:fade
+    on:click={e => {
+      if (e.target.classList.contains("article")) {
+        activeArticle.set(false)
+      }
+    }}
+  >
     <div class="inner">
       {#if importedPost && importedPost.title}
         {importedPost.title}
@@ -86,7 +113,16 @@
     </div>
   </div>
 {:else if article.isBulletinBoard}
-  <div class="bulletin-board" class:pushed={$trayOpen} transition:fade>
+  <div
+    class="bulletin-board"
+    class:pushed={$trayOpen}
+    transition:fade
+    on:click={e => {
+      if (e.target.classList.contains("bulletin-board")) {
+        activeArticle.set(false)
+      }
+    }}
+  >
     <div class="inner">
       <h1>Welcome to the Bulletin Board</h1>
       <div class="bulletin-board-actions">
@@ -144,6 +180,7 @@
     padding-top: 60px;
     padding-bottom: 80px;
     justify-content: center;
+    cursor: pointer;
 
     .inner {
       background: $e-ink-medium;
@@ -154,6 +191,7 @@
       padding: 20px;
       overflow-y: scroll;
       font-size: $font-size-small;
+      cursor: default;
     }
 
     transition: transform 0.5s $transition;
@@ -181,6 +219,7 @@
     justify-content: center;
     align-items: center;
     transition: transform 0.5s $transition;
+    cursor: pointer;
 
     &.pushed {
       transform: translateY(240px);
@@ -212,6 +251,7 @@
     padding-top: 60px;
     padding-bottom: 80px;
     justify-content: center;
+    cursor: pointer;
 
     .inner {
       background: $e-ink-medium;
@@ -222,6 +262,7 @@
       padding: 20px;
       overflow-y: scroll;
       font-size: $font-size-small;
+      cursor: default;
 
       .bulletin-board-actions {
         .action {
