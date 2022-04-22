@@ -15,9 +15,6 @@
   // *** PROPS
   export let externalLinks = []
   export let internalLinks = []
-
-  console.log("externallinks", externalLinks)
-  console.log("internlalinks", internalLinks)
 </script>
 
 <div class="see-also">

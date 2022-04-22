@@ -158,9 +158,6 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      // &:hover {
-      //   border: 1px solid $e-ink-dark;
-      // }
 
       span {
         line-height: 1.2em;

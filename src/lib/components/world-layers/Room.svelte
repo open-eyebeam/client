@@ -1,59 +1,15 @@
 <script>
-  // # # # # # # # # # # # # #
-  //
-  //  Room
-  //
-  // # # # # # # # # # # # # #
-
-  // import Grid from "$lib/components/world-layers/Grid.svelte"
-  import { GRID_SIZE } from "$lib/modules/world.js"
-  import { showGrid } from "$lib/modules/ui.js"
-
-  import { createEventDispatcher } from "svelte"
-  const dispatch = createEventDispatcher()
-
-  const move = e => {
-    if (e.target.id === "room") {
-      dispatch("move", {
-        x: e.offsetX - 15,
-        y: e.offsetY - 15,
-      })
-    }
-  }
-
-  //   *** PROPS
+  import { centeringInlineStyles } from "$lib/modules/movement.js"
   export let room = {}
-  export let x = 0
-  export let y = 0
-
-  $: {
-    centerViewOnPlayer(x, y)
-  }
-
-  let roomElement = {}
-
-  let inlineStyles = ""
-  $: inlineStyles = `${room.inlineStyles} transform: translateX(-50%) translateY(-50%);`
-
-  const centerViewOnPlayer = (x, y) => {
-    inlineStyles = `${room.inlineStyles} transform: translateX(-${
-      x * GRID_SIZE
-    }px) translateY(-${y * GRID_SIZE}px);`
-  }
 </script>
 
-<!-- on:click={e => {
-  move(e)
-}} -->
-
-<div class="room" id="room" bind:this={roomElement} style={inlineStyles}>
-  {#if $showGrid}
-    <!-- <Grid /> -->
-  {/if}
+<div
+  class="room"
+  id="room"
+  style={`${room.inlineStyles} ${$centeringInlineStyles}`}
+>
   <slot />
 </div>
-
-<div class="center-view" on:click={centerViewOnPlayer}>CENTER VIEW (DEBUG)</div>
 
 <style lang="scss">
   @import "src/lib/style/variables.scss";
@@ -62,22 +18,7 @@
     top: 50%;
     left: 50%;
     background: $e-ink-medium;
-    // transition: transform 0.3s ease-out;
-  }
-
-  .center-view {
-    position: fixed;
-    top: 100px;
-    left: 20px;
-    padding: 5px;
-    background: $e-ink-light;
-    cursor: pointer;
-    font-size: $font-size-small;
-    display: none;
-
-    &:hover {
-      background: $e-ink-dark;
-      color: $e-ink-light;
-    }
+    will-change: transform;
+    transition: transform 0.5s ease-out;
   }
 </style>

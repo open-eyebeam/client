@@ -23,6 +23,33 @@ export const activeCity = writable({})
 export const trayOpen = writable(false)
 export const uiState = writable(STATE.LOADING)
 
+export const toolTipConfig = {
+    content: "",
+    arrow: false,
+    offset: [0, 5],
+    theme: "name",
+    hideOnClick: false,
+    sticky: true,
+    trigger: "manual",
+    flip: false,
+    placement: "bottom",
+    appendTo: {},
+    zIndex: 10,
+    popperOptions: {
+        strategy: "fixed",
+        modifiers: [
+            {
+                name: "flip",
+                enabled: false,
+            },
+            {
+                name: "preventOverflow",
+                enabled: false,
+            },
+        ],
+    },
+}
+
 export const transitionWorldOut = el => {
     return new Promise((resolve, reject) => {
         let tl = gsap.timeline()

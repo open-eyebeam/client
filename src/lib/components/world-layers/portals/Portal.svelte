@@ -8,7 +8,7 @@
   import { onMount } from "svelte"
   import get from "lodash/get.js"
   import { urlFor } from "$lib/modules/sanity.js"
-  import { showLabels } from "$lib/modules/ui.js"
+  import { showLabels, toolTipConfig } from "$lib/modules/ui.js"
   import { GRID_SIZE } from "$lib/modules/world.js"
 
   // *** PROPS
@@ -37,29 +37,10 @@
   )}; background-image: url("${get(portal, "bgImageUrl", "")}");"`
 
   onMount(async () => {
-    label = tippy(portalEl, {
-      content: "door to " + get(portal, "targetArea.title", ""),
-      arrow: false,
-      offset: [0, 5],
-      theme: "name",
-      hideOnClick: false,
-      sticky: true,
-      trigger: "manual",
-      flip: false,
-      placement: "bottom",
-      popperOptions: {
-        modifiers: [
-          {
-            name: "flip",
-            enabled: false,
-          },
-          {
-            name: "preventOverflow",
-            enabled: false,
-          },
-        ],
-      },
-    })
+    const config = toolTipConfig
+    config.content = "door to " + get(portal, "targetArea.title", "")
+    config.appendTo = portalEl.parentElement
+    label = tippy(portalEl, config)
   })
 </script>
 

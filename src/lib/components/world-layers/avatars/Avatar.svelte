@@ -8,7 +8,7 @@
   import { onMount } from "svelte"
   import { chatMessages } from "$lib/modules/engine.js"
   import { GRID_SIZE } from "$lib/modules/world.js"
-  import get from "lodash/get.js"
+  import { centeringInlineStyles } from "$lib/modules/movement.js"
   import sample from "lodash/sample.js"
 
   $: {
@@ -73,7 +73,6 @@
 
   // *** VARIABLES
   let avatarEl = {}
-  // let avatar = avatars.find(a => a._id === get(player, "avatar._ref", ""))
   let avatar = avatars.find(a => a._id === player.shape)
   let gridPosY = player.y * GRID_SIZE
   let gridPosX = player.x * GRID_SIZE
@@ -81,6 +80,35 @@
   $: {
     gridPosY = player.y * GRID_SIZE
     gridPosX = player.x * GRID_SIZE
+  }
+
+  // Check if the local player is close to the edge of the window
+  // ... and if so, center the avatar
+  $: if (player.self && (player.x || player.y)) {
+    if (checkIfCloseToEdge()) {
+      centerViewOnPlayer()
+    }
+  }
+
+  const checkIfCloseToEdge = () => {
+    if (avatarEl && avatarEl.parentElement) {
+      let avatarRect = avatarEl.getBoundingClientRect()
+      if (
+        avatarRect.left < 100 ||
+        avatarRect.top < 100 ||
+        avatarRect.right > window.innerWidth - 100 ||
+        avatarRect.bottom > window.innerHeight - 100
+      ) {
+        return true
+      }
+    }
+    return false
+  }
+
+  const centerViewOnPlayer = () => {
+    centeringInlineStyles.set(
+      `transform: translateX(-${gridPosX}px) translateY(-${gridPosY}px);`
+    )
   }
 
   onMount(async () => {

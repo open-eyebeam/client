@@ -8,7 +8,7 @@
   import { onMount } from "svelte"
   import get from "lodash/get.js"
   import { urlFor } from "$lib/modules/sanity.js"
-  import { showLabels } from "$lib/modules/ui.js"
+  import { showLabels, toolTipConfig } from "$lib/modules/ui.js"
   import { GRID_SIZE } from "$lib/modules/world.js"
 
   // *** PROPS
@@ -35,29 +35,11 @@
   const inlineStyles = `transform: translateY(${gridPosY}px) translateX(${gridPosX}px); width: ${gridWidth}px; height: ${gridHeight}px;};`
 
   onMount(async () => {
-    label = tippy(zoneEl, {
-      content: zone.title,
-      arrow: false,
-      offset: [0, 5],
-      theme: "name",
-      hideOnClick: false,
-      sticky: true,
-      trigger: "manual",
-      flip: false,
-      placement: "bottom",
-      popperOptions: {
-        modifiers: [
-          {
-            name: "flip",
-            enabled: false,
-          },
-          {
-            name: "preventOverflow",
-            enabled: false,
-          },
-        ],
-      },
-    })
+    const config = toolTipConfig
+    config.content = zone.title
+    config.appendTo = zoneEl.parentElement
+    config.theme = "name"
+    label = tippy(zoneEl, config)
   })
 </script>
 
@@ -91,17 +73,19 @@
       background: transparent;
     }
 
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      max-height: 100%;
+    }
+
     &.image {
       border-radius: 0;
       background: unset;
       height: 80px;
       width: auto;
       border: 1px solid transparent;
-
-      img {
-        max-height: 100%;
-        image-rendering: pixelated;
-      }
 
       &:hover {
         border: 1px solid $e-ink-dark;

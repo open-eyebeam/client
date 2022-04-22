@@ -79,7 +79,6 @@ export const connectToGameServer = playerObject => {
 
                     // This is the local player
                     if (player.uuid === get(localPlayer).uuid) {
-                        // console.log('player', player)
                         localPlayer.update(lp => {
                             lp.sessionId = sessionId
                             lp.name = player.name
@@ -92,7 +91,6 @@ export const connectToGameServer = playerObject => {
 
                     // PLAYER => CHANGE
                     player.onChange = changes => {
-                        // console.log("__CHANGE", player)
                         if (get(players)[player.uuid].room !== player.room) {
                             // console.log('!!! NEW ROOM')
                             players.update(ps => {
@@ -104,7 +102,6 @@ export const connectToGameServer = playerObject => {
                                 return (ps)
                             })
                             setTimeout(() => {
-                                // console.log('!!! TRANSTION DNO')
                                 players.update(ps => {
                                     ps[player.uuid].inTransit = false
                                     return (ps)
@@ -120,10 +117,7 @@ export const connectToGameServer = playerObject => {
                         }
 
                         // IGNORE LOCAL KEYBOARD NAVIGATION
-                        if (
-                            player.uuid === get(localPlayer).uuid &&
-                            player.path.keyboardNavigation
-                        ) {
+                        if (player.uuid === get(localPlayer).uuid) {
                             return
                         }
 
@@ -233,7 +227,6 @@ export const connectToGameServer = playerObject => {
                 // ******************************
                 gameRoom.onLeave(code => {
                     const exitMsg = "Disconnected from server. Code: " + code
-                    console.log(exitMsg);
                     // __ Show notification of disconnection
                     // setUIState(STATE.DISCONNECTED)
                     disconnectionCode = code

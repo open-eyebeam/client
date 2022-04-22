@@ -22,7 +22,6 @@
     text={`Go to ${roomTitle}?`}
     roomId={roomIntent}
     on:room={e => {
-      console.log(e)
       dispatch("room", { roomId: e.detail.roomId })
     }}
   />
