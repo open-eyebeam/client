@@ -23,7 +23,7 @@
   class:cover={b.coverAndCrop}
 >
   <img
-    src={urlFor(b.asset).quality(90).saturation(-100).width(1000).url()}
+    src={urlFor(b.asset).quality(90).width(1000).url()}
     alt={b.alt ? b.alt : ""}
   />
   {#if has(b, "caption.content")}

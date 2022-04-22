@@ -1,20 +1,24 @@
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+//
+//  sanity.js =>
+//  functions to work with the Sanity database
+//
+// * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
 import sanityClient from "@sanity/client"
 import blocksToHtml from "@sanity/block-content-to-html"
 import imageUrlBuilder from "@sanity/image-url"
 import getVideoId from "get-video-id"
 import get from "lodash/get.js"
 import has from "lodash/has.js"
-
-
-// GLOBAL
-import { SANITY_PROJECT_ID } from "$lib/modules/global.js"
+import { SANITY_PROJECT_ID } from "$lib/modules/utilities.js"
 
 export const client = sanityClient({
   projectId: SANITY_PROJECT_ID,
   dataset: "production",
   apiVersion: '2021-10-05', // use a UTC date string
-  token: "", // or leave blank to be anonymous user
-  useCdn: false, // `false` if you want to ensure fresh data
+  token: "",
+  useCdn: false,
 })
 
 const h = blocksToHtml.h

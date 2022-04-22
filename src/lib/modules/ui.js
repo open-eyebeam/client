@@ -1,3 +1,10 @@
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+//
+//  ui.js =>
+//  User interface functions
+//
+// * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
 import { writable, get } from "svelte/store"
 
 export const STATE = {
@@ -14,16 +21,33 @@ export const playSound = writable(false)
 export const activeArticle = writable(false)
 export const activeCity = writable({})
 export const trayOpen = writable(false)
-export const currentRoom = writable(false)
-export const PRODUCTION = writable(false)
 export const uiState = writable(STATE.LOADING)
 
-export const infoLogger = (...args) => {
-    if (!get(PRODUCTION)) {
-        console.info(...args)
-    }
+export const transitionWorldOut = el => {
+    return new Promise((resolve, reject) => {
+        let tl = gsap.timeline()
+        tl.to(el, 0.5, {
+            css: { opacity: 0 },
+        })
+        tl.play()
+        tl.eventCallback("onComplete", () => {
+            resolve()
+        })
+    })
 }
 
-export const errorLogger = (...args) => {
-    console.error(...args)
+export const transitionWorldIn = el => {
+    return new Promise((resolve, reject) => {
+        let tl = gsap.timeline()
+        tl.to(el, 0.5, {
+            css: { opacity: 0 },
+        })
+        tl.to(el, 0.5, {
+            css: { opacity: 1 },
+        })
+        tl.play()
+        tl.eventCallback("onComplete", () => {
+            resolve()
+        })
+    })
 }

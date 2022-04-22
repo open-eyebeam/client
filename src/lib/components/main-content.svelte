@@ -8,7 +8,7 @@
   // __ IMPORTS
   import has from "lodash/has.js"
   import { urlFor } from "$lib/modules/sanity.js"
-  import { dateTimeFormat, longFormatDate } from "$lib/modules/global.js"
+  import { dateTimeFormat, longFormatDate } from "$lib/modules/utilities.js"
 
   // __ COMPONENTS
   import Blocks from "$lib/components/blocks/blocks.svelte"
@@ -66,11 +66,7 @@
           <img
             class="main-image"
             alt={page.title}
-            src={urlFor(page.mainImage)
-              .quality(90)
-              .saturation(-100)
-              .width(400)
-              .url()}
+            src={urlFor(page.mainImage).quality(90).width(400).url()}
           />
           {#if has(page, "mainImage.caption.content")}
             <figcaption>
@@ -152,11 +148,7 @@
                 {#if person.mainImage}
                   <img
                     alt={person.title}
-                    src={urlFor(person.mainImage)
-                      .quality(90)
-                      .saturation(-100)
-                      .width(400)
-                      .url()}
+                    src={urlFor(person.mainImage).quality(90).width(400).url()}
                   />
                 {/if}
               </div>

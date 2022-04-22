@@ -9,7 +9,7 @@
   import isEmpty from "lodash/isEmpty.js"
   import truncate from "lodash/truncate.js"
   import { toPlainText, urlFor } from "$lib/modules/sanity.js"
-  import { globalSettings } from "$lib/modules/data.js"
+  import { globalSettings } from "$lib/modules/utilities.js"
 
   // *** PROPS
   export let post = {}

@@ -6,7 +6,7 @@
   // # # # # # # # # # # # # #
 
   // import Grid from "$lib/components/world-layers/Grid.svelte"
-  import { GRID_SIZE } from "$lib/modules/data.js"
+  import { GRID_SIZE } from "$lib/modules/world.js"
   import { showGrid } from "$lib/modules/ui.js"
 
   import { createEventDispatcher } from "svelte"

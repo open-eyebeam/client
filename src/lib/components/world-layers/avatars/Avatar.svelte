@@ -6,8 +6,8 @@
   // # # # # # # # # # # # # #
   import { scale } from "svelte/transition"
   import { onMount } from "svelte"
-  import { chatMessages } from "$lib/modules/core.js"
-  import { GRID_SIZE } from "$lib/modules/data.js"
+  import { chatMessages } from "$lib/modules/engine.js"
+  import { GRID_SIZE } from "$lib/modules/world.js"
   import get from "lodash/get.js"
   import sample from "lodash/sample.js"
 

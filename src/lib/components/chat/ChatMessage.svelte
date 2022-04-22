@@ -10,7 +10,7 @@
   import anchorme from "anchorme"
 
   // *** GLOBALS
-  import { formattedChatDate } from "$lib/modules/global.js"
+  import { formattedChatDate } from "$lib/modules/utilities.js"
 
   // *** PROPS
   export let message = {}

@@ -9,7 +9,7 @@
   import { urlFor } from "$lib/modules/sanity.js"
   import get from "lodash/get.js"
   import { showLabels, activeArticle } from "$lib/modules/ui.js"
-  import { GRID_SIZE } from "$lib/modules/data.js"
+  import { GRID_SIZE } from "$lib/modules/world.js"
 
   //   *** PROPS
   export let object = {}
@@ -71,7 +71,7 @@
   alt={object.title}
   style={inlineStyles}
   on:click={() => {
-    activeArticle.set(object)
+    // activeArticle.set(object)
   }}
 >
   {#if object.iconImage}
@@ -89,7 +89,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    cursor: pointer;
+    // cursor: pointer;
     background: $e-ink-medium;
 
     img {

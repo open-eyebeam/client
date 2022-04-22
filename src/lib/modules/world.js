@@ -1,4 +1,12 @@
-import { loadData } from "$lib/modules/sanity.js"
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+//
+//  world.js =>
+//  Functions to load the data from the Sanity server
+//  and parse it into a game world object
+//
+// * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+import { loadData, client } from "$lib/modules/sanity.js"
 import { writable } from "svelte/store"
 import has from "lodash/has.js"
 import get from "lodash/get.js"
@@ -79,7 +87,6 @@ const parseStyleProperties = r => {
     return widthStyle + heightStyle + backgroundImageStyle;
 }
 
-// ===> GLOBAL SETTINGS
 loadData('*[_id == "global-settings"]')
     .then(gS => {
         globalSettings.set(gS)
@@ -87,3 +94,23 @@ loadData('*[_id == "global-settings"]')
     .catch(err => {
         console.log(err)
     })
+
+
+export const streams = writable([])
+
+export const initializeStreamsHandler = async () => {
+    const STREAMS_QUERY = '*[_id == "streams"][0]'
+    let sx = await loadData(STREAMS_QUERY)
+    streams.set(sx.activeStreams)
+    // __ Listen for changes to the active streams post
+    client.listen(STREAMS_QUERY).subscribe(update => {
+        streams.set(update.result.activeStreams)
+    })
+}
+
+export const localPlayer = writable({
+    uuid: '',
+    sessionId: '',
+    name: '',
+    profile: {}
+})

@@ -9,12 +9,12 @@
   import has from "lodash/has.js"
   import { activeArticle, trayOpen } from "$lib/modules//ui.js"
   import { loadDataFromMainSite } from "$lib/modules//sanity.js"
-  import { enterArticle, leaveArticle, players } from "$lib/modules//core.js"
+  import { enterArticle, leaveArticle, players } from "$lib/modules/engine.js"
   import VideoPlayer from "$lib/components/VideoPlayer.svelte"
   import Blocks from "$lib/components/blocks/blocks.svelte"
   import BulletinBoardEvent from "$lib/components/bulletin-board-event.svelte"
 
-  //   *** PROPS
+  // *** PROPS
   export let article = {}
 
   let viewCount = 0
@@ -112,7 +112,7 @@
 
   .return-button {
     position: fixed;
-    top: 60px;
+    top: 40px;
     left: 20px;
     background: $e-ink-light;
     color: $e-ink-dark;

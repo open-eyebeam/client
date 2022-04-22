@@ -6,7 +6,7 @@
   // # # # # # # # # # # # # #
 
   // __ IMPORTS
-  import { postTypeToName, postTypeToCategory } from "$lib/modules/global.js"
+  import { postTypeToName, postTypeToCategory } from "$lib/modules/utilities.js"
   import get from "lodash/get.js"
 
   // __ GRAPHICS

@@ -6,7 +6,7 @@
   // # # # # # # # # # # # # #
 
   // __ IMPORTS
-  import { longFormatDate } from "$lib/modules/global.js"
+  import { longFormatDate } from "$lib/modules/utilities.js"
   import has from "lodash/has.js"
 
   // __ COMPONENTS

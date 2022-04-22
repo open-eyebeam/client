@@ -1,9 +1,17 @@
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+//
+//  engine.js =>
+//  Handles communication with the colyseus
+//  game server and maintains the shared state
+//
+// * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
 // import * as Colyseus from "colyseus.js"
 import { writable, get } from 'svelte/store';
-import { nanoid } from "$lib/modules/global.js"
+import { nanoid } from "$lib/modules/utilities.js"
 import {
     localPlayer
-} from "$lib/modules/local-player.js";
+} from "$lib/modules/world.js";
 
 export const players = writable({})
 export const chatMessages = writable([])
@@ -28,14 +36,12 @@ export let submitChat = {}
 let disconnectionCode = 0
 let reconnectionAttempts = 0
 
-// __ Connect to Colyseus gameserver
 let gameClient = {}
 
 export const connectToGameServer = playerObject => {
     gameClient = new Colyseus.Client(GAME_SERVER_URL)
     return new Promise((resolve, reject) => {
 
-        // console.log('Initializing world')
         // __ Join game room
         gameClient
             .joinOrCreate("game", playerObject)

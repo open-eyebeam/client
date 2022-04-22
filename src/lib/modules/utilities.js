@@ -1,8 +1,24 @@
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+//
+//  utilities.js =>
+//  Misc. utility functions
+//
+// * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
 import { format, getYear, parseISO, formatDistanceToNow, isFuture } from "date-fns"
 
 export const SANITY_PROJECT_ID = import.meta.env.VITE_SANITY_ID
+const PRODUCTION = false
 
-const mainFormat = 'HH:mm z, dd MMM DD'
+export const infoLogger = (...args) => {
+  if (!PRODUCTION) {
+    console.info(...args)
+  }
+}
+
+export const errorLogger = (...args) => {
+  console.error(...args)
+}
 
 const intlFormat = new Intl.DateTimeFormat('en-DE', {
   hour: 'numeric',

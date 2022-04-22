@@ -1,4 +1,12 @@
 <script>
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  //
+  //  __layout.svelte =>
+  //  Contains the menubar and other interface elements.
+  //  Loads index.svelte in the <slot/> component.
+  //
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
   // *** OVERLAYS
   import LoadingScreen from "$lib/components/overlays/LoadingScreen.svelte"
   import Error from "$lib/components/overlays/Error.svelte"
@@ -16,11 +24,13 @@
     playSound,
     activeArticle,
     trayOpen,
-    currentRoom,
   } from "$lib/modules/ui.js"
+  import { currentRoom } from "$lib/modules/movement.js"
   // *** VARIABLES
   let reconnectionAttempts = 0
   let disconnectionCode = 0
+
+  console.log("in layout")
 </script>
 
 <!-- MENUBAR -->
@@ -32,7 +42,7 @@
 <slot />
 
 <!-- AUTH TEST BOX -->
-{#if $uiState == STATE.READY}
+{#if $uiState == STATE.READY && !$activeArticle}
   <AuthenticationBox />
 {/if}
 

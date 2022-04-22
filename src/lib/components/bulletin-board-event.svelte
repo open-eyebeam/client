@@ -7,7 +7,7 @@
     urlFor,
   } from "$lib/modules/sanity.js"
   import Blocks from "$lib/components/blocks/blocks.svelte"
-  import { dateTimeFormat } from "$lib/modules/global.js"
+  import { dateTimeFormat } from "$lib/modules/utilities.js"
   export let event = {}
 
   let post = false
@@ -31,16 +31,10 @@
         src={event.importEvent
           ? urlForMainSite(post.mainImage)
               .quality(90)
-              .saturation(-100)
               .width(500)
               .height(500)
               .url()
-          : urlFor(post.mainImage)
-              .quality(90)
-              .saturation(-100)
-              .width(500)
-              .height(500)
-              .url()}
+          : urlFor(post.mainImage).quality(90).width(500).height(500).url()}
       />
     </div>
     <div class="text-container">

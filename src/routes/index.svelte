@@ -1,10 +1,15 @@
 <script>
-  // *** IMPORTS
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  //
+  //  index.svelte =>
+  //  The main view, rendering the game world.
+  //
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
   import { onMount } from "svelte"
   import get from "lodash/get.js"
   import sample from "lodash/sample.js"
   import has from "lodash/has.js"
-  import inRange from "lodash/inRange.js"
   // *** WORLD LAYERS
   import Room from "$lib/components/world-layers/Room.svelte"
   import Players from "$lib/components/world-layers/Players.svelte"
@@ -12,106 +17,80 @@
   import Zones from "$lib/components/world-layers/zones/Zones.svelte"
   import AmbientAudio from "$lib/components/world-layers/AmbientAudio.svelte"
   import Portals from "$lib/components/world-layers/portals/Portals.svelte"
-  import Target from "$lib/components/world-layers/TargetMarker.svelte"
   import StreamPlayer from "$lib/components/StreamPlayer.svelte"
   import ArticleBox from "$lib/components/ArticleBox.svelte"
   // *** TEXT COMPONENTS
   import RoomEntryBox from "$lib/components/text-components/RoomEntryBox.svelte"
+  import ObjectInspectionBox from "$lib/components/text-components/ObjectInspectionBox.svelte"
   import Caption from "$lib/components/text-components/Caption.svelte"
   // *** CHAT
   import Chat from "$lib/components/chat/Chat.svelte"
-  // *** GLOBAL
-  import { nanoid, getRandomInt } from "$lib/modules/global.js"
+
   import {
     connectToGameServer,
     moveTo,
-    goToRoom,
     players,
     chatMessages,
-    showTarget,
-    targetX,
-    targetY,
+    goToRoom,
     submitChat,
-  } from "$lib/modules/core.js"
+  } from "$lib/modules/engine.js"
   import { configureAuthClient, profile } from "$lib/modules/authentication.js"
-  import { localPlayer } from "$lib/modules/local-player.js"
   import {
     buildWorld,
     worldObject,
     loadAvatars,
-    GRID_SIZE,
-  } from "$lib/modules/data.js"
-  import { initializeKeyboardHandler } from "$lib/modules/keyboard-handler.js"
-  import { uiState, STATE, infoLogger, errorLogger } from "$lib/modules/ui.js"
+    localPlayer,
+    initializeStreamsHandler,
+    streams,
+  } from "$lib/modules/world.js"
   import {
-    transitionWorldIn,
-    transitionWorldOut,
-  } from "$lib/modules/transitions.js"
+    initializeKeyboardHandler,
+    currentRoom,
+    checkPortalOverlap,
+    checkZoneOverlap,
+    checkObjectOverlap,
+    activeZone,
+    roomIntent,
+    objectIntent,
+  } from "$lib/modules/movement.js"
   import {
-    showGrid,
     showLabels,
     playSound,
     activeArticle,
     trayOpen,
-    currentRoom,
+    uiState,
+    STATE,
+    transitionWorldIn,
+    transitionWorldOut,
   } from "$lib/modules/ui.js"
-  import { initializeStreamsHandler, streams } from "$lib/modules/streams.js"
+  import {
+    nanoid,
+    getRandomInt,
+    infoLogger,
+    errorLogger,
+  } from "$lib/modules/utilities.js"
 
   // *** VARIABLES
   let viewportElement = {}
-  let roomIntent = false
   let avatars = []
   let newRoomIntroduction = false
-  let activeZone = false
+
+  $: console.log("$objectIntent", $objectIntent)
 
   $: {
-    if (roomIntent) {
+    if ($roomIntent || $objectIntent) {
       newRoomIntroduction = false
     }
   }
 
   $: {
     if ($players[$localPlayer.uuid]) {
+      // Listen to changes to the users movement and check for overlap
       if ($players[$localPlayer.uuid].x || $players[$localPlayer.uuid].x) {
         checkPortalOverlap()
         checkZoneOverlap()
+        checkObjectOverlap()
       }
-    }
-  }
-
-  const checkPortalOverlap = () => {
-    if ($currentRoom.portals && Array.isArray($currentRoom.portals)) {
-      let overlapIndex = false
-      $currentRoom.portals.forEach(p => {
-        if (
-          $players[$localPlayer.uuid].x === p.x &&
-          $players[$localPlayer.uuid].y === p.y
-        ) {
-          overlapIndex = p.targetArea._id
-        }
-      })
-      if (overlapIndex) {
-        roomIntent = overlapIndex
-      } else {
-        roomIntent = false
-      }
-    }
-  }
-
-  const checkZoneOverlap = () => {
-    let overlapIndex = false
-    $currentRoom.zones.forEach(z => {
-      if (
-        inRange($players[$localPlayer.uuid].x, z.x, z.x + z.dimensions.width) &&
-        inRange($players[$localPlayer.uuid].y, z.y, z.y + z.dimensions.height)
-      ) {
-        overlapIndex = z
-      }
-    })
-    if (overlapIndex) {
-      activeZone = overlapIndex
-    } else {
-      activeZone = false
     }
   }
 
@@ -224,9 +203,9 @@
       <!-- PORTALS -->
       <Portals portals={get($currentRoom, "portals", [])} />
       <!-- TARGET -->
-      {#if $showTarget}
+      <!-- {#if $showTarget}
         <Target x={$targetX} y={$targetY} />
-      {/if}
+      {/if} -->
     </Room>
   </div>
 {/if}
@@ -238,26 +217,42 @@
 
 <!-- LIVE STREAM -->
 {#each $streams as stream}
-  {#if $currentRoom._id == stream.parentArea._ref || activeZone._id == stream.parentArea._ref}
+  {#if $currentRoom._id == stream.parentArea._ref || $activeZone._id == stream.parentArea._ref}
     <StreamPlayer streamUrl={stream.videoUrl} />
   {/if}
 {/each}
 
-<!-- CAPTION BOX -->
-{#if roomIntent}
+<!-- ROOM ENTRY BOX -->
+{#if $roomIntent}
   <RoomEntryBox
-    {roomIntent}
-    roomTitle={$worldObject[roomIntent].title}
+    roomIntent={$roomIntent}
+    roomTitle={$worldObject[$roomIntent].title}
     on:room={e => {
       if (e.detail.roomId) {
-        changeRoom(roomIntent)
+        changeRoom($roomIntent)
       }
-      roomIntent = false
+      roomIntent.set(false)
     }}
   />
 {/if}
 
-{#if !$trayOpen && !$activeArticle && !roomIntent}
+<!-- OBJECT INSPECTION BOX -->
+{#if $objectIntent}
+  <ObjectInspectionBox
+    objectIntent={$objectIntent}
+    objectTitle={$currentRoom.objects.find(o => o._id == $objectIntent).title}
+    on:object={e => {
+      if (e.detail.objectId) {
+        activeArticle.set(
+          $currentRoom.objects.find(o => o._id == $objectIntent)
+        )
+      }
+      objectIntent.set(false)
+    }}
+  />
+{/if}
+
+{#if !$trayOpen && !$activeArticle && !$roomIntent && !$objectIntent}
   {#if newRoomIntroduction}
     <Caption
       text={newRoomIntroduction}

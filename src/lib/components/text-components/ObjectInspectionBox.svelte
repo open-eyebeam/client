@@ -1,29 +1,29 @@
 <script>
   // # # # # # # # # # # # # #
   //
-  //  ROOM ENTRY BOX
+  // OBJECT INSPECTION BOX
   //
   // # # # # # # # # # # # # #
 
   // *** IMPORTS
   import { fade } from "svelte/transition"
-  import RoomDialog from "./RoomDialog.svelte"
+  import ObjectDialog from "./ObjectDialog.svelte"
   import { createEventDispatcher } from "svelte"
   const dispatch = createEventDispatcher()
   const transitionSettings = { duration: 500 }
 
   // *** PROPS
-  export let roomIntent = ""
-  export let roomTitle = ""
+  export let objectIntent = ""
+  export let objectTitle = ""
 </script>
 
 <div class="caption-container" in:fade>
-  <RoomDialog
-    text={`Go to ${roomTitle}?`}
-    roomId={roomIntent}
-    on:room={e => {
-      console.log(e)
-      dispatch("room", { roomId: e.detail.roomId })
+  {objectTitle}
+  <ObjectDialog
+    text={`Look at ${objectTitle}?`}
+    objectId={objectIntent}
+    on:object={e => {
+      dispatch("object", { objectId: e.detail.objectId })
     }}
   />
 </div>

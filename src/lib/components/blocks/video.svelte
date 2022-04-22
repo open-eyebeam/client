@@ -28,11 +28,7 @@
       <img
         class="main-image"
         alt={videoPost.title}
-        src={urlFor(videoPost.mainImage)
-          .quality(90)
-          .saturation(-100)
-          .width(400)
-          .url()}
+        src={urlFor(videoPost.mainImage).quality(90).width(400).url()}
       />
     {/if}
     <div class="icon">
