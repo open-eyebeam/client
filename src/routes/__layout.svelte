@@ -29,8 +29,6 @@
   // *** VARIABLES
   let reconnectionAttempts = 0
   let disconnectionCode = 0
-
-  console.log("in layout")
 </script>
 
 <!-- MENUBAR -->

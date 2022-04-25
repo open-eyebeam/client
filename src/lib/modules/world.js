@@ -18,8 +18,8 @@ export const GRID_SIZE = 32
 
 export const buildWorld = () => {
     return new Promise(async (resolve, reject) => {
-        const rooms = await loadData('*[_type == "room"]{..., "bgImageUrl": backgroundImage.asset->url}')
-        const zones = await loadData('*[_type == "zone"]{..., "bgImageUrl": backgroundImage.asset->url}')
+        const rooms = await loadData('*[_type == "room"]{..., "bgImageUrl": backgroundImage.asset->url, "bgVideoUrl": backgroundVideo.asset->url}')
+        const zones = await loadData('*[_type == "zone"]{..., "bgImageUrl": backgroundImage.asset->url, "bgVideoUrl": backgroundVideo.asset->url}')
         const objects = await loadData('*[_type == "exob"]')
         const portals = await loadData('*[_type == "portal"]{..., targetArea->{...}, "bgImageUrl": backgroundImage.asset->url}')
         const events = await loadData('*[_type == "event"]')
@@ -81,9 +81,7 @@ export const loadAvatars = () => {
 const parseStyleProperties = r => {
     let widthStyle = "width: " + (get(r, 'dimensions.width', 0) * GRID_SIZE) + "px;"
     let heightStyle = "height: " + (get(r, 'dimensions.height', 0) * GRID_SIZE) + "px;"
-    // let backgroundColorStyle =
-    //     "background-color:" + get(r, 'backgroundColor.hex', '#ff0000') + ";"
-    let backgroundImageStyle = "background-image: url(" + r.bgImageUrl + ");"
+    let backgroundImageStyle = !r.bgVideoUrl ? "background-image: url(" + r.bgImageUrl + ");" : ""
     return widthStyle + heightStyle + backgroundImageStyle;
 }
 

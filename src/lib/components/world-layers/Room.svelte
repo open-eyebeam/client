@@ -9,6 +9,10 @@
   style={`${room.inlineStyles} ${$centeringInlineStyles}`}
 >
   <slot />
+
+  {#if room.bgVideoUrl}
+    <video src={room.bgVideoUrl} autoplay loop muted />
+  {/if}
 </div>
 
 <style lang="scss">
@@ -22,5 +26,11 @@
     background-size: cover;
     will-change: transform;
     transition: transform 0.5s ease-out;
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
 </style>

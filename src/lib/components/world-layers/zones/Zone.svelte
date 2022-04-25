@@ -51,7 +51,9 @@
   alt={zone.title}
   style={inlineStyles}
 >
-  {#if zone.backgroundImage}
+  {#if zone.bgVideoUrl}
+    <video src={zone.bgVideoUrl} autoplay loop muted />
+  {:else if zone.backgroundImage}
     <img src={urlFor(zone.backgroundImage).quality(100).url()} />
   {/if}
 </div>
@@ -80,16 +82,10 @@
       max-height: 100%;
     }
 
-    &.image {
-      border-radius: 0;
-      background: unset;
-      height: 80px;
-      width: auto;
-      border: 1px solid transparent;
-
-      &:hover {
-        border: 1px solid $e-ink-dark;
-      }
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   }
 </style>
