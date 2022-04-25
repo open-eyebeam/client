@@ -20,7 +20,6 @@ export const targetX = writable(0)
 export const targetY = writable(0)
 
 const GAME_SERVER_URL = "wss://open.eyebeam.dev";
-// const GAME_SERVER_URL = "ws://localhost:2567"
 
 // Public functions
 export let moveTo = {}
@@ -52,7 +51,6 @@ export const connectToGameServer = playerObject => {
 
                 // PLAYER => REMOVE
                 gameRoom.state.players.onRemove = (player, sessionId) => {
-                    // console.log("__REMOVE", player)
                     players.update(ps => {
                         delete ps[player.uuid]
                         return (ps)
@@ -61,10 +59,7 @@ export const connectToGameServer = playerObject => {
 
                 // PLAYER => ADD
                 gameRoom.state.players.onAdd = (player, sessionId) => {
-                    // console.log("__ADD", player)
-
                     players.update(ps => {
-                        // console.log(ps)
                         ps[player.uuid] = {
                             name: player.name,
                             x: player.x,
@@ -92,13 +87,15 @@ export const connectToGameServer = playerObject => {
                     // PLAYER => CHANGE
                     player.onChange = changes => {
                         if (get(players)[player.uuid].room !== player.room) {
-                            // console.log('!!! NEW ROOM')
+                            // Player changed rooms
                             players.update(ps => {
                                 ps[player.uuid].name = player.name
                                 ps[player.uuid].shape = player.shape
                                 ps[player.uuid].room = player.room
                                 ps[player.uuid].inTransit = true
                                 ps[player.uuid].viewing = player.viewing
+                                ps[player.uuid].x = player.x
+                                ps[player.uuid].y = player.y
                                 return (ps)
                             })
                             setTimeout(() => {
@@ -116,8 +113,8 @@ export const connectToGameServer = playerObject => {
                             })
                         }
 
-                        // IGNORE LOCAL KEYBOARD NAVIGATION
                         if (player.uuid === get(localPlayer).uuid) {
+                            // We don't update the location for the local player
                             return
                         }
 
@@ -135,10 +132,7 @@ export const connectToGameServer = playerObject => {
                 })
 
                 moveTo = (x, y, keyboardNavigation) => {
-                    // console.log(x, y)
-                    // delete moveQ[get(localPlayer).uuid]
-                    showTarget.set(false)
-                    // console.log('get(players)', get(players))
+                    // console.log("moveTo", x, y, keyboardNavigation)
                     if (keyboardNavigation) {
                         gameRoom.send("go", {
                             x: x,

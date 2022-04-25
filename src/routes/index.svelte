@@ -28,7 +28,6 @@
 
   import {
     connectToGameServer,
-    moveTo,
     players,
     chatMessages,
     goToRoom,
@@ -75,14 +74,6 @@
   let avatars = []
   let newRoomIntroduction = false
 
-  $: console.log("$objectIntent", $objectIntent)
-
-  $: {
-    if ($roomIntent || $objectIntent) {
-      newRoomIntroduction = false
-    }
-  }
-
   $: {
     if ($players[$localPlayer.uuid]) {
       // Listen to changes to the users movement and check for overlap
@@ -95,15 +86,52 @@
   }
 
   const changeRoom = async id => {
-    let newRoom = $worldObject[id]
     showLabels.set(false)
     await transitionWorldOut(viewportElement)
+
+    const oldRoomId = $currentRoom._id
+    const newRoom = $worldObject[id]
     currentRoom.set(newRoom)
+
+    // Provisional spawn point
+    let targetX = getRandomInt(4, 6)
+    let targetY = getRandomInt(4, 6)
+
+    if (
+      newRoom.portals &&
+      newRoom.portals.find(p => p.targetArea._id === oldRoomId)
+    ) {
+      // Find a portal in the new room that leads from the old one
+      const targetPortal = newRoom.portals.find(
+        p => p.targetArea._id === oldRoomId
+      )
+      // Get a random spawn point around the portal
+      while (true) {
+        targetX = getRandomInt(targetPortal.x - 2, targetPortal.x + 2)
+        targetY = getRandomInt(targetPortal.y - 2, targetPortal.y)
+        if (
+          // Don't spawn outside of the room
+          targetX < 1 ||
+          targetY < 1 ||
+          targetX > newRoom.dimensions.width ||
+          targetY > newRoom.dimensions.height ||
+          // ... and don't spawn directly on top of the portal
+          (targetX == targetPortal.x && targetX == targetPortal.x)
+        ) {
+          continue
+        }
+        // Leave the loop...
+        break
+      }
+    }
+
+    // Send to server...
     goToRoom({
       id: newRoom._id,
-      x: getRandomInt(4, 6),
-      y: getRandomInt(4, 6),
+      x: targetX,
+      y: targetY,
     })
+
     await transitionWorldIn(viewportElement)
     showLabels.set(true)
     if (has(newRoom, "introductionTexts")) {
@@ -186,14 +214,7 @@
 <!-- GAME WORLD -->
 {#if $currentRoom}
   <div class="viewport" class:pushed={$trayOpen} bind:this={viewportElement}>
-    <Room
-      room={$currentRoom}
-      x={get($players[$localPlayer.uuid], "x", 100)}
-      y={get($players[$localPlayer.uuid], "y", 100)}
-      on:move={e => {
-        moveTo(e.detail.x, e.detail.y, false)
-      }}
-    >
+    <Room room={$currentRoom}>
       <!-- PLAYERS -->
       <Players players={$players} currentRoomId={$currentRoom._id} {avatars} />
       <!-- OBJECTS -->
@@ -202,10 +223,6 @@
       <Zones zones={get($currentRoom, "zones", [])} />
       <!-- PORTALS -->
       <Portals portals={get($currentRoom, "portals", [])} />
-      <!-- TARGET -->
-      <!-- {#if $showTarget}
-        <Target x={$targetX} y={$targetY} />
-      {/if} -->
     </Room>
   </div>
 {/if}

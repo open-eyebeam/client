@@ -134,6 +134,11 @@
         },
       })
     }
+
+    if (player.self) {
+      // Center on player on load
+      centerViewOnPlayer()
+    }
   })
 </script>
 
