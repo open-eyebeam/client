@@ -41,11 +41,9 @@ export const configureAuthClient = async () => {
                         resolve()
                     })
             } else {
-                Cookies.remove("open-eyebeam-logged-in")
                 resolve()
             }
         }).catch(e => {
-            Cookies.remove("open-eyebeam-logged-in")
             reject(e)
         });
     })
