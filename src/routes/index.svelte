@@ -39,6 +39,7 @@
     configureAuthClient,
     profile,
     login,
+    isAuthenticated,
   } from "$lib/modules/authentication.js"
   import {
     buildWorld,
@@ -162,7 +163,8 @@
     // Check if user should be logged in automatically
     let visitorCookie = Cookies.get("open-eyebeam-logged-in")
     console.log("visitorCookie", visitorCookie)
-    if (visitorCookie) {
+    console.log("$isAuthenticated", $isAuthenticated)
+    if (visitorCookie && !$isAuthenticated) {
       console.log("Logging in...")
       login()
     }
