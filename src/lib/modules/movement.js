@@ -98,7 +98,7 @@ export const checkPortalOverlap = () => {
 export const checkObjectOverlap = () => {
     if (get(currentRoom).objects && Array.isArray(get(currentRoom).objects)) {
         let overlapIndex = false
-        get(currentRoom).objects.forEach(o => {
+        get(currentRoom).objects.filter(o => !o.static).forEach(o => {
             if (
                 inRange(get(players)[get(localPlayer).uuid].x, o.x, o.x + _.get(o, 'dimensions.width', 0)) &&
                 inRange(get(players)[get(localPlayer).uuid].y, o.y, o.y + _.get(o, 'dimensions.height', 0))
