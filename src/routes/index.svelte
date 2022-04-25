@@ -165,7 +165,6 @@
     console.log("visitorCookie", visitorCookie)
     console.log("$isAuthenticated", $isAuthenticated)
     if (visitorCookie && !$isAuthenticated) {
-      console.log("Logging in...")
       login()
     }
 
