@@ -10,6 +10,8 @@
   import get from "lodash/get.js"
   import sample from "lodash/sample.js"
   import has from "lodash/has.js"
+  import Cookies from "js-cookie"
+
   // *** WORLD LAYERS
   import Room from "$lib/components/world-layers/Room.svelte"
   import Players from "$lib/components/world-layers/Players.svelte"
@@ -33,7 +35,11 @@
     goToRoom,
     submitChat,
   } from "$lib/modules/engine.js"
-  import { configureAuthClient, profile } from "$lib/modules/authentication.js"
+  import {
+    configureAuthClient,
+    profile,
+    login,
+  } from "$lib/modules/authentication.js"
   import {
     buildWorld,
     worldObject,
@@ -152,6 +158,14 @@
       errorLogger("Error in authentication:", e)
     }
     infoLogger("✓ (1) Auth client configured ")
+
+    // Check if user should be logged in automatically
+    let visitorCookie = Cookies.get("open-eyebeam-logged-in")
+    console.log("visitorCookie", visitorCookie)
+    if (visitorCookie) {
+      console.log("Logging in...")
+      login()
+    }
 
     // 3 - Build world
     await buildWorld()

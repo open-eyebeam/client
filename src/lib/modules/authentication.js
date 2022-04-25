@@ -8,6 +8,7 @@
 
 import Keycloak from "keycloak-js"
 import { writable } from 'svelte/store';
+import Cookies from "js-cookie"
 import { errorLogger } from "$lib/modules/utilities.js";
 
 export const isAuthenticated = writable(false);
@@ -29,6 +30,7 @@ export const configureAuthClient = async () => {
         }).then(authenticated => {
             isAuthenticated.set(authenticated)
             if (authenticated) {
+                Cookies.set("open-eyebeam-logged-in")
                 keycloak.loadUserProfile()
                     .then(async (p) => {
                         const fullProfile = await updateUser(p);
@@ -39,9 +41,11 @@ export const configureAuthClient = async () => {
                         resolve()
                     })
             } else {
+                Cookies.remove("open-eyebeam-logged-in")
                 resolve()
             }
         }).catch(e => {
+            Cookies.remove("open-eyebeam-logged-in")
             reject(e)
         });
     })
@@ -52,6 +56,7 @@ export const login = async () => {
 }
 
 export const logout = () => {
+    Cookies.remove("open-eyebeam-logged-in")
     keycloak.logout({ redirectUri: window.location.origin })
 }
 

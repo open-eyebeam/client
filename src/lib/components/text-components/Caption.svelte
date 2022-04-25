@@ -12,9 +12,7 @@
 
   // *** GRAPHICS
   import TriangleDown from "$lib/components/graphics/triangle-down.svelte"
-
   const dispatch = createEventDispatcher()
-
   const transitionSettings = { duration: 500 }
 
   // *** PROPS
@@ -23,7 +21,7 @@
   let textIndex = 0
   let currentText = false
 
-  if (text.length > 0) {
+  $: if (text.length > 0) {
     currentText = text[textIndex]
   }
 </script>
