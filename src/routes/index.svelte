@@ -186,7 +186,7 @@
     // Cookies.set("open-eyebeam-name", name)
     // Cookies.set("open-eyebeam-avatar", avatar)
     uiState.set(STATE.READY)
-    // Focus on the player's avatar
+    // Focus on the player's avatar for 3 seconds
     setTimeout(() => {
       focusPlayer.set(false)
     }, 3000)

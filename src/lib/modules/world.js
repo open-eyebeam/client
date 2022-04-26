@@ -106,10 +106,10 @@ export const streams = writable([])
 export const initializeStreamsHandler = async () => {
     const STREAMS_QUERY = '*[_id == "streams"][0]'
     let sx = await loadData(STREAMS_QUERY)
-    streams.set(sx.activeStreams)
+    streams.set(sx.activeStreams.filter(s => s.active))
     // __ Listen for changes to the active streams post
     client.listen(STREAMS_QUERY).subscribe(update => {
-        streams.set(update.result.activeStreams)
+        streams.set(update.result.activeStreams.filter(s => s.active))
     })
 }
 
