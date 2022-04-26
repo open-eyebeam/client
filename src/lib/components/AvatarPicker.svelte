@@ -44,6 +44,10 @@
       border: 2px solid transparent;
       border-radius: 5px;
 
+      @include screen-size("small") {
+        padding: 10px;
+      }
+
       &.selected {
         border: 2px solid $e-ink-dark;
       }

@@ -10,7 +10,7 @@
   import { GRID_SIZE } from "$lib/modules/world.js"
   import { centeringInlineStyles } from "$lib/modules/movement.js"
   import sample from "lodash/sample.js"
-  import { focusPlayer } from "$lib/modules/ui.js"
+  import { focusPlayer, isPhone } from "$lib/modules/ui.js"
 
   $: {
     let lastMessage = $chatMessages[$chatMessages.length - 1]
@@ -94,12 +94,11 @@
   const checkIfCloseToEdge = () => {
     if (avatarEl && avatarEl.parentElement) {
       let avatarRect = avatarEl.getBoundingClientRect()
-      // Check if the avatar is within 100px of the window edges
       if (
-        avatarRect.left < 100 ||
-        avatarRect.top < 100 ||
-        avatarRect.right > window.innerWidth - 100 ||
-        avatarRect.bottom > window.innerHeight - 100
+        avatarRect.left < ($isPhone ? 40 : 100) ||
+        avatarRect.top < ($isPhone ? 120 : 100) ||
+        avatarRect.right > window.innerWidth - ($isPhone ? 40 : 100) ||
+        avatarRect.bottom > window.innerHeight - ($isPhone ? 180 : 100)
       ) {
         return true
       }

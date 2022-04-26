@@ -60,19 +60,15 @@
   </div>
 </div>
 
-<!-- ?autoplay=1 -->
-
-<!-- +
-  "?autoplay=1" -->
 <style lang="scss">
   @import "src/lib/style/variables.scss";
 
   .stream-container {
-    // position: absolute;
-    // top: 60px;
-    // left: 60px;
     width: 720px;
-    // border: 5px solid $e-ink-light;
+
+    @include screen-size("small") {
+      width: 90%;
+    }
 
     .embed {
       width: 100%;

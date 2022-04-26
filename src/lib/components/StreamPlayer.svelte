@@ -76,6 +76,12 @@
     border: 1px solid $e-ink-light;
     z-index: 10000;
 
+    @include screen-size("small") {
+      position: fixed;
+      left: 20px;
+      width: calc(100vw - 40px);
+    }
+
     .embed {
       width: 100%;
       background: black;

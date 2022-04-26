@@ -66,6 +66,13 @@
     border: 1px solid $e-ink-dark;
     z-index: 1000;
     user-select: none;
+
+    @include screen-size("small") {
+      bottom: unset;
+      top: 40px;
+      left: 5px;
+      max-width: calc(100% - 10px);
+    }
   }
 
   .choice {

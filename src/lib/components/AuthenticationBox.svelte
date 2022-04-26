@@ -43,6 +43,10 @@
     font-size: $font-size-extra-small;
     z-index: 10000;
 
+    @include screen-size("small") {
+      display: none;
+    }
+
     &:hover {
       opacity: 0.8;
     }

@@ -105,10 +105,7 @@
       font-size: $font-size-small;
       text-align: center;
       user-select: none;
-
-      @include screen-size("small") {
-        font-size: $font-size-extra-small;
-      }
+      max-width: 90%;
     }
   }
 

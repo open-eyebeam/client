@@ -5,7 +5,7 @@
 //
 // * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-import { writable, get } from "svelte/store"
+import { writable } from "svelte/store"
 
 export const STATE = {
     ERROR: 0,
@@ -23,6 +23,7 @@ export const activeCity = writable({})
 export const trayOpen = writable(false)
 export const focusPlayer = writable(true)
 export const uiState = writable(STATE.LOADING)
+export const isPhone = writable(false)
 
 export const toolTipConfig = {
     content: "",

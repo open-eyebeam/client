@@ -109,16 +109,6 @@
     &.pushed {
       transform: translateY(240px);
     }
-
-    &.disabled {
-      opacity: 0.3;
-      pointer-events: none;
-    }
-
-    &.blurred {
-      filter: blur(3px);
-      pointer-events: none;
-    }
   }
 
   .grid-toggle {
@@ -141,6 +131,10 @@
     position: fixed;
     top: 40px;
     right: 20px;
+
+    @include screen-size("small") {
+      display: none;
+    }
 
     .option {
       margin-left: 5px;

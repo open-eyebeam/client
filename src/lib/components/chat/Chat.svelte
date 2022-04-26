@@ -45,6 +45,12 @@
     position: fixed;
     width: 300px;
     z-index: 10000;
+
+    @include screen-size("small") {
+      bottom: 130px;
+      left: 5px;
+      width: calc(100% - 10px);
+    }
   }
 
   .chat-input {
@@ -62,10 +68,10 @@
       background: $e-ink-medium;
       border: $border-style;
       color: $e-ink-dark;
-      padding: $SPACE_S;
+      padding: 10px;
       border-radius: 0;
       outline: none;
-      height: 30px;
+      height: 40px;
       margin-right: 6px;
 
       &.smaller {
@@ -96,7 +102,7 @@
       outline: none;
       cursor: pointer;
       border-radius: 0;
-      height: 30px;
+      height: 40px;
       line-height: 20px;
 
       &.close-chat {

@@ -28,6 +28,8 @@
   import Caption from "$lib/components/text-components/Caption.svelte"
   // *** CHAT
   import Chat from "$lib/components/chat/Chat.svelte"
+  // *** PHONE
+  import PhoneNavigation from "$lib/components/PhoneNavigation.svelte"
 
   import {
     connectToGameServer,
@@ -70,6 +72,7 @@
     transitionWorldIn,
     transitionWorldOut,
     focusPlayer,
+    isPhone,
   } from "$lib/modules/ui.js"
   import {
     nanoid,
@@ -81,7 +84,6 @@
   // *** VARIABLES
   let viewportElement = {}
   let avatars = []
-  let onboardingTutorial = {}
   let newRoomIntroduction = false
 
   $: {
@@ -190,6 +192,7 @@
     setTimeout(() => {
       focusPlayer.set(false)
     }, 3000)
+    isPhone.set(window.matchMedia("(max-width: 800px)").matches)
   }
 
   onMount(async () => {
@@ -336,3 +339,27 @@
     }}
   />
 {/if}
+
+{#if isPhone && !$activeArticle}
+  <PhoneNavigation />
+{/if}
+
+<style lang="scss">
+  @import "src/lib/style/variables.scss";
+
+  .viewport {
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    opacity: 1;
+    transition: transform 0.5s $transition;
+    background: $e-ink-dark;
+
+    &.pushed {
+      transform: translateY(240px);
+    }
+  }
+</style>

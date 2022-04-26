@@ -192,6 +192,10 @@
       overflow-y: scroll;
       font-size: $font-size-small;
       cursor: default;
+
+      @include screen-size("small") {
+        width: 90%;
+      }
     }
 
     transition: transform 0.5s $transition;

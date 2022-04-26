@@ -114,7 +114,7 @@
     font-size: $font-size-extra-small;
 
     @include screen-size("small") {
-      display: none;
+      pointer-events: none;
     }
 
     &.open {

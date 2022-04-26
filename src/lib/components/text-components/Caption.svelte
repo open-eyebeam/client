@@ -58,6 +58,22 @@
 <style lang="scss">
   @import "src/lib/style/variables.scss";
 
+  .caption-container {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 100000;
+    max-width: 520px;
+    display: flex;
+
+    @include screen-size("small") {
+      bottom: unset;
+      top: 40px;
+      left: 5px;
+      max-width: calc(100% - 10px);
+    }
+  }
+
   .caption-box {
     padding: 15px;
     background: $e-ink-light;
@@ -67,15 +83,6 @@
     font-size: $font-size-small;
     padding-bottom: 0;
     cursor: pointer;
-  }
-
-  .caption-container {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    z-index: 100000;
-    max-width: 520px;
-    display: flex;
   }
 
   .next-caption {
