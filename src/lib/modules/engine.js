@@ -6,18 +6,17 @@
 //
 // * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
+// Due to server side rendering issues, we need to include colyseus
+// in a script tag in app.html, rather than here
 // import * as Colyseus from "colyseus.js"
 import { writable, get } from 'svelte/store';
 import { nanoid } from "$lib/modules/utilities.js"
-import {
-    localPlayer
-} from "$lib/modules/world.js";
+import { localPlayer } from "$lib/modules/world.js";
+import { STATE } from "$lib/modules/ui.js";
+import { uiState } from './ui';
 
 export const players = writable({})
 export const chatMessages = writable([])
-export const showTarget = writable(false)
-export const targetX = writable(0)
-export const targetY = writable(0)
 
 const GAME_SERVER_URL = "wss://open.eyebeam.dev";
 
@@ -29,11 +28,8 @@ export let leaveArticle = {}
 export let onboardUser = {}
 export let submitChat = {}
 
-// Public variables
-// export let moveQ = []
-
-let disconnectionCode = 0
-let reconnectionAttempts = 0
+// let disconnectionCode = 0
+// let reconnectionAttempts = 0
 
 let gameClient = {}
 
@@ -45,9 +41,8 @@ export const connectToGameServer = playerObject => {
         gameClient
             .joinOrCreate("game", playerObject)
             .then(gameRoom => {
-                // ******
-                // PLAYER
-                // ******
+
+                // Handle events sent from the server:
 
                 // PLAYER => REMOVE
                 gameRoom.state.players.onRemove = (player, sessionId) => {
@@ -79,9 +74,6 @@ export const connectToGameServer = playerObject => {
                             lp.name = player.name
                             return lp
                         })
-                        // if (player.onboarded) {
-                        //     // setUIState(STATE.READY)
-                        // }
                     }
 
                     // PLAYER => CHANGE
@@ -128,11 +120,10 @@ export const connectToGameServer = playerObject => {
 
                 // PLAYER => BANNED
                 gameRoom.onMessage("banned", message => {
-                    // setUIState(STATE.ERROR, "You have been banned")
+                    uiState.set(STATE.ERROR)
                 })
 
                 moveTo = (x, y, keyboardNavigation) => {
-                    // console.log("moveTo", x, y, keyboardNavigation)
                     if (keyboardNavigation) {
                         gameRoom.send("go", {
                             x: x,
@@ -168,37 +159,26 @@ export const connectToGameServer = playerObject => {
                     gameRoom.send("leaveArticle")
                 }
 
-                // onboardUser = (username, shape) => {
-                //     // console.log("username", username)
-                //     // console.log("shape", shape)
-                //     gameRoom.send("onboard", {
-                //         username: username,
-                //         shape: shape,
-                //     })
-                //     // setUIState(STATE.READY)
-                // }
-
-                // *******
-                // MESSAGE
-                // *******
+                // ********
+                // MESSAGES
+                // ********
 
                 // MESSAGE => ADD
                 gameRoom.state.messages.onAdd = message => {
                     chatMessages.update(cM => {
                         cM.push(message)
-                        // = [...chatMessages, message]
                         return cM
                     })
                 }
 
                 // MESSAGE => REMOVE
-                // gameRoom.onMessage("nukeMessage", msgIdToRemove => {
-                //     const itemIndex = chatMessages.findIndex(
-                //         m => m.msgId === msgIdToRemove
-                //     )
-                //     chatMessages.splice(itemIndex, 1)
-                //     chatMessages = chatMessages
-                // })
+                gameRoom.onMessage("nukeMessage", msgIdToRemove => {
+                    const itemIndex = chatMessages.findIndex(
+                        m => m.msgId === msgIdToRemove
+                    )
+                    chatMessages.splice(itemIndex, 1)
+                    chatMessages = chatMessages
+                })
 
                 // MESSAGE => SUBMIT
                 submitChat = (event, currentRoom) => {
@@ -211,7 +191,7 @@ export const connectToGameServer = playerObject => {
                             room: currentRoom._id,
                         })
                     } catch (err) {
-                        // setUIState(STATE.ERROR, err)
+                        uiState.set(STATE.ERROR)
                         console.dir(err)
                     }
                 }
@@ -221,10 +201,9 @@ export const connectToGameServer = playerObject => {
                 // ******************************
                 gameRoom.onLeave(code => {
                     const exitMsg = "Disconnected from server. Code: " + code
-                    // __ Show notification of disconnection
-                    // setUIState(STATE.DISCONNECTED)
-                    disconnectionCode = code
-                    reconnectionAttempts = 1
+                    uiState.set(STATE.DISCONNECTED)
+                    // disconnectionCode = code
+                    // reconnectionAttempts = 1
                     // TODO: Try to reconnect
                     // const reconnect = i => {
                     //     console.log(
@@ -253,7 +232,7 @@ export const connectToGameServer = playerObject => {
                 // GENERAL ERROR HANDLING
                 // ************************
                 gameRoom.onError((code, message) => {
-                    // setUIState(STATE.ERROR, message)
+                    uiState.set(STATE.ERROR)
                     console.error("Gameserver error:", message)
                 })
 
@@ -263,8 +242,9 @@ export const connectToGameServer = playerObject => {
             .catch(e => {
                 console.dir(e)
                 if (e.code == 4215) {
-                    // setUIState(STATE.ERROR, "You have been banned")
+                    uiState.set(STATE.ERROR)
                 } else {
+                    uiState.set(STATE.ERROR)
                     // setUIState(STATE.ERROR, "FAILED TO CONNECT TO GAMESERVER")
                 }
                 reject(e)

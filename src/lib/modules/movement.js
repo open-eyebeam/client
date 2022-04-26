@@ -20,7 +20,7 @@ export const centeringInlineStyles = writable("transform: translateX(-50%) trans
 
 export const initializeKeyboardHandler = () => {
     return new Promise((resolve, reject) => {
-        // PLAYER => KEY DOWN
+        // Repeated keydown events are throttled to once every 100ms
         document.addEventListener("keydown", throttle(key => {
             // W Key is 87 & Up arrow is 87
             if (key.keyCode === 38) {
@@ -71,7 +71,7 @@ export const initializeKeyboardHandler = () => {
                 get(players)[get(localPlayer).uuid].y,
                 true
             )
-        }, 160))
+        }, 100))
         resolve()
     })
 }

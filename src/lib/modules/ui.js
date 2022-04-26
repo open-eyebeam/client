@@ -21,6 +21,7 @@ export const playSound = writable(false)
 export const activeArticle = writable(false)
 export const activeCity = writable({})
 export const trayOpen = writable(false)
+export const focusPlayer = writable(true)
 export const uiState = writable(STATE.LOADING)
 
 export const toolTipConfig = {

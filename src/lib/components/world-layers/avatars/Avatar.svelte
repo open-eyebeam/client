@@ -4,12 +4,13 @@
   //  Avatar
   //
   // # # # # # # # # # # # # #
-  import { scale } from "svelte/transition"
+  import { fade } from "svelte/transition"
   import { onMount } from "svelte"
   import { chatMessages } from "$lib/modules/engine.js"
   import { GRID_SIZE } from "$lib/modules/world.js"
   import { centeringInlineStyles } from "$lib/modules/movement.js"
   import sample from "lodash/sample.js"
+  import { focusPlayer } from "$lib/modules/ui.js"
 
   $: {
     let lastMessage = $chatMessages[$chatMessages.length - 1]
@@ -93,6 +94,7 @@
   const checkIfCloseToEdge = () => {
     if (avatarEl && avatarEl.parentElement) {
       let avatarRect = avatarEl.getBoundingClientRect()
+      // Check if the avatar is within 100px of the window edges
       if (
         avatarRect.left < 100 ||
         avatarRect.top < 100 ||
@@ -143,10 +145,12 @@
 </script>
 
 <div
-  transition:scale
+  transition:fade
   class="avatar"
+  class:shown={!$focusPlayer || player.self}
   class:self={player.self}
   bind:this={avatarEl}
+  class:blinking={$focusPlayer && player.self}
   id={key}
   alt={player.name}
   style={"transform: translateY(" +
@@ -170,8 +174,8 @@
     top: 0;
     left: 0;
     z-index: 100;
-    // transition: transform 0.1s linear;
     background: $e-ink-medium;
+    opacity: 0;
 
     img {
       width: 100%;
@@ -179,8 +183,29 @@
       image-rendering: pixelated;
     }
 
+    &.shown {
+      opacity: 1;
+    }
+
+    &.blinking {
+      animation: blink 0.65s infinite;
+      animation-timing-function: ease-out;
+    }
+
     &.self {
       z-index: 100000;
+    }
+  }
+
+  @keyframes blink {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
     }
   }
 </style>

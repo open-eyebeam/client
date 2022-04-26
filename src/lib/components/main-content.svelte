@@ -2,6 +2,8 @@
   // # # # # # # # # # # # # #
   //
   //  MAIN CONTENT
+  //  Rich text renderer.
+  //  Taken from the main eyebeam.org site.
   //
   // # # # # # # # # # # # # #
 

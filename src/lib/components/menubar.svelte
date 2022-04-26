@@ -25,7 +25,6 @@
   const cities = loadDataFromMainSite('*[_id == "cities"][0]')
 
   cities.then(c => {
-    // console.log("cities", c)
     if (c.cities && c.cities[0]) {
       activeCity.set(c.cities[0])
     }

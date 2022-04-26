@@ -78,6 +78,13 @@ export const loadAvatars = () => {
     })
 }
 
+export const loadOnboardingTutorial = () => {
+    return new Promise(async (resolve, reject) => {
+        const ot = await loadData('*[_id == "onboarding-tutorial"][0]')
+        resolve(ot)
+    })
+}
+
 const parseStyleProperties = r => {
     let widthStyle = "width: " + (get(r, 'dimensions.width', 0) * GRID_SIZE) + "px;"
     let heightStyle = "height: " + (get(r, 'dimensions.height', 0) * GRID_SIZE) + "px;"

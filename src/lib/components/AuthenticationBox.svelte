@@ -44,7 +44,7 @@
     z-index: 10000;
 
     &:hover {
-      background: $e-ink-medium;
+      opacity: 0.8;
     }
   }
 </style>

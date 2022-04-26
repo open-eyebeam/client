@@ -48,7 +48,6 @@
 
   const updateWeather = (city, country) => {
     showClock = false
-    // NEW YORK
     if (city) {
       fetch(
         "https://api.openweathermap.org/data/2.5/weather?q=" +

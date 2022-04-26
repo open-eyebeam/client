@@ -23,8 +23,8 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: $e-ink-dark;
-    color: $e-ink-light;
+    background: $e-ink-light;
+    color: $e-ink-dark;
     display: flex;
     justify-content: center;
     align-items: center;

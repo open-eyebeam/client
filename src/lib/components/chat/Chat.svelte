@@ -4,13 +4,14 @@
   //  Chat
   //
   // # # # # # # # # # # # # #
-
-  // *** COMPONENTS
   import { createEventDispatcher } from "svelte"
   const dispatch = createEventDispatcher()
 
   // *** VARIABLES
   let chatInputValue = ""
+
+  // *** PROPS
+  export let chatMessages = []
 
   const submitChat = () => {
     dispatch("submit", {
@@ -18,9 +19,6 @@
     })
     chatInputValue = ""
   }
-
-  // *** PROPS
-  export let chatMessages = []
 </script>
 
 <div class="chat-container">

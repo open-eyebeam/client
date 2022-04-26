@@ -8,10 +8,11 @@
 
   import { onMount } from "svelte"
   import get from "lodash/get.js"
-  import sample from "lodash/sample.js"
   import has from "lodash/has.js"
   import Cookies from "js-cookie"
 
+  // *** OVERLAYS
+  import Onboarding from "$lib/components/overlays/Onboarding.svelte"
   // *** WORLD LAYERS
   import Room from "$lib/components/world-layers/Room.svelte"
   import Players from "$lib/components/world-layers/Players.svelte"
@@ -68,6 +69,7 @@
     STATE,
     transitionWorldIn,
     transitionWorldOut,
+    focusPlayer,
   } from "$lib/modules/ui.js"
   import {
     nanoid,
@@ -79,6 +81,7 @@
   // *** VARIABLES
   let viewportElement = {}
   let avatars = []
+  let onboardingTutorial = {}
   let newRoomIntroduction = false
 
   $: {
@@ -148,6 +151,47 @@
     }
   }
 
+  const finalSetUp = async (name, avatar) => {
+    // Construct the player object
+    let playerObject = {
+      uuid: $localPlayer.uuid,
+      name: $profile && $profile.name ? $profile.name : name,
+      shape: has($profile, "avatar._ref") ? $profile.avatar._ref : avatar,
+      onboarded: true,
+      room: $currentRoom._id,
+      x: getRandomInt(10, 30),
+      y: getRandomInt(5, 15),
+    }
+
+    // Connect to game server
+    await connectToGameServer(playerObject)
+    infoLogger("✓ (4) Game server connected")
+
+    // Initialize keyboard handler
+    await initializeKeyboardHandler()
+    infoLogger("✓ (5) Keyboard initialized")
+
+    // Initialize streams handler
+    initializeStreamsHandler()
+    infoLogger("✓ (6) Stream listener initialized")
+
+    // Show introduction text
+    if (has($currentRoom, "introductionTexts")) {
+      newRoomIntroduction = $currentRoom.introductionTexts
+    }
+    infoLogger("✓ (7) Show main room introduction")
+
+    // ... done!
+    infoLogger("__ => App loaded")
+    // Cookies.set("open-eyebeam-name", name)
+    // Cookies.set("open-eyebeam-avatar", avatar)
+    uiState.set(STATE.READY)
+    // Focus on the player's avatar
+    setTimeout(() => {
+      focusPlayer.set(false)
+    }, 3000)
+  }
+
   onMount(async () => {
     // Starting up the app...
     infoLogger("__ => App starting...")
@@ -186,42 +230,28 @@
       return lp
     })
 
-    // Construct the player object
-    let playerObject = {
-      uuid: $localPlayer.uuid,
-      name: $profile && $profile.name ? $profile.name : "Test player",
-      shape: has($profile, "avatar._ref")
-        ? $profile.avatar._ref
-        : sample(avatars)._id,
-      onboarded: true,
-      room: $currentRoom._id,
-      x: getRandomInt(10, 30),
-      y: getRandomInt(5, 15),
+    let nameCookie = Cookies.get("open-eyebeam-name")
+    let avatarCookie = Cookies.get("open-eyebeam-avatar")
+
+    if (!nameCookie && !$isAuthenticated) {
+      // If the user is not onboarded, branch off...
+      uiState.set(STATE.ONBOARDING)
+    } else {
+      // ... otherwise, finalize the set up
+      finalSetUp(nameCookie, avatarCookie)
     }
-
-    // Connect to game server
-    await connectToGameServer(playerObject)
-    infoLogger("✓ (4) Game server connected")
-
-    // Initialize keyboard handler
-    await initializeKeyboardHandler()
-    infoLogger("✓ (5) Keyboard initialized")
-
-    // Initialize streams handler
-    initializeStreamsHandler()
-    infoLogger("✓ (6) Stream listener initialized")
-
-    // Show introduction text
-    if (has($currentRoom, "introductionTexts")) {
-      newRoomIntroduction = $currentRoom.introductionTexts
-    }
-    infoLogger("✓ (7) Show main room introduction")
-
-    // ... done!
-    infoLogger("__ => App loaded")
-    uiState.set(STATE.READY)
   })
 </script>
+
+<!-- ONBOARDING -->
+{#if $uiState == STATE.ONBOARDING}
+  <Onboarding
+    {avatars}
+    on:finish={e => {
+      finalSetUp(e.detail.name, e.detail.avatar)
+    }}
+  />
+{/if}
 
 <!-- GAME WORLD -->
 {#if $currentRoom}
