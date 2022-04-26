@@ -173,11 +173,11 @@ export const connectToGameServer = playerObject => {
 
                 // MESSAGE => REMOVE
                 gameRoom.onMessage("nukeMessage", msgIdToRemove => {
-                    const itemIndex = chatMessages.findIndex(
-                        m => m.msgId === msgIdToRemove
-                    )
-                    chatMessages.splice(itemIndex, 1)
-                    chatMessages = chatMessages
+                    // const itemIndex = chatMessages.findIndex(
+                    //     m => m.msgId === msgIdToRemove
+                    // )
+                    // chatMessages.splice(itemIndex, 1)
+                    // chatMessages = chatMessages
                 })
 
                 // MESSAGE => SUBMIT
