@@ -340,7 +340,7 @@
   />
 {/if}
 
-{#if isPhone && !$activeArticle}
+{#if $isPhone && !$activeArticle}
   <PhoneNavigation />
 {/if}
 
