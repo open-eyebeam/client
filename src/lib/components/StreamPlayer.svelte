@@ -4,11 +4,14 @@
   //  Stream Player
   //
   // # # # # # # # # # # # # #
+
+  // Have to include in app.html due to SSR issues
+  // import { PeerTubePlayer } from "@peertube/embed-api"
+  const PeerTubePlayer = window["PeerTubePlayer"]
   import { onMount } from "svelte"
   import { fade } from "svelte/transition"
   import { quartOut } from "svelte/easing"
   import getVideoId from "get-video-id"
-  import { PeerTubePlayer } from "@peertube/embed-api"
   import PlayArrow from "$lib/components/graphics/play-arrow.svelte"
   import PauseBars from "$lib/components/graphics/pause-bars.svelte"
 
