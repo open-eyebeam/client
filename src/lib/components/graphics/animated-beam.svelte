@@ -69,6 +69,7 @@
 
   svg {
     height: 90%;
+    max-width: 70vw;
     path,
     line {
       fill: none;

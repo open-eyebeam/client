@@ -47,9 +47,9 @@
     z-index: 10000;
 
     @include screen-size("small") {
-      bottom: 130px;
-      left: 5px;
-      width: calc(100% - 10px);
+      bottom: 125px;
+      left: 10px;
+      width: calc(100% - 20px);
     }
   }
 

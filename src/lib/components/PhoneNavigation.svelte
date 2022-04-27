@@ -23,7 +23,7 @@
       triggerKey(KEY.LEFT)
     }}
   >
-    <span>LEFT</span>
+    <span>←</span>
   </div>
   <div class="vert">
     <div
@@ -32,7 +32,7 @@
         triggerKey(KEY.UP)
       }}
     >
-      <span>UP</span>
+      <span>↑</span>
     </div>
     <div
       class="key down"
@@ -40,7 +40,7 @@
         triggerKey(KEY.DOWN)
       }}
     >
-      <span>DOWN</span>
+      <span>↓</span>
     </div>
   </div>
   <div
@@ -49,7 +49,7 @@
       triggerKey(KEY.RIGHT)
     }}
   >
-    <span>RIGHT</span>
+    <span>→</span>
   </div>
 </div>
 
@@ -62,27 +62,32 @@
     left: 0;
     width: 100vw;
     height: 120px;
-    background: $e-ink-medium;
-    border-top: 1px solid $e-ink-dark;
-    padding: 5px;
+    backdrop-filter: blur(10px);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
     cursor: pointer;
-    font-size: $font-size-extra-small;
+    font-size: $font-size-medium;
     z-index: 10000;
     display: flex;
+    user-select: none;
   }
 
   .left {
-    height: 100%;
-    width: 30%;
-    background: $e-ink-light;
-    border: 2px solid $e-ink-medium;
+    height: calc(100% - 10px);
+    width: calc(30% - 10px);
+    background: $e-ink-medium;
+    border: 1px solid $e-ink-dark;
+    margin: 5px;
   }
 
   .right {
-    height: 100%;
-    width: 30%;
-    background: $e-ink-light;
-    border: 2px solid $e-ink-medium;
+    height: calc(100% - 10px);
+    width: calc(30% - 10px);
+    background: $e-ink-medium;
+    border: 1px solid $e-ink-dark;
+    margin: 5px;
   }
 
   .vert {
@@ -92,17 +97,25 @@
     flex-direction: column;
 
     .up {
-      height: 50%;
-      width: 100%;
-      background: $e-ink-light;
-      border: 2px solid $e-ink-medium;
+      height: calc(50% - 10px);
+      width: calc(100% - 10px);
+      background: $e-ink-medium;
+      border: 1px solid $e-ink-dark;
+      margin: 5px;
+      span {
+        margin-bottom: 10px;
+      }
     }
 
     .down {
-      height: 50%;
-      width: 100%;
-      background: $e-ink-light;
-      border: 2px solid $e-ink-medium;
+      height: calc(50% - 10px);
+      width: calc(100% - 10px);
+      background: $e-ink-medium;
+      border: 1px solid $e-ink-dark;
+      margin: 5px;
+      span {
+        margin-bottom: 10px;
+      }
     }
   }
 
@@ -111,8 +124,9 @@
     justify-content: center;
     align-items: center;
 
-    &:hover {
-      opacity: 0.8;
+    &:hover,
+    &:active {
+      background: $e-ink-light;
     }
   }
 </style>
