@@ -12,6 +12,7 @@
   @import "src/lib/style/variables.scss";
 
   svg {
+    height: 15px;
     path {
       fill: $e-ink-dark;
     }

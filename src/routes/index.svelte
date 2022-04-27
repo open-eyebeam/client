@@ -279,8 +279,12 @@
 
 <!-- LIVE STREAM -->
 {#each $streams as stream}
-  {#if $currentRoom._id == stream.parentArea._ref || $activeZone._id == stream.parentArea._ref}
-    <StreamPlayer streamUrl={stream.videoUrl} />
+  {#if !$focusPlayer && ($currentRoom._id == stream.parentArea._ref || $activeZone._id == stream.parentArea._ref)}
+    <StreamPlayer
+      streamUrl={stream.videoUrl}
+      audioOnly={stream.audioOnly}
+      title={stream.title}
+    />
   {/if}
 {/each}
 
@@ -314,7 +318,7 @@
   />
 {/if}
 
-{#if !$trayOpen && !$activeArticle && !$roomIntent && !$objectIntent}
+{#if !$focusPlayer && !$trayOpen && !$activeArticle && !$roomIntent && !$objectIntent}
   {#if newRoomIntroduction}
     <Caption
       text={newRoomIntroduction}
@@ -331,7 +335,7 @@
 {/if}
 
 <!-- CHAT-->
-{#if !$trayOpen && !$activeArticle}
+{#if !$focusPlayer && !$trayOpen && !$activeArticle}
   <Chat
     chatMessages={$chatMessages.filter(m => m.room === $currentRoom._id)}
     on:submit={e => {

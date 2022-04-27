@@ -130,7 +130,7 @@
   .options {
     position: fixed;
     top: 40px;
-    right: 20px;
+    right: 75px;
 
     @include screen-size("small") {
       display: none;

@@ -5,7 +5,6 @@
   //
   // # # # # # # # # # # # # #
   import { onMount } from "svelte"
-  import { fade } from "svelte/transition"
   import { loadOnboardingTutorial } from "$lib/modules/world.js"
   import { renderBlockText } from "$lib/modules/sanity.js"
   import get from "lodash/get.js"
@@ -32,7 +31,7 @@
   })
 </script>
 
-<div class="onboarding-screen" out:fade={{ delay: 500 }}>
+<div class="onboarding-screen">
   <div class="box">
     <!-- TUTORIAL SLIDES -->
     {#if slides}

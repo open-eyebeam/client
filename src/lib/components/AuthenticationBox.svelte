@@ -35,13 +35,16 @@
   .auth-box {
     position: fixed;
     top: 40px;
-    left: 20px;
+    right: 10px;
     background: $e-ink-medium;
     border: 1px solid $e-ink-dark;
-    padding: 5px;
     cursor: pointer;
     font-size: $font-size-extra-small;
     z-index: 10000;
+    width: 60px;
+    height: 30px;
+    text-align: center;
+    line-height: 27px;
 
     @include screen-size("small") {
       display: none;
