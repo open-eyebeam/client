@@ -4,6 +4,7 @@
   //  Chat
   //
   // # # # # # # # # # # # # #
+  import { currentRoom, chatMessages } from "../stores.js"
 
   // *** COMPONENTS
   import { links } from "svelte-routing"
@@ -17,11 +18,16 @@
     dispatch("submit", {
       text: chatInputValue,
     })
+    //TODO: limit message length for each room (e.g. only 100 messages stored at a time)
+    if ($chatMessages[$currentRoom._id] == undefined )  {
+      $chatMessages[$currentRoom._id] = [chatInputValue]
+    } else {
+      $chatMessages[$currentRoom._id].push(chatInputValue)
+    }
     chatInputValue = ""
   }
 
   // *** PROPS
-  export let chatMessages = []
 </script>
 
 <div class="chat-container">
