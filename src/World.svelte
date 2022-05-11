@@ -299,8 +299,10 @@
 
     let playerObject = {
       uuid: $localPlayer.uuid,
-      name: $profile && $profile.username ? $profile.username : "Test player",
-      shape: sample(avatars)._id,
+      name: $profile && $profile.name ? $profile.name : "Test player",
+      shape: has($profile, "avatar._ref")
+        ? $profile.avatar._ref
+        : sample(avatars)._id,
       onboarded: true,
       room: $currentRoom._id,
       x: getRandomInt(10, 30),

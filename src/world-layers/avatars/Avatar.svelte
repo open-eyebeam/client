@@ -7,6 +7,8 @@
   import { fly, scale, fade } from "svelte/transition"
   import { onMount, onDestroy } from "svelte"
   import { chatMessages } from "../../core/core.js"
+  import get from "lodash/get"
+  import sample from "lodash/sample"
   import { GRID_SIZE } from "../../data.js"
 
   $: {
@@ -72,9 +74,13 @@
   export let avatars = []
   export let key = ""
 
+  console.log("avatars", avatars)
+  console.log("player", player)
+
   // *** VARIABLES
   let avatarEl = {}
-  const avatar = avatars.find(a => a._id === player.shape)
+  // let avatar = avatars.find(a => a._id === get(player, "avatar._ref", ""))
+  let avatar = avatars.find(a => a._id === player.shape)
   let gridPosY = player.y * GRID_SIZE
   let gridPosX = player.x * GRID_SIZE
 
@@ -129,7 +135,9 @@
     gridPosX +
     "px)"}
 >
-  <img src={avatar && avatar.imageUrl ? avatar.imageUrl : "/g2.png"} />
+  <img
+    src={avatar && avatar.imageUrl ? avatar.imageUrl : sample(avatars).imageUrl}
+  />
 </div>
 
 <style lang="scss">

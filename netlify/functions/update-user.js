@@ -35,6 +35,9 @@ exports.handler = async (event, context) => {
             current: slug(authObject.username)
         }
     }
+    if (currentDoc.avatar) {
+        doc.avatar = currentDoc.avatar
+    }
     const newDoc = await sanityClient.createOrReplace(doc)
     return {
         statusCode: 200,

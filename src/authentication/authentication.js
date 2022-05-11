@@ -13,19 +13,27 @@ const keycloak = new Keycloak({
     clientId: 'underscore_openeyebeam'
 });
 
-const updateUser = async profile => {
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json")
-    const requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: JSON.stringify(profile),
-        redirect: 'follow'
-    }
-    fetch("https://open-eyebeam.netlify.app/.netlify/functions/update-user", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error))
+// Update the user information stored in the sanity database and return the new user object
+const updateUser = profile => {
+    return new Promise(async (resolve, reject) => {
+        console.log('updateUser', profile);
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json")
+        const requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: JSON.stringify(profile),
+            redirect: 'follow'
+        }
+        const response = await fetch("https://open-eyebeam.netlify.app/.netlify/functions/update-user", requestOptions)
+        if (!response.ok) {
+            const message = `An error has occured: ${response.status}`;
+            throw new Error(message);
+        }
+        const userProfile = await response.json();
+        console.log('userProfile', userProfile);
+        resolve(userProfile);
+    })
 }
 
 export const configureAuthClient = async () => {
@@ -40,10 +48,11 @@ export const configureAuthClient = async () => {
             isAuthenticated.set(authenticated)
             if (authenticated) {
                 keycloak.loadUserProfile()
-                    .then(p => {
+                    .then(async (p) => {
                         console.log('profile', p);
-                        profile.set(p);
-                        updateUser(p);
+                        const fullProfile = await updateUser(p);
+                        console.log('fullProfile', fullProfile);
+                        profile.set(fullProfile);
                     }).catch(() => {
                         console.log('Failed to load user profile');
                     }).finally(() => {
@@ -63,7 +72,6 @@ export const configureAuthClient = async () => {
 export const login = async () => {
     console.log(window.location.origin)
     keycloak.login({ redirectUri: window.location.origin })
-    // keycloak.login({ redirectUri: 'https://open-eyebeam.netlify.app/' })
 }
 
 export const logout = () => {
