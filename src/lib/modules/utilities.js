@@ -216,6 +216,10 @@ export const getCurrentYear = () => {
   return Number(format(new Date(), "yyyy"))
 }
 
+export const isUpcoming = date => {
+  return isFuture(parseISO(date))
+}
+
 // ____
 // ____ Name maps
 // ___

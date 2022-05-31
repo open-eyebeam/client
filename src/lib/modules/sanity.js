@@ -247,3 +247,11 @@ export const loadDataFromMainSite = async (query, params) => {
 const mainSitebuilder = imageUrlBuilder(mainSiteClient)
 
 export const urlForMainSite = source => mainSitebuilder.image(source)
+
+export const renderBlockTextFromMainSite = text =>
+  blocksToHtml({
+    blocks: text,
+    serializers: serializers,
+    projectId: "3knpqano",
+    dataset: "production",
+  })

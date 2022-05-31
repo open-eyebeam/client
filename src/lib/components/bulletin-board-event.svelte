@@ -1,23 +1,33 @@
 <script>
   import { onMount } from "svelte"
   import has from "lodash/has.js"
+  import get from "lodash/get.js"
+  import truncate from "html-truncate"
   import {
     loadDataFromMainSite,
     urlForMainSite,
     urlFor,
+    renderBlockText,
+    renderBlockTextFromMainSite,
   } from "$lib/modules/sanity.js"
-  import Blocks from "$lib/components/blocks/blocks.svelte"
-  import { dateTimeFormat } from "$lib/modules/utilities.js"
+  import { dateTimeFormat, isUpcoming } from "$lib/modules/utilities.js"
   export let event = {}
 
   let post = false
+  let description = ""
+
   onMount(async () => {
     if (event.importEvent) {
       post = await loadDataFromMainSite(
         "*[_id == '" + event.importedEvent + "'][0]"
       )
+      description = truncate(
+        renderBlockTextFromMainSite(get(post, "content.content", [])),
+        800
+      )
     } else {
       post = event
+      description = renderBlockText(get(post, "content.content", []))
     }
   })
 </script>
@@ -38,11 +48,27 @@
       />
     </div>
     <div class="text-container">
+      {#if isUpcoming(post.startDate)}
+        <div>
+          <div class="upcoming">Upcoming</div>
+        </div>
+      {/if}
       <div class="date">{dateTimeFormat(post.startDate)}</div>
       <div class="title">{post.title}</div>
       {#if has(post, "content.content")}
         <div class="description">
-          <Blocks blocks={post.content.content} mainSite={event.importEvent} />
+          {@html description}
+        </div>
+      {/if}
+      {#if event.importEvent}
+        <div class="link-to-full">
+          <a
+            href={"https://eyebeam.netlify.app/events/" +
+              get(post, "slug.current")}
+            target="_blank"
+          >
+            More Information Here
+          </a>
         </div>
       {/if}
     </div>
@@ -54,7 +80,7 @@
 
   .event {
     display: flex;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
     min-height: 200px;
 
     .image-container {
@@ -76,8 +102,15 @@
         display: inline-block;
       }
 
+      .upcoming {
+        background: $e-ink-light;
+        color: $e-ink-dark;
+        margin-bottom: 0.5em;
+        display: inline-block;
+      }
+
       .title {
-        margin-bottom: 1em;
+        margin-bottom: 2em;
       }
     }
   }

@@ -126,7 +126,7 @@
     <div class="inner">
       <h1>Welcome to the Bulletin Board</h1>
       <div class="bulletin-board-actions">
-        <div class="action">Subscribe to Calendar</div>
+        <!-- <div class="action">Subscribe to Calendar</div> -->
       </div>
       <div class="bulletin-board-events">
         {#each article.events as event}
