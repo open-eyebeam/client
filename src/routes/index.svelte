@@ -105,6 +105,17 @@
     const newRoom = $worldObject[id]
     currentRoom.set(newRoom)
 
+    // Set the hash
+    if ($worldObject[id].mainArea) {
+      history.replaceState(null, null, " ")
+    } else {
+      history.replaceState(
+        null,
+        null,
+        "#" + get($worldObject[id], "slug.current", "")
+      )
+    }
+
     // Provisional spawn point
     let targetX = getRandomInt(4, 6)
     let targetY = getRandomInt(4, 6)
@@ -176,6 +187,18 @@
     // Initialize streams handler
     initializeStreamsHandler()
     infoLogger("✓ (6) Stream listener initialized")
+
+    // Check if there is a hash in the URL
+    if (window.location.hash) {
+      const hash = window.location.hash.substring(1)
+      // Find the room with the matching slug
+      for (const [key, value] of Object.entries($worldObject)) {
+        if (get($worldObject[key], "slug.current", "") === hash) {
+          changeRoom(key)
+          break
+        }
+      }
+    }
 
     // Show introduction text
     if (has($currentRoom, "introductionTexts")) {
