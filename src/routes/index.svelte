@@ -11,25 +11,12 @@
   import has from "lodash/has.js"
   import Cookies from "js-cookie"
 
-  // *** OVERLAYS
-  import Onboarding from "$lib/components/overlays/Onboarding.svelte"
   // *** WORLD LAYERS
   import Room from "$lib/components/world-layers/Room.svelte"
   import Players from "$lib/components/world-layers/Players.svelte"
   import Objects from "$lib/components/world-layers/objects/Objects.svelte"
   import Zones from "$lib/components/world-layers/zones/Zones.svelte"
-  import AmbientAudio from "$lib/components/world-layers/AmbientAudio.svelte"
   import Portals from "$lib/components/world-layers/portals/Portals.svelte"
-  import StreamPlayer from "$lib/components/StreamPlayer.svelte"
-  import ArticleBox from "$lib/components/ArticleBox.svelte"
-  // *** TEXT COMPONENTS
-  import RoomEntryBox from "$lib/components/text-components/RoomEntryBox.svelte"
-  import ObjectInspectionBox from "$lib/components/text-components/ObjectInspectionBox.svelte"
-  import Caption from "$lib/components/text-components/Caption.svelte"
-  // *** CHAT
-  import Chat from "$lib/components/chat/Chat.svelte"
-  // *** PHONE
-  import PhoneNavigation from "$lib/components/PhoneNavigation.svelte"
 
   import {
     connectToGameServer,
@@ -208,13 +195,11 @@
 
     // ... done!
     infoLogger("__ => App loaded")
-    Cookies.set("open-eyebeam-name", name)
-    Cookies.set("open-eyebeam-avatar", avatar)
+    // Cookies.set("open-eyebeam-name", name)
+    // Cookies.set("open-eyebeam-avatar", avatar)
     uiState.set(STATE.READY)
     // Focus on the player's avatar for 3 seconds
-    setTimeout(() => {
-      focusPlayer.set(false)
-    }, 3000)
+    focusPlayer.set(false)
     isPhone.set(window.matchMedia("(max-width: 800px)").matches)
   }
 
@@ -256,28 +241,20 @@
       return lp
     })
 
-    let nameCookie = Cookies.get("open-eyebeam-name")
-    let avatarCookie = Cookies.get("open-eyebeam-avatar")
+    // let nameCookie = Cookies.get("open-eyebeam-name")
+    // let avatarCookie = Cookies.get("open-eyebeam-avatar")
 
-    if (!nameCookie && !$isAuthenticated) {
-      // If the user is not onboarded, branch off...
-      uiState.set(STATE.ONBOARDING)
-    } else {
-      // ... otherwise, finalize the set up
-      finalSetUp(nameCookie, avatarCookie)
-    }
+    finalSetUp("visitor", "")
+
+    // if (!nameCookie && !$isAuthenticated) {
+    //   // If the user is not onboarded, branch off...
+    //   uiState.set(STATE.ONBOARDING)
+    // } else {
+    //   // ... otherwise, finalize the set up
+    //   finalSetUp(nameCookie, avatarCookie)
+    // }
   })
 </script>
-
-<!-- ONBOARDING -->
-{#if $uiState == STATE.ONBOARDING}
-  <Onboarding
-    {avatars}
-    on:finish={e => {
-      finalSetUp(e.detail.name, e.detail.avatar)
-    }}
-  />
-{/if}
 
 <!-- GAME WORLD -->
 {#if $currentRoom}
@@ -293,82 +270,6 @@
       <Portals portals={get($currentRoom, "portals", [])} />
     </Room>
   </div>
-{/if}
-
-<!-- AMBIENT AUDIO -->
-{#if has($currentRoom, "backgroundSound.asset") && $playSound}
-  <AmbientAudio soundFile={$currentRoom.backgroundSound} />
-{/if}
-
-<!-- LIVE STREAM -->
-{#each $streams as stream}
-  {#if !$focusPlayer && ($currentRoom._id == stream.parentArea._ref || $activeZone._id == stream.parentArea._ref)}
-    <StreamPlayer
-      streamUrl={stream.videoUrl}
-      audioOnly={stream.audioOnly}
-      title={stream.title}
-    />
-  {/if}
-{/each}
-
-<!-- ROOM ENTRY BOX -->
-{#if $roomIntent}
-  <RoomEntryBox
-    roomIntent={$roomIntent}
-    roomTitle={$worldObject[$roomIntent].title}
-    on:room={e => {
-      if (e.detail.roomId) {
-        changeRoom($roomIntent)
-      }
-      roomIntent.set(false)
-    }}
-  />
-{/if}
-
-<!-- OBJECT INSPECTION BOX -->
-{#if $objectIntent}
-  <ObjectInspectionBox
-    objectIntent={$objectIntent}
-    objectTitle={$currentRoom.objects.find(o => o._id == $objectIntent).title}
-    on:object={e => {
-      if (e.detail.objectId) {
-        activeArticle.set(
-          $currentRoom.objects.find(o => o._id == $objectIntent)
-        )
-      }
-      objectIntent.set(false)
-    }}
-  />
-{/if}
-
-{#if !$focusPlayer && !$trayOpen && !$activeArticle && !$roomIntent && !$objectIntent}
-  {#if newRoomIntroduction}
-    <Caption
-      text={newRoomIntroduction}
-      on:close={e => {
-        newRoomIntroduction = false
-      }}
-    />
-  {/if}
-{/if}
-
-<!-- ARTICLE BOX -->
-{#if $activeArticle}
-  <ArticleBox article={$activeArticle} />
-{/if}
-
-<!-- CHAT-->
-{#if !$focusPlayer && !$trayOpen && !$activeArticle}
-  <Chat
-    chatMessages={$chatMessages.filter(m => m.room === $currentRoom._id)}
-    on:submit={e => {
-      submitChat(e, $currentRoom)
-    }}
-  />
-{/if}
-
-{#if $isPhone && !$activeArticle}
-  <PhoneNavigation />
 {/if}
 
 <style lang="scss">

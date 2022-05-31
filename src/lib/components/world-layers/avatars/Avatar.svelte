@@ -193,6 +193,7 @@
 
     &.self {
       z-index: 100000;
+      display: none;
     }
   }
 
