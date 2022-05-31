@@ -10,6 +10,7 @@
 
   export let avatars = []
   let selectedAvatar = sample(avatars)._id
+  dispatch("select", { id: selectedAvatar})
 </script>
 
 <div class="avatar-picker">
