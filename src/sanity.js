@@ -14,7 +14,7 @@ const tracer = x => {
 }
 
 export const client = sanityClient({
-  projectId: SANITY_PROJECT_ID,
+  projectId: "58ueii0w",
   dataset: "production",
   token: "", // or leave blank to be anonymous user
   useCdn: false, // `false` if you want to ensure fresh data

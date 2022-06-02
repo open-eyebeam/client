@@ -4,10 +4,11 @@
   //  Chat
   //
   // # # # # # # # # # # # # #
-  import { currentRoom, chatMessages } from "../stores.js"
+  import { currentRoom } from "../stores.js"
 
   // *** COMPONENTS
   import { links } from "svelte-routing"
+  import ChatBox from "./ChatBox.svelte"
   import { createEventDispatcher } from "svelte"
   const dispatch = createEventDispatcher()
 
@@ -18,19 +19,22 @@
     dispatch("submit", {
       text: chatInputValue,
     })
+    dispatch("add", {
+      message: chatInputValue
+    })
     //TODO: limit message length for each room (e.g. only 100 messages stored at a time)
-    if ($chatMessages[$currentRoom._id] == undefined )  {
-      $chatMessages[$currentRoom._id] = [chatInputValue]
-    } else {
-      $chatMessages[$currentRoom._id].push(chatInputValue)
-    }
+    //TODO: should this talk to the server?
     chatInputValue = ""
   }
 
+
   // *** PROPS
+
+  export let chatMessages = [];
 </script>
 
 <div class="chat-container">
+<ChatBox messages={chatMessages} />
   <div class="chat-input" use:links>
     <input
       placeholder="Write a message..."
@@ -58,6 +62,7 @@
 
   .chat-input {
     width: 100%;
+    bottom: 0;
     display: flex;
     align-items: center;
     user-select: none;
