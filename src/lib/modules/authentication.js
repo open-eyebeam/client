@@ -30,9 +30,11 @@ export const configureAuthClient = async () => {
         }).then(authenticated => {
             isAuthenticated.set(authenticated)
             if (authenticated) {
+                console.log('Authenticated')
                 Cookies.set("open-eyebeam-logged-in", true)
                 keycloak.loadUserProfile()
                     .then(async (p) => {
+                        console.log('p', p)
                         const fullProfile = await updateUser(p);
                         profile.set(fullProfile);
                     }).catch(() => {
@@ -44,6 +46,7 @@ export const configureAuthClient = async () => {
                 resolve()
             }
         }).catch(e => {
+            console.log('error in auth ->', e)
             reject(e)
         });
     })
