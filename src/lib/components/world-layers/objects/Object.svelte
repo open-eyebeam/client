@@ -63,10 +63,10 @@
     // activeArticle.set(object)
   }}
   tabindex=0
-  aria-label={"Inspect " + object.title}
+  aria-label={object.static ? "Inspect " + object.title : 'A static image of a ' + object.title}
   on:keydown={e => {
     console.log('e: ', e)
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && !object.static) {
       dispatch("object", { objectId: object._id })
      activeArticle.set(
           $currentRoom.objects.find(o => o._id == object._id)
@@ -75,7 +75,7 @@
   }}
 >
   {#if object.iconImage}
-    <img src={urlFor(object.iconImage).quality(100).height(300).url()} />
+    <img src={urlFor(object.iconImage).quality(100).height(300).url()} alt={object.title} / >
   {/if}
 </div>
 
