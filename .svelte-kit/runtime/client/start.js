@@ -110,6 +110,15 @@ function normalize_path(path, trailing_slash) {
 	return path;
 }
 
+class LoadURL extends URL {
+	/** @returns {string} */
+	get hash() {
+		throw new Error(
+			'url.hash is inaccessible from load. Consider accessing hash from the page store within the script tag of your component.'
+		);
+	}
+}
+
 /** @param {HTMLDocument} doc */
 function get_base_uri(doc) {
 	let baseURI = doc.baseURI;
@@ -939,6 +948,7 @@ function create_client({ target, session, base, trailing_slash }) {
 		}
 
 		const session = $session;
+		const load_url = new LoadURL(url);
 
 		if (module.load) {
 			/** @type {import('types').LoadEvent} */
@@ -948,18 +958,7 @@ function create_client({ target, session, base, trailing_slash }) {
 				props: props || {},
 				get url() {
 					node.uses.url = true;
-
-					return new Proxy(url, {
-						get: (target, property) => {
-							if (property === 'hash') {
-								throw new Error(
-									'url.hash is inaccessible from load. Consider accessing hash from the page store within the script tag of your component.'
-								);
-							}
-
-							return Reflect.get(target, property, target);
-						}
-					});
+					return load_url;
 				},
 				get session() {
 					node.uses.session = true;

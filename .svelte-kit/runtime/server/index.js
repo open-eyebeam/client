@@ -1077,6 +1077,7 @@ const updated = {
 };
 
 /**
+ * Creates the HTML response.
  * @param {{
  *   branch: Array<import('./types').Loaded>;
  *   options: import('types').SSROptions;
@@ -2000,6 +2001,15 @@ function normalize_path(path, trailing_slash) {
 	return path;
 }
 
+class LoadURL extends URL {
+	/** @returns {string} */
+	get hash() {
+		throw new Error(
+			'url.hash is inaccessible from load. Consider accessing hash from the page store within the script tag of your component.'
+		);
+	}
+}
+
 /**
  * @param {string} hostname
  * @param {string} [constraint]
@@ -2027,6 +2037,7 @@ function path_matches(path, constraint) {
 }
 
 /**
+ * Calls the user's `load` function.
  * @param {{
  *   event: import('types').RequestEvent;
  *   options: import('types').SSROptions;
@@ -2101,7 +2112,7 @@ async function load_node({
 	} else if (module.load) {
 		/** @type {import('types').LoadEvent} */
 		const load_input = {
-			url: state.prerendering ? create_prerendering_url_proxy(event.url) : event.url,
+			url: state.prerendering ? create_prerendering_url_proxy(event.url) : new LoadURL(event.url),
 			params: event.params,
 			props: shadow.body || {},
 			routeId: event.routeId,
@@ -2661,6 +2672,7 @@ async function respond_with_error({
  */
 
 /**
+ * Gets the nodes, calls `load` for each of them, and then calls render to build the HTML response.
  * @param {{
  *   event: import('types').RequestEvent;
  *   options: SSROptions;

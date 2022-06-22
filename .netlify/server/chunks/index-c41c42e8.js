@@ -62,9 +62,9 @@ function get_store_value(store) {
   subscribe(store, (_) => value = _)();
   return value;
 }
-function custom_event(type, detail, bubbles = false) {
+function custom_event(type, detail, { bubbles = false, cancelable = false } = {}) {
   const e = document.createEvent("CustomEvent");
-  e.initCustomEvent(type, bubbles, false, detail);
+  e.initCustomEvent(type, bubbles, cancelable, detail);
   return e;
 }
 let current_component;
@@ -81,18 +81,21 @@ function onDestroy(fn) {
 }
 function createEventDispatcher() {
   const component = get_current_component();
-  return (type, detail) => {
+  return (type, detail, { cancelable = false } = {}) => {
     const callbacks = component.$$.callbacks[type];
     if (callbacks) {
-      const event = custom_event(type, detail);
+      const event = custom_event(type, detail, { cancelable });
       callbacks.slice().forEach((fn) => {
         fn.call(component, event);
       });
+      return !event.defaultPrevented;
     }
+    return true;
   };
 }
 function setContext(key, context) {
   get_current_component().$$.context.set(key, context);
+  return context;
 }
 Promise.resolve();
 const escaped = {

@@ -25,10 +25,10 @@ __export(stdin_exports, {
 module.exports = __toCommonJS(stdin_exports);
 const manifest = {
   appDir: "_app",
-  assets: /* @__PURE__ */ new Set([".DS_Store", "images/1.gif", "images/favicon.png", "images/g2.png", "images/grid.png", "images/old-g2.png", "images/placeholder.png", "silent-check-sso.html"]),
+  assets: /* @__PURE__ */ new Set(["images/1.gif", "images/favicon.png", "images/g2.png", "images/grid.png", "images/old-g2.png", "images/placeholder.png", "silent-check-sso.html"]),
   mimeTypes: { ".gif": "image/gif", ".png": "image/png", ".html": "text/html" },
   _: {
-    entry: { "file": "start-4bb5b1bd.js", "js": ["start-4bb5b1bd.js", "chunks/index-d2e0416a.js", "chunks/index-34c2ee49.js"], "css": [] },
+    entry: { "file": "start-60e937cc.js", "js": ["start-60e937cc.js", "chunks/index-b35354fd.js", "chunks/index-aa96d99b.js"], "css": [] },
     nodes: [
       () => Promise.resolve().then(() => __toESM(require("./nodes/0.js"))),
       () => Promise.resolve().then(() => __toESM(require("./nodes/1.js"))),
