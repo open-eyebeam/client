@@ -42,6 +42,13 @@
     config.appendTo = portalEl.parentElement
     label = tippy(portalEl, config)
   })
+  $: portal, console.log('portal: ', portal)
+//ACCESSIBILITY
+  import { currentRoom } from "$lib/modules/movement.js"
+  import { worldObject } from "$lib/modules/world.js"
+  import { createEventDispatcher } from "svelte"
+  const dispatch = createEventDispatcher()
+
 </script>
 
 <div
@@ -51,6 +58,15 @@
   id={portal._id}
   alt={portal.title}
   style={inlineStyles}
+  tabindex=0
+  aria-label={"Go to " + portal.title}
+  on:keydown={e => {
+    console.log('e: ', e)
+    if (e.key === "Enter") {
+      dispatch("room", { roomId: portal.targetArea._id })
+    }
+  }}
+
 >
   {#if portal.iconImage}
     <img src={urlFor(portal.iconImage).quality(100).height(100).url()} />

@@ -7,6 +7,7 @@
   class="room"
   id="room"
   style={`${room.inlineStyles} ${$centeringInlineStyles}`}
+  aria-live="polite"
 >
   <slot />
 

@@ -81,9 +81,9 @@
       <!-- BREADCRUMBS -->
       <div class="breadcrumbs">
         <span class="arrow-down"><ArrowDown /></span>
-        <a href="/">
+<h1><a href="/">
           open.eyebeam.org {#if currentRoom.title} / {currentRoom.title}{/if}
-        </a>
+</a></h1>
       </div>
       <!-- TRAY TOGGLE-->
       <div class="tray-toggle" on:click={toggleTray}>
@@ -101,6 +101,9 @@
   @import "src/lib/style/variables.scss";
 
   $HEADER_HEIGHT: 30px;
+  h1 {
+    all: unset;
+  }
 
   header {
     position: absolute;

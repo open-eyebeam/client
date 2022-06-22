@@ -75,7 +75,6 @@
   // *** VARIABLES
   let avatarEl = {}
   let avatar = avatars.find(a => a._id === player.shape)
-  console.log('avatar: ', avatar)
   let gridPosY = player.y * GRID_SIZE
   let gridPosX = player.x * GRID_SIZE
 
