@@ -75,7 +75,7 @@
   }}
 >
   {#if object.iconImage}
-    <img src={urlFor(object.iconImage).quality(100).height(300).url()} alt={object.title} / >
+    <img src={urlFor(object.iconImage).quality(100).height(300).url()} alt={object.title} />
   {/if}
 </div>
 
