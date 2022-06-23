@@ -135,7 +135,7 @@ const longFormatDate = (date) => {
 };
 const client = (0, import_client.default)({
   projectId: SANITY_PROJECT_ID,
-  dataset: "production",
+  dataset: process.env.NODE_ENV === "development" ? "test" : "production",
   apiVersion: "2021-10-05",
   token: "",
   useCdn: false
@@ -309,6 +309,17 @@ const Embed = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots
 
 ${(0, import_has.default)(b, "caption.content") ? `<figcaption>${(0, import_index_c41c42e8.v)(Blocks, "Blocks").$$render($$result, { blocks: b.caption.content }, {}, {})}</figcaption>` : ``}`;
 });
+const Html = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots) => {
+  let { b = {} } = $$props;
+  if ($$props.b === void 0 && $$bindings.b && b !== void 0)
+    $$bindings.b(b);
+  {
+    console.log("html: ", b);
+  }
+  return `${b.children && b.children.length > 0 ? `<div class="${"html-content"}">${(0, import_index_c41c42e8.b)(b.children, (c) => {
+    return `<!-- HTML_TAG_START -->${c.text}<!-- HTML_TAG_END -->`;
+  })}</div>` : ``}`;
+});
 var divider_svelte_svelte_type_style_lang = /* @__PURE__ */ (() => ".divider.svelte-ibl5lr{margin-top:20px;margin-bottom:20px;height:1px;border-top:1px solid #221f20;width:100%}")();
 const css$8 = {
   code: ".divider.svelte-ibl5lr{margin-top:20px;margin-bottom:20px;height:1px;border-top:1px solid #221f20;width:100%}",
@@ -460,7 +471,7 @@ const Blocks = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slot
   if ($$props.mainSite === void 0 && $$bindings.mainSite && mainSite !== void 0)
     $$bindings.mainSite(mainSite);
   return `${(0, import_index_c41c42e8.b)(blocks, (b) => {
-    return `${b._type == "block" ? `${b.style == "logoBlock" ? `${(0, import_index_c41c42e8.v)(LogoBlock, "LogoBlock").$$render($$result, { b }, {}, {})}` : `${b.style == "invertedBlock" ? `${(0, import_index_c41c42e8.v)(InvertedBlock, "InvertedBlock").$$render($$result, { b }, {}, {})}` : `${(0, import_index_c41c42e8.v)(Text, "Text").$$render($$result, { b }, {}, {})}`}`}` : ``}
+    return `${b._type == "block" ? `${b.style == "logoBlock" ? `${(0, import_index_c41c42e8.v)(LogoBlock, "LogoBlock").$$render($$result, { b }, {}, {})}` : `${b.style == "invertedBlock" ? `${(0, import_index_c41c42e8.v)(InvertedBlock, "InvertedBlock").$$render($$result, { b }, {}, {})}` : `${b.style == "html" ? `${(0, import_index_c41c42e8.v)(Html, "HTML").$$render($$result, { b }, {}, {})}` : `${(0, import_index_c41c42e8.v)(Text, "Text").$$render($$result, { b }, {}, {})}`}`}`}` : ``}
   ${b._type == "image" ? `${mainSite ? `${(0, import_index_c41c42e8.v)(ImageFromMainSite, "ImageFromMainSite").$$render($$result, { b }, {}, {})}` : `${(0, import_index_c41c42e8.v)(Image, "Image").$$render($$result, { b }, {}, {})}`}` : ``}
   ${b._type == "embedBlock" ? `${(0, import_index_c41c42e8.v)(Embed, "Embed").$$render($$result, { b }, {}, {})}` : ``}
   ${b._type == "dividerBlock" ? `${(0, import_index_c41c42e8.v)(Divider, "Divider").$$render($$result, { b }, {}, {})}` : ``}

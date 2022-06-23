@@ -28,7 +28,7 @@ const manifest = {
   assets: /* @__PURE__ */ new Set(["images/1.gif", "images/favicon.png", "images/g2.png", "images/grid.png", "images/old-g2.png", "images/placeholder.png", "silent-check-sso.html"]),
   mimeTypes: { ".gif": "image/gif", ".png": "image/png", ".html": "text/html" },
   _: {
-    entry: { "file": "start-60e937cc.js", "js": ["start-60e937cc.js", "chunks/index-b35354fd.js", "chunks/index-aa96d99b.js"], "css": [] },
+    entry: { "file": "start-9e9d34b5.js", "js": ["start-9e9d34b5.js", "chunks/index-b35354fd.js", "chunks/index-aa96d99b.js"], "css": [] },
     nodes: [
       () => Promise.resolve().then(() => __toESM(require("./nodes/0.js"))),
       () => Promise.resolve().then(() => __toESM(require("./nodes/1.js"))),

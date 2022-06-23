@@ -27,7 +27,7 @@ var import_index_c41c42e8 = require("../../chunks/index-c41c42e8.js");
 var import_tween = __toESM(require("@tweenjs/tween.js"));
 var import_has = __toESM(require("lodash/has.js"));
 var import_inRange = __toESM(require("lodash/inRange.js"));
-var import_movement_6c1eaaea = require("../../chunks/movement-6c1eaaea.js");
+var import_movement_33798768 = require("../../chunks/movement-33798768.js");
 var import_slugify = require("slugify");
 var import_get = require("lodash/get.js");
 var import_get_video_id = require("get-video-id");
@@ -104,7 +104,7 @@ const css$7 = {
 };
 const Clock = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots) => {
   let $activeCity, $$unsubscribe_activeCity;
-  $$unsubscribe_activeCity = (0, import_index_c41c42e8.a)(import_movement_6c1eaaea.a, (value) => $activeCity = value);
+  $$unsubscribe_activeCity = (0, import_index_c41c42e8.a)(import_movement_33798768.a, (value) => $activeCity = value);
   const API_KEY = 'a9b67d6b5ed093b28c410750ef6a70cd"';
   let currentTime;
   let currentWeather = { description: "", temperature: 0 };
@@ -189,13 +189,13 @@ const css$4 = {
 const Menubar = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots) => {
   let $trayOpen, $$unsubscribe_trayOpen;
   let $activeCity, $$unsubscribe_activeCity;
-  $$unsubscribe_trayOpen = (0, import_index_c41c42e8.a)(import_movement_6c1eaaea.t, (value) => $trayOpen = value);
-  $$unsubscribe_activeCity = (0, import_index_c41c42e8.a)(import_movement_6c1eaaea.a, (value) => $activeCity = value);
+  $$unsubscribe_trayOpen = (0, import_index_c41c42e8.a)(import_movement_33798768.t, (value) => $trayOpen = value);
+  $$unsubscribe_activeCity = (0, import_index_c41c42e8.a)(import_movement_33798768.a, (value) => $activeCity = value);
   let { currentRoom: currentRoom2 = {} } = $$props;
-  const cities = (0, import_movement_6c1eaaea.l)('*[_id == "cities"][0]');
+  const cities = (0, import_movement_33798768.l)('*[_id == "cities"][0]');
   cities.then((c) => {
     if (c.cities && c.cities[0]) {
-      import_movement_6c1eaaea.a.set(c.cities[0]);
+      import_movement_33798768.a.set(c.cities[0]);
     }
   });
   if ($$props.currentRoom === void 0 && $$bindings.currentRoom && currentRoom2 !== void 0)
@@ -228,7 +228,7 @@ const Menubar = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slo
         ].join(" ").trim()}">${(0, import_index_c41c42e8.e)(city.name)}
               </div>`;
       })}</div>
-          <div class="${"city-text svelte-5j0hcs"}">${(0, import_has.default)(cities2, "content.content", []) ? `<div>${(0, import_index_c41c42e8.v)(import_movement_6c1eaaea.B, "Blocks").$$render($$result, { blocks: cities2.content.content }, {}, {})}</div>` : ``}</div>
+          <div class="${"city-text svelte-5j0hcs"}">${(0, import_has.default)(cities2, "content.content", []) ? `<div>${(0, import_index_c41c42e8.v)(import_movement_33798768.B, "Blocks").$$render($$result, { blocks: cities2.content.content }, {}, {})}</div>` : ``}</div>
         `;
     }(__value);
   }(cities)}</div></div></div>
@@ -249,8 +249,8 @@ const css$3 = {
 const AuthenticationBox = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots) => {
   let $isAuthenticated, $$unsubscribe_isAuthenticated;
   let $profile, $$unsubscribe_profile;
-  $$unsubscribe_isAuthenticated = (0, import_index_c41c42e8.a)(import_movement_6c1eaaea.i, (value) => $isAuthenticated = value);
-  $$unsubscribe_profile = (0, import_index_c41c42e8.a)(import_movement_6c1eaaea.p, (value) => $profile = value);
+  $$unsubscribe_isAuthenticated = (0, import_index_c41c42e8.a)(import_movement_33798768.i, (value) => $isAuthenticated = value);
+  $$unsubscribe_profile = (0, import_index_c41c42e8.a)(import_movement_33798768.p, (value) => $profile = value);
   $$result.css.add(css$3);
   $$unsubscribe_isAuthenticated();
   $$unsubscribe_profile();
@@ -289,12 +289,12 @@ const _layout = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slo
   let $trayOpen, $$unsubscribe_trayOpen;
   let $playSound, $$unsubscribe_playSound;
   let $showLabels, $$unsubscribe_showLabels;
-  $$unsubscribe_uiState = (0, import_index_c41c42e8.a)(import_movement_6c1eaaea.u, (value) => $uiState = value);
-  $$unsubscribe_currentRoom = (0, import_index_c41c42e8.a)(import_movement_6c1eaaea.c, (value) => $currentRoom = value);
-  $$unsubscribe_activeArticle = (0, import_index_c41c42e8.a)(import_movement_6c1eaaea.b, (value) => $activeArticle = value);
-  $$unsubscribe_trayOpen = (0, import_index_c41c42e8.a)(import_movement_6c1eaaea.t, (value) => $trayOpen = value);
-  $$unsubscribe_playSound = (0, import_index_c41c42e8.a)(import_movement_6c1eaaea.d, (value) => $playSound = value);
-  $$unsubscribe_showLabels = (0, import_index_c41c42e8.a)(import_movement_6c1eaaea.s, (value) => $showLabels = value);
+  $$unsubscribe_uiState = (0, import_index_c41c42e8.a)(import_movement_33798768.u, (value) => $uiState = value);
+  $$unsubscribe_currentRoom = (0, import_index_c41c42e8.a)(import_movement_33798768.c, (value) => $currentRoom = value);
+  $$unsubscribe_activeArticle = (0, import_index_c41c42e8.a)(import_movement_33798768.b, (value) => $activeArticle = value);
+  $$unsubscribe_trayOpen = (0, import_index_c41c42e8.a)(import_movement_33798768.t, (value) => $trayOpen = value);
+  $$unsubscribe_playSound = (0, import_index_c41c42e8.a)(import_movement_33798768.d, (value) => $playSound = value);
+  $$unsubscribe_showLabels = (0, import_index_c41c42e8.a)(import_movement_33798768.s, (value) => $showLabels = value);
   $$result.css.add(css);
   $$unsubscribe_uiState();
   $$unsubscribe_currentRoom();
@@ -303,22 +303,22 @@ const _layout = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slo
   $$unsubscribe_playSound();
   $$unsubscribe_showLabels();
   return `
-${$uiState == import_movement_6c1eaaea.S.READY ? `${(0, import_index_c41c42e8.v)(Menubar, "Menubar").$$render($$result, { currentRoom: $currentRoom }, {}, {})}` : ``}
+${$uiState == import_movement_33798768.S.READY ? `${(0, import_index_c41c42e8.v)(Menubar, "Menubar").$$render($$result, { currentRoom: $currentRoom }, {}, {})}` : ``}
 
 
 ${slots.default ? slots.default({}) : ``}
 
 
-${$uiState == import_movement_6c1eaaea.S.READY && !$activeArticle ? `${(0, import_index_c41c42e8.v)(AuthenticationBox, "AuthenticationBox").$$render($$result, {}, {}, {})}` : ``}
+${$uiState == import_movement_33798768.S.READY && !$activeArticle ? `${(0, import_index_c41c42e8.v)(AuthenticationBox, "AuthenticationBox").$$render($$result, {}, {}, {})}` : ``}
 
 
-${$uiState == import_movement_6c1eaaea.S.LOADING ? `${(0, import_index_c41c42e8.v)(LoadingScreen, "LoadingScreen").$$render($$result, {}, {}, {})}` : ``}
+${$uiState == import_movement_33798768.S.LOADING ? `${(0, import_index_c41c42e8.v)(LoadingScreen, "LoadingScreen").$$render($$result, {}, {}, {})}` : ``}
 
 
-${$uiState == import_movement_6c1eaaea.S.ERROR ? `${(0, import_index_c41c42e8.v)(Error2, "Error").$$render($$result, { message: "" }, {}, {})}` : ``}
+${$uiState == import_movement_33798768.S.ERROR ? `${(0, import_index_c41c42e8.v)(Error2, "Error").$$render($$result, { message: "" }, {}, {})}` : ``}
 
 
-${$uiState == import_movement_6c1eaaea.S.DISCONNECTED ? `${(0, import_index_c41c42e8.v)(Reconnection, "Reconnection").$$render($$result, { reconnectionAttempts, disconnectionCode }, {}, {})}` : ``}
+${$uiState == import_movement_33798768.S.DISCONNECTED ? `${(0, import_index_c41c42e8.v)(Reconnection, "Reconnection").$$render($$result, { reconnectionAttempts, disconnectionCode }, {}, {})}` : ``}
 
 
 ${!$trayOpen && !$activeArticle ? `<div class="${"options svelte-1n4mbfs"}"><div class="${"option sound svelte-1n4mbfs"}">${$playSound ? `${(0, import_index_c41c42e8.v)(SoundOn, "SoundOn").$$render($$result, {}, {}, {})}` : `${(0, import_index_c41c42e8.v)(SoundOff, "SoundOff").$$render($$result, {}, {}, {})}`}</div>
