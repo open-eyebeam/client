@@ -1,4 +1,4 @@
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+// * * * * * * * * * * * * * * * * * * * * * * * * * * *
 //
 //  engine.js =>
 //  Handles communication with the colyseus
@@ -33,6 +33,9 @@ export let submitChat = {}
 
 let gameClient = {}
 
+// set how long we should keep messages for (in minutes)
+const TIME_LIMIT = 5
+
 export const connectToGameServer = playerObject => {
     gameClient = new Colyseus.Client(GAME_SERVER_URL)
     return new Promise((resolve, reject) => {
@@ -57,8 +60,8 @@ export const connectToGameServer = playerObject => {
                     players.update(ps => {
                         ps[player.uuid] = {
                             name: player.name,
-                            x: player.x,
-                            y: player.y,
+                            x: 23,
+                            y: 11,
                             room: player.room,
                             npc: player.npc,
                             inTransit: false,
@@ -167,17 +170,25 @@ export const connectToGameServer = playerObject => {
                 gameRoom.state.messages.onAdd = message => {
                     chatMessages.update(cM => {
                         cM.push(message)
+                        cM = cM.filter(message => {
+                            // Remove chat messages older than time limit
+                            let currentTime = Date.now()
+                            if (message.timestamp <= currentTime - (TIME_LIMIT * 60 * 1000)) {
+                                return false;
+                            }
+                            return true;
+                        })
                         return cM
                     })
                 }
 
                 // MESSAGE => REMOVE
                 gameRoom.onMessage("nukeMessage", msgIdToRemove => {
-                    // const itemIndex = chatMessages.findIndex(
-                    //     m => m.msgId === msgIdToRemove
-                    // )
-                    // chatMessages.splice(itemIndex, 1)
-                    // chatMessages = chatMessages
+                     const itemIndex = chatMessages.findIndex(
+                         m => m.msgId === msgIdToRemove
+                     )
+                     chatMessages.splice(itemIndex, 1)
+                     chatMessages = chatMessages
                 })
 
                 // MESSAGE => SUBMIT

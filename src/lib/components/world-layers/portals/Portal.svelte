@@ -42,7 +42,6 @@
     config.appendTo = portalEl.parentElement
     label = tippy(portalEl, config)
   })
-  $: portal, console.log('portal: ', portal)
 //ACCESSIBILITY
   import { currentRoom } from "$lib/modules/movement.js"
   import { worldObject } from "$lib/modules/world.js"

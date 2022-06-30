@@ -5,6 +5,7 @@
   export let room = {};
   // automatically scroll to bottom of box when new message is added
   $: room, console.log('current room: ', room)
+  $: messages, console.log('messages: ', messages)
   let scrollBox = null;
   const scrollMessages = () => {
     scrollBox.scrollTop = scrollBox.scrollHeight
@@ -56,6 +57,9 @@
         display: flex;
         padding: $SPACE_S;
         border-bottom: $border-style;
+        &:last-child {
+          border-bottom: none;
+      }
       }
       .message-text {
         padding-left: $SPACE_S;
