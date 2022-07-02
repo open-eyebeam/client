@@ -4,13 +4,17 @@
   //  Avatar Picker
   //
   // # # # # # # # # # # # # #
+  import { onMount } from "svelte"
   import sample from "lodash/sample.js"
   import { createEventDispatcher } from "svelte"
   const dispatch = createEventDispatcher()
 
   export let avatars = []
   let selectedAvatar = sample(avatars)._id
-  dispatch("select", { id: selectedAvatar})
+
+  onMount(async () => {
+    dispatch("select", { id: selectedAvatar })
+  })
 </script>
 
 <div class="avatar-picker">
