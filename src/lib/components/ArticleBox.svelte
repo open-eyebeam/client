@@ -50,21 +50,23 @@
 </script>
 
 {#if article.contentType === "video"}
-  <div class="viewer-count">{viewCountText}</div>
+  <div aria-live="polite" class="viewer-count">{viewCountText}</div>
 {/if}
 
-<div
+<button
   class="return-button"
+  aria-label="Return"
   on:click={() => {
     activeArticle.set(false)
   }}
 >
   Return
-</div>
+</button>
 
 {#if article.contentType === "video"}
   <div
     class="video"
+    aria-live="polite"
     class:pushed={$trayOpen}
     transition:fade
     on:click={e => {
@@ -79,6 +81,7 @@
   {#if has(article, "content.content")}
     <div
       class="article"
+      aria-live="polite"
       class:pushed={$trayOpen}
       transition:fade
       on:click={e => {
@@ -96,6 +99,7 @@
   <div
     class="article"
     class:pushed={$trayOpen}
+    aria-live="polite"
     transition:fade
     on:click={e => {
       if (e.target.classList.contains("article")) {
@@ -116,6 +120,7 @@
   <div
     class="bulletin-board"
     class:pushed={$trayOpen}
+    aria-live="polite"
     transition:fade
     on:click={e => {
       if (e.target.classList.contains("bulletin-board")) {
@@ -145,6 +150,9 @@
 
 <style lang="scss">
   @import "src/lib/style/variables.scss";
+  button {
+    all: unset;
+  }
 
   .return-button {
     position: fixed;

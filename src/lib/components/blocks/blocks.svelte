@@ -12,6 +12,7 @@
   import InvertedBlock from "./invertedBlock.svelte"
   import LogoBlock from "./logoBlock.svelte"
   import Embed from "./embed.svelte"
+  import HTML from "./html.svelte"
   import Divider from "./divider.svelte"
   import Columns from "./columns.svelte"
   import DonationWidget from "./donationWidget.svelte"
@@ -30,6 +31,8 @@
       <LogoBlock {b} />
     {:else if b.style == "invertedBlock"}
       <InvertedBlock {b} />
+		{:else if b.style == 'html'}
+			<HTML {b} />
     {:else}
       <Text {b} />
     {/if}

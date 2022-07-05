@@ -6,6 +6,8 @@
   // # # # # # # # # # # # # #
   import Portal from "./Portal.svelte"
   import { focusPlayer } from "$lib/modules/ui.js"
+  import { createEventDispatcher } from "svelte"
+  const dispatch = createEventDispatcher()
 
   //   *** PROPS
   export let portals = {}
@@ -13,6 +15,10 @@
 
 {#if !$focusPlayer}
   {#each portals as portal (portal._id)}
-    <Portal {portal} />
+  <Portal {portal} on:room={e => {
+    if (e.detail.roomId) {
+      dispatch("room", {roomId: e.detail.roomId})
+    }
+  }}/>
   {/each}
 {/if}

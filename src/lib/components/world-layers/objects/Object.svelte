@@ -10,6 +10,7 @@
   import get from "lodash/get.js"
   import { showLabels, toolTipConfig } from "$lib/modules/ui.js"
   import { GRID_SIZE } from "$lib/modules/world.js"
+  
 
   //   *** PROPS
   export let object = {}
@@ -41,6 +42,12 @@
     config.theme = object.static ? "static" : "name"
     label = tippy(objectEl, config)
   })
+//ACCESSIBILITY
+  import { currentRoom, objectIntent } from "$lib/modules/movement.js"
+  import { createEventDispatcher } from "svelte"
+  import { activeArticle } from "$lib/modules/ui.js"
+  const dispatch = createEventDispatcher()
+
 </script>
 
 <div
@@ -55,9 +62,20 @@
   on:click={() => {
     // activeArticle.set(object)
   }}
+  tabindex=0
+  aria-label={object.static ? "Inspect " + object.title : 'A static image of a ' + object.title}
+  on:keydown={e => {
+    console.log('e: ', e)
+    if (e.key === "Enter" && !object.static) {
+      dispatch("object", { objectId: object._id })
+     activeArticle.set(
+          $currentRoom.objects.find(o => o._id == object._id)
+        )
+    }
+  }}
 >
   {#if object.iconImage}
-    <img src={urlFor(object.iconImage).quality(100).height(300).url()} />
+    <img src={urlFor(object.iconImage).quality(100).height(300).url()} alt={object.title} />
   {/if}
 </div>
 
@@ -72,6 +90,7 @@
     top: 0;
     left: 0;
     background: $e-ink-medium;
+    z-index: 1;
 
     img {
       height: 100%;

@@ -22,11 +22,13 @@ var stdin_exports = {};
 __export(stdin_exports, {
   css: () => css,
   entry: () => entry,
+  index: () => index,
   js: () => js,
   module: () => module2
 });
 module.exports = __toCommonJS(stdin_exports);
 var module2 = __toESM(require("../entries/pages/__layout.svelte.js"));
-const entry = "pages/__layout.svelte-3a76d9a9.js";
-const js = ["pages/__layout.svelte-3a76d9a9.js", "chunks/index-d2e0416a.js", "chunks/movement-aea35483.js", "chunks/index-34c2ee49.js"];
-const css = ["assets/pages/__layout.svelte-07ad85d0.css", "assets/movement-58d9dccb.css"];
+const index = 0;
+const entry = "pages/__layout.svelte-fd84f1e1.js";
+const js = ["pages/__layout.svelte-fd84f1e1.js", "chunks/index-b35354fd.js", "chunks/movement-65cd065f.js", "chunks/index-aa96d99b.js"];
+const css = ["assets/pages/__layout.svelte-b805c031.css", "assets/movement-48edc8a5.css"];

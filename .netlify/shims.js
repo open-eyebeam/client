@@ -6,9 +6,13 @@ var http = require('node:http');
 var https = require('node:https');
 var zlib = require('node:zlib');
 var Stream = require('node:stream');
+var node_buffer = require('node:buffer');
 var node_util = require('node:util');
 var node_url = require('node:url');
-var net = require('net');
+var node_net = require('node:net');
+require('node:fs');
+require('node:path');
+var crypto = require('crypto');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
@@ -16,6 +20,8 @@ var http__default = /*#__PURE__*/_interopDefaultLegacy(http);
 var https__default = /*#__PURE__*/_interopDefaultLegacy(https);
 var zlib__default = /*#__PURE__*/_interopDefaultLegacy(zlib);
 var Stream__default = /*#__PURE__*/_interopDefaultLegacy(Stream);
+
+var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 /**
  * Returns a `Buffer` instance from the given data URI `uri`.
@@ -69,12 +75,10 @@ function dataUriToBuffer(uri) {
     return buffer;
 }
 
-var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
-
 var ponyfill_es2018 = {exports: {}};
 
 /**
- * web-streams-polyfill v3.2.0
+ * web-streams-polyfill v3.2.1
  */
 
 (function (module, exports) {
@@ -3776,10 +3780,16 @@ var ponyfill_es2018 = {exports: {}};
     const byteLengthSizeFunction = (chunk) => {
         return chunk.byteLength;
     };
-    Object.defineProperty(byteLengthSizeFunction, 'name', {
-        value: 'size',
-        configurable: true
-    });
+    try {
+        Object.defineProperty(byteLengthSizeFunction, 'name', {
+            value: 'size',
+            configurable: true
+        });
+    }
+    catch (_a) {
+        // This property is non-configurable in older browsers, so ignore if this throws.
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/name#browser_compatibility
+    }
     /**
      * A queuing strategy that counts the number of bytes in each chunk.
      *
@@ -3838,10 +3848,16 @@ var ponyfill_es2018 = {exports: {}};
     const countSizeFunction = () => {
         return 1;
     };
-    Object.defineProperty(countSizeFunction, 'name', {
-        value: 'size',
-        configurable: true
-    });
+    try {
+        Object.defineProperty(countSizeFunction, 'name', {
+            value: 'size',
+            configurable: true
+        });
+    }
+    catch (_a) {
+        // This property is non-configurable in older browsers, so ignore if this throws.
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/name#browser_compatibility
+    }
     /**
      * A queuing strategy that counts the number of chunks.
      *
@@ -4329,16 +4345,14 @@ try {
 
 /*! fetch-blob. MIT License. Jimmy Wärting <https://jimmy.warting.se/opensource> */
 
-/** @typedef {import('buffer').Blob} NodeBlob} */
-
 // 64 KiB (same size chrome slice theirs blob into Uint8array's)
 const POOL_SIZE = 65536;
 
-/** @param {(Blob | NodeBlob | Uint8Array)[]} parts */
-async function * toIterator (parts, clone = true) {
+/** @param {(Blob | Uint8Array)[]} parts */
+async function * toIterator (parts, clone) {
   for (const part of parts) {
     if ('stream' in part) {
-      yield * part.stream();
+      yield * (/** @type {AsyncIterableIterator<Uint8Array>} */ (part.stream()));
     } else if (ArrayBuffer.isView(part)) {
       if (clone) {
         let position = part.byteOffset;
@@ -4352,17 +4366,16 @@ async function * toIterator (parts, clone = true) {
       } else {
         yield part;
       }
+    /* c8 ignore next 10 */
     } else {
-      /* c8 ignore start */
       // For blobs that have arrayBuffer but no stream method (nodes buffer.Blob)
-      let position = 0;
-      while (position !== part.size) {
-        const chunk = part.slice(position, Math.min(part.size, position + POOL_SIZE));
+      let position = 0, b = (/** @type {Blob} */ (part));
+      while (position !== b.size) {
+        const chunk = b.slice(position, Math.min(b.size, position + POOL_SIZE));
         const buffer = await chunk.arrayBuffer();
         position += buffer.byteLength;
         yield new Uint8Array(buffer);
       }
-      /* c8 ignore end */
     }
   }
 }
@@ -4372,6 +4385,7 @@ const _Blob = class Blob {
   #parts = []
   #type = ''
   #size = 0
+  #endings = 'transparent'
 
   /**
    * The Blob() constructor returns a new Blob object. The content
@@ -4379,7 +4393,7 @@ const _Blob = class Blob {
    * in the parameter array.
    *
    * @param {*} blobParts
-   * @param {{ type?: string }} [options]
+   * @param {{ type?: string, endings?: string }} [options]
    */
   constructor (blobParts = [], options = {}) {
     if (typeof blobParts !== 'object' || blobParts === null) {
@@ -4406,15 +4420,19 @@ const _Blob = class Blob {
       } else if (element instanceof Blob) {
         part = element;
       } else {
-        part = encoder.encode(element);
+        part = encoder.encode(`${element}`);
       }
 
-      this.#size += ArrayBuffer.isView(part) ? part.byteLength : part.size;
-      this.#parts.push(part);
+      const size = ArrayBuffer.isView(part) ? part.byteLength : part.size;
+      // Avoid pushing empty parts into the array to better GC them
+      if (size) {
+        this.#size += size;
+        this.#parts.push(part);
+      }
     }
 
+    this.#endings = `${options.endings === undefined ? 'transparent' : options.endings}`;
     const type = options.type === undefined ? '' : String(options.type);
-
     this.#type = /^[\x20-\x7E]*$/.test(type) ? type : '';
   }
 
@@ -4480,6 +4498,7 @@ const _Blob = class Blob {
     const it = toIterator(this.#parts, true);
 
     return new globalThis.ReadableStream({
+      // @ts-ignore
       type: 'bytes',
       async pull (ctrl) {
         const chunk = await it.next();
@@ -4610,6 +4629,11 @@ const _File = class File extends Blob$1 {
 
   get [Symbol.toStringTag] () {
     return 'File'
+  }
+
+  static [Symbol.hasInstance] (object) {
+    return !!object && object instanceof Blob$1 &&
+      /^(File)$/.test(object[Symbol.toStringTag])
   }
 };
 
@@ -4753,6 +4777,22 @@ const isAbortSignal = object => {
 	);
 };
 
+/**
+ * isDomainOrSubdomain reports whether sub is a subdomain (or exact match) of
+ * the parent domain.
+ *
+ * Both domains must already be in canonical form.
+ * @param {string|URL} original
+ * @param {string|URL} destination
+ */
+const isDomainOrSubdomain = (destination, original) => {
+	const orig = new URL(original).hostname;
+	const dest = new URL(destination).hostname;
+
+	return orig === dest || orig.endsWith(`.${dest}`);
+};
+
+const pipeline = node_util.promisify(Stream__default["default"].pipeline);
 const INTERNALS$2 = Symbol('Body internals');
 
 /**
@@ -4775,13 +4815,13 @@ class Body {
 			body = null;
 		} else if (isURLSearchParameters(body)) {
 			// Body is a URLSearchParams
-			body = Buffer.from(body.toString());
-		} else if (isBlob(body)) ; else if (Buffer.isBuffer(body)) ; else if (node_util.types.isAnyArrayBuffer(body)) {
+			body = node_buffer.Buffer.from(body.toString());
+		} else if (isBlob(body)) ; else if (node_buffer.Buffer.isBuffer(body)) ; else if (node_util.types.isAnyArrayBuffer(body)) {
 			// Body is ArrayBuffer
-			body = Buffer.from(body);
+			body = node_buffer.Buffer.from(body);
 		} else if (ArrayBuffer.isView(body)) {
 			// Body is ArrayBufferView
-			body = Buffer.from(body.buffer, body.byteOffset, body.byteLength);
+			body = node_buffer.Buffer.from(body.buffer, body.byteOffset, body.byteLength);
 		} else if (body instanceof Stream__default["default"]) ; else if (body instanceof FormData) {
 			// Body is FormData
 			body = formDataToBlob(body);
@@ -4789,12 +4829,12 @@ class Body {
 		} else {
 			// None of the above
 			// coerce to string then buffer
-			body = Buffer.from(String(body));
+			body = node_buffer.Buffer.from(String(body));
 		}
 
 		let stream = body;
 
-		if (Buffer.isBuffer(body)) {
+		if (node_buffer.Buffer.isBuffer(body)) {
 			stream = Stream__default["default"].Readable.from(body);
 		} else if (isBlob(body)) {
 			stream = Stream__default["default"].Readable.from(body.stream());
@@ -4851,7 +4891,7 @@ class Body {
 			return formData;
 		}
 
-		const {toFormData} = await Promise.resolve().then(function () { return require('./multipart-parser-431aff0b.js'); });
+		const {toFormData} = await Promise.resolve().then(function () { return require('./multipart-parser-d6fbdf05.js'); });
 		return toFormData(this.body, ct);
 	}
 
@@ -4862,7 +4902,7 @@ class Body {
 	 */
 	async blob() {
 		const ct = (this.headers && this.headers.get('content-type')) || (this[INTERNALS$2].body && this[INTERNALS$2].body.type) || '';
-		const buf = await this.buffer();
+		const buf = await this.arrayBuffer();
 
 		return new Blob$1([buf], {
 			type: ct
@@ -4875,8 +4915,8 @@ class Body {
 	 * @return  Promise
 	 */
 	async json() {
-		const buffer = await consumeBody(this);
-		return JSON.parse(buffer.toString());
+		const text = await this.text();
+		return JSON.parse(text);
 	}
 
 	/**
@@ -4886,7 +4926,7 @@ class Body {
 	 */
 	async text() {
 		const buffer = await consumeBody(this);
-		return buffer.toString();
+		return new TextDecoder().decode(buffer);
 	}
 
 	/**
@@ -4908,7 +4948,10 @@ Object.defineProperties(Body.prototype, {
 	arrayBuffer: {enumerable: true},
 	blob: {enumerable: true},
 	json: {enumerable: true},
-	text: {enumerable: true}
+	text: {enumerable: true},
+	data: {get: node_util.deprecate(() => {},
+		'data doesn\'t exist, use json(), text(), arrayBuffer(), or body instead',
+		'https://github.com/node-fetch/node-fetch/issues/1000 (response)')}
 });
 
 /**
@@ -4933,12 +4976,12 @@ async function consumeBody(data) {
 
 	// Body is null
 	if (body === null) {
-		return Buffer.alloc(0);
+		return node_buffer.Buffer.alloc(0);
 	}
 
 	/* c8 ignore next 3 */
 	if (!(body instanceof Stream__default["default"])) {
-		return Buffer.alloc(0);
+		return node_buffer.Buffer.alloc(0);
 	}
 
 	// Body is stream
@@ -4965,10 +5008,10 @@ async function consumeBody(data) {
 	if (body.readableEnded === true || body._readableState.ended === true) {
 		try {
 			if (accum.every(c => typeof c === 'string')) {
-				return Buffer.from(accum.join(''));
+				return node_buffer.Buffer.from(accum.join(''));
 			}
 
-			return Buffer.concat(accum, accumBytes);
+			return node_buffer.Buffer.concat(accum, accumBytes);
 		} catch (error) {
 			throw new FetchError(`Could not create Buffer from response body for ${data.url}: ${error.message}`, 'system', error);
 		}
@@ -5048,7 +5091,7 @@ const extractContentType = (body, request) => {
 	}
 
 	// Body is a Buffer (Buffer, ArrayBuffer or ArrayBufferView)
-	if (Buffer.isBuffer(body) || node_util.types.isAnyArrayBuffer(body) || ArrayBuffer.isView(body)) {
+	if (node_buffer.Buffer.isBuffer(body) || node_util.types.isAnyArrayBuffer(body) || ArrayBuffer.isView(body)) {
 		return null;
 	}
 
@@ -5093,7 +5136,7 @@ const getTotalBytes = request => {
 	}
 
 	// Body is Buffer
-	if (Buffer.isBuffer(body)) {
+	if (node_buffer.Buffer.isBuffer(body)) {
 		return body.length;
 	}
 
@@ -5111,15 +5154,15 @@ const getTotalBytes = request => {
  *
  * @param {Stream.Writable} dest The stream to write to.
  * @param obj.body Body object from the Body instance.
- * @returns {void}
+ * @returns {Promise<void>}
  */
-const writeToStream = (dest, {body}) => {
+const writeToStream = async (dest, {body}) => {
 	if (body === null) {
 		// Body is null
 		dest.end();
 	} else {
 		// Body is stream
-		body.pipe(dest);
+		await pipeline(body, dest);
 	}
 };
 
@@ -5129,6 +5172,7 @@ const writeToStream = (dest, {body}) => {
  * Headers class offers convenient helpers
  */
 
+/* c8 ignore next 9 */
 const validateHeaderName = typeof http__default["default"].validateHeaderName === 'function' ?
 	http__default["default"].validateHeaderName :
 	name => {
@@ -5139,6 +5183,7 @@ const validateHeaderName = typeof http__default["default"].validateHeaderName ==
 		}
 	};
 
+/* c8 ignore next 9 */
 const validateHeaderValue = typeof http__default["default"].validateHeaderValue === 'function' ?
 	http__default["default"].validateHeaderValue :
 	(name, value) => {
@@ -5261,8 +5306,8 @@ class Headers extends URLSearchParams {
 						return Reflect.get(target, p, receiver);
 				}
 			}
-			/* c8 ignore next */
 		});
+		/* c8 ignore next */
 	}
 
 	get [Symbol.toStringTag]() {
@@ -5650,7 +5695,7 @@ function isOriginPotentiallyTrustworthy(url) {
 
 	// 4. If origin's host component matches one of the CIDR notations 127.0.0.0/8 or ::1/128 [RFC4632], return "Potentially Trustworthy".
 	const hostIp = url.host.replace(/(^\[)|(]$)/g, '');
-	const hostIPVersion = net.isIP(hostIp);
+	const hostIPVersion = node_net.isIP(hostIp);
 
 	if (hostIPVersion === 4 && /^127\./.test(hostIp)) {
 		return true;
@@ -5883,12 +5928,20 @@ function parseReferrerPolicyFromHeader(headers) {
 	return policy;
 }
 
+/**
+ * Request.js
+ *
+ * Request class contains server only options
+ *
+ * All spec algorithm step numbers are based on https://fetch.spec.whatwg.org/commit-snapshots/ae716822cb3a61843226cd090eefc6589446c1d2/.
+ */
+
 const INTERNALS = Symbol('Request internals');
 
 /**
  * Check if `obj` is an instance of Request.
  *
- * @param  {*} obj
+ * @param  {*} object
  * @return {boolean}
  */
 const isRequest = object => {
@@ -5897,6 +5950,10 @@ const isRequest = object => {
 		typeof object[INTERNALS] === 'object'
 	);
 };
+
+const doBadDataWarn = node_util.deprecate(() => {},
+	'.data is not a valid RequestInit property, use .body instead',
+	'https://github.com/node-fetch/node-fetch/issues/1000 (request)');
 
 /**
  * Request class
@@ -5920,14 +5977,20 @@ class Request extends Body {
 		}
 
 		if (parsedURL.username !== '' || parsedURL.password !== '') {
-			throw new TypeError(`${parsedURL} is an url with embedded credentails.`);
+			throw new TypeError(`${parsedURL} is an url with embedded credentials.`);
 		}
 
 		let method = init.method || input.method || 'GET';
-		method = method.toUpperCase();
+		if (/^(delete|get|head|options|post|put)$/i.test(method)) {
+			method = method.toUpperCase();
+		}
+
+		if ('data' in init) {
+			doBadDataWarn();
+		}
 
 		// eslint-disable-next-line no-eq-null, eqeqeq
-		if (((init.body != null || isRequest(input)) && input.body !== null) &&
+		if ((init.body != null || (isRequest(input) && input.body !== null)) &&
 			(method === 'GET' || method === 'HEAD')) {
 			throw new TypeError('Request with GET/HEAD method cannot have body');
 		}
@@ -6000,14 +6063,17 @@ class Request extends Body {
 		this.referrerPolicy = init.referrerPolicy || input.referrerPolicy || '';
 	}
 
+	/** @returns {string} */
 	get method() {
 		return this[INTERNALS].method;
 	}
 
+	/** @returns {string} */
 	get url() {
 		return node_url.format(this[INTERNALS].parsedURL);
 	}
 
+	/** @returns {Headers} */
 	get headers() {
 		return this[INTERNALS].headers;
 	}
@@ -6016,6 +6082,7 @@ class Request extends Body {
 		return this[INTERNALS].redirect;
 	}
 
+	/** @returns {AbortSignal} */
 	get signal() {
 		return this[INTERNALS].signal;
 	}
@@ -6073,8 +6140,8 @@ Object.defineProperties(Request.prototype, {
 /**
  * Convert a Request to Node.js http request options.
  *
- * @param   Request  A Request instance
- * @return  Object   The options object to be passed to http.request
+ * @param {Request} request - A Request instance
+ * @return The options object to be passed to http.request
  */
 const getNodeRequestOptions = request => {
 	const {parsedURL} = request[INTERNALS];
@@ -6163,6 +6230,7 @@ const getNodeRequestOptions = request => {
 	};
 
 	return {
+		/** @type {URL} */
 		parsedURL,
 		options
 	};
@@ -6175,6 +6243,21 @@ class AbortError extends FetchBaseError {
 	constructor(message, type = 'aborted') {
 		super(message, type);
 	}
+}
+
+/*! node-domexception. MIT License. Jimmy Wärting <https://jimmy.warting.se/opensource> */
+
+if (!globalThis.DOMException) {
+  try {
+    const { MessageChannel } = require('worker_threads'),
+    port = new MessageChannel().port1,
+    ab = new ArrayBuffer();
+    port.postMessage(ab, [ab, ab]);
+  } catch (err) {
+    err.constructor.name === 'DOMException' && (
+      globalThis.DOMException = err.constructor
+    );
+  }
 }
 
 /**
@@ -6240,7 +6323,7 @@ async function fetch(url, options_) {
 		};
 
 		// Send request
-		const request_ = send(parsedURL, options);
+		const request_ = send(parsedURL.toString(), options);
 
 		if (signal) {
 			signal.addEventListener('abort', abortAndFinalize);
@@ -6292,7 +6375,19 @@ async function fetch(url, options_) {
 				const location = headers.get('Location');
 
 				// HTTP fetch step 5.3
-				const locationURL = location === null ? null : new URL(location, request.url);
+				let locationURL = null;
+				try {
+					locationURL = location === null ? null : new URL(location, request.url);
+				} catch {
+					// error here can only be invalid URL in Location: header
+					// do not throw when options.redirect == manual
+					// let the user extract the errorneous redirect URL
+					if (request.redirect !== 'manual') {
+						reject(new FetchError(`uri requested responds with an invalid redirect URL: ${location}`, 'invalid-redirect'));
+						finalize();
+						return;
+					}
+				}
 
 				// HTTP fetch step 5.5
 				switch (request.redirect) {
@@ -6301,11 +6396,7 @@ async function fetch(url, options_) {
 						finalize();
 						return;
 					case 'manual':
-						// Node-fetch-specific step: make manual redirect a bit easier to use by setting the Location header value to the resolved URL.
-						if (locationURL !== null) {
-							headers.set('Location', locationURL);
-						}
-
+						// Nothing to do
 						break;
 					case 'follow': {
 						// HTTP-redirect fetch step 2
@@ -6335,6 +6426,18 @@ async function fetch(url, options_) {
 							referrer: request.referrer,
 							referrerPolicy: request.referrerPolicy
 						};
+
+						// when forwarding sensitive headers like "Authorization",
+						// "WWW-Authenticate", and "Cookie" to untrusted targets,
+						// headers will be ignored when following a redirect to a domain
+						// that is not a subdomain match or exact match of the initial domain.
+						// For example, a redirect from "foo.com" to either "foo.com" or "sub.foo.com"
+						// will forward the sensitive headers, but a redirect to "bar.com" will not.
+						if (!isDomainOrSubdomain(request.url, locationURL)) {
+							for (const name of ['authorization', 'www-authenticate', 'cookie', 'cookie2']) {
+								requestOptions.headers.delete(name);
+							}
+						}
 
 						// HTTP-redirect fetch step 9
 						if (response_.statusCode !== 303 && request.body && options_.body instanceof Stream__default["default"].Readable) {
@@ -6374,8 +6477,13 @@ async function fetch(url, options_) {
 				});
 			}
 
-			let body = Stream.pipeline(response_, new Stream.PassThrough(), reject);
+			let body = Stream.pipeline(response_, new Stream.PassThrough(), error => {
+				if (error) {
+					reject(error);
+				}
+			});
 			// see https://github.com/nodejs/node/pull/29376
+			/* c8 ignore next 3 */
 			if (process.version < 'v12.10') {
 				response_.on('aborted', abortAndFinalize);
 			}
@@ -6419,7 +6527,11 @@ async function fetch(url, options_) {
 
 			// For gzip
 			if (codings === 'gzip' || codings === 'x-gzip') {
-				body = Stream.pipeline(body, zlib__default["default"].createGunzip(zlibOptions), reject);
+				body = Stream.pipeline(body, zlib__default["default"].createGunzip(zlibOptions), error => {
+					if (error) {
+						reject(error);
+					}
+				});
 				response = new Response(body, responseOptions);
 				resolve(response);
 				return;
@@ -6429,20 +6541,48 @@ async function fetch(url, options_) {
 			if (codings === 'deflate' || codings === 'x-deflate') {
 				// Handle the infamous raw deflate response from old servers
 				// a hack for old IIS and Apache servers
-				const raw = Stream.pipeline(response_, new Stream.PassThrough(), reject);
+				const raw = Stream.pipeline(response_, new Stream.PassThrough(), error => {
+					if (error) {
+						reject(error);
+					}
+				});
 				raw.once('data', chunk => {
 					// See http://stackoverflow.com/questions/37519828
-					body = (chunk[0] & 0x0F) === 0x08 ? Stream.pipeline(body, zlib__default["default"].createInflate(), reject) : Stream.pipeline(body, zlib__default["default"].createInflateRaw(), reject);
+					if ((chunk[0] & 0x0F) === 0x08) {
+						body = Stream.pipeline(body, zlib__default["default"].createInflate(), error => {
+							if (error) {
+								reject(error);
+							}
+						});
+					} else {
+						body = Stream.pipeline(body, zlib__default["default"].createInflateRaw(), error => {
+							if (error) {
+								reject(error);
+							}
+						});
+					}
 
 					response = new Response(body, responseOptions);
 					resolve(response);
+				});
+				raw.once('end', () => {
+					// Some old IIS servers return zero-length OK deflate responses, so
+					// 'data' is never emitted. See https://github.com/node-fetch/node-fetch/pull/903
+					if (!response) {
+						response = new Response(body, responseOptions);
+						resolve(response);
+					}
 				});
 				return;
 			}
 
 			// For br
 			if (codings === 'br') {
-				body = Stream.pipeline(body, zlib__default["default"].createBrotliDecompress(), reject);
+				body = Stream.pipeline(body, zlib__default["default"].createBrotliDecompress(), error => {
+					if (error) {
+						reject(error);
+					}
+				});
 				response = new Response(body, responseOptions);
 				resolve(response);
 				return;
@@ -6453,12 +6593,13 @@ async function fetch(url, options_) {
 			resolve(response);
 		});
 
-		writeToStream(request_, request);
+		// eslint-disable-next-line promise/prefer-await-to-then
+		writeToStream(request_, request).catch(reject);
 	});
 }
 
 function fixResponseChunkedTransferBadEnding(request, errorCallback) {
-	const LAST_CHUNK = Buffer.from('0\r\n\r\n');
+	const LAST_CHUNK = node_buffer.Buffer.from('0\r\n\r\n');
 
 	let isChunkedTransfer = false;
 	let properLastChunkReceived = false;
@@ -6485,13 +6626,13 @@ function fixResponseChunkedTransferBadEnding(request, errorCallback) {
 		});
 
 		socket.on('data', buf => {
-			properLastChunkReceived = Buffer.compare(buf.slice(-5), LAST_CHUNK) === 0;
+			properLastChunkReceived = node_buffer.Buffer.compare(buf.slice(-5), LAST_CHUNK) === 0;
 
 			// Sometimes final 0-length chunk and end of message code are in separate packets
 			if (!properLastChunkReceived && previousChunk) {
 				properLastChunkReceived = (
-					Buffer.compare(previousChunk.slice(-3), LAST_CHUNK.slice(0, 3)) === 0 &&
-					Buffer.compare(buf.slice(-2), LAST_CHUNK.slice(3)) === 0
+					node_buffer.Buffer.compare(previousChunk.slice(-3), LAST_CHUNK.slice(0, 3)) === 0 &&
+					node_buffer.Buffer.compare(buf.slice(-2), LAST_CHUNK.slice(3)) === 0
 				);
 			}
 
@@ -6500,33 +6641,28 @@ function fixResponseChunkedTransferBadEnding(request, errorCallback) {
 	});
 }
 
+/** @type {Record<string, any>} */
+const globals = {
+	crypto: crypto.webcrypto,
+	fetch,
+	Response,
+	Request,
+	Headers
+};
+
 // exported for dev/preview and node environments
-function installFetch() {
-	Object.defineProperties(globalThis, {
-		fetch: {
+function installPolyfills() {
+	for (const name in globals) {
+		// TODO use built-in fetch once https://github.com/nodejs/undici/issues/1262 is resolved
+		Object.defineProperty(globalThis, name, {
 			enumerable: true,
 			configurable: true,
-			value: fetch
-		},
-		Response: {
-			enumerable: true,
-			configurable: true,
-			value: Response
-		},
-		Request: {
-			enumerable: true,
-			configurable: true,
-			value: Request
-		},
-		Headers: {
-			enumerable: true,
-			configurable: true,
-			value: Headers
-		}
-	});
+			value: globals[name]
+		});
+	}
 }
 
-installFetch();
+installPolyfills();
 
 exports.File = File;
 exports.FormData = FormData;

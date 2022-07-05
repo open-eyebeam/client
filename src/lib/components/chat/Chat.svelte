@@ -6,7 +6,9 @@
   // # # # # # # # # # # # # #
   import { createEventDispatcher } from "svelte"
   const dispatch = createEventDispatcher()
-
+  import {currentRoom} from '$lib/modules/movement.js'
+  import {STATE, uiState} from '$lib/modules/ui.js'
+  import ChatBox from "./ChatBox.svelte"
   // *** VARIABLES
   let chatInputValue = ""
 
@@ -22,7 +24,8 @@
 </script>
 
 <div class="chat-container">
-  <div class="chat-input">
+    <ChatBox messages={chatMessages} room={$currentRoom}/>
+    <div class="chat-input">
     <input
       placeholder="Write a message..."
       type="[text]"
@@ -68,7 +71,7 @@
       background: $e-ink-medium;
       border: $border-style;
       color: $e-ink-dark;
-      padding: 10px;
+      padding: 0 10px;
       border-radius: 0;
       outline: none;
       height: 40px;
@@ -103,6 +106,7 @@
       cursor: pointer;
       border-radius: 0;
       height: 40px;
+      padding: 10px;
       line-height: 20px;
 
       &.close-chat {

@@ -30,7 +30,7 @@ const sanityClient = (0, import_client.default)({
   projectId: "58ueii0w",
   apiVersion: "2021-10-05",
   dataset: "production",
-  token: "sks0FKkhw72LZL4KXRP8l6qoaB46ujQDA4rjt15yjL6fmGakC0FrlDRCUqr4rZF8R8rQorHqD6Tpe1NraA3BpqkGGELU4w6sCvvqG8H9oBZk4ofFV43DiU64FlGlkjykHhz3QugbQXeYKhqSMA1VuuiL5WzEhbQUuQHOk5TNicMXp8imVZLQ",
+  token: "sks0FKkhw72LZL4KXRP8I6",
   useCdn: false
 });
 const post = async (event) => {
