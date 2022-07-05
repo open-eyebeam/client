@@ -83,6 +83,7 @@
     position: absolute;
     top: 0;
     left: 0;
+    z-index: 1;
     cursor: pointer;
     transition: opacity 0.5s $transition;
     pointer-events: none;

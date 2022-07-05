@@ -90,6 +90,7 @@
     top: 0;
     left: 0;
     background: $e-ink-medium;
+    z-index: 1;
 
     img {
       height: 100%;

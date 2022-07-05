@@ -18,7 +18,7 @@ import { uiState } from './ui';
 export const players = writable({})
 export const chatMessages = writable([])
 
-const GAME_SERVER_URL = "wss://open.eyebeam.dev";
+const GAME_SERVER_URL = "https://game-server.eyebeam.org";
 
 // Public functions
 export let moveTo = {}
@@ -34,7 +34,7 @@ export let submitChat = {}
 let gameClient = {}
 
 // set how long we should keep messages for (in minutes)
-const TIME_LIMIT = 5
+const TIME_LIMIT = 20
 
 export const connectToGameServer = playerObject => {
     gameClient = new Colyseus.Client(GAME_SERVER_URL)
