@@ -7,6 +7,7 @@
   $: room, console.log('current room: ', room)
   $: messages, console.log('messages: ', messages)
   let scrollBox = null;
+  let isMobile, isActive = false;
   const scrollMessages = () => {
     scrollBox.scrollTop = scrollBox.scrollHeight
   }

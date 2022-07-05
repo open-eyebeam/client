@@ -14,6 +14,7 @@
 
   // *** PROPS
   export let chatMessages = []
+  let showMobile = false
 
   const submitChat = () => {
     dispatch("submit", {
@@ -21,9 +22,14 @@
     })
     chatInputValue = ""
   }
+  const showHideMobile = () => {
+    showMobile = !showMobile
+  }
 </script>
 
 <div class="chat-container">
+<button class="mobile-button" class:minimize={showMobile} on:click={showHideMobile}>{showMobile ? 'X' : 'Show chat'}</button>
+<div class="chat-content" class:hidden-mobile={!showMobile}>
     <ChatBox messages={chatMessages} room={$currentRoom}/>
     <div class="chat-input">
     <input
@@ -38,10 +44,14 @@
     <button on:click={submitChat}>Send</button>
   </div>
 </div>
+</div>
+
 
 <style lang="scss">
   @import "src/lib/style/variables.scss";
-
+  .mobile-button {
+    display: none;
+  }
   .chat-container {
     right: 20px;
     bottom: 20px;
@@ -93,7 +103,8 @@
       }
     }
 
-    button {
+      }
+button {
       font-family: $SERIF_STACK;
       font-size: $font-size-small;
       width: 60px;
@@ -114,5 +125,22 @@
         margin-left: $SPACE_S;
       }
     }
+
+  @include screen-size('small') {
+    .mobile-button {
+      display:block;
+      width: 100%;
+    }
+    .hidden-mobile {
+      display:none
+    }
+    .minimize {
+      width: 30px;
+      height: 40px;
+      font-weight: bold;
+      position: absolute;    
+      top: 0px;
+      right: 0px;
+}
   }
 </style>

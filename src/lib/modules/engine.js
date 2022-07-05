@@ -18,7 +18,7 @@ import { uiState } from './ui';
 export const players = writable({})
 export const chatMessages = writable([])
 
-const GAME_SERVER_URL = "https://game-server.eyebeam.org";
+const GAME_SERVER_URL = "wss://game-server.eyebeam.org";
 
 // Public functions
 export let moveTo = {}
