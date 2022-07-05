@@ -217,7 +217,15 @@
     setTimeout(() => {
       focusPlayer.set(false)
     }, 3000)
-    isPhone.set(window.matchMedia("(max-width: 800px)").matches)
+    const userAgent = navigator.userAgent.toLowerCase();
+
+    var isMobile = /iPhone|Android/i.test(navigator.userAgent);
+    console.log(isMobile);
+
+    const isTablet = /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(userAgent);
+                 console.log(isTablet)
+
+    isPhone.set(isTablet || isMobile)
   }
 
   onMount(async () => {
