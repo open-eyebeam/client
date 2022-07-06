@@ -5,16 +5,18 @@
   //
   // # # # # # # # # # # # # #
   import { onMount } from "svelte"
+  import { isMobileOrTablet} from "$lib/modules/utilities.js"
   import { loadOnboardingTutorial } from "$lib/modules/world.js"
   import { renderBlockText } from "$lib/modules/sanity.js"
   import get from "lodash/get.js"
   import AvatarPicker from "$lib/components/AvatarPicker.svelte"
   import { isPhone } from "$lib/modules/ui.js" 
-  $: isPhone, console.log('is phone: ', $isPhone)
   import { createEventDispatcher } from "svelte"
   const dispatch = createEventDispatcher()
 
   export let avatars = []
+
+    isPhone.set(isMobileOrTablet())
 
   let onboardingTutorial = {}
   let slides = false

@@ -1,4 +1,4 @@
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+// * * * * * * * * * * * * * * * * * * * * * * * * * * *
 //
 //  utilities.js =>
 //  Misc. utility functions
@@ -18,6 +18,30 @@ export const infoLogger = (...args) => {
 
 export const errorLogger = (...args) => {
   console.error(...args)
+}
+
+export const isMobileOrTablet = () => {
+    const userAgent = navigator.userAgent.toLowerCase();
+    function iOS() {
+      return [
+        'iPad Simulator',
+        'iPhone Simulator',
+        'iPod Simulator',
+        'iPad',
+        'iPhone',
+        'iPod'
+      ].includes(navigator.platform)
+      // iPad on iOS 13 detection
+      || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+    }
+
+    let isiOs = iOS()
+    let isMobile = /iPhone|Android/i.test(navigator.userAgent);
+
+    let isTablet = /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(userAgent);
+
+return window.matchMedia("(max-width: 800px)").matches || isTablet || isMobile || isiOs || window.matchMedia("(orientation:portrait)").matches
+
 }
 
 const intlFormat = new Intl.DateTimeFormat('en-DE', {
