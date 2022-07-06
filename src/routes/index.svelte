@@ -218,15 +218,26 @@
       focusPlayer.set(false)
     }, 3000)
     const userAgent = navigator.userAgent.toLowerCase();
-    console.log('user agent: ', userAgent)
 
+    function iOS() {
+      return [
+        'iPad Simulator',
+        'iPhone Simulator',
+        'iPod Simulator',
+        'iPad',
+        'iPhone',
+        'iPod'
+      ].includes(navigator.platform)
+      // iPad on iOS 13 detection
+      || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+    }
     var isMobile = /iPhone|Android/i.test(navigator.userAgent);
     console.log(isMobile);
 
     const isTablet = /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(userAgent);
-     console.log(isTablet)
+                 console.log(isTablet)
 
-    isPhone.set(isTablet || isMobile)
+    isPhone.set(window.matchMedia("(max-width: 800px)").matches || isTablet || isMobile || iOS() || window.matchMedia("(orientation:portrait)").matches )
   }
 
   onMount(async () => {
