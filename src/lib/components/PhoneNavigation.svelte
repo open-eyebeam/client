@@ -11,8 +11,18 @@
     LEFT: 37,
     RIGHT: 39,
   }
-  const triggerKey = keyCode => {
-    document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: keyCode }))
+  let nodeUp, nodeDown, nodeLeft, nodeRight;
+  function triggerKey(node, keyCode) {
+    function onmousedown() {
+      const timeout = setInterval(()=> document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: keyCode })), 100);
+      function cancel() {
+        clearInterval(timeout)
+        node.removeEventListener("touchstart", onmousedown, false)
+        node.removeEventListener("touchend", cancel, false)
+      }
+      node.addEventListener("touchend", cancel, false)
+    }
+    node.addEventListener("touchstart", onmousedown, false)
   }
 </script>
 
@@ -20,8 +30,9 @@
   <div
     class="key left"
     on:click={() => {
-      triggerKey(KEY.LEFT)
+      triggerKey(nodeLeft, KEY.LEFT)
     }}
+    bind:this={nodeLeft}
   >
     <span>←</span>
   </div>
@@ -29,16 +40,18 @@
     <div
       class="key up"
       on:click={() => {
-        triggerKey(KEY.UP)
+        triggerKey(nodeUp, KEY.UP)
       }}
+      bind:this={nodeUp}
     >
       <span>↑</span>
     </div>
     <div
       class="key down"
       on:click={() => {
-        triggerKey(KEY.DOWN)
+        triggerKey(nodeDown, KEY.DOWN)
       }}
+      bind:this={nodeDown}
     >
       <span>↓</span>
     </div>
@@ -46,8 +59,9 @@
   <div
     class="key right"
     on:click={() => {
-      triggerKey(KEY.RIGHT)
+      triggerKey(nodeRight, KEY.RIGHT)
     }}
+    bind:this={nodeRight}
   >
     <span>→</span>
   </div>

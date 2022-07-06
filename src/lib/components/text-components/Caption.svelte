@@ -10,6 +10,7 @@
   import { createEventDispatcher } from "svelte"
   import { renderBlockText } from "$lib/modules/sanity.js"
 
+  import { isPhone } from "$lib/modules/ui.js" 
   // *** GRAPHICS
   import TriangleDown from "$lib/components/graphics/triangle-down.svelte"
   const dispatch = createEventDispatcher()
@@ -26,7 +27,7 @@
   }
 </script>
 
-<div class="caption-container">
+<div class="caption-container" class:is-mobile={isPhone}>
   <div
     class="caption-box"
     on:click={e => {
@@ -66,7 +67,7 @@
     max-width: 520px;
     display: flex;
 
-    @include screen-size("small") {
+    &.is-mobile {
       bottom: unset;
       top: 40px;
       left: 5px;
