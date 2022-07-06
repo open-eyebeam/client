@@ -9,6 +9,9 @@
   import {currentRoom} from '$lib/modules/movement.js'
   import {STATE, uiState} from '$lib/modules/ui.js'
   import ChatBox from "./ChatBox.svelte"
+  import { isPhone } from "$lib/modules/ui.js" 
+  $: isPhone, console.log('is phone: ', isPhone)
+
   // *** VARIABLES
   let chatInputValue = ""
 
@@ -27,8 +30,8 @@
   }
 </script>
 
-<div class="chat-container">
-<button class="mobile-button" class:minimize={showMobile} on:click={showHideMobile}>{showMobile ? 'X' : 'Show chat'}</button>
+<div class="chat-container" class:is-mobile={$isPhone}>
+<button class="mobile-button" class:minimize={showMobile} on:click={showHideMobile} >{showMobile ? 'X' : 'Show chat'}</button>
 <div class="chat-content" class:hidden-mobile={!showMobile}>
     <ChatBox messages={chatMessages} room={$currentRoom}/>
     <div class="chat-input">
@@ -59,10 +62,10 @@
     width: 300px;
     z-index: 10000;
 
-    @include screen-size("small") {
+    &.is-mobile {
       bottom: 125px;
-      left: 10px;
-      width: calc(100% - 20px);
+      right: 10px;
+      width: calc(30% - 10px);
     }
   }
 
@@ -71,7 +74,11 @@
     display: flex;
     align-items: center;
     user-select: none;
-
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+   -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
     input {
       font-family: $SERIF_STACK;
       font-size: $font-size-small;
@@ -126,7 +133,7 @@ button {
       }
     }
 
-  @include screen-size('small') {
+  .is-mobile {
     .mobile-button {
       display:block;
       width: 100%;

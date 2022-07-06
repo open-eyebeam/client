@@ -27,7 +27,7 @@
   }
 </script>
 
-<div class="caption-container" class:is-mobile={isPhone}>
+<div class="caption-container" class:is-mobile={$isPhone}>
   <div
     class="caption-box"
     on:click={e => {

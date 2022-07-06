@@ -12,24 +12,24 @@
     RIGHT: 39,
   }
   let nodeUp, nodeDown, nodeLeft, nodeRight;
+  let active;
   function triggerKey(node, keyCode) {
-    function onmousedown() {
-      const timeout = setInterval(()=> document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: keyCode })), 100);
+      const timeout = setInterval(()=> document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: keyCode })), 50);
+      active = node
       function cancel() {
         clearInterval(timeout)
-        node.removeEventListener("touchstart", onmousedown, false)
         node.removeEventListener("touchend", cancel, false)
+        active = ''
       }
       node.addEventListener("touchend", cancel, false)
-    }
-    node.addEventListener("touchstart", onmousedown, false)
   }
 </script>
 
 <div class="phone-navigation">
   <div
     class="key left"
-    on:click={() => {
+      class:active={active == nodeLeft}
+    on:touchstart={() => {
       triggerKey(nodeLeft, KEY.LEFT)
     }}
     bind:this={nodeLeft}
@@ -39,7 +39,9 @@
   <div class="vert">
     <div
       class="key up"
-      on:click={() => {
+
+      class:active={active == nodeUp}
+      on:touchstart={() => {
         triggerKey(nodeUp, KEY.UP)
       }}
       bind:this={nodeUp}
@@ -48,7 +50,8 @@
     </div>
     <div
       class="key down"
-      on:click={() => {
+      class:active={active == nodeDown}
+      on:touchstart={() => {
         triggerKey(nodeDown, KEY.DOWN)
       }}
       bind:this={nodeDown}
@@ -58,7 +61,8 @@
   </div>
   <div
     class="key right"
-    on:click={() => {
+      class:active={active == nodeRight}
+    on:touchstart={() => {
       triggerKey(nodeRight, KEY.RIGHT)
     }}
     bind:this={nodeRight}
@@ -137,9 +141,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
+    user-select: none;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+   -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
     &:hover,
-    &:active {
+    &.active {
       background: $e-ink-light;
     }
   }
