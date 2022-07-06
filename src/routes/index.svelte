@@ -217,8 +217,8 @@
     setTimeout(() => {
       focusPlayer.set(false)
     }, 3000)
+    //FIXME: prob need utils for this
     const userAgent = navigator.userAgent.toLowerCase();
-
     function iOS() {
       return [
         'iPad Simulator',
@@ -231,13 +231,16 @@
       // iPad on iOS 13 detection
       || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
     }
+    let isiOs = iOS()
+    console.log('platform: ', navigator.platform)
+    console.log('user agent: ', navigator.userAgent)
     var isMobile = /iPhone|Android/i.test(navigator.userAgent);
     console.log(isMobile);
 
     const isTablet = /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(userAgent);
-                 console.log(isTablet)
+     console.log(isTablet)
 
-    isPhone.set(window.matchMedia("(max-width: 800px)").matches || isTablet || isMobile || iOS() || window.matchMedia("(orientation:portrait)").matches )
+    isPhone.set(window.matchMedia("(max-width: 800px)").matches || isTablet || isMobile || isiOs || window.matchMedia("(orientation:portrait)").matches )
   }
 
   onMount(async () => {
