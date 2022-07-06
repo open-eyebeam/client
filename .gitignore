@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 /node_modules/
+/.svelte-kit
+/package
 /public/build/
 .DS_Store
 .env
 .env.*
 !.env.example
+
