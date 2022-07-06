@@ -10,6 +10,7 @@
   import get from "lodash/get.js"
   import AvatarPicker from "$lib/components/AvatarPicker.svelte"
   import { isPhone } from "$lib/modules/ui.js" 
+  $: isPhone, console.log('is phone: ', $isPhone)
   import { createEventDispatcher } from "svelte"
   const dispatch = createEventDispatcher()
 
