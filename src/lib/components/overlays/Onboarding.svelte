@@ -9,6 +9,7 @@
   import { renderBlockText } from "$lib/modules/sanity.js"
   import get from "lodash/get.js"
   import AvatarPicker from "$lib/components/AvatarPicker.svelte"
+  import { isPhone } from "$lib/modules/ui.js" 
   import { createEventDispatcher } from "svelte"
   const dispatch = createEventDispatcher()
 
@@ -39,6 +40,9 @@
         {#if i === slideIndex}
           <div class="slide" on:keydown={e => e.key === "Enter" && nextSlide()}>
             {@html renderBlockText(get(slide, "content.content", []))}
+            {#if i === slides.length-1 && $isPhone}
+            <p><strong>This website is best experienced on a laptop or desktop computer. Some content may not be accessible on phones or tablets.</strong></p>
+            {/if}
             <div class="btn next" on:click={nextSlide}>Next</div>
           </div>
         {/if}
