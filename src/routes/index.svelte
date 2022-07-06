@@ -231,6 +231,7 @@
       // iPad on iOS 13 detection
       || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
     }
+
     let isiOs = iOS()
     console.log('platform: ', navigator.platform)
     console.log('user agent: ', navigator.userAgent)
