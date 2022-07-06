@@ -218,12 +218,13 @@
       focusPlayer.set(false)
     }, 3000)
     const userAgent = navigator.userAgent.toLowerCase();
+    console.log('user agent: ', userAgent)
 
     var isMobile = /iPhone|Android/i.test(navigator.userAgent);
     console.log(isMobile);
 
     const isTablet = /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(userAgent);
-                 console.log(isTablet)
+     console.log(isTablet)
 
     isPhone.set(isTablet || isMobile)
   }
