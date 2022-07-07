@@ -11,10 +11,16 @@
 
   export let avatars = []
   let selectedAvatar = sample(avatars)._id
+  $: avatars, console.log('avatars: ', avatars)
 
   onMount(async () => {
     dispatch("select", { id: selectedAvatar })
   })
+  const selectAvatar = (avatar) => {
+    selectedAvatar = avatar._id
+    dispatch("select", { id: avatar._id })
+
+  }
 </script>
 
 <div class="avatar-picker">
@@ -24,12 +30,11 @@
       <div
         class="avatar"
         class:selected={selectedAvatar == avatar._id}
-        on:click={() => {
-          selectedAvatar = avatar._id
-          dispatch("select", { id: avatar._id })
-        }}
+        on:click={selectAvatar(avatar)}
+    on:keydown={e => e.key === "Enter" && selectAvatar(avatar)}
+        tabindex="0"
       >
-        <img src={avatar.imageUrl} />
+        <img src={avatar.imageUrl} alt={avatar.alt} />
       </div>
     {/each}
   </div>

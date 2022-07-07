@@ -17,7 +17,7 @@
   export let objectTitle = ""
 </script>
 
-<div class="caption-container" in:fade>
+<div class="caption-container" in:fade aria-live="polite">
   {objectTitle}
   <ObjectDialog
     text={`Look at ${objectTitle}?`}

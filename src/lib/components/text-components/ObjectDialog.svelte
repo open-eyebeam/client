@@ -16,7 +16,7 @@
   export let objectId = ""
 </script>
 
-<div class="object-dialog-box">
+<div class="object-dialog-box" aria-live="polite">
   <div>{text}</div>
   <div class="multiple-choice">
     <div

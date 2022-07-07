@@ -22,7 +22,7 @@
   <div class="chat-message">The chat is empty, for now.</div>
 {/if}
   {#each messages as message}
-  <div class="chat-message">
+  <div class="chat-message" aria-live="polite">
     <span class="username">{message.name}: </span><span class="message-text"> {message._text}</span>
   </div>
   {/each}

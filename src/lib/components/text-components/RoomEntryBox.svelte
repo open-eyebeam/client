@@ -17,7 +17,7 @@
   export let roomTitle = ""
 </script>
 
-<div class="caption-container" in:fade>
+<div class="caption-container" in:fade aria-live="polite">
   <RoomDialog
     text={`Go to ${roomTitle}?`}
     roomId={roomIntent}

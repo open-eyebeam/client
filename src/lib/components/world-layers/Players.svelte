@@ -12,8 +12,10 @@
   export let avatars = []
 </script>
 
+<div role="group">
 {#each Object.entries(players) as [key, player] (key)}
   {#if player.room === currentRoomId && !player.inTransit}
     <Avatar {player} {key} {avatars} />
   {/if}
 {/each}
+</div>

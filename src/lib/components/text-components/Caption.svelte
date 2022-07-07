@@ -38,6 +38,7 @@
         dispatch("close")
       }
     }}
+    aria-live="polite"
     in:fade={transitionSettings}
     out:fade={{ duration: 100 }}
   >

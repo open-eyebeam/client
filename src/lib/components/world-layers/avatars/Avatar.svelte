@@ -159,9 +159,11 @@
     "px) translateX(" +
     gridPosX +
     "px)"}
+  role="uiitem"
 >
   <img
     src={avatar && avatar.imageUrl ? avatar.imageUrl : sample(avatars).imageUrl}
+    alt={avatar.alt}
   />
 </div>
 

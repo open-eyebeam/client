@@ -17,7 +17,7 @@
   export let roomId = ""
 </script>
 
-<div class="room-dialog-box" class:is-mobile={$isPhone}>
+<div class="room-dialog-box" class:is-mobile={$isPhone} aria-live="polite" >
   <div>{text}</div>
   <div class="multiple-choice">
     <div

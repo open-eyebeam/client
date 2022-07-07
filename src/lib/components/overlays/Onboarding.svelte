@@ -41,19 +41,19 @@
     {#if slides}
       {#each slides as slide, i}
         {#if i === slideIndex}
-          <div class="slide" on:keydown={e => e.key === "Enter" && nextSlide()}>
+          <div class="slide" on:keydown={e => e.key === "Enter" && nextSlide()} aria-live="polite" tabindex="0">
             {@html renderBlockText(get(slide, "content.content", []))}
             {#if i === slides.length-1 && $isPhone}
             <p><strong>This website is best experienced on a laptop or desktop computer. Some content may not be accessible on phones or tablets.</strong></p>
             {/if}
-            <div class="btn next" on:click={nextSlide}>Next</div>
+<button class="btn next" on:click={nextSlide} on:keydown={e => e.key === "Enter" && nextSlide}>Next</button>
           </div>
         {/if}
       {/each}
     {/if}
     <!-- NAME -->
     {#if slideIndex === slides.length}
-      <div class="slide">
+      <div class="slide" on:keydown={e => e.key === "Enter" && nextSlide()} aria-live="polite" tabindex="0">
         <div class="name">What would you like to be called?</div>
         <div class="input-container">
           <input
@@ -65,12 +65,12 @@
             on:keydown={e => e.key === "Enter" && nextSlide()}
           />
         </div>
-        <div class="btn next" on:click={nextSlide}>Next</div>
+        <button class="btn next" on:keydown={e => e.key === "Enter" && nextSlide()} on:click={nextSlide} tabindex="0">Next</button>
       </div>
     {/if}
     <!-- AVATAR -->
     {#if slideIndex === slides.length + 1}
-      <div class="slide" on:keydown={e => e.key === "Enter" && finish()}>
+      <div class="slide" on:keydown={e => e.key === "Enter" && finish()} aria-live="polite" tabindex="0">
         <div class="name">
           <AvatarPicker
             {avatars}
@@ -111,11 +111,20 @@
       font-size: $font-size-small;
       text-align: center;
       user-select: none;
-      max-width: 90%;
+        max-width: 90%;
+      }
     }
-  }
-
+    button {
+      	background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+outline: inherit;    
+}
   .btn {
+    width: 100%;
     background: $e-ink-medium;
     padding: 10px;
     margin-top: 20px;

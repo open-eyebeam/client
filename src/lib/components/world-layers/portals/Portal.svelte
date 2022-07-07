@@ -69,7 +69,7 @@
       dispatch("room", { roomId: portal.targetArea._id })
     }
   }}
-
+role="uiitem"
 >
   {#if portal.iconImage}
     <img src={urlFor(portal.iconImage).quality(100).height(100).url()} />

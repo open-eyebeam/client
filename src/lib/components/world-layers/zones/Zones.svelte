@@ -12,7 +12,9 @@
 </script>
 
 {#if !$focusPlayer}
+<div role="group">
   {#each zones as zone (zone._id)}
     <Zone {zone} />
   {/each}
+</div>
 {/if}

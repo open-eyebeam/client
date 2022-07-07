@@ -300,6 +300,7 @@
         activeArticle.set(false)
       }
     }}
+    role="ui"
   >
     <Room room={$currentRoom}>
       <!-- PLAYERS -->

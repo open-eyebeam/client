@@ -50,6 +50,7 @@
   id={zone._id}
   alt={zone.title}
   style={inlineStyles}
+  role="uiitem"
 >
   {#if zone.bgVideoUrl}
     <video src={zone.bgVideoUrl} autoplay loop muted />

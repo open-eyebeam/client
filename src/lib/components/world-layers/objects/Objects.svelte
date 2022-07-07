@@ -12,7 +12,9 @@
 </script>
 
 {#if !$focusPlayer}
+<div role="group">
   {#each objects as object (object._id)}
     <Object {object} />
   {/each}
+</div>
 {/if}
