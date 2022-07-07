@@ -30,7 +30,7 @@
   }
 </script>
 
-<div class="chat-container" class:is-mobile={$isPhone}>
+<div class="chat-container" class:is-mobile={$isPhone} class:minimize={!showMobile}>
 <button class="mobile-button" class:minimize={showMobile} on:click={showHideMobile} >{showMobile ? 'X' : 'Show chat'}</button>
 <div class="chat-content" class:hidden-mobile={!showMobile}>
     <ChatBox messages={chatMessages} room={$currentRoom}/>
@@ -65,8 +65,12 @@
     &.is-mobile {
       bottom: 125px;
       right: 10px;
+      width: calc(100% - 20px)
+    }
+    &.minimize {
       width: calc(30% - 10px);
     }
+
   }
 
   .chat-input {
