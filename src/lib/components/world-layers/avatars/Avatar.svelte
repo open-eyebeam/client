@@ -177,7 +177,7 @@
     top: 0;
     left: 0;
     z-index: 0;
-    background: $e-ink-medium;
+//    background: $e-ink-medium;
     opacity: 0;
 
     img {
