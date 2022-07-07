@@ -159,7 +159,11 @@
     })
 
     await transitionWorldIn(viewportElement)
+    if (newRoom.showTitles === false) {
+      showLabels.set(false)
+    } else {
     showLabels.set(true)
+    }
     if (has(newRoom, "introductionTexts")) {
       newRoomIntroduction = newRoom.introductionTexts
     } else {

@@ -22,11 +22,11 @@
 
   $: {
     if (label.popper) {
-      if ($showLabels) {
+      //      if ($showLabels) {
         label.show()
-      } else {
-        label.hide()
-      }
+      //      } else {
+      // label.hide()
+      //      }
     }
   }
 
@@ -36,17 +36,21 @@
     ""
   )}; background-image: url("${get(portal, "bgImageUrl", "")}");"`
 
-  onMount(async () => {
-    const config = toolTipConfig
-    config.content = "door to " + get(portal, "targetArea.title", "")
-    config.appendTo = portalEl.parentElement
-    label = tippy(portalEl, config)
-  })
 //ACCESSIBILITY
   import { currentRoom } from "$lib/modules/movement.js"
   import { worldObject } from "$lib/modules/world.js"
   import { createEventDispatcher } from "svelte"
   const dispatch = createEventDispatcher()
+
+  onMount(async () => {
+    const config = toolTipConfig
+        config.content = "door to " + get(portal, "targetArea.title", "")
+    if (!$currentRoom.showTitles) {
+      config.theme = "name"
+      }
+        config.appendTo = portalEl.parentElement
+        label = tippy(portalEl, config)
+  })
 
 </script>
 
