@@ -10,11 +10,13 @@
     renderBlockText,
     renderBlockTextFromMainSite,
   } from "$lib/modules/sanity.js"
+  import Blocks from "$lib/components/blocks/blocks.svelte"
   import { dateTimeFormat, isUpcoming } from "$lib/modules/utilities.js"
   export let event = {}
 
   let post = false
   let description = ""
+  $: post, console.log('post: ', post)
 
   onMount(async () => {
     if (event.importEvent) {
@@ -32,8 +34,10 @@
   })
 </script>
 
+{#if post && post.content.content[0].style != "html"}
+
 <div class="event">
-  {#if post}
+  {#if post.mainImage}
     <div class="image-container">
       <img
         class="image"
@@ -47,15 +51,18 @@
           : urlFor(post.mainImage).quality(90).width(500).height(500).url()}
       />
     </div>
+    {/if}
     <div class="text-container">
-      {#if isUpcoming(post.startDate)}
+      {#if post.startDate && isUpcoming(post.startDate)}
         <div>
           <div class="upcoming">Upcoming</div>
         </div>
       {/if}
+    {#if post.startDate}
       <div class="date">{dateTimeFormat(post.startDate)}</div>
+      {/if}
       <div class="title">{post.title}</div>
-      {#if has(post, "content.content")}
+      {#if has(post, "content.content") && post.content.content[0].style != "html"}
         <div class="description">
           {@html description}
         </div>
@@ -72,11 +79,21 @@
         </div>
       {/if}
     </div>
-  {/if}
 </div>
+  {/if}
+
+    {#if has(post, "content.content") && post.content.content[0].style == "html"}
+    <div class="html-container">
+<Blocks blocks={post.content.content} />
+    </div>
+    {/if}
 
 <style lang="scss">
   @import "src/lib/style/variables.scss";
+    .html-container {
+      width: 100%;
+      min-height: 200px;
+    }
 
   .event {
     display: flex;
@@ -90,7 +107,6 @@
         max-width: 100%;
       }
     }
-
     .text-container {
       padding-left: 10px;
       width: 50%;
