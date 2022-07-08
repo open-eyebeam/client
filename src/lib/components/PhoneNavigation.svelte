@@ -14,12 +14,15 @@
   let nodeUp, nodeDown, nodeLeft, nodeRight;
   let active;
   function triggerKey(node, keyCode) {
+    // send it once
+      document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: keyCode }))
+    //then keep sending it to they stop pressing
       const timeout = setInterval(()=> document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: keyCode })), 150);
       active = node
       function cancel() {
         clearInterval(timeout)
-        node.removeEventListener("touchend", cancel, false)
         active = ''
+        node.removeEventListener("touchend", cancel, false)
       }
       node.addEventListener("touchend", cancel, false)
   }
