@@ -17,7 +17,7 @@
 
   // *** PROPS
   export let chatMessages = []
-  let showMobile = false
+  let showMobile = $isPhone ? false : null;
 
   const submitChat = () => {
     dispatch("submit", {
@@ -30,7 +30,7 @@
   }
 </script>
 
-<div class="chat-container" class:is-mobile={$isPhone} class:minimize={!showMobile}>
+<div class="chat-container" class:is-mobile={$isPhone} class:minimize={$isPhone ? !showMobile : false}>
 <button class="mobile-button" class:minimize={showMobile} on:click={showHideMobile} >{showMobile ? 'X' : 'Show chat'}</button>
 <div class="chat-content" class:hidden-mobile={!showMobile}>
     <ChatBox messages={chatMessages} room={$currentRoom}/>
@@ -65,7 +65,7 @@
     &.is-mobile {
       bottom: 125px;
       right: 10px;
-      width: calc(100% - 20px)
+      width: calc(100% - 20px);
     }
     &.minimize {
       width: calc(30% - 10px);

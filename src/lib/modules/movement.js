@@ -22,8 +22,8 @@ export const initializeKeyboardHandler = () => {
     return new Promise((resolve, reject) => {
         // Repeated keydown events are throttled to once every 100ms
         document.addEventListener("keydown", throttle(key => {
-            // W Key is 87 & Up arrow is 87
-            if (key.keyCode === 38) {
+            // W Key is 87 & Up arrow is 38
+            if (key.keyCode === 38 || key.keyCode === 87) {
                 if (get(players)[get(localPlayer).uuid].y > 0) {
                     players.update(ps => {
                         ps[get(localPlayer).uuid].y -= 1
@@ -33,7 +33,7 @@ export const initializeKeyboardHandler = () => {
 
             }
             // S Key is 83 & Down arrow is 40
-            if (key.keyCode === 40) {
+            if (key.keyCode === 40 || key.keyCode === 83) {
                 if (
                     get(players)[get(localPlayer).uuid].y * GRID_SIZE <
                     get(currentRoom).dimensions.height * GRID_SIZE - 60
@@ -45,7 +45,7 @@ export const initializeKeyboardHandler = () => {
                 }
             }
             // A Key is 65 & Left arrow is 37
-            if (key.keyCode === 37) {
+            if (key.keyCode === 37 || key.keyCode === 65) {
                 if (get(players)[get(localPlayer).uuid].x > 0) {
                     players.update(ps => {
                         ps[get(localPlayer).uuid].x -= 1
@@ -54,7 +54,7 @@ export const initializeKeyboardHandler = () => {
                 }
             }
             // D Key is 68 & Right arrow is 39
-            if (key.keyCode === 39) {
+            if (key.keyCode === 39 || key.keyCode === 68) {
                 if (
                     get(players)[get(localPlayer).uuid].x * GRID_SIZE <
                     get(currentRoom).dimensions.width * GRID_SIZE - 60

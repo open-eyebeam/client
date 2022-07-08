@@ -14,7 +14,7 @@
   let nodeUp, nodeDown, nodeLeft, nodeRight;
   let active;
   function triggerKey(node, keyCode) {
-      const timeout = setInterval(()=> document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: keyCode })), 50);
+      const timeout = setInterval(()=> document.dispatchEvent(new KeyboardEvent("keydown", { keyCode: keyCode })), 150);
       active = node
       function cancel() {
         clearInterval(timeout)
