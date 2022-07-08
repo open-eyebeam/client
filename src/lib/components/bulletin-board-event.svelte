@@ -84,7 +84,8 @@
 
     {#if has(post, "content.content") && post.content.content[0].style == "html"}
     <div class="html-container">
-<Blocks blocks={post.content.content} />
+      <h3>Messages</h3>
+      <Blocks blocks={post.content.content} />
     </div>
     {/if}
 
@@ -95,6 +96,10 @@
       min-height: 200px;
     }
 
+  h3 {
+    margin: 0;
+    text-align: center;
+  }
   .event {
     display: flex;
     margin-bottom: 40px;

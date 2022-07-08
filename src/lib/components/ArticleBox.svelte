@@ -129,7 +129,7 @@
     }}
   >
     <div class="inner">
-      <h1>Welcome to the Bulletin Board</h1>
+      <h1 >Bulletin Board</h1>
       <div class="bulletin-board-actions">
         <!-- <div class="action">Subscribe to Calendar</div> -->
       </div>
@@ -264,6 +264,9 @@
     padding-bottom: 80px;
     justify-content: center;
     cursor: pointer;
+    h1 {
+      margin: 0;
+    }
 
     .inner {
       background: $e-ink-medium;
