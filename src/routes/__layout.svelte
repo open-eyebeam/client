@@ -29,6 +29,13 @@
   // *** VARIABLES
   let reconnectionAttempts = 0
   let disconnectionCode = 0
+  $: {
+    if ($currentRoom.autoplay) {
+      playSound.set(true)
+    } else {
+      playSound.set(false)
+    }
+  }
 </script>
 
 <!-- MENUBAR -->

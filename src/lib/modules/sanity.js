@@ -13,10 +13,9 @@ import get from "lodash/get.js"
 import has from "lodash/has.js"
 import { SANITY_PROJECT_ID } from "$lib/modules/utilities.js"
 
-console.log('project id: ', SANITY_PROJECT_ID)
 export const client = sanityClient({
   projectId: SANITY_PROJECT_ID,
-  dataset: process.env.NODE_ENV === 'development' ? 'production' : 'production',
+  dataset: process.env.NODE_ENV === 'development' ? 'test' : 'production',
   apiVersion: '2021-10-05', // use a UTC date string
   token: "",
   useCdn: false,

@@ -4,8 +4,6 @@
   export let messages = [];
   export let room = {};
   // automatically scroll to bottom of box when new message is added
-  $: room, console.log('current room: ', room)
-  $: messages, console.log('messages: ', messages)
   let scrollBox = null;
   let isMobile, isActive = false;
   const scrollMessages = () => {

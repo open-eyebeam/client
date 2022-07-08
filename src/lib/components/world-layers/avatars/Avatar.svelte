@@ -75,6 +75,10 @@
   // *** VARIABLES
   let avatarEl = {}
   let avatar = avatars.find(a => a._id === player.shape)
+  if (avatar === undefined) {
+    //FIXME: quickfix to make sure deleted avatars aren't gamebreaking, this case should realaunch avatar selection
+    avatar = sample(avatars)
+  }
   let gridPosY = player.y * GRID_SIZE
   let gridPosX = player.x * GRID_SIZE
 
