@@ -23,7 +23,7 @@
   }
 
   let title = "Open Eyebeam"
-  let description = ""
+  let description = "Open Eyebeam is an experimental digital studio space for Eyebeam's artists and the broader Eyebeam community."
   let image = ""
 
   $: {

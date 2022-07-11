@@ -27,7 +27,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 10;
+    z-index: 100001;
 
     @include screen-size("small") {
       bottom: 55px;
