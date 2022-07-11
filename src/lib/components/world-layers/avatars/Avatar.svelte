@@ -165,10 +165,15 @@
     "px)"}
   role="uiitem"
 >
+<div
+
+  class:highlight={player.self}
+>
   <img
     src={avatar && avatar.imageUrl ? avatar.imageUrl : sample(avatars).imageUrl}
     alt={avatar.alt}
   />
+  </div>
 </div>
 
 <style lang="scss">
@@ -178,8 +183,6 @@
     height: 32px;
     width: 32px;
     position: absolute;
-    top: 0;
-    left: 0;
     z-index: 0;
 //    background: $e-ink-medium;
     opacity: 0;
@@ -187,8 +190,10 @@
     img {
       width: 100%;
       height: 100%;
+      opacity: 1 !important;
       image-rendering: pixelated;
     }
+    
 
     &.shown {
       opacity: 1;
@@ -202,7 +207,47 @@
     &.self {
       z-index: 100000;
     }
+    
+
   }
+.highlight {
+  &:before {
+      content: "";
+      position: absolute;
+      top: 0; 
+      left: 0;
+      width: 100%; 
+      height: 100%;  
+      -webkit-animation: 'screen'  infinite;
+      animation: screen infinite;
+      background: -webkit-radial-gradient(center, ellipse cover,  rgba(252,207,3,0.65) 0%,rgba(252,207,3,0.05) 100%);
+      box-shadow: 0px 0px 1px 0px #FF6699;
+      animation-duration: 9s;
+      border-radius: 45%;
+    }
+}
+
+@keyframes screen {
+  from {
+    opacity: 0.80;
+  }
+
+  25%{
+    opacity: 0.90;
+    transform: scale3d(1.35, 1.35, 3);
+  }
+
+  50%{
+    opacity: 0.95;
+  }
+
+  75%{
+    opacity: 0.90;
+  }
+  to{
+  opacity: 0.80;
+  }
+}
 
   @keyframes blink {
     0% {
