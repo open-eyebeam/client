@@ -10,6 +10,8 @@
   import get from "lodash/get.js"
   import { showLabels, toolTipConfig } from "$lib/modules/ui.js"
   import { GRID_SIZE } from "$lib/modules/world.js"
+  // IMPORTS
+  import Blocks from "$lib/components/blocks/blocks.svelte"
   
 
   //   *** PROPS
@@ -47,9 +49,16 @@
   import { createEventDispatcher } from "svelte"
   import { activeArticle } from "$lib/modules/ui.js"
   const dispatch = createEventDispatcher()
+  $: object, (() => {
+
+    if (object.iframeEmbed) {
+      console.log('object: ', object)
+    }
+  })()
 
 </script>
 
+{#if !object.iframeEmbed}
 <div
   transition:fade
   class="object"
@@ -79,7 +88,16 @@ role="uiitem"
     <img src={urlFor(object.iconImage).quality(100).height(300).url()} alt={object.title} />
   {/if}
 </div>
-
+{:else }
+    <div
+      transition:fade
+      class="object"
+      class:static={object.static}
+      style={inlineStyles}
+      >
+      <Blocks blocks={object.content.content} />
+    </div>
+{/if}
 <style lang="scss">
   @import "src/lib/style/variables.scss";
 
