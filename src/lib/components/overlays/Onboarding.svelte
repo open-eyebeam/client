@@ -46,8 +46,8 @@
             {#if i === slides.length-1 && $isPhone}
             <p><strong>This website is best experienced on a laptop or desktop computer. Some content may not be accessible on phones or tablets.</strong></p>
             {/if}
-<button class="btn next" on:click={nextSlide} on:keydown={e => e.key === "Enter" && nextSlide}>Next</button>
-          </div>
+            <button class="btn next" on:click={nextSlide} on:keydown={e => e.key === "Enter" && nextSlide}>Next</button>
+            </div>
         {/if}
       {/each}
     {/if}

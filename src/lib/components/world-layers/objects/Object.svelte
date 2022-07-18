@@ -108,7 +108,7 @@ role="uiitem"
     position: absolute;
     top: 0;
     left: 0;
-    background: $e-ink-medium;
+//    background: $e-ink-medium;
     z-index: 1;
 
     img {

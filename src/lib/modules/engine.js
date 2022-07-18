@@ -62,8 +62,8 @@ export const connectToGameServer = playerObject => {
                     players.update(ps => {
                         ps[player.uuid] = {
                             name: player.name,
-                            x: 23,
-                            y: 11,
+                            x: player.x,
+                            y: player.y,
                             room: player.room,
                             npc: player.npc,
                             inTransit: false,

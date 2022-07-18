@@ -79,9 +79,7 @@
     //FIXME: quickfix to make sure deleted avatars aren't gamebreaking, this case should realaunch avatar selection
     avatar = sample(avatars)
   }
-  let gridPosY = player.y * GRID_SIZE
-  let gridPosX = player.x * GRID_SIZE
-
+  let gridPosY, gridPosX
   $: {
     gridPosY = player.y * GRID_SIZE
     gridPosX = player.x * GRID_SIZE

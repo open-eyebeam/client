@@ -94,6 +94,6 @@ role="uiitem"
     pointer-events: none;
     background-size: contain;
     background-repeat: no-repeat;
-    background-color: $e-ink-medium;
+//    background-color: $e-ink-medium;
   }
 </style>
