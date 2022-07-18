@@ -48,7 +48,7 @@
 
 <!-- AUTH TEST BOX -->
 {#if $uiState == STATE.READY && !$activeArticle}
-  <AuthenticationBox />
+  <!--  <AuthenticationBox /> -->
 {/if}
 
 <!-- LOADING -->

@@ -41,6 +41,7 @@
     margin-right: 20px;
     float: left;
     border: 1px solid $e-ink-dark;
+    display: flex;
     float: left;
     max-width: 50%;
 

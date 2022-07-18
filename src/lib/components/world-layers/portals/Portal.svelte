@@ -53,7 +53,7 @@
   })
 
 </script>
-
+{#if !portal.restricted}
 <div
   transition:fade
   class="portal"
@@ -75,6 +75,7 @@ role="uiitem"
     <img src={urlFor(portal.iconImage).quality(100).height(100).url()} />
   {/if}
 </div>
+{/if} 
 
 <style lang="scss">
   @import "src/lib/style/variables.scss";
