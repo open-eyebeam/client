@@ -14,6 +14,9 @@
   {#if room.bgVideoUrl}
     <video src={room.bgVideoUrl} autoplay loop muted />
   {/if}
+  {#if room.backgroundLink}
+    <iframe src={room.backgroundLink} />
+  {/if}
 </div>
 
 <style lang="scss">
@@ -32,6 +35,11 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
     }
   }
 </style>
