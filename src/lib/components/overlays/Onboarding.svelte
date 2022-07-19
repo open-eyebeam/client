@@ -62,6 +62,7 @@
             placeholder="Name"
             bind:value={name}
             autofocus
+            minlength="1"
             on:keydown={e => e.key === "Enter" && nextSlide()}
           />
         </div>
