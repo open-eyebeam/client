@@ -36,7 +36,9 @@
   let showPeople = PEOPLE_TYPES.includes(page._type) ? true : false
 </script>
 
-<div class="main-content">
+<div class="main-content"
+
+>
   <div class="article">
     <div class="header" class:boxed class:tight>
       <!-- TITLE -->

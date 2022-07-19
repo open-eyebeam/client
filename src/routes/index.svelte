@@ -292,11 +292,6 @@
     class="viewport"
     class:pushed={$trayOpen}
     bind:this={viewportElement}
-    on:keydown={e => {
-      if (e.key === "Escape") {
-        activeArticle.set(false)
-      }
-    }}
     role="ui"
   >
     <Room room={$currentRoom}>

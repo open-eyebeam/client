@@ -36,7 +36,15 @@
       playSound.set(false)
     }
   }
+
 </script>
+<svelte:window on:keydown={e => {
+      if (e.key === "Escape") {
+        activeArticle.set(false)
+      }
+    }}
+  />
+
 
 <!-- MENUBAR -->
 {#if $uiState == STATE.READY}
