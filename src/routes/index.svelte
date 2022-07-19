@@ -101,8 +101,6 @@
   const changeRoom = async id => {
     showLabels.set(false)
     await transitionWorldOut(viewportElement)
-    console.log("world object: ", $worldObject)
-    console.log("room id: ", id)
 
     const oldRoomId = $currentRoom._id
     const newRoom = $worldObject[id]
@@ -267,7 +265,6 @@
     let nameCookie = Cookies.get("open-eyebeam-name")
     let avatarCookie = Cookies.get("open-eyebeam-avatar")
 
-    console.log("avatarCookie", avatarCookie)
 
     if (!nameCookie && !$isAuthenticated) {
       // If the user is not onboarded, branch off...

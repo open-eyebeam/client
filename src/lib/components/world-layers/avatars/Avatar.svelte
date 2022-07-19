@@ -144,7 +144,6 @@
     }
   })
 
-    $: avatar, console.log('avatar ', avatar)
 </script>
 
 <div

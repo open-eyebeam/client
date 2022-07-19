@@ -11,13 +11,11 @@
 
   export let avatars = []
   let selectedAvatar = sample(avatars)._id
-  $: avatars, console.log('avatars: ', avatars)
 
   onMount(async () => {
     dispatch("select", { id: selectedAvatar })
   })
   const selectAvatar = (avatar) => {
-    console.log('selecting avatar: ', avatar)
     selectedAvatar = avatar._id
     dispatch("select", { id: avatar._id })
 

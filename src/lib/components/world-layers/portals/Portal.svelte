@@ -63,7 +63,6 @@
   tabindex=0
   aria-label={"Go to " + portal.title}
   on:keydown={e => {
-    console.log('e: ', e)
     if (e.key === "Enter") {
       dispatch("room", { roomId: portal.targetArea._id })
     }

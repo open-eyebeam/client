@@ -10,7 +10,6 @@
   import {STATE, uiState} from '$lib/modules/ui.js'
   import ChatBox from "./ChatBox.svelte"
   import { isPhone } from "$lib/modules/ui.js" 
-  $: isPhone, console.log('is phone: ', isPhone)
 
   // *** VARIABLES
   let chatInputValue = ""

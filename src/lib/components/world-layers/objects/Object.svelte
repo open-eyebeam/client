@@ -52,7 +52,7 @@
   $: object, (() => {
 
     if (object.iframeEmbed) {
-      console.log('object: ', object)
+      //      console.log('object: ', object)
     }
   })()
 
@@ -73,7 +73,6 @@
   tabindex=0
   aria-label={object.static ?'A static image of a ' + object.title : "Inspect " + object.title }
   on:keydown={e => {
-    console.log('e: ', e)
     if (e.key === "Enter" && !object.static) {
       dispatch("object", { objectId: object._id })
      activeArticle.set(
