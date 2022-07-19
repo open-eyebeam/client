@@ -66,13 +66,12 @@
   bind:this={objectEl}
   class:image={object.iconImage}
   id={object._id}
-  alt={object.title}
   style={inlineStyles}
   on:click={() => {
     // activeArticle.set(object)
   }}
   tabindex=0
-  aria-label={object.static ? "Inspect " + object.title : 'A static image of a ' + object.title}
+  aria-label={object.static ?'A static image of a ' + object.title : "Inspect " + object.title }
   on:keydown={e => {
     console.log('e: ', e)
     if (e.key === "Enter" && !object.static) {
@@ -85,7 +84,7 @@
 role="uiitem"
 >
   {#if object.iconImage}
-    <img src={urlFor(object.iconImage).quality(100).height(300).url()} alt={object.title} />
+    <img src={urlFor(object.iconImage).quality(100).height(300).url()} alt={object.alt} />
   {/if}
 </div>
 {:else }

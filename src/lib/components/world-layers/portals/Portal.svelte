@@ -59,7 +59,6 @@
   class="portal"
   bind:this={portalEl}
   id={portal._id}
-  alt={portal.title}
   style={inlineStyles}
   tabindex=0
   aria-label={"Go to " + portal.title}
@@ -72,7 +71,7 @@
 role="uiitem"
 >
   {#if portal.iconImage}
-    <img src={urlFor(portal.iconImage).quality(100).height(100).url()} />
+    <img src={urlFor(portal.iconImage).quality(100).height(100).url()} alt={portal.alt} />
   {/if}
 </div>
 {/if} 
