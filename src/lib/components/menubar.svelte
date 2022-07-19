@@ -7,6 +7,7 @@
 
   // __ IMPORT
   import Clock from "$lib/components/Clock.svelte"
+  import sample from "lodash/sample.js"
   import { loadDataFromMainSite } from "$lib/modules/sanity.js"
   import has from "lodash/has.js"
 
@@ -26,7 +27,7 @@
 
   cities.then(c => {
     if (c.cities && c.cities[0]) {
-      activeCity.set(c.cities[0])
+      activeCity.set(sample(c.cities))
     }
   })
 
