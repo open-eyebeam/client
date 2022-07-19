@@ -24,7 +24,7 @@
 
   let title = "Open Eyebeam"
   let description = "Open Eyebeam is an experimental digital studio space for Eyebeam's artists and the broader Eyebeam community."
-  let image = ""
+  let image = "/images/open_eyebeam.png"
 
   $: {
     if (has(post, "name") && !isEmpty(post.name)) {
@@ -76,6 +76,7 @@
             .height(800)
             .width(1200)
             .url()
+    console.log('image: ', image)
   }
 </script>
 
