@@ -8,7 +8,6 @@
 
 	// *** PROPS
 	export let b = {};
-	$: b, console.log('html: ', b)
 </script>
 
 {#if b.children && b.children.length > 0}
