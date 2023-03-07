@@ -126,15 +126,17 @@
     bottom: 20px;
     position: fixed;
     width: 300px;
-    height: 500px;
+    max-width: 35%;
+    height: 70%;
     z-index: 10001;
 
   }
   .stream-container {
     position: absolute;
-    top: 40px;
+    top: 110px;
     left: 10px;
-    width: 33%;
+    width: 55%;
+    //height: 50%;
     border: 1px solid $e-ink-dark;
     z-index: 10000;
 
