@@ -39,6 +39,7 @@
       await audioPlayer.ready
       audioPlayer.play()
       playing = true
+      audioPlayer.setResolution(3)
       audioPlayer.addEventListener("playbackStatusUpdate", e => {
         position = (e.position / e.duration).toFixed(4) * 100
       })
