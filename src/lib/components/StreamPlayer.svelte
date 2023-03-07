@@ -17,7 +17,7 @@
 
   // *** PROPS
   export let streamUrl = ""
-  export let audioOnly = true
+  export let audioOnly = false
   export let title = ""
 
   let audioPlayer
@@ -85,8 +85,8 @@
       <div class="peertube-container" class:hidden={audioOnly}>
         <iframe
           class="peertube"
-          width="720"
-          height="480"
+          width="1920"
+          height="1080"
           src={streamUrl + "?api=1"}
           frameborder="no"
           color="#ffffff"
@@ -116,14 +116,25 @@
   </div>
 </div>
 
+
+<iframe class="discord-widget" src="https://e.widgetbot.io/channels/806275264807698482/1082423999092510810" height="300" width="400" style="sidebar:display:none;"></iframe>
 <style lang="scss">
   @import "src/lib/style/variables.scss";
+  .discord-widget {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    position: fixed;
+    width: 300px;
+    height: 500px;
+    z-index: 10001;
 
+  }
   .stream-container {
     position: absolute;
     top: 40px;
     left: 10px;
-    width: 420px;
+    width: 33%;
     border: 1px solid $e-ink-dark;
     z-index: 10000;
 
@@ -150,7 +161,7 @@
         padding-bottom: 56.25%;
         height: 0;
         overflow: hidden;
-        width: 720px;
+        width: 1080px;
 
         &.hidden {
           display: none;
