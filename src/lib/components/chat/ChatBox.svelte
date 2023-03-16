@@ -16,6 +16,7 @@
 </script>
 
 <div class="chat-log" bind:this={scrollBox}>
+  <div class="chat-message chat-pinned"><span class="message-text">For a less ephemeral conversation, <a href="https://discord.gg/QNRHD6Kwhk">join our Discord.</a></span></div>
 {#if messages.length <= 0}
   <div class="chat-message">The chat is empty, for now.</div>
 {/if}
@@ -30,7 +31,8 @@
   @import "src/lib/style/variables.scss";
   .chat-log {
     width: 100%;
-    max-height: 200px;
+    max-height: 300px;
+    min-height: 100px;
     display: flex;
     align-items: center;
     user-select: none;
@@ -40,24 +42,36 @@
     float: left;
     width: 100%;
     display: block;
-    background: $e-ink-medium;
-    border: $border-style;
-    color: $e-ink-dark;
+    background: $e-ink-dark;
+    border: 1px solid $e-ink-medium;
+    color: $e-ink-medium;
     border-radius: 0;
     outline: none;
+    padding-top: 70px;
     margin-right: 6px;
     margin-bottom: $SPACE_S;
     &.smaller {
       width: calc(100% - 110px);
     }
+    a {
+     color: $e-ink-medium;
     }
+    }
+  .chat-pinned {
+    position: absolute;
+    background: $e-ink-dark;
+    border-right: 1px solid $e-ink-medium;
+    z-index: 1;
+    top: 1px;
+    height: 70px;
+  }
     .chat-message {
-        width: 100%;
         display: flex;
         padding: $SPACE_S;
-        border-bottom: $border-style;
+        border-bottom: 1px solid $e-ink-medium;
         &:last-child {
           border-bottom: none;
+          
       }
       }
       .message-text {
