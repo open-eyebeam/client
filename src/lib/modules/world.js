@@ -1,4 +1,4 @@
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+// * * * * * * * * * * * * * * * * * * * * * * * * * * *
 //
 //  world.js =>
 //  Functions to load the data from the Sanity server
@@ -24,7 +24,7 @@ export const buildWorld = () => {
         const portals = await loadData('*[_type == "portal"]{..., targetArea->{...}, "bgImageUrl": backgroundImage.asset->url}')
         const events = await loadData('*[_type == "event"]')
         const bulletinBoard = await loadData('*[_id == "bulletin-board-settings"][0]')
-
+        console.log('sample room: ', rooms[0])
         // --> Construct world object by rooms:
         let innerWorld = {}
         rooms.forEach(room => innerWorld[room._id] = room)
@@ -33,6 +33,7 @@ export const buildWorld = () => {
             innerWorld[key].objects = []
             innerWorld[key].zones = []
             innerWorld[key].portals = []
+            innerWorld[key].chatSettings = value.chatSettings
             // Parse style properties into inline css
             innerWorld[key].inlineStyles = parseStyleProperties(value)
         }

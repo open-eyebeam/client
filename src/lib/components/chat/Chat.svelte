@@ -6,6 +6,7 @@
   // # # # # # # # # # # # # #
   import { createEventDispatcher } from "svelte"
   const dispatch = createEventDispatcher()
+  import { get  } from "svelte/store"
   import {currentRoom} from '$lib/modules/movement.js'
   import {STATE, uiState} from '$lib/modules/ui.js'
   import ChatBox from "./ChatBox.svelte"
@@ -27,10 +28,13 @@
   const showHideMobile = () => {
     showMobile = !showMobile
   }
-</script>
 
-<div class="chat-container" class:is-mobile={$isPhone} class:minimize={$isPhone ? !showMobile : false}>
+$: chatSettings = $currentRoom.chatSettings != undefined ? $currentRoom.chatSettings : {useDiscord: false, discordChannelId: undefined}
+$: discordURL = `https://e.widgetbot.io/channels/806275264807698482/${chatSettings.discordChannelId}` 
+</script>
+<div class:is-mobile={$isPhone} class="chat-container" class:minimize={$isPhone ? !showMobile : false}>
 <button class="mobile-button" class:minimize={showMobile} on:click={showHideMobile} >{showMobile ? 'X' : 'Chat'}</button>
+{#if chatSettings == undefined || chatSettings.useDiscord != true || chatSettings.discordChannelId == undefined}
 <div class="chat-content" class:hidden-mobile={!showMobile}>
     <ChatBox messages={chatMessages} room={$currentRoom}/>
     <div class="chat-input">
@@ -46,16 +50,27 @@
     <button on:click={submitChat}>Send</button>
   </div>
 </div>
+{:else}
+<iframe class="discord-widget" class:hidden-mobile={!showMobile} src={ discordURL } style="sidebar:display:none;"></iframe>
+{/if}
 </div>
-
-
 <style lang="scss">
   @import "src/lib/style/variables.scss";
+  .discord-widget {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    width: 300px;
+    max-width: 35%;
+    height: 70%;
+  }
+
   .mobile-button {
     display: none;
   }
   .chat-container {
     right: 20px;
+    max-height:100%;
     bottom: 20px;
     position: fixed;
     width: 300px;
@@ -68,6 +83,7 @@
     }
     &.minimize {
       width: calc(30% - 10px);
+      height: auto;
     }
 
   }
@@ -135,22 +151,30 @@ button {
         margin-left: $SPACE_S;
       }
     }
-
   .is-mobile {
+    .discord-widget {
+      height: 45%;
+      max-width: 100%;
+      width: 100%;
+      bottom: 120px;
+      right: 0;
+    }
+
     .mobile-button {
       display:block;
       width: 100%;
+      z-index: 1;
     }
     .hidden-mobile {
       display:none
     }
     .minimize {
-      width: 30px;
+      width: 40px;
       height: 40px;
       font-weight: bold;
-      position: absolute;    
-      top: 0px;
-      right: 0px;
+      position: fixed;
+      bottom: calc(45% + 80px);
+      right: 0;
 }
   }
 </style>

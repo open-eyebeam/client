@@ -11,6 +11,7 @@
   import { onMount } from "svelte"
   import { fade } from "svelte/transition"
   import { quartOut } from "svelte/easing"
+  import { isPhone  } from "$lib/modules/ui.js"
   import getVideoId from "get-video-id"
   import PlayArrow from "$lib/components/graphics/play-arrow.svelte"
   import PauseBars from "$lib/components/graphics/pause-bars.svelte"
@@ -118,20 +119,8 @@
 </div>
 
 
-<iframe class="discord-widget" src="https://e.widgetbot.io/channels/806275264807698482/1082423999092510810" height="300" width="400" style="sidebar:display:none;"></iframe>
 <style lang="scss">
   @import "src/lib/style/variables.scss";
-  .discord-widget {
-    position: fixed;
-    right: 20px;
-    bottom: 20px;
-    position: fixed;
-    width: 300px;
-    max-width: 35%;
-    height: 70%;
-    z-index: 10001;
-
-  }
   .stream-container {
     position: absolute;
     top: 20px;
