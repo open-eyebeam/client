@@ -39,7 +39,7 @@
       await audioPlayer.ready
       audioPlayer.play()
       playing = true
-      audioPlayer.setResolution(3)
+      audioPlayer.setResolution(2)
       audioPlayer.addEventListener("playbackStatusUpdate", e => {
         position = (e.position / e.duration).toFixed(4) * 100
       })
@@ -134,9 +134,9 @@
   }
   .stream-container {
     position: absolute;
-    top: 110px;
+    top: 20px;
     left: 10px;
-    width: 55%;
+    width: 40%;
     //height: 50%;
     border: 1px solid $e-ink-dark;
     z-index: 10000;
