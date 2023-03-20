@@ -1,7 +1,6 @@
 <script>
   import { centeringInlineStyles } from "$lib/modules/movement.js"
   export let room = {}
-  console.log('room: ', room)
 </script>
 
 <div

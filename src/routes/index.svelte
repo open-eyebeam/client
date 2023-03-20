@@ -352,6 +352,7 @@
     objectTitle={$currentRoom.objects.find(o => o._id == $objectIntent).title}
     on:object={e => {
       if (e.detail.objectId) {
+        console.log('foo!!!')
         activeArticle.set(
           $currentRoom.objects.find(o => o._id == $objectIntent)
         )

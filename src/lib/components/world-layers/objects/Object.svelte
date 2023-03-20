@@ -49,13 +49,26 @@
   import { createEventDispatcher } from "svelte"
   import { activeArticle } from "$lib/modules/ui.js"
   const dispatch = createEventDispatcher()
-  $: object, (() => {
 
-    if (object.iframeEmbed) {
-      //      console.log('object: ', object)
+
+  //FIXME: probably some eventual tech debt from internal variability e.g. externalLink
+
+// THIS IS JUST FOR ACCESSIBILITY (selected with the tab key), sighted users select objects in the object inspection box in index.svelte 
+   function onKeyDown(e) {
+    if (e.key === "Enter" && !object.static && !object.contentType == "externalLink") {
+      dispatch("object", { objectId: object._id })
+     activeArticle.set(
+          $currentRoom.objects.find(o => o._id == object._id)
+        )
     }
-  })()
 
+    if (e.key === "Enter" && object.contentType === "externalLink") {
+      window.open(object.url, '_blank').focus()
+    }
+  }
+ $: object, (() => {
+  })()
+  
 </script>
 
 {#if !object.iframeEmbed}
@@ -72,14 +85,7 @@
   }}
   tabindex=0
   aria-label={object.static ?'A static image of a ' + object.title : "Inspect " + object.title }
-  on:keydown={e => {
-    if (e.key === "Enter" && !object.static) {
-      dispatch("object", { objectId: object._id })
-     activeArticle.set(
-          $currentRoom.objects.find(o => o._id == object._id)
-        )
-    }
-  }}
+  on:keydown= {onKeyDown}
 role="uiitem"
 >
   {#if object.iconImage}
@@ -87,6 +93,7 @@ role="uiitem"
   {/if}
 </div>
 {:else }
+    {#if !object.externalLink}
     <div
       transition:fade
       class="object"
@@ -95,6 +102,7 @@ role="uiitem"
       >
       <Blocks blocks={object.content.content} />
     </div>
+  {/if}
 {/if}
 <style lang="scss">
   @import "src/lib/style/variables.scss";

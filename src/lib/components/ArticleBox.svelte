@@ -36,17 +36,22 @@
       : `${viewCount} people are here.`
 
   onMount(async () => {
-    enterArticle(article)
-    if (article.contentType === "importedPost" && article.importedPost) {
-      importedPost = await loadDataFromMainSite(
-        "*[_id == '" + article.importedPost + "'][0]"
-      )
-    }
+    if (article.contentType == "externalLink") {
+      window.open(article.url, '_blank').focus()
+    } else { 
+      enterArticle(article)
+      if (article.contentType === "importedPost" && article.importedPost) {
+        importedPost = await loadDataFromMainSite(
+          "*[_id == '" + article.importedPost + "'][0]"
+        )
+   }
+   }
   })
 
   onDestroy(async () => {
     leaveArticle()
   })
+
 </script>
 
 {#if article.contentType === "video"}
