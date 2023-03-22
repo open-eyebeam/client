@@ -10,6 +10,7 @@
   import { activeArticle, trayOpen } from "$lib/modules//ui.js"
   import { loadDataFromMainSite } from "$lib/modules//sanity.js"
   import { enterArticle, leaveArticle, players } from "$lib/modules/engine.js"
+  import { checkObjectOverlap } from "$lib/modules/movement.js"
   import VideoPlayer from "$lib/components/VideoPlayer.svelte"
   import Blocks from "$lib/components/blocks/blocks.svelte"
   import BulletinBoardEvent from "$lib/components/bulletin-board-event.svelte"
@@ -59,6 +60,7 @@
   aria-label="Return"
   on:click={() => {
     activeArticle.set(false)
+    checkObjectOverlap()
   }}
 >
   Return

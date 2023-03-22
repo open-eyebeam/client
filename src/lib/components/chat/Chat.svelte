@@ -7,11 +7,13 @@
   import { createEventDispatcher } from "svelte"
   const dispatch = createEventDispatcher()
   import { get  } from "svelte/store"
-  import {currentRoom} from '$lib/modules/movement.js'
+  import * as WordFilter from 'bad-words'  
+ import {currentRoom} from '$lib/modules/movement.js'
   import {STATE, uiState} from '$lib/modules/ui.js'
   import ChatBox from "./ChatBox.svelte"
   import { isPhone } from "$lib/modules/ui.js" 
-
+  
+  const censor = new WordFilter()
   // *** VARIABLES
   let chatInputValue = ""
 
@@ -21,7 +23,7 @@
 
   const submitChat = () => {
     dispatch("submit", {
-      text: chatInputValue,
+      text: censor.clean(chatInputValue),
     })
     chatInputValue = ""
   }
