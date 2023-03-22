@@ -352,13 +352,18 @@
     objectTitle={$currentRoom.objects.find(o => o._id == $objectIntent).title}
     on:object={e => {
       if (e.detail.objectId) {
-        console.log('foo!!!')
+      let object =  $currentRoom.objects.find(o => o._id == $objectIntent)
+      if (object.contentType != "externalLink") {
+      console.log('object', object)
         activeArticle.set(
-          $currentRoom.objects.find(o => o._id == $objectIntent)
-        )
-      }
+        object)
       objectIntent.set(false)
-    }}
+      } else {
+      // if it's an external link, open it in a new tab
+      window.open(object.url, '_blank').focus()
+      }
+    
+    }}}
   />
 {/if}
 

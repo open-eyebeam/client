@@ -1,6 +1,36 @@
 <script>
   import { centeringInlineStyles } from "$lib/modules/movement.js"
+  import { onMount } from 'svelte'
+  import { waitForElement } from "$lib/modules/utilities.js"
   export let room = {}
+  // LEAVING THIS HERE FOR THE FUTURE: needs to be same-origin iframe to do this
+  // trying to do some crazy shit for peter's studio
+  //onMount(async => {
+  //console.log('foo')
+  //FIXME named this variable confusingly, if iframeInteraction == true then disable iframe interaction lol
+  //if (room.iframeInteraction == true) {}
+
+  //console.log('iframe interaction disabled')
+  //waitForElement('#bg-iframe').then( el => {
+  //    console.log('el', el)
+  //    el.addEventListener("load", () => {
+  //      el.addEventListener("keydown", e => {
+  //        console.log('key press')
+  //        e.preventDefault()
+  //        return
+  //      }, true)      
+  //      console.log('should be clicking it')
+  //      el.contentWindow.document.dispatchEvent(new MouseEvent("click", {clientX: 20, clientY: 20}))
+  //      window.setTimeout(() => {
+  //        console.log('should be clicking it again')
+  //        el.contentWindow.document.dispatchEvent(new MouseEvent("click", {clientX: 45, clientY: 20}))
+  //        el.style.cssText += "pointer-events:none;"
+//}, 10000)
+    //})
+  //})
+  
+   //       }) 
+
 </script>
 
 <div
@@ -15,7 +45,7 @@
     <video src={room.bgVideoUrl} autoplay loop muted />
   {/if}
   {#if room.backgroundLink}
-    <iframe src={room.backgroundLink} />
+    <iframe id="bg-iframe" src={room.backgroundLink} />
   {/if}
 </div>
 
