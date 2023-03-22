@@ -27,26 +27,26 @@ __export(stdin_exports, {
   a: () => activeCity,
   b: () => activeArticle,
   c: () => currentRoom,
-  d: () => playSound,
+  d: () => isMobileOrTablet,
   e: () => centeringInlineStyles,
-  f: () => isPhone,
-  g: () => chatMessages,
-  h: () => focusPlayer,
-  i: () => isAuthenticated,
-  j: () => urlFor,
-  k: () => players,
+  f: () => chatMessages,
+  g: () => focusPlayer,
+  h: () => urlFor,
+  i: () => isPhone,
+  j: () => players,
+  k: () => leaveArticle,
   l: () => loadDataFromMainSite,
-  m: () => leaveArticle,
+  m: () => worldObject,
   n: () => localPlayer,
   o: () => streams,
-  p: () => profile,
+  p: () => playSound,
   q: () => activeZone,
   r: () => roomIntent,
   s: () => showLabels,
   t: () => trayOpen,
   u: () => uiState,
   v: () => objectIntent,
-  w: () => worldObject,
+  w: () => writable,
   x: () => checkPortalOverlap,
   y: () => checkZoneOverlap,
   z: () => checkObjectOverlap
@@ -58,8 +58,6 @@ var import_get = __toESM(require("lodash/get.js"));
 var import_has = __toESM(require("lodash/has.js"));
 var import_get_video_id = __toESM(require("get-video-id"));
 var import_date_fns = require("date-fns");
-var import_keycloak_js = require("keycloak-js");
-var import_js_cookie = require("js-cookie");
 var import_inRange = __toESM(require("lodash/inRange.js"));
 var import_lodash = __toESM(require("lodash"));
 var import_throttle = require("lodash/throttle.js");
@@ -124,6 +122,23 @@ const focusPlayer = writable(true);
 const uiState = writable(STATE.LOADING);
 const isPhone = writable(false);
 const SANITY_PROJECT_ID = "58ueii0w";
+const isMobileOrTablet = () => {
+  const userAgent = navigator.userAgent.toLowerCase();
+  function iOS() {
+    return [
+      "iPad Simulator",
+      "iPhone Simulator",
+      "iPod Simulator",
+      "iPad",
+      "iPhone",
+      "iPod"
+    ].includes(navigator.platform) || navigator.userAgent.includes("Mac") && "ontouchend" in document;
+  }
+  let isiOs = iOS();
+  let isMobile = /iPhone|Android/i.test(navigator.userAgent);
+  let isTablet = /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(userAgent);
+  return window.matchMedia("(max-width: 800px)").matches || isTablet || isMobile || isiOs || window.matchMedia("(orientation:portrait)").matches;
+};
 const longFormatDate = (date) => {
   try {
     if (date) {
@@ -135,7 +150,7 @@ const longFormatDate = (date) => {
 };
 const client = (0, import_client.default)({
   projectId: SANITY_PROJECT_ID,
-  dataset: process.env.NODE_ENV === "development" ? "test" : "production",
+  dataset: process.env.NODE_ENV === "development" ? "production" : "production",
   apiVersion: "2021-10-05",
   token: "",
   useCdn: false
@@ -223,9 +238,9 @@ const Text = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots)
     }, {}, {})}` : ``}`}`}`}`;
   })}</p>`}`}` : ``}`;
 });
-var image_svelte_svelte_type_style_lang = /* @__PURE__ */ (() => "figure.svelte-1bbn2f1.svelte-1bbn2f1{margin-left:20px;margin-right:20px;float:left;border:1px solid #221f20;float:left;max-width:50%}figure.right.svelte-1bbn2f1.svelte-1bbn2f1{float:right;max-width:50%}figure.full.svelte-1bbn2f1.svelte-1bbn2f1{float:unset;margin-left:0;margin-right:0;margin-top:0;border:unset;max-width:unset;width:100%}figure.full.svelte-1bbn2f1 img.svelte-1bbn2f1{display:block;margin-left:auto;margin-right:auto}figure.full.svelte-1bbn2f1 figcaption.svelte-1bbn2f1{padding:20px;border-top:1px solid #221f20;border-bottom:1px solid #221f20}figure.cover.svelte-1bbn2f1.svelte-1bbn2f1{float:unset}figure.cover.svelte-1bbn2f1 img.svelte-1bbn2f1{width:100%;height:600px;object-fit:cover;object-position:center}@media(max-width: 800px){figure.cover.svelte-1bbn2f1 img.svelte-1bbn2f1{height:300px}}figure.cover.svelte-1bbn2f1 figcaption.svelte-1bbn2f1{padding:20px;border-top:1px solid #221f20;border-bottom:1px solid #221f20}@media(max-width: 800px){figure.cover.svelte-1bbn2f1 figcaption.svelte-1bbn2f1{padding-left:0;padding-right:0}}.article figcaption p{margin-bottom:0;margin-left:0;margin-right:0}")();
+var image_svelte_svelte_type_style_lang = /* @__PURE__ */ (() => "figure.svelte-17zfvzj.svelte-17zfvzj{margin-left:20px;margin-right:20px;float:left;border:1px solid #221f20;display:flex;float:left;max-width:50%}figure.right.svelte-17zfvzj.svelte-17zfvzj{float:right;max-width:50%}figure.full.svelte-17zfvzj.svelte-17zfvzj{float:unset;margin-left:0;margin-right:0;margin-top:0;border:unset;max-width:unset;width:100%}figure.full.svelte-17zfvzj img.svelte-17zfvzj{display:block;margin-left:auto;margin-right:auto}figure.full.svelte-17zfvzj figcaption.svelte-17zfvzj{padding:20px;border-top:1px solid #221f20;border-bottom:1px solid #221f20}figure.cover.svelte-17zfvzj.svelte-17zfvzj{float:unset}figure.cover.svelte-17zfvzj img.svelte-17zfvzj{width:100%;height:600px;object-fit:cover;object-position:center}@media(max-width: 800px){figure.cover.svelte-17zfvzj img.svelte-17zfvzj{height:300px}}figure.cover.svelte-17zfvzj figcaption.svelte-17zfvzj{padding:20px;border-top:1px solid #221f20;border-bottom:1px solid #221f20}@media(max-width: 800px){figure.cover.svelte-17zfvzj figcaption.svelte-17zfvzj{padding-left:0;padding-right:0}}.article figcaption p{margin-bottom:0;margin-left:0;margin-right:0}")();
 const css$e = {
-  code: "figure.svelte-1bbn2f1.svelte-1bbn2f1{margin-left:20px;margin-right:20px;float:left;border:1px solid #221f20;float:left;max-width:50%}figure.right.svelte-1bbn2f1.svelte-1bbn2f1{float:right;max-width:50%}figure.full.svelte-1bbn2f1.svelte-1bbn2f1{float:unset;margin-left:0;margin-right:0;margin-top:0;border:unset;max-width:unset;width:100%}figure.full.svelte-1bbn2f1 img.svelte-1bbn2f1{display:block;margin-left:auto;margin-right:auto}figure.full.svelte-1bbn2f1 figcaption.svelte-1bbn2f1{padding:20px;border-top:1px solid #221f20;border-bottom:1px solid #221f20}figure.cover.svelte-1bbn2f1.svelte-1bbn2f1{float:unset}figure.cover.svelte-1bbn2f1 img.svelte-1bbn2f1{width:100%;height:600px;object-fit:cover;object-position:center}@media(max-width: 800px){figure.cover.svelte-1bbn2f1 img.svelte-1bbn2f1{height:300px}}figure.cover.svelte-1bbn2f1 figcaption.svelte-1bbn2f1{padding:20px;border-top:1px solid #221f20;border-bottom:1px solid #221f20}@media(max-width: 800px){figure.cover.svelte-1bbn2f1 figcaption.svelte-1bbn2f1{padding-left:0;padding-right:0}}.article figcaption p{margin-bottom:0;margin-left:0;margin-right:0}",
+  code: "figure.svelte-17zfvzj.svelte-17zfvzj{margin-left:20px;margin-right:20px;float:left;border:1px solid #221f20;display:flex;float:left;max-width:50%}figure.right.svelte-17zfvzj.svelte-17zfvzj{float:right;max-width:50%}figure.full.svelte-17zfvzj.svelte-17zfvzj{float:unset;margin-left:0;margin-right:0;margin-top:0;border:unset;max-width:unset;width:100%}figure.full.svelte-17zfvzj img.svelte-17zfvzj{display:block;margin-left:auto;margin-right:auto}figure.full.svelte-17zfvzj figcaption.svelte-17zfvzj{padding:20px;border-top:1px solid #221f20;border-bottom:1px solid #221f20}figure.cover.svelte-17zfvzj.svelte-17zfvzj{float:unset}figure.cover.svelte-17zfvzj img.svelte-17zfvzj{width:100%;height:600px;object-fit:cover;object-position:center}@media(max-width: 800px){figure.cover.svelte-17zfvzj img.svelte-17zfvzj{height:300px}}figure.cover.svelte-17zfvzj figcaption.svelte-17zfvzj{padding:20px;border-top:1px solid #221f20;border-bottom:1px solid #221f20}@media(max-width: 800px){figure.cover.svelte-17zfvzj figcaption.svelte-17zfvzj{padding-left:0;padding-right:0}}.article figcaption p{margin-bottom:0;margin-left:0;margin-right:0}",
   map: null
 };
 const Image = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots) => {
@@ -234,10 +249,10 @@ const Image = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots
     $$bindings.b(b);
   $$result.css.add(css$e);
   return `<figure class="${[
-    "svelte-1bbn2f1",
+    "svelte-17zfvzj",
     (b.layout == "left" ? "left" : "") + " " + (b.layout == "right" ? "right" : "") + " " + (b.fullWidth ? "full" : "") + " " + (b.coverAndCrop ? "cover" : "")
-  ].join(" ").trim()}"><img${(0, import_index_c41c42e8.f)("src", urlFor(b.asset).quality(90).width(1e3).url(), 0)}${(0, import_index_c41c42e8.f)("alt", b.alt ? b.alt : "", 0)} class="${"svelte-1bbn2f1"}">
-  ${(0, import_has.default)(b, "caption.content") ? `<figcaption class="${"svelte-1bbn2f1"}">${(0, import_index_c41c42e8.v)(Blocks, "Blocks").$$render($$result, { blocks: b.caption.content }, {}, {})}</figcaption>` : ``}
+  ].join(" ").trim()}"><img${(0, import_index_c41c42e8.f)("src", urlFor(b.asset).quality(90).width(1e3).url(), 0)}${(0, import_index_c41c42e8.f)("alt", b.alt ? b.alt : "", 0)} class="${"svelte-17zfvzj"}">
+  ${(0, import_has.default)(b, "caption.content") ? `<figcaption class="${"svelte-17zfvzj"}">${(0, import_index_c41c42e8.v)(Blocks, "Blocks").$$render($$result, { blocks: b.caption.content }, {}, {})}</figcaption>` : ``}
 </figure>`;
 });
 var imageFromMainSite_svelte_svelte_type_style_lang = /* @__PURE__ */ (() => "figure.svelte-1bbn2f1.svelte-1bbn2f1{margin-left:20px;margin-right:20px;float:left;border:1px solid #221f20;float:left;max-width:50%}figure.right.svelte-1bbn2f1.svelte-1bbn2f1{float:right;max-width:50%}figure.full.svelte-1bbn2f1.svelte-1bbn2f1{float:unset;margin-left:0;margin-right:0;margin-top:0;border:unset;max-width:unset;width:100%}figure.full.svelte-1bbn2f1 img.svelte-1bbn2f1{display:block;margin-left:auto;margin-right:auto}figure.full.svelte-1bbn2f1 figcaption.svelte-1bbn2f1{padding:20px;border-top:1px solid #221f20;border-bottom:1px solid #221f20}figure.cover.svelte-1bbn2f1.svelte-1bbn2f1{float:unset}figure.cover.svelte-1bbn2f1 img.svelte-1bbn2f1{width:100%;height:600px;object-fit:cover;object-position:center}@media(max-width: 800px){figure.cover.svelte-1bbn2f1 img.svelte-1bbn2f1{height:300px}}figure.cover.svelte-1bbn2f1 figcaption.svelte-1bbn2f1{padding:20px;border-top:1px solid #221f20;border-bottom:1px solid #221f20}@media(max-width: 800px){figure.cover.svelte-1bbn2f1 figcaption.svelte-1bbn2f1{padding-left:0;padding-right:0}}.article figcaption p{margin-bottom:0;margin-left:0;margin-right:0}")();
@@ -313,9 +328,6 @@ const Html = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots)
   let { b = {} } = $$props;
   if ($$props.b === void 0 && $$bindings.b && b !== void 0)
     $$bindings.b(b);
-  {
-    console.log("html: ", b);
-  }
   return `${b.children && b.children.length > 0 ? `<div class="${"html-content"}">${(0, import_index_c41c42e8.b)(b.children, (c) => {
     return `<!-- HTML_TAG_START -->${c.text}<!-- HTML_TAG_END -->`;
   })}</div>` : ``}`;
@@ -482,8 +494,6 @@ const Blocks = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slot
   ${b._type == "videoBlock" ? `${(0, import_index_c41c42e8.v)(Video, "Video").$$render($$result, { b }, {}, {})}` : ``}`;
   })}`;
 });
-const isAuthenticated = writable(false);
-const profile = writable(false);
 const globalSettings = writable({});
 let worldObject = writable({});
 const GRID_SIZE = 32;

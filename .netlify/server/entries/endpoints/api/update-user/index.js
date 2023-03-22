@@ -30,7 +30,7 @@ const sanityClient = (0, import_client.default)({
   projectId: "58ueii0w",
   apiVersion: "2021-10-05",
   dataset: "production",
-  token: "sks0FKkhw72LZL4KXRP8I6",
+  token: {}.VITE_SANITY_TOKEN,
   useCdn: false
 });
 const post = async (event) => {

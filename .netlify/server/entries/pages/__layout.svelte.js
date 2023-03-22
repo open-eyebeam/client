@@ -27,20 +27,21 @@ var import_index_c41c42e8 = require("../../chunks/index-c41c42e8.js");
 var import_tween = __toESM(require("@tweenjs/tween.js"));
 var import_has = __toESM(require("lodash/has.js"));
 var import_inRange = __toESM(require("lodash/inRange.js"));
-var import_movement_33798768 = require("../../chunks/movement-33798768.js");
+var import_movement_e4fb0cc6 = require("../../chunks/movement-e4fb0cc6.js");
+var import_sample = __toESM(require("lodash/sample.js"));
+var import_keycloak_js = require("keycloak-js");
+var import_js_cookie = require("js-cookie");
+var import_date_fns = require("date-fns");
 var import_slugify = require("slugify");
 var import_get = require("lodash/get.js");
 var import_get_video_id = require("get-video-id");
-var import_date_fns = require("date-fns");
-var import_keycloak_js = require("keycloak-js");
-var import_js_cookie = require("js-cookie");
 var import_lodash = require("lodash");
 var import_throttle = require("lodash/throttle.js");
 var import_client = require("@sanity/client");
 var import_block_content_to_html = require("@sanity/block-content-to-html");
 var import_image_url = require("@sanity/image-url");
 var animatedBeam_svelte_svelte_type_style_lang = /* @__PURE__ */ (() => "svg.svelte-1th4ifv.svelte-1th4ifv{height:90%;max-width:70vw}svg.svelte-1th4ifv path.svelte-1th4ifv,svg.svelte-1th4ifv line.svelte-1th4ifv{fill:none;stroke:#221f20;stroke-width:0.7px;stroke-miterlimit:10;opacity:0}svg.svelte-1th4ifv path.shown.svelte-1th4ifv,svg.svelte-1th4ifv line.shown.svelte-1th4ifv{opacity:1}")();
-const css$b = {
+const css$a = {
   code: "svg.svelte-1th4ifv.svelte-1th4ifv{height:90%;max-width:70vw}svg.svelte-1th4ifv path.svelte-1th4ifv,svg.svelte-1th4ifv line.svelte-1th4ifv{fill:none;stroke:#221f20;stroke-width:0.7px;stroke-miterlimit:10;opacity:0}svg.svelte-1th4ifv path.shown.svelte-1th4ifv,svg.svelte-1th4ifv line.shown.svelte-1th4ifv{opacity:1}",
   map: null
 };
@@ -53,21 +54,21 @@ const Animated_beam = (0, import_index_c41c42e8.c)(($$result, $$props, $$binding
   }, 1500).easing(EASING).onUpdate(() => {
     pos = counter.value;
   });
-  $$result.css.add(css$b);
+  $$result.css.add(css$a);
   return `<svg xmlns="${"http://www.w3.org/2000/svg"}" viewBox="${"0 0 139.98 67.2"}" class="${"svelte-1th4ifv"}"><line class="${["l-1 svelte-1th4ifv", pos > 1 ? "shown" : ""].join(" ").trim()}" y1="${"66.95"}" x2="${"53.24"}" y2="${"66.95"}"></line><path class="${["l-2 svelte-1th4ifv", pos > 2 ? "shown" : ""].join(" ").trim()}" d="${"M.82,55.05,53.28,63.8Z"}"></path><path class="${["l-3 svelte-1th4ifv", pos > 3 ? "shown" : ""].join(" ").trim()}" d="${"M3.8,43.85l50,17.25Z"}"></path><path class="${["l-4 svelte-1th4ifv", pos > 4 ? "shown" : ""].join(" ").trim()}" d="${"M8.93,33.26,55.05,58.44Z"}"></path><path class="${["l-5 svelte-1th4ifv", pos > 5 ? "shown" : ""].join(" ").trim()}" d="${"M16.05,24,56.86,56.4Z"}"></path><path class="${["l-6 svelte-1th4ifv", pos > 6 ? "shown" : ""].join(" ").trim()}" d="${"M24.12,16,58.33,54.56Z"}"></path><path class="${["l-7 svelte-1th4ifv", pos > 7 ? "shown" : ""].join(" ").trim()}" d="${"M34.3,9.1,60.92,52.76Z"}"></path><path class="${["l-8 svelte-1th4ifv", pos > 8 ? "shown" : ""].join(" ").trim()}" d="${"M45.65,4.12l18.2,47.33Z"}"></path><path class="${["l-9 svelte-1th4ifv", pos > 9 ? "shown" : ""].join(" ").trim()}" d="${"M57.12,1,66.4,50.64Z"}"></path><line class="${["l-10 svelte-1th4ifv", pos > 10 ? "shown" : ""].join(" ").trim()}" x1="${"69.63"}" y1="${"50.35"}" x2="${"69.63"}"></line><path class="${["l-11 svelte-1th4ifv", pos > 11 ? "shown" : ""].join(" ").trim()}" d="${"M82.84,1,73.6,50.64Z"}"></path><path class="${["l-12 svelte-1th4ifv", pos > 12 ? "shown" : ""].join(" ").trim()}" d="${"M94.35,4.12,76.15,51.45Z"}"></path><path class="${["l-13 svelte-1th4ifv", pos > 13 ? "shown" : ""].join(" ").trim()}" d="${"M105.7,9.1,79.08,52.76Z"}"></path><path class="${["l-14 svelte-1th4ifv", pos > 14 ? "shown" : ""].join(" ").trim()}" d="${"M115.84,16,81.63,54.56Z"}"></path><path class="${["l-15 svelte-1th4ifv", pos > 15 ? "shown" : ""].join(" ").trim()}" d="${"M124,24,83.14,56.4Z"}"></path><path class="${["l-16 svelte-1th4ifv", pos > 16 ? "shown" : ""].join(" ").trim()}" d="${"M131.07,33.26,85,58.44Z"}"></path><path class="${["l-17 svelte-1th4ifv", pos > 17 ? "shown" : ""].join(" ").trim()}" d="${"M136.2,43.85l-50,17.25Z"}"></path><path class="${["l-18 svelte-1th4ifv", pos > 18 ? "shown" : ""].join(" ").trim()}" d="${"M139.18,55.05,86.72,63.8Z"}"></path><line class="${["l-19 svelte-1th4ifv", pos > 19 ? "shown" : ""].join(" ").trim()}" x1="${"86.74"}" y1="${"66.95"}" x2="${"139.98"}" y2="${"66.95"}"></line></svg>`;
 });
 var LoadingScreen_svelte_svelte_type_style_lang = /* @__PURE__ */ (() => '.loading-screen.svelte-1k5a3hm.svelte-1k5a3hm{position:fixed;top:0;left:0;width:100vw;height:100vh;background:#f5f4ee;color:#221f20;display:flex;justify-content:center;align-items:center;z-index:100000}.loading-screen.svelte-1k5a3hm .box.svelte-1k5a3hm{font-family:"Literata", serif;padding:20px;height:200px;font-size:14px;text-align:center;user-select:none}@media(max-width: 800px){.loading-screen.svelte-1k5a3hm .box.svelte-1k5a3hm{font-size:12px}}')();
-const css$a = {
+const css$9 = {
   code: '.loading-screen.svelte-1k5a3hm.svelte-1k5a3hm{position:fixed;top:0;left:0;width:100vw;height:100vh;background:#f5f4ee;color:#221f20;display:flex;justify-content:center;align-items:center;z-index:100000}.loading-screen.svelte-1k5a3hm .box.svelte-1k5a3hm{font-family:"Literata", serif;padding:20px;height:200px;font-size:14px;text-align:center;user-select:none}@media(max-width: 800px){.loading-screen.svelte-1k5a3hm .box.svelte-1k5a3hm{font-size:12px}}',
   map: null
 };
 const LoadingScreen = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots) => {
-  $$result.css.add(css$a);
+  $$result.css.add(css$9);
   return `<div class="${"loading-screen svelte-1k5a3hm"}"><div class="${"box svelte-1k5a3hm"}">${(0, import_index_c41c42e8.v)(Animated_beam, "AnimatedBeam").$$render($$result, {}, {}, {})}</div>
 </div>`;
 });
 var Error_svelte_svelte_type_style_lang = /* @__PURE__ */ (() => '.error-screen.svelte-5oxc6r.svelte-5oxc6r{position:fixed;top:0;left:0;width:100vw;height:100vh;background:#221f20;color:#f5f4ee;display:flex;justify-content:center;align-items:center;z-index:100000}.error-screen.svelte-5oxc6r .box.svelte-5oxc6r{font-family:"Literata", serif;padding:20px;font-size:14px;text-align:center;user-select:none}')();
-const css$9 = {
+const css$8 = {
   code: '.error-screen.svelte-5oxc6r.svelte-5oxc6r{position:fixed;top:0;left:0;width:100vw;height:100vh;background:#221f20;color:#f5f4ee;display:flex;justify-content:center;align-items:center;z-index:100000}.error-screen.svelte-5oxc6r .box.svelte-5oxc6r{font-family:"Literata", serif;padding:20px;font-size:14px;text-align:center;user-select:none}',
   map: null
 };
@@ -75,13 +76,13 @@ const Error2 = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slot
   let { message = "" } = $$props;
   if ($$props.message === void 0 && $$bindings.message && message !== void 0)
     $$bindings.message(message);
-  $$result.css.add(css$9);
+  $$result.css.add(css$8);
   return `<div class="${"error-screen svelte-5oxc6r"}"><div class="${"box svelte-5oxc6r"}"><div class="${"header"}">ERROR: ${(0, import_index_c41c42e8.e)(message)}</div></div>
 </div>`;
 });
-var Reconnection_svelte_svelte_type_style_lang = /* @__PURE__ */ (() => '.reconnection.svelte-sbvr22.svelte-sbvr22{position:fixed;bottom:15px;left:15px;display:flex;justify-content:center;align-items:center;z-index:10}@media(max-width: 800px){.reconnection.svelte-sbvr22.svelte-sbvr22{bottom:55px;left:0}}.reconnection.svelte-sbvr22 .box.svelte-sbvr22{font-family:"Literata", serif;padding:20px;background:#f5f4ee;color:#221f20;font-size:14px;text-align:center;user-select:none}@media(max-width: 800px){.reconnection.svelte-sbvr22 .box.svelte-sbvr22{width:calc(100% - 20px)}}')();
-const css$8 = {
-  code: '.reconnection.svelte-sbvr22.svelte-sbvr22{position:fixed;bottom:15px;left:15px;display:flex;justify-content:center;align-items:center;z-index:10}@media(max-width: 800px){.reconnection.svelte-sbvr22.svelte-sbvr22{bottom:55px;left:0}}.reconnection.svelte-sbvr22 .box.svelte-sbvr22{font-family:"Literata", serif;padding:20px;background:#f5f4ee;color:#221f20;font-size:14px;text-align:center;user-select:none}@media(max-width: 800px){.reconnection.svelte-sbvr22 .box.svelte-sbvr22{width:calc(100% - 20px)}}',
+var Reconnection_svelte_svelte_type_style_lang = /* @__PURE__ */ (() => '.reconnection.svelte-s3w46f.svelte-s3w46f{position:fixed;bottom:15px;left:15px;display:flex;justify-content:center;align-items:center;z-index:100001}@media(max-width: 800px){.reconnection.svelte-s3w46f.svelte-s3w46f{bottom:55px;left:0}}.reconnection.svelte-s3w46f .box.svelte-s3w46f{font-family:"Literata", serif;padding:20px;background:#f5f4ee;color:#221f20;font-size:14px;text-align:center;user-select:none}@media(max-width: 800px){.reconnection.svelte-s3w46f .box.svelte-s3w46f{width:calc(100% - 20px)}}')();
+const css$7 = {
+  code: '.reconnection.svelte-s3w46f.svelte-s3w46f{position:fixed;bottom:15px;left:15px;display:flex;justify-content:center;align-items:center;z-index:100001}@media(max-width: 800px){.reconnection.svelte-s3w46f.svelte-s3w46f{bottom:55px;left:0}}.reconnection.svelte-s3w46f .box.svelte-s3w46f{font-family:"Literata", serif;padding:20px;background:#f5f4ee;color:#221f20;font-size:14px;text-align:center;user-select:none}@media(max-width: 800px){.reconnection.svelte-s3w46f .box.svelte-s3w46f{width:calc(100% - 20px)}}',
   map: null
 };
 const Reconnection = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots) => {
@@ -91,21 +92,21 @@ const Reconnection = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings
     $$bindings.reconnectionAttempts(reconnectionAttempts2);
   if ($$props.disconnectionCode === void 0 && $$bindings.disconnectionCode && disconnectionCode2 !== void 0)
     $$bindings.disconnectionCode(disconnectionCode2);
-  $$result.css.add(css$8);
-  return `<div class="${"reconnection svelte-sbvr22"}"><div class="${"box svelte-sbvr22"}"><div class="${"header"}">You have been disconnected from the gameserver. (Error: ${(0, import_index_c41c42e8.e)(disconnectionCode2)})
+  $$result.css.add(css$7);
+  return `<div class="${"reconnection svelte-s3w46f"}"><div class="${"box svelte-s3w46f"}"><div class="${"header"}">You have been disconnected from the gameserver. (Error: ${(0, import_index_c41c42e8.e)(disconnectionCode2)})
     </div>
     <div class="${"header"}">Please reload the page to attempt to reconnect.</div></div>
 </div>`;
 });
 var Clock_svelte_svelte_type_style_lang = /* @__PURE__ */ (() => ".clock.svelte-13is0nm{font-size:12px;color:#f5f4ee}")();
-const css$7 = {
+const css$6 = {
   code: ".clock.svelte-13is0nm{font-size:12px;color:#f5f4ee}",
   map: null
 };
 const Clock = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots) => {
   let $activeCity, $$unsubscribe_activeCity;
-  $$unsubscribe_activeCity = (0, import_index_c41c42e8.a)(import_movement_33798768.a, (value) => $activeCity = value);
-  const API_KEY = 'a9b67d6b5ed093b28c410750ef6a70cd"';
+  $$unsubscribe_activeCity = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.a, (value) => $activeCity = value);
+  const API_KEY = "7306ba66d71c439a60b2152d239cfbcc";
   let currentTime;
   let currentWeather = { description: "", temperature: 0 };
   let showClock = false;
@@ -150,7 +151,7 @@ const Clock = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots
       });
     }
   };
-  $$result.css.add(css$7);
+  $$result.css.add(css$6);
   {
     {
       updateTime();
@@ -161,16 +162,16 @@ const Clock = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots
   return `<div class="${"clock svelte-13is0nm"}">${showClock && $activeCity.name ? `<span>It\u2019s ${(0, import_index_c41c42e8.e)(currentTime)} and ${(0, import_index_c41c42e8.e)(currentWeather.description)} in ${(0, import_index_c41c42e8.e)($activeCity.name)}</span>` : ``}
 </div>`;
 });
-const css$6 = {
+const css$5 = {
   code: "svg.svelte-hhwbji path.svelte-hhwbji{fill:#f5f4ee}",
   map: null
 };
 const Arrow_down = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots) => {
-  $$result.css.add(css$6);
+  $$result.css.add(css$5);
   return `<svg width="${"9"}" height="${"8"}" viewBox="${"0 0 9 8"}" fill="${"none"}" xmlns="${"http://www.w3.org/2000/svg"}" class="${"svelte-hhwbji"}"><path d="${"M4.78393 7.78516L0.640486 0.608508L8.92737 0.608508L4.78393 7.78516Z"}" class="${"svelte-hhwbji"}"></path></svg>`;
 });
 var fullBeam_svelte_svelte_type_style_lang = /* @__PURE__ */ (() => "svg.svelte-1wdefg6.svelte-1wdefg6{width:100%}svg.svelte-1wdefg6 path.svelte-1wdefg6{fill:none;stroke:#f5f4ee;stroke-width:0.75;stroke-miterlimit:10}svg.black.svelte-1wdefg6 path.svelte-1wdefg6{stroke:#221f20}")();
-const css$5 = {
+const css$4 = {
   code: "svg.svelte-1wdefg6.svelte-1wdefg6{width:100%}svg.svelte-1wdefg6 path.svelte-1wdefg6{fill:none;stroke:#f5f4ee;stroke-width:0.75;stroke-miterlimit:10}svg.black.svelte-1wdefg6 path.svelte-1wdefg6{stroke:#221f20}",
   map: null
 };
@@ -178,29 +179,29 @@ const Full_beam = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, s
   let { black = false } = $$props;
   if ($$props.black === void 0 && $$bindings.black && black !== void 0)
     $$bindings.black(black);
-  $$result.css.add(css$5);
+  $$result.css.add(css$4);
   return `<svg version="${"1.1"}" id="${"Layer_1"}" xmlns="${"http://www.w3.org/2000/svg"}" xmlns:xlink="${"http://www.w3.org/1999/xlink"}" x="${"0px"}" y="${"0px"}" viewBox="${"0 0 18 18"}" style="${"enable-background:new 0 0 18 18;"}" xml:space="${"preserve"}" class="${["svelte-1wdefg6", black ? "black" : ""].join(" ").trim()}"><path class="${"st1 svelte-1wdefg6"}" d="${"M0,8.8h6.8 M16.8,4.4l-5.9,3.3L16.8,4.4z M13.6,1.2l-3.4,5.7L13.6,1.2z M11.1,8.8H18 M1.2,4.4l5.9,3.3L1.2,4.4z M4.4,1.2l3.4,5.7L4.4,1.2z M9,0v6.6V0z"}"></path><path class="${"st1 svelte-1wdefg6"}" d="${"M1.2,13.1l5.9-3.3 M4.4,16.3l3.4-5.7 M16.8,13.1l-5.9-3.3 M13.6,16.3l-3.4-5.7 M9,17.4v-6.6"}"></path></svg>`;
 });
 var menubar_svelte_svelte_type_style_lang = /* @__PURE__ */ (() => "h1.svelte-5j0hcs.svelte-5j0hcs{all:unset}header.svelte-5j0hcs.svelte-5j0hcs{position:absolute;top:0;left:0;width:100%;z-index:100000;height:240px;transition:transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);transform:translateY(-240px);font-size:12px}@media(max-width: 800px){header.svelte-5j0hcs.svelte-5j0hcs{pointer-events:none}}header.open.svelte-5j0hcs.svelte-5j0hcs{transform:translateY(0)}header.svelte-5j0hcs .menubar.svelte-5j0hcs{width:100%;height:30px;background:#221f20;color:#f5f4ee;line-height:30px;padding-left:15px;padding-right:10px;overflow:hidden;border-bottom:1px solid #070101}header.svelte-5j0hcs .menubar .inner-text.svelte-5j0hcs{opacity:1}header.svelte-5j0hcs .menubar .breadcrumbs.svelte-5j0hcs{float:left}header.svelte-5j0hcs .menubar .arrow-down.svelte-5j0hcs{margin-right:5px}header.svelte-5j0hcs .menubar a.svelte-5j0hcs{color:#f5f4ee;text-decoration:none}header.svelte-5j0hcs .menubar .clock.svelte-5j0hcs{float:right}header.svelte-5j0hcs .menubar .tray-toggle.svelte-5j0hcs{float:right;width:18px;height:30px;display:flex;justify-content:center;align-items:center;margin-left:12px;cursor:pointer}header.svelte-5j0hcs .settings.svelte-5j0hcs{height:240px;background:#dedcd5;color:#221f20;overflow:hidden}header.svelte-5j0hcs .settings .settings-bar.svelte-5j0hcs{height:30px;line-height:30px;padding-left:5px;padding-right:10px;cursor:pointer;border-bottom:1px solid #221f20;color:#221f20;width:100%}header.svelte-5j0hcs .settings .settings-bar .tray-toggle.svelte-5j0hcs{width:18px;height:30px;display:flex;margin-right:8px;justify-content:center;align-items:center;margin-left:8px;cursor:pointer;float:left}header.svelte-5j0hcs .settings .settings-content.svelte-5j0hcs{display:flex;padding-left:15px;padding-right:15px}header.svelte-5j0hcs .settings .settings-content .section.svelte-5j0hcs{padding-top:20px}header.svelte-5j0hcs .settings .settings-content .section .section-header.svelte-5j0hcs{margin-bottom:10px}header.svelte-5j0hcs .settings .settings-content .section.theme.svelte-5j0hcs{width:20%}header.svelte-5j0hcs .settings .settings-content .section.text.svelte-5j0hcs{width:30%}header.svelte-5j0hcs .settings .settings-content .section.city.svelte-5j0hcs{width:50%}.city-button.svelte-5j0hcs.svelte-5j0hcs{padding:8px 12px;display:inline-block;border-top:1px solid #221f20;border-right:1px solid #221f20;border-bottom:1px solid #221f20;user-select:none;cursor:pointer}.city-button.svelte-5j0hcs.svelte-5j0hcs:first-child{border-left:1px solid #221f20}.city-button.active.svelte-5j0hcs.svelte-5j0hcs{background:#221f20;color:#f5f4ee}.city-button.svelte-5j0hcs.svelte-5j0hcs:hover{background:#221f20;color:#f5f4ee}.city-text.svelte-5j0hcs.svelte-5j0hcs{max-width:520px}")();
-const css$4 = {
+const css$3 = {
   code: "h1.svelte-5j0hcs.svelte-5j0hcs{all:unset}header.svelte-5j0hcs.svelte-5j0hcs{position:absolute;top:0;left:0;width:100%;z-index:100000;height:240px;transition:transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);transform:translateY(-240px);font-size:12px}@media(max-width: 800px){header.svelte-5j0hcs.svelte-5j0hcs{pointer-events:none}}header.open.svelte-5j0hcs.svelte-5j0hcs{transform:translateY(0)}header.svelte-5j0hcs .menubar.svelte-5j0hcs{width:100%;height:30px;background:#221f20;color:#f5f4ee;line-height:30px;padding-left:15px;padding-right:10px;overflow:hidden;border-bottom:1px solid #070101}header.svelte-5j0hcs .menubar .inner-text.svelte-5j0hcs{opacity:1}header.svelte-5j0hcs .menubar .breadcrumbs.svelte-5j0hcs{float:left}header.svelte-5j0hcs .menubar .arrow-down.svelte-5j0hcs{margin-right:5px}header.svelte-5j0hcs .menubar a.svelte-5j0hcs{color:#f5f4ee;text-decoration:none}header.svelte-5j0hcs .menubar .clock.svelte-5j0hcs{float:right}header.svelte-5j0hcs .menubar .tray-toggle.svelte-5j0hcs{float:right;width:18px;height:30px;display:flex;justify-content:center;align-items:center;margin-left:12px;cursor:pointer}header.svelte-5j0hcs .settings.svelte-5j0hcs{height:240px;background:#dedcd5;color:#221f20;overflow:hidden}header.svelte-5j0hcs .settings .settings-bar.svelte-5j0hcs{height:30px;line-height:30px;padding-left:5px;padding-right:10px;cursor:pointer;border-bottom:1px solid #221f20;color:#221f20;width:100%}header.svelte-5j0hcs .settings .settings-bar .tray-toggle.svelte-5j0hcs{width:18px;height:30px;display:flex;margin-right:8px;justify-content:center;align-items:center;margin-left:8px;cursor:pointer;float:left}header.svelte-5j0hcs .settings .settings-content.svelte-5j0hcs{display:flex;padding-left:15px;padding-right:15px}header.svelte-5j0hcs .settings .settings-content .section.svelte-5j0hcs{padding-top:20px}header.svelte-5j0hcs .settings .settings-content .section .section-header.svelte-5j0hcs{margin-bottom:10px}header.svelte-5j0hcs .settings .settings-content .section.theme.svelte-5j0hcs{width:20%}header.svelte-5j0hcs .settings .settings-content .section.text.svelte-5j0hcs{width:30%}header.svelte-5j0hcs .settings .settings-content .section.city.svelte-5j0hcs{width:50%}.city-button.svelte-5j0hcs.svelte-5j0hcs{padding:8px 12px;display:inline-block;border-top:1px solid #221f20;border-right:1px solid #221f20;border-bottom:1px solid #221f20;user-select:none;cursor:pointer}.city-button.svelte-5j0hcs.svelte-5j0hcs:first-child{border-left:1px solid #221f20}.city-button.active.svelte-5j0hcs.svelte-5j0hcs{background:#221f20;color:#f5f4ee}.city-button.svelte-5j0hcs.svelte-5j0hcs:hover{background:#221f20;color:#f5f4ee}.city-text.svelte-5j0hcs.svelte-5j0hcs{max-width:520px}",
   map: null
 };
 const Menubar = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots) => {
   let $trayOpen, $$unsubscribe_trayOpen;
   let $activeCity, $$unsubscribe_activeCity;
-  $$unsubscribe_trayOpen = (0, import_index_c41c42e8.a)(import_movement_33798768.t, (value) => $trayOpen = value);
-  $$unsubscribe_activeCity = (0, import_index_c41c42e8.a)(import_movement_33798768.a, (value) => $activeCity = value);
+  $$unsubscribe_trayOpen = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.t, (value) => $trayOpen = value);
+  $$unsubscribe_activeCity = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.a, (value) => $activeCity = value);
   let { currentRoom: currentRoom2 = {} } = $$props;
-  const cities = (0, import_movement_33798768.l)('*[_id == "cities"][0]');
+  const cities = (0, import_movement_e4fb0cc6.l)('*[_id == "cities"][0]');
   cities.then((c) => {
     if (c.cities && c.cities[0]) {
-      import_movement_33798768.a.set(c.cities[0]);
+      import_movement_e4fb0cc6.a.set((0, import_sample.default)(c.cities));
     }
   });
   if ($$props.currentRoom === void 0 && $$bindings.currentRoom && currentRoom2 !== void 0)
     $$bindings.currentRoom(currentRoom2);
-  $$result.css.add(css$4);
+  $$result.css.add(css$3);
   $$unsubscribe_trayOpen();
   $$unsubscribe_activeCity();
   return `<header class="${["svelte-5j0hcs", $trayOpen ? "open" : ""].join(" ").trim()}"><div class="${"settings svelte-5j0hcs"}">
@@ -228,7 +229,7 @@ const Menubar = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slo
         ].join(" ").trim()}">${(0, import_index_c41c42e8.e)(city.name)}
               </div>`;
       })}</div>
-          <div class="${"city-text svelte-5j0hcs"}">${(0, import_has.default)(cities2, "content.content", []) ? `<div>${(0, import_index_c41c42e8.v)(import_movement_33798768.B, "Blocks").$$render($$result, { blocks: cities2.content.content }, {}, {})}</div>` : ``}</div>
+          <div class="${"city-text svelte-5j0hcs"}">${(0, import_has.default)(cities2, "content.content", []) ? `<div>${(0, import_index_c41c42e8.v)(import_movement_e4fb0cc6.B, "Blocks").$$render($$result, { blocks: cities2.content.content }, {}, {})}</div>` : ``}</div>
         `;
     }(__value);
   }(cities)}</div></div></div>
@@ -242,21 +243,6 @@ const Menubar = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slo
 </header>`;
 });
 var AuthenticationBox_svelte_svelte_type_style_lang = /* @__PURE__ */ (() => ".auth-box.svelte-ykc819{position:fixed;top:40px;right:10px;background:#dedcd5;border:1px solid #221f20;cursor:pointer;font-size:12px;z-index:10000;width:60px;height:30px;text-align:center;line-height:27px}@media(max-width: 800px){.auth-box.svelte-ykc819{display:none}}.auth-box.svelte-ykc819:hover{opacity:0.8}")();
-const css$3 = {
-  code: ".auth-box.svelte-ykc819{position:fixed;top:40px;right:10px;background:#dedcd5;border:1px solid #221f20;cursor:pointer;font-size:12px;z-index:10000;width:60px;height:30px;text-align:center;line-height:27px}@media(max-width: 800px){.auth-box.svelte-ykc819{display:none}}.auth-box.svelte-ykc819:hover{opacity:0.8}",
-  map: null
-};
-const AuthenticationBox = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots) => {
-  let $isAuthenticated, $$unsubscribe_isAuthenticated;
-  let $profile, $$unsubscribe_profile;
-  $$unsubscribe_isAuthenticated = (0, import_index_c41c42e8.a)(import_movement_33798768.i, (value) => $isAuthenticated = value);
-  $$unsubscribe_profile = (0, import_index_c41c42e8.a)(import_movement_33798768.p, (value) => $profile = value);
-  $$result.css.add(css$3);
-  $$unsubscribe_isAuthenticated();
-  $$unsubscribe_profile();
-  return `<div class="${"auth-box svelte-ykc819"}">${$isAuthenticated ? `<div>${(0, import_index_c41c42e8.e)($profile && $profile.name ? $profile.name + " (Log out)" : "Log out")}</div>` : `Login`}
-</div>`;
-});
 var SoundOn_svelte_svelte_type_style_lang = /* @__PURE__ */ (() => "svg.svelte-1iwhujd.svelte-1iwhujd{height:14px}svg.svelte-1iwhujd path.svelte-1iwhujd{fill:#221f20}")();
 const css$2 = {
   code: "svg.svelte-1iwhujd.svelte-1iwhujd{height:14px}svg.svelte-1iwhujd path.svelte-1iwhujd{fill:#221f20}",
@@ -283,42 +269,54 @@ const css = {
 let reconnectionAttempts = 0;
 let disconnectionCode = 0;
 const _layout = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots) => {
-  let $uiState, $$unsubscribe_uiState;
   let $currentRoom, $$unsubscribe_currentRoom;
+  let $uiState, $$unsubscribe_uiState;
   let $activeArticle, $$unsubscribe_activeArticle;
   let $trayOpen, $$unsubscribe_trayOpen;
   let $playSound, $$unsubscribe_playSound;
   let $showLabels, $$unsubscribe_showLabels;
-  $$unsubscribe_uiState = (0, import_index_c41c42e8.a)(import_movement_33798768.u, (value) => $uiState = value);
-  $$unsubscribe_currentRoom = (0, import_index_c41c42e8.a)(import_movement_33798768.c, (value) => $currentRoom = value);
-  $$unsubscribe_activeArticle = (0, import_index_c41c42e8.a)(import_movement_33798768.b, (value) => $activeArticle = value);
-  $$unsubscribe_trayOpen = (0, import_index_c41c42e8.a)(import_movement_33798768.t, (value) => $trayOpen = value);
-  $$unsubscribe_playSound = (0, import_index_c41c42e8.a)(import_movement_33798768.d, (value) => $playSound = value);
-  $$unsubscribe_showLabels = (0, import_index_c41c42e8.a)(import_movement_33798768.s, (value) => $showLabels = value);
+  $$unsubscribe_currentRoom = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.c, (value) => $currentRoom = value);
+  $$unsubscribe_uiState = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.u, (value) => $uiState = value);
+  $$unsubscribe_activeArticle = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.b, (value) => $activeArticle = value);
+  $$unsubscribe_trayOpen = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.t, (value) => $trayOpen = value);
+  $$unsubscribe_playSound = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.p, (value) => $playSound = value);
+  $$unsubscribe_showLabels = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.s, (value) => $showLabels = value);
   $$result.css.add(css);
-  $$unsubscribe_uiState();
+  {
+    {
+      if ($currentRoom.autoplay) {
+        import_movement_e4fb0cc6.p.set(true);
+      } else {
+        import_movement_e4fb0cc6.p.set(false);
+      }
+    }
+  }
   $$unsubscribe_currentRoom();
+  $$unsubscribe_uiState();
   $$unsubscribe_activeArticle();
   $$unsubscribe_trayOpen();
   $$unsubscribe_playSound();
   $$unsubscribe_showLabels();
   return `
-${$uiState == import_movement_33798768.S.READY ? `${(0, import_index_c41c42e8.v)(Menubar, "Menubar").$$render($$result, { currentRoom: $currentRoom }, {}, {})}` : ``}
+
+
+
+${$uiState == import_movement_e4fb0cc6.S.READY ? `${(0, import_index_c41c42e8.v)(Menubar, "Menubar").$$render($$result, { currentRoom: $currentRoom }, {}, {})}` : ``}
 
 
 ${slots.default ? slots.default({}) : ``}
 
 
-${$uiState == import_movement_33798768.S.READY && !$activeArticle ? `${(0, import_index_c41c42e8.v)(AuthenticationBox, "AuthenticationBox").$$render($$result, {}, {}, {})}` : ``}
+${$uiState == import_movement_e4fb0cc6.S.READY && !$activeArticle ? `` : ``}
 
 
-${$uiState == import_movement_33798768.S.LOADING ? `${(0, import_index_c41c42e8.v)(LoadingScreen, "LoadingScreen").$$render($$result, {}, {}, {})}` : ``}
+${$uiState == import_movement_e4fb0cc6.S.LOADING ? `${(0, import_index_c41c42e8.v)(LoadingScreen, "LoadingScreen").$$render($$result, {}, {}, {})}` : ``}
 
 
-${$uiState == import_movement_33798768.S.ERROR ? `${(0, import_index_c41c42e8.v)(Error2, "Error").$$render($$result, { message: "" }, {}, {})}` : ``}
+${$uiState == import_movement_e4fb0cc6.S.ERROR ? `${(0, import_index_c41c42e8.v)(Error2, "Error").$$render($$result, { message: "" }, {}, {})}` : ``}
 
 
-${$uiState == import_movement_33798768.S.DISCONNECTED ? `${(0, import_index_c41c42e8.v)(Reconnection, "Reconnection").$$render($$result, { reconnectionAttempts, disconnectionCode }, {}, {})}` : ``}
+${$uiState == import_movement_e4fb0cc6.S.DISCONNECTED ? `${(0, import_index_c41c42e8.v)(Reconnection, "Reconnection").$$render($$result, { reconnectionAttempts, disconnectionCode }, {}, {})}` : ``}
 
 
 ${!$trayOpen && !$activeArticle ? `<div class="${"options svelte-1n4mbfs"}"><div class="${"option sound svelte-1n4mbfs"}">${$playSound ? `${(0, import_index_c41c42e8.v)(SoundOn, "SoundOn").$$render($$result, {}, {}, {})}` : `${(0, import_index_c41c42e8.v)(SoundOff, "SoundOff").$$render($$result, {}, {}, {})}`}</div>
