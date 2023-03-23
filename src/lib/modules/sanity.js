@@ -21,6 +21,7 @@ export const client = sanityClient({
   useCdn: false,
 })
 
+
 const h = blocksToHtml.h
 
 const prepareTextElements = props => {

@@ -8,7 +8,8 @@
   const dispatch = createEventDispatcher()
   import { get  } from "svelte/store"
   import BadWords from 'bad-words'  
- import {currentRoom} from '$lib/modules/movement.js'
+  import {currentRoom} from '$lib/modules/movement.js'
+  import { client  } from '$lib/modules/sanity.js'
   import {STATE, uiState} from '$lib/modules/ui.js'
   import ChatBox from "./ChatBox.svelte"
   import { isPhone } from "$lib/modules/ui.js" 
@@ -27,6 +28,14 @@
     })
     chatInputValue = ""
   }
+  console.log('current room: ', $currentRoom)
+  const query = `*[_type == 'room' && _id == "${$currentRoom._id}"]`
+  console.log('query: ', query)
+  client.listen(query).subscribe(update => {
+  console.log('update: ', update)
+        chatSettings = update.result.chatSettings
+    })
+
   const showHideMobile = () => {
     showMobile = !showMobile
   }
@@ -34,9 +43,10 @@
 $: chatSettings = $currentRoom.chatSettings != undefined ? $currentRoom.chatSettings : {useDiscord: false, discordChannelId: undefined}
 $: discordURL = `https://e.widgetbot.io/channels/806275264807698482/${chatSettings.discordChannelId}` 
 </script>
+{#if chatSettings != undefined && chatSettings.disableChat != true }
 <div class:is-mobile={$isPhone} class="chat-container" class:minimize={$isPhone ? !showMobile : false}>
 <button class="mobile-button" class:minimize={showMobile} on:click={showHideMobile} >{showMobile ? 'X' : 'Chat'}</button>
-{#if chatSettings == undefined || chatSettings.useDiscord != true || chatSettings.discordChannelId == undefined}
+{#if chatSettings.useDiscord != true || chatSettings.discordChannelId == undefined}
 <div class="chat-content" class:hidden-mobile={!showMobile}>
     <ChatBox messages={chatMessages} room={$currentRoom}/>
     <div class="chat-input">
@@ -56,6 +66,7 @@ $: discordURL = `https://e.widgetbot.io/channels/806275264807698482/${chatSettin
 <iframe class="discord-widget" class:hidden-mobile={!showMobile} src={ discordURL } style="sidebar:display:none;"></iframe>
 {/if}
 </div>
+{/if}
 <style lang="scss">
   @import "src/lib/style/variables.scss";
   .discord-widget {
