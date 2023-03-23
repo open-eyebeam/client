@@ -7,6 +7,7 @@
   // * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
   import { onMount } from "svelte"
+  import { writable } from "svelte/store"
   import get from "lodash/get.js"
   import has from "lodash/has.js"
   import Cookies from "js-cookie"
@@ -192,7 +193,8 @@
     // Initialize streams handler
     initializeStreamsHandler()
     infoLogger("✓ (6) Stream listener initialized")
-
+    
+    
     // Check if there is a hash in the URL
     if (window.location.hash) {
       const hash = window.location.hash.substring(1)
@@ -217,9 +219,11 @@
     Cookies.set("open-eyebeam-avatar", avatar)
     uiState.set(STATE.READY)
     // Focus on the player's avatar for 3 seconds
+    focusPlayer.set(true)
     setTimeout(() => {
       focusPlayer.set(false)
     }, 3000)
+
     //FIXME: prob need utils for this
     isPhone.set(isMobileOrTablet())
   }
@@ -274,6 +278,15 @@
       finalSetUp(nameCookie, avatarCookie)
     }
   })
+  // check for universal stream
+  export let universalStream = writable({})
+  function getUniversalStream() {
+  console.log('getting universal stream: ', $streams)
+    universalStream.set($streams.filter(stream => { return stream.showEverywhere == true})[0]) 
+  }
+$: $streams && getUniversalStream();
+$: $universalStream && getUniversalStream();
+$: console.log('universal stream: ', $universalStream)
 </script>
 
 <!-- ONBOARDING -->
@@ -321,15 +334,23 @@
 {/if}
 
 <!-- LIVE STREAM -->
-{#each $streams as stream}
-  {#if !$focusPlayer && ($currentRoom._id == stream.parentArea._ref || $activeZone._id == stream.parentArea._ref)}
+{#if !$focusPlayer && $universalStream != undefined}
+    <StreamPlayer
+        streamUrl={$universalStream.videoUrl}
+      audioOnly={$universalStream.audioOnly}
+      title={$universalStream.title}
+    />
+{:else }
+    {#each $streams as stream}
+    {#if !$focusPlayer && ($currentRoom._id == stream.parentArea._ref || $activeZone._id == stream.parentArea._ref)}
     <StreamPlayer
       streamUrl={stream.videoUrl}
       audioOnly={stream.audioOnly}
       title={stream.title}
     />
   {/if}
-{/each}
+  {/each}
+{/if}
 
 <!-- ROOM ENTRY BOX -->
 {#if $roomIntent}
