@@ -25,6 +25,7 @@
   let gridWidth = get(object, "dimensions.width", 1) * GRID_SIZE
   let gridHeight = get(object, "dimensions.height", 1) * GRID_SIZE
 
+  console.log('icon image: ', object.iconImage)
   $: {
     if (label.popper) {
       if ($showLabels) {
@@ -89,7 +90,7 @@
 role="uiitem"
 >
   {#if object.iconImage}
-    <img src={urlFor(object.iconImage).quality(100).height(300).url()} alt={object.alt} />
+    <img src={urlFor(object.iconImage.asset._ref).url()} alt={object.alt} />
   {/if}
 </div>
 {:else }
