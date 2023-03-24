@@ -14,71 +14,44 @@
 
   // *** PROPS
   export let message = {}
+  $: console.log('message: ', message)
 </script>
 
-<div class="chat-message" transition:fade|local >
-  <div class="meta">
-    <span class="name">{message.name}</span>
-    <span class="date">{formattedChatDate(message.timestamp)}</span>
-  </div>
-  <div class="body">
+<div class="chat-message" aria-live="polite" transition:fade|local >
+    <span class="username">{message.name}: </span><span class="message-text">
     {@html anchorme({
       input: message.text,
       options: {
         attributes: {
           target: "_blank",
+          class: "inline-link"
         },
       },
     })}
-  </div>
+    </span>
 </div>
 
 <style lang="scss">
   @import "src/lib/style/variables.scss";
-
+  :global(.inline-link) {
+      color: $e-ink-medium !important;
+  }
   .chat-message {
-    margin-bottom: $SPACE_XS;
-    padding-bottom: $SPACE_XS;
-    padding-left: $SPACE_S;
-    padding-right: $SPACE_S;
-    color: $e-ink-dark;
-    font-size: $font-size-small;
-    user-select: none;
 
-    .meta {
-      width: 100%;
-      display: inline-block;
-      color: $e-ink-dark;
-
-      .name {
-        float: left;
-        svg {
-          path {
-            fill: $e-ink-medium;
-          }
-          &:hover {
-            path {
-              fill: $e-ink-light;
-            }
-          }
-        }
+    display: flex;
+        padding: $SPACE_S;
+        border-bottom: 1px solid $e-ink-medium;
+        &:last-child {
+     //     border-bottom: none;
+          
       }
 
-      .date {
-        font-family: $SERIF_STACK;
-        font-weight: normal;
-        float: right;
-      }
-    }
+      .message-text {
+        padding-left: $SPACE_S;
 
-    .body {
-      border-left: 1px solid $e-ink-medium;
-      padding-left: $SPACE_S;
-      padding-right: $SPACE_XS;
-
-      :global(a) {
-        color: $e-ink-dark;
       }
-    }
+      .username {
+        font-weight: 800;
+      }
   }
 </style>

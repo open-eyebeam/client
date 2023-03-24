@@ -13,6 +13,7 @@
     scrollMessages()
   })
   //TODO: fix message sizing, limit message length, etc.
+  import ChatMessage from './ChatMessage.svelte'
 </script>
 
 <div class="chat-log" bind:this={scrollBox}>
@@ -21,9 +22,7 @@
   <div class="chat-message">The chat is empty, for now.</div>
 {/if}
   {#each messages as message}
-  <div class="chat-message" aria-live="polite">
-    <span class="username">{message.name}: </span><span class="message-text"> {message._text}</span>
-  </div>
+ <ChatMessage message={message} />
   {/each}
 </div>
 
@@ -73,11 +72,11 @@
      //     border-bottom: none;
           
       }
-      }
       .message-text {
         padding-left: $SPACE_S;
       }
       .username {
         font-weight: 800;
       }
+    }
 </style>
