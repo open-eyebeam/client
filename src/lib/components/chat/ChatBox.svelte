@@ -16,7 +16,7 @@
 </script>
 
 <div class="chat-log" bind:this={scrollBox}>
-  <div class="chat-message chat-pinned"><span class="message-text">For a less ephemeral conversation, <a href="https://discord.gg/NK6EQwrsmz">join our Discord.</a></span></div>
+  <div class="chat-message chat-pinned"><span class="message-text">For a less ephemeral conversation, <a href="https://discord.gg/NK6EQwrsmz">join our Discord</a>. Send us feedback <a href="https://desk.undersco.re/apps/forms/s/5BqyWk8EsSe4YtCfJEqyni9K">here</a>.</span></div>
 {#if messages.length <= 0}
   <div class="chat-message">The chat is empty, for now.</div>
 {/if}
@@ -31,8 +31,8 @@
   @import "src/lib/style/variables.scss";
   .chat-log {
     width: 100%;
-    max-height: 300px;
-    min-height: 100px;
+    max-height: 400px;
+    min-height: 200px;
     display: flex;
     align-items: center;
     user-select: none;
@@ -70,7 +70,7 @@
         padding: $SPACE_S;
         border-bottom: 1px solid $e-ink-medium;
         &:last-child {
-          border-bottom: none;
+     //     border-bottom: none;
           
       }
       }
