@@ -7,6 +7,8 @@
 
   // *** IMPORTS
   import { fade } from "svelte/transition"
+  import { isPhone } from "$lib/modules/ui.js" 
+
   import anchorme from "anchorme"
 
   // *** GLOBALS

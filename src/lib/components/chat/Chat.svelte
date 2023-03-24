@@ -176,7 +176,7 @@ button {
     .mobile-button {
       display:block;
       width: 100%;
-      z-index: 1;
+      z-index: 1001;
     }
     .hidden-mobile {
       display:none
@@ -185,8 +185,7 @@ button {
       width: 40px;
       height: 40px;
       font-weight: bold;
-      position: fixed;
-      bottom: calc(45% + 80px);
+      position: absolute;
       right: 0;
 }
   }

@@ -8,6 +8,7 @@
   // *** IMPORTS
   import { fade } from "svelte/transition"
   import { createEventDispatcher } from "svelte"
+  import { isPhone } from "$lib/modules/ui.js" 
 
   const dispatch = createEventDispatcher()
 
@@ -16,7 +17,7 @@
   export let objectId = ""
 </script>
 
-<div class="object-dialog-box" aria-live="polite">
+<div class="object-dialog-box" class:is-mobile={$isPhone} aria-live="polite">
   <div>{text}</div>
   <div class="multiple-choice">
     <div
@@ -66,9 +67,14 @@
     border: 1px solid $e-ink-dark;
     z-index: 1000;
     user-select: none;
+    &.is-mobile {
+      bottom: 180px;
+      width: calc(100% - 10px);
+      font-size: 22px;
+    }
 
     @include screen-size("small") {
-      bottom: unset;
+
       top: 40px;
       left: 5px;
       max-width: calc(100% - 10px);

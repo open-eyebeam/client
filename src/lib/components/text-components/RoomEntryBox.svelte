@@ -11,13 +11,14 @@
   import { createEventDispatcher } from "svelte"
   const dispatch = createEventDispatcher()
   const transitionSettings = { duration: 500 }
+  import { isPhone } from "$lib/modules/ui.js" 
 
   // *** PROPS
   export let roomIntent = ""
   export let roomTitle = ""
 </script>
 
-<div class="caption-container" in:fade aria-live="polite">
+<div class="caption-container" class:is-mobile={$isPhone} in:fade aria-live="polite">
   <RoomDialog
     text={`Go to ${roomTitle}?`}
     roomId={roomIntent}
@@ -44,5 +45,8 @@
     bottom: 20px;
     left: 20px;
     z-index: 1000;
+    &.is-mobile {
+      bottom: 160px;
+    }
   }
 </style>

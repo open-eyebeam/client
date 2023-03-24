@@ -1,6 +1,8 @@
 
 <script>
   import { afterUpdate } from 'svelte'
+  import { isPhone } from "$lib/modules/ui.js" 
+
   export let messages = [];
   export let room = {};
   // automatically scroll to bottom of box when new message is added
@@ -16,7 +18,7 @@
   import ChatMessage from './ChatMessage.svelte'
 </script>
 
-<div class="chat-log" bind:this={scrollBox}>
+<div class="chat-log" class:is-mobile={$isPhone} bind:this={scrollBox}>
   <div class="chat-message chat-pinned"><span class="message-text">For a less ephemeral conversation, <a target="_blank" href="https://discord.gg/NK6EQwrsmz">join our Discord</a>. Send us feedback <a target="_blank" href="https://desk.undersco.re/apps/forms/s/5BqyWk8EsSe4YtCfJEqyni9K">here</a>.</span></div>
 {#if messages.length <= 0}
   <div class="chat-message">The chat is empty, for now.</div>
@@ -55,14 +57,17 @@
     a {
      color: $e-ink-medium;
     }
+    &.is-mobile {
+      height: 50vh;
+    }
     }
   .chat-pinned {
     position: absolute;
     background: $e-ink-dark;
-    border-right: 1px solid $e-ink-medium;
     z-index: 1;
     top: 1px;
     height: 70px;
+    width: calc(100% - 2px);
   }
     .chat-message {
         display: flex;

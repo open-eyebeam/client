@@ -22,6 +22,7 @@
   <div class="multiple-choice">
     <div
       class="choice"
+      class:is-mobile={$isPhone}
       on:click={e => {
         dispatch("room", { roomId: roomId })
       }}
@@ -38,6 +39,7 @@
     </div>
     <div
       class="choice"
+      class:is-mobile={$isPhone}
       on:click={e => {
         dispatch("room", { roomId: false })
       }}
@@ -68,19 +70,21 @@
     z-index: 1000;
     user-select: none;
     &.is-mobile {
-      bottom: unset;
-      top: 40px;
+      bottom: 170px;
+      font-size:22px;
       left: 5px;
-      max-width: calc(100% - 10px);
+      width: calc(100% - 10px);
     }
   }
 
   .choice {
     display: flex;
     cursor: pointer;
-    outline-color: $e-ink-dark;
-    outline-width: 1px;
-
+    border:1px solid $e-ink-dark;
+    margin-bottom: 4px;
+    &.is-mobile {
+      width:50%;
+    }
     .marker {
       opacity: 0;
       width: 1em;
