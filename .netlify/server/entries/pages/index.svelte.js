@@ -24,11 +24,10 @@ __export(stdin_exports, {
 });
 module.exports = __toCommonJS(stdin_exports);
 var import_index_c41c42e8 = require("../../chunks/index-c41c42e8.js");
+var import_movement_3d7f429a = require("../../chunks/movement-3d7f429a.js");
 var import_get = __toESM(require("lodash/get.js"));
 var import_has = __toESM(require("lodash/has.js"));
 var import_js_cookie = require("js-cookie");
-var import_date_fns = require("date-fns");
-var import_movement_e4fb0cc6 = require("../../chunks/movement-e4fb0cc6.js");
 var import_sample = __toESM(require("lodash/sample.js"));
 var import_howler = require("howler");
 var import_get_video_id = __toESM(require("get-video-id"));
@@ -39,11 +38,12 @@ var import_html_truncate = require("html-truncate");
 var import_bad_words = __toESM(require("bad-words"));
 var import_keycloak_js = require("keycloak-js");
 var import_slugify = require("slugify");
+var import_date_fns = require("date-fns");
 var import_client = require("@sanity/client");
 var import_block_content_to_html = require("@sanity/block-content-to-html");
 var import_image_url = require("@sanity/image-url");
-const isAuthenticated = (0, import_movement_e4fb0cc6.w)(false);
-const profile = (0, import_movement_e4fb0cc6.w)(false);
+const isAuthenticated = (0, import_movement_3d7f429a.w)(false);
+const profile = (0, import_movement_3d7f429a.w)(false);
 var AvatarPicker_svelte_svelte_type_style_lang = /* @__PURE__ */ (() => ".inner.svelte-i1o3ve.svelte-i1o3ve{display:flex;flex-wrap:wrap;margin-top:20px}.inner.svelte-i1o3ve .avatar.svelte-i1o3ve{cursor:pointer;padding:5px;border:2px solid transparent;border-radius:5px}@media(max-width: 800px){.inner.svelte-i1o3ve .avatar.svelte-i1o3ve{padding:10px}}.inner.svelte-i1o3ve .avatar.selected.svelte-i1o3ve{border:2px solid #221f20}")();
 const css$i = {
   code: ".inner.svelte-i1o3ve.svelte-i1o3ve{display:flex;flex-wrap:wrap;margin-top:20px}.inner.svelte-i1o3ve .avatar.svelte-i1o3ve{cursor:pointer;padding:5px;border:2px solid transparent;border-radius:5px}@media(max-width: 800px){.inner.svelte-i1o3ve .avatar.svelte-i1o3ve{padding:10px}}.inner.svelte-i1o3ve .avatar.selected.svelte-i1o3ve{border:2px solid #221f20}",
@@ -70,10 +70,10 @@ const css$h = {
 };
 const Onboarding = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots) => {
   let $$unsubscribe_isPhone;
-  $$unsubscribe_isPhone = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.i, (value) => value);
+  $$unsubscribe_isPhone = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.i, (value) => value);
   (0, import_index_c41c42e8.h)();
   let { avatars = [] } = $$props;
-  import_movement_e4fb0cc6.i.set((0, import_movement_e4fb0cc6.d)());
+  import_movement_3d7f429a.i.set((0, import_movement_3d7f429a.d)());
   let slides = false;
   let slideIndex = 0;
   let name = "";
@@ -99,7 +99,7 @@ const css$g = {
 };
 const Room = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots) => {
   let $centeringInlineStyles, $$unsubscribe_centeringInlineStyles;
-  $$unsubscribe_centeringInlineStyles = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.e, (value) => $centeringInlineStyles = value);
+  $$unsubscribe_centeringInlineStyles = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.e, (value) => $centeringInlineStyles = value);
   let { room = {} } = $$props;
   if ($$props.room === void 0 && $$bindings.room && room !== void 0)
     $$bindings.room(room);
@@ -120,9 +120,9 @@ const Avatar = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slot
   let $isPhone, $$unsubscribe_isPhone;
   let $chatMessages, $$unsubscribe_chatMessages;
   let $focusPlayer, $$unsubscribe_focusPlayer;
-  $$unsubscribe_isPhone = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.i, (value) => $isPhone = value);
-  $$unsubscribe_chatMessages = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.f, (value) => $chatMessages = value);
-  $$unsubscribe_focusPlayer = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.g, (value) => $focusPlayer = value);
+  $$unsubscribe_isPhone = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.i, (value) => $isPhone = value);
+  $$unsubscribe_chatMessages = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.f, (value) => $chatMessages = value);
+  $$unsubscribe_focusPlayer = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.g, (value) => $focusPlayer = value);
   let chatPopUp = {};
   let chatTimeOut = {};
   const showMessage = (msg) => {
@@ -175,7 +175,7 @@ const Avatar = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slot
     return false;
   };
   const centerViewOnPlayer = () => {
-    import_movement_e4fb0cc6.e.set(`transform: translateX(-${gridPosX}px) translateY(-${gridPosY}px);`);
+    import_movement_3d7f429a.e.set(`transform: translateX(-${gridPosX}px) translateY(-${gridPosY}px);`);
   };
   if ($$props.player === void 0 && $$bindings.player && player !== void 0)
     $$bindings.player(player);
@@ -194,8 +194,8 @@ const Avatar = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slot
   }
   {
     {
-      gridPosY = player.y * import_movement_e4fb0cc6.G;
-      gridPosX = player.x * import_movement_e4fb0cc6.G;
+      gridPosY = player.y * import_movement_3d7f429a.G;
+      gridPosX = player.x * import_movement_3d7f429a.G;
     }
   }
   {
@@ -236,15 +236,16 @@ const css$e = {
 const Object$1 = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots) => {
   let $$unsubscribe_currentRoom;
   let $showLabels, $$unsubscribe_showLabels;
-  $$unsubscribe_currentRoom = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.c, (value) => value);
-  $$unsubscribe_showLabels = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.s, (value) => $showLabels = value);
+  $$unsubscribe_currentRoom = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.c, (value) => value);
+  $$unsubscribe_showLabels = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.s, (value) => $showLabels = value);
   let { object = {} } = $$props;
   let objectEl = {};
   let label = {};
-  let gridPosY = object.y * import_movement_e4fb0cc6.G;
-  let gridPosX = object.x * import_movement_e4fb0cc6.G;
-  let gridWidth = (0, import_get.default)(object, "dimensions.width", 1) * import_movement_e4fb0cc6.G;
-  let gridHeight = (0, import_get.default)(object, "dimensions.height", 1) * import_movement_e4fb0cc6.G;
+  let gridPosY = object.y * import_movement_3d7f429a.G;
+  let gridPosX = object.x * import_movement_3d7f429a.G;
+  let gridWidth = (0, import_get.default)(object, "dimensions.width", 1) * import_movement_3d7f429a.G;
+  let gridHeight = (0, import_get.default)(object, "dimensions.height", 1) * import_movement_3d7f429a.G;
+  console.log("icon image: ", object.iconImage);
   const inlineStyles = `transform: translateY(${gridPosY}px) translateX(${gridPosX}px); width: ${gridWidth}px; height: ${gridHeight}px;`;
   (0, import_index_c41c42e8.h)();
   if ($$props.object === void 0 && $$bindings.object && object !== void 0)
@@ -266,11 +267,11 @@ const Object$1 = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, sl
   return `${!object.iframeEmbed ? `<div class="${[
     "object svelte-y80ji7",
     (object.static ? "static" : "") + " " + (object.iconImage ? "image" : "")
-  ].join(" ").trim()}"${(0, import_index_c41c42e8.f)("id", object._id, 0)}${(0, import_index_c41c42e8.f)("style", inlineStyles, 0)} tabindex="${"0"}"${(0, import_index_c41c42e8.f)("aria-label", object.static ? "A static image of a " + object.title : "Inspect " + object.title, 0)} role="${"uiitem"}"${(0, import_index_c41c42e8.f)("this", objectEl, 0)}>${object.iconImage ? `<img${(0, import_index_c41c42e8.f)("src", (0, import_movement_e4fb0cc6.h)(object.iconImage).quality(100).height(300).url(), 0)}${(0, import_index_c41c42e8.f)("alt", object.alt, 0)} class="${"svelte-y80ji7"}">` : ``}</div>` : `${!object.externalLink ? `<div class="${["object svelte-y80ji7", object.static ? "static" : ""].join(" ").trim()}"${(0, import_index_c41c42e8.f)("style", inlineStyles, 0)}>${(0, import_index_c41c42e8.v)(import_movement_e4fb0cc6.B, "Blocks").$$render($$result, { blocks: object.content.content }, {}, {})}</div>` : ``}`}`;
+  ].join(" ").trim()}"${(0, import_index_c41c42e8.f)("id", object._id, 0)}${(0, import_index_c41c42e8.f)("style", inlineStyles, 0)} tabindex="${"0"}"${(0, import_index_c41c42e8.f)("aria-label", object.static ? "A static image of a " + object.title : "Inspect " + object.title, 0)} role="${"uiitem"}"${(0, import_index_c41c42e8.f)("this", objectEl, 0)}>${object.iconImage ? `<img${(0, import_index_c41c42e8.f)("src", (0, import_movement_3d7f429a.h)(object.iconImage.asset._ref).url(), 0)}${(0, import_index_c41c42e8.f)("alt", object.alt, 0)} class="${"svelte-y80ji7"}">` : ``}</div>` : `${!object.externalLink ? `<div class="${["object svelte-y80ji7", object.static ? "static" : ""].join(" ").trim()}"${(0, import_index_c41c42e8.f)("style", inlineStyles, 0)}>${(0, import_index_c41c42e8.v)(import_movement_3d7f429a.B, "Blocks").$$render($$result, { blocks: object.content.content }, {}, {})}</div>` : ``}`}`;
 });
 const Objects = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots) => {
   let $focusPlayer, $$unsubscribe_focusPlayer;
-  $$unsubscribe_focusPlayer = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.g, (value) => $focusPlayer = value);
+  $$unsubscribe_focusPlayer = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.g, (value) => $focusPlayer = value);
   let { objects = {} } = $$props;
   if ($$props.objects === void 0 && $$bindings.objects && objects !== void 0)
     $$bindings.objects(objects);
@@ -286,14 +287,14 @@ const css$d = {
 };
 const Zone = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots) => {
   let $showLabels, $$unsubscribe_showLabels;
-  $$unsubscribe_showLabels = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.s, (value) => $showLabels = value);
+  $$unsubscribe_showLabels = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.s, (value) => $showLabels = value);
   let { zone = {} } = $$props;
   let zoneEl = {};
   let label = {};
-  let gridPosY = zone.y * import_movement_e4fb0cc6.G;
-  let gridPosX = zone.x * import_movement_e4fb0cc6.G;
-  let gridWidth = (0, import_get.default)(zone, "dimensions.width", 1) * import_movement_e4fb0cc6.G;
-  let gridHeight = (0, import_get.default)(zone, "dimensions.height", 1) * import_movement_e4fb0cc6.G;
+  let gridPosY = zone.y * import_movement_3d7f429a.G;
+  let gridPosX = zone.x * import_movement_3d7f429a.G;
+  let gridWidth = (0, import_get.default)(zone, "dimensions.width", 1) * import_movement_3d7f429a.G;
+  let gridHeight = (0, import_get.default)(zone, "dimensions.height", 1) * import_movement_3d7f429a.G;
   const inlineStyles = `transform: translateY(${gridPosY}px) translateX(${gridPosX}px); width: ${gridWidth}px; height: ${gridHeight}px;};`;
   if ($$props.zone === void 0 && $$bindings.zone && zone !== void 0)
     $$bindings.zone(zone);
@@ -310,12 +311,12 @@ const Zone = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots)
     }
   }
   $$unsubscribe_showLabels();
-  return `<div class="${"zone svelte-8z8z6b"}"${(0, import_index_c41c42e8.f)("id", zone._id, 0)}${(0, import_index_c41c42e8.f)("alt", zone.title, 0)}${(0, import_index_c41c42e8.f)("style", inlineStyles, 0)} role="${"uiitem"}"${(0, import_index_c41c42e8.f)("this", zoneEl, 0)}>${zone.bgVideoUrl ? `<video${(0, import_index_c41c42e8.f)("src", zone.bgVideoUrl, 0)} autoplay loop muted class="${"svelte-8z8z6b"}"></video>` : `${zone.backgroundImage ? `<img${(0, import_index_c41c42e8.f)("src", (0, import_movement_e4fb0cc6.h)(zone.backgroundImage).quality(100).url(), 0)} class="${"svelte-8z8z6b"}">` : ``}`}
+  return `<div class="${"zone svelte-8z8z6b"}"${(0, import_index_c41c42e8.f)("id", zone._id, 0)}${(0, import_index_c41c42e8.f)("alt", zone.title, 0)}${(0, import_index_c41c42e8.f)("style", inlineStyles, 0)} role="${"uiitem"}"${(0, import_index_c41c42e8.f)("this", zoneEl, 0)}>${zone.bgVideoUrl ? `<video${(0, import_index_c41c42e8.f)("src", zone.bgVideoUrl, 0)} autoplay loop muted class="${"svelte-8z8z6b"}"></video>` : `${zone.backgroundImage ? `<img${(0, import_index_c41c42e8.f)("src", (0, import_movement_3d7f429a.h)(zone.backgroundImage).quality(100).url(), 0)} class="${"svelte-8z8z6b"}">` : ``}`}
 </div>`;
 });
 const Zones = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots) => {
   let $focusPlayer, $$unsubscribe_focusPlayer;
-  $$unsubscribe_focusPlayer = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.g, (value) => $focusPlayer = value);
+  $$unsubscribe_focusPlayer = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.g, (value) => $focusPlayer = value);
   let { zones = {} } = $$props;
   if ($$props.zones === void 0 && $$bindings.zones && zones !== void 0)
     $$bindings.zones(zones);
@@ -362,13 +363,13 @@ const css$c = {
 };
 const Portal = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots) => {
   let $$unsubscribe_currentRoom;
-  $$unsubscribe_currentRoom = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.c, (value) => value);
+  $$unsubscribe_currentRoom = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.c, (value) => value);
   let { portal = {} } = $$props;
   let portalEl = {};
   let label = {};
-  let gridPosY = portal.y * import_movement_e4fb0cc6.G;
-  let gridPosX = portal.x * import_movement_e4fb0cc6.G;
-  const inlineStyles = `transform: translateY(${gridPosY}px) translateX(${gridPosX}px); width: ${import_movement_e4fb0cc6.G}px; height: ${import_movement_e4fb0cc6.G}px; background-color: ${(0, import_get.default)(portal, "backgroundColor.hex", "")}; background-image: url("${(0, import_get.default)(portal, "bgImageUrl", "")}");"`;
+  let gridPosY = portal.y * import_movement_3d7f429a.G;
+  let gridPosX = portal.x * import_movement_3d7f429a.G;
+  const inlineStyles = `transform: translateY(${gridPosY}px) translateX(${gridPosX}px); width: ${import_movement_3d7f429a.G}px; height: ${import_movement_3d7f429a.G}px; background-color: ${(0, import_get.default)(portal, "backgroundColor.hex", "")}; background-image: url("${(0, import_get.default)(portal, "bgImageUrl", "")}");"`;
   (0, import_index_c41c42e8.h)();
   if ($$props.portal === void 0 && $$bindings.portal && portal !== void 0)
     $$bindings.portal(portal);
@@ -381,11 +382,11 @@ const Portal = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slot
     }
   }
   $$unsubscribe_currentRoom();
-  return `${!portal.restricted ? `<div class="${"portal svelte-1kgpwjb"}"${(0, import_index_c41c42e8.f)("id", portal._id, 0)}${(0, import_index_c41c42e8.f)("style", inlineStyles, 0)} tabindex="${"0"}"${(0, import_index_c41c42e8.f)("aria-label", "Go to " + portal.title, 0)} role="${"uiitem"}"${(0, import_index_c41c42e8.f)("this", portalEl, 0)}>${portal.iconImage ? `<img${(0, import_index_c41c42e8.f)("src", (0, import_movement_e4fb0cc6.h)(portal.iconImage).quality(100).height(100).url(), 0)}${(0, import_index_c41c42e8.f)("alt", portal.alt, 0)}>` : ``}</div>` : ``}`;
+  return `${!portal.restricted ? `<div class="${"portal svelte-1kgpwjb"}"${(0, import_index_c41c42e8.f)("id", portal._id, 0)}${(0, import_index_c41c42e8.f)("style", inlineStyles, 0)} tabindex="${"0"}"${(0, import_index_c41c42e8.f)("aria-label", "Go to " + portal.title, 0)} role="${"uiitem"}"${(0, import_index_c41c42e8.f)("this", portalEl, 0)}>${portal.iconImage ? `<img${(0, import_index_c41c42e8.f)("src", (0, import_movement_3d7f429a.h)(portal.iconImage).quality(100).height(100).url(), 0)}${(0, import_index_c41c42e8.f)("alt", portal.alt, 0)}>` : ``}</div>` : ``}`;
 });
 const Portals = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots) => {
   let $focusPlayer, $$unsubscribe_focusPlayer;
-  $$unsubscribe_focusPlayer = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.g, (value) => $focusPlayer = value);
+  $$unsubscribe_focusPlayer = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.g, (value) => $focusPlayer = value);
   (0, import_index_c41c42e8.h)();
   let { portals = {} } = $$props;
   if ($$props.portals === void 0 && $$bindings.portals && portals !== void 0)
@@ -416,7 +417,7 @@ const StreamPlayer = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings
   $$result.css.add(css$b);
   return `<div class="${["stream-container svelte-1hn1v36", audioOnly ? "audio" : ""].join(" ").trim()}"><div class="${"embed svelte-1hn1v36"}">${streamUrl.includes("youtube") || streamUrl.includes("youtu.be") ? `<div class="${"youtube-container svelte-1hn1v36"}"><iframe width="${"1920"}" height="${"1280"}"${(0, import_index_c41c42e8.f)("src", "https://www.youtube.com/embed/" + (0, import_get_video_id.default)(streamUrl).id + "?autoplay=1&rel=0&color=white", 0)} frameborder="${"no"}" allow="${"autoplay; fullscreen"}" allowfullscreen class="${"svelte-1hn1v36"}"></iframe></div>` : `${streamUrl.includes("vimeo") ? `<div class="${"vimeo-container svelte-1hn1v36"}"><iframe width="${"720"}" height="${"480"}"${(0, import_index_c41c42e8.f)("src", "https://player.vimeo.com/video/" + (0, import_get_video_id.default)(streamUrl).id + "?autoplay=1", 0)} frameborder="${"no"}" scrolling="${"no"}" byline="${"false"}" color="${"#ffffff"}" allow="${"autoplay; fullscreen"}" allowfullscreen class="${"svelte-1hn1v36"}"></iframe></div>` : `${streamUrl.includes("undersco.re") ? `<div class="${["peertube-container svelte-1hn1v36", audioOnly ? "hidden" : ""].join(" ").trim()}"><iframe class="${"peertube svelte-1hn1v36"}" width="${"1920"}" height="${"1080"}"${(0, import_index_c41c42e8.f)("src", streamUrl + "?api=1", 0)} frameborder="${"no"}" color="${"#ffffff"}" allow="${"autoplay; fullscreen"}" sandbox="${"allow-same-origin allow-scripts allow-popups"}" allowfullscreen></iframe></div>
       ${audioOnly ? `<div class="${"audio-interface svelte-1hn1v36"}"><div class="${"title svelte-1hn1v36"}">${(0, import_index_c41c42e8.e)(title)}</div>
-          <div class="${"controls svelte-1hn1v36"}"><div class="${"control svelte-1hn1v36"}">${`${(0, import_index_c41c42e8.v)(import_movement_e4fb0cc6.P, "PlayArrow").$$render($$result, {}, {}, {})}`}</div>
+          <div class="${"controls svelte-1hn1v36"}"><div class="${"control svelte-1hn1v36"}">${`${(0, import_index_c41c42e8.v)(import_movement_3d7f429a.P, "PlayArrow").$$render($$result, {}, {}, {})}`}</div>
             <div class="${"playbar svelte-1hn1v36"}"><div class="${"progress svelte-1hn1v36"}"${(0, import_index_c41c42e8.f)("style", "width: " + position + "%;", 0)}></div></div></div></div>` : ``}` : ``}`}`}</div>
 </div>`;
 });
@@ -450,7 +451,7 @@ const Bulletin_board_event = (0, import_index_c41c42e8.c)(($$result, $$props, $$
   return `${``}
 
     ${(0, import_has.default)(post, "content.content") && post.content.content[0].style == "html" ? `<div class="${"html-container svelte-12z4nak"}"><h3 class="${"svelte-12z4nak"}">Messages</h3>
-      ${(0, import_index_c41c42e8.v)(import_movement_e4fb0cc6.B, "Blocks").$$render($$result, { blocks: post.content.content }, {}, {})}</div>` : ``}`;
+      ${(0, import_index_c41c42e8.v)(import_movement_3d7f429a.B, "Blocks").$$render($$result, { blocks: post.content.content }, {}, {})}</div>` : ``}`;
 });
 var ArticleBox_svelte_svelte_type_style_lang = /* @__PURE__ */ (() => "button.svelte-1o7zo20.svelte-1o7zo20{all:unset}.return-button.svelte-1o7zo20.svelte-1o7zo20{position:fixed;top:40px;left:20px;background:#f5f4ee;color:#221f20;padding:5px;font-size:12px;z-index:100000;cursor:pointer}.viewer-count.svelte-1o7zo20.svelte-1o7zo20{position:absolute;top:60px;left:50%;transform:translateX(-50%);color:#f5f4ee;font-size:12px;z-index:100000}.article.svelte-1o7zo20.svelte-1o7zo20{position:fixed;top:0;left:0;width:100%;height:100%;background:#221f20;z-index:10000;display:flex;padding-top:60px;padding-bottom:80px;justify-content:center;cursor:pointer;transition:transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)}.article.svelte-1o7zo20 .inner.svelte-1o7zo20{background:#dedcd5;color:#221f20;width:800px;max-width:90%;z-index:10000;padding:20px;overflow-y:scroll;font-size:14px;cursor:default}@media(max-width: 800px){.article.svelte-1o7zo20 .inner.svelte-1o7zo20{width:90%}}.article.pushed.svelte-1o7zo20.svelte-1o7zo20{transform:translateY(240px)}.article img{max-width:100%}.video.svelte-1o7zo20.svelte-1o7zo20{position:fixed;top:0;left:0;width:100%;height:100%;background:#221f20;z-index:10000;display:flex;padding-top:60px;padding-bottom:60px;justify-content:center;align-items:center;transition:transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);cursor:pointer}.video.pushed.svelte-1o7zo20.svelte-1o7zo20{transform:translateY(240px)}.info-text.svelte-1o7zo20.svelte-1o7zo20{position:fixed;bottom:20px;left:20px;background:#221f20;z-index:10000;display:flex;padding:10px;font-size:14px;color:#f5f4ee;border:1px solid #f5f4ee}.bulletin-board.svelte-1o7zo20.svelte-1o7zo20{position:fixed;top:0;left:0;width:100%;height:100%;background:#221f20;z-index:10000;display:flex;padding-top:60px;padding-bottom:80px;justify-content:center;cursor:pointer;transition:transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)}.bulletin-board.svelte-1o7zo20 h1.svelte-1o7zo20{margin:0}.bulletin-board.svelte-1o7zo20 .inner.svelte-1o7zo20{background:#dedcd5;color:#221f20;width:800px;max-width:90%;z-index:10000;padding:20px;overflow-y:scroll;font-size:14px;cursor:default}.bulletin-board.svelte-1o7zo20 .inner .bulletin-board-actions.svelte-1o7zo20{margin-top:20px;margin-bottom:20px;display:inline-block}.bulletin-board.pushed.svelte-1o7zo20.svelte-1o7zo20{transform:translateY(240px)}")();
 const css$8 = {
@@ -460,13 +461,13 @@ const css$8 = {
 const ArticleBox = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots) => {
   let $players, $$unsubscribe_players;
   let $trayOpen, $$unsubscribe_trayOpen;
-  $$unsubscribe_players = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.j, (value) => $players = value);
-  $$unsubscribe_trayOpen = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.t, (value) => $trayOpen = value);
+  $$unsubscribe_players = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.j, (value) => $players = value);
+  $$unsubscribe_trayOpen = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.t, (value) => $trayOpen = value);
   let { article = {} } = $$props;
   let viewCount = 0;
   let viewCountText = "";
   (0, import_index_c41c42e8.o)(async () => {
-    (0, import_movement_e4fb0cc6.k)();
+    (0, import_movement_3d7f429a.k)();
   });
   if ($$props.article === void 0 && $$bindings.article && article !== void 0)
     $$bindings.article(article);
@@ -489,7 +490,7 @@ const ArticleBox = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, 
 <button class="${"return-button svelte-1o7zo20"}" aria-label="${"Return"}">Return
 </button>
 
-${article.contentType === "video" ? `<div class="${["video svelte-1o7zo20", $trayOpen ? "pushed" : ""].join(" ").trim()}" aria-live="${"polite"}">${(0, import_index_c41c42e8.v)(VideoPlayer, "VideoPlayer").$$render($$result, { streamUrl: article.videoUrl }, {}, {})}</div>` : `${article.contentType === "text" ? `${(0, import_has.default)(article, "content.content") ? `<div class="${["article svelte-1o7zo20", $trayOpen ? "pushed" : ""].join(" ").trim()}" aria-live="${"polite"}"><div class="${"inner svelte-1o7zo20"}">${(0, import_index_c41c42e8.v)(import_movement_e4fb0cc6.B, "Blocks").$$render($$result, { blocks: article.content.content }, {}, {})}</div></div>` : ``}` : `${article.contentType === "importedPost" ? `<div class="${["article svelte-1o7zo20", $trayOpen ? "pushed" : ""].join(" ").trim()}" aria-live="${"polite"}"><div class="${"inner svelte-1o7zo20"}">${``}</div></div>` : `${article.isBulletinBoard ? `<div class="${["bulletin-board svelte-1o7zo20", $trayOpen ? "pushed" : ""].join(" ").trim()}" aria-live="${"polite"}"><div class="${"inner svelte-1o7zo20"}"><h1 class="${"svelte-1o7zo20"}">Bulletin Board</h1>
+${article.contentType === "video" ? `<div class="${["video svelte-1o7zo20", $trayOpen ? "pushed" : ""].join(" ").trim()}" aria-live="${"polite"}">${(0, import_index_c41c42e8.v)(VideoPlayer, "VideoPlayer").$$render($$result, { streamUrl: article.videoUrl }, {}, {})}</div>` : `${article.contentType === "text" ? `${(0, import_has.default)(article, "content.content") ? `<div class="${["article svelte-1o7zo20", $trayOpen ? "pushed" : ""].join(" ").trim()}" aria-live="${"polite"}"><div class="${"inner svelte-1o7zo20"}">${(0, import_index_c41c42e8.v)(import_movement_3d7f429a.B, "Blocks").$$render($$result, { blocks: article.content.content }, {}, {})}</div></div>` : ``}` : `${article.contentType === "importedPost" ? `<div class="${["article svelte-1o7zo20", $trayOpen ? "pushed" : ""].join(" ").trim()}" aria-live="${"polite"}"><div class="${"inner svelte-1o7zo20"}">${``}</div></div>` : `${article.isBulletinBoard ? `<div class="${["bulletin-board svelte-1o7zo20", $trayOpen ? "pushed" : ""].join(" ").trim()}" aria-live="${"polite"}"><div class="${"inner svelte-1o7zo20"}"><h1 class="${"svelte-1o7zo20"}">Bulletin Board</h1>
       <div class="${"bulletin-board-actions svelte-1o7zo20"}"></div>
       <div class="${"bulletin-board-events"}">${(0, import_index_c41c42e8.b)(article.events, (event) => {
     return `${(0, import_index_c41c42e8.v)(Bulletin_board_event, "BulletinBoardEvent").$$render($$result, { event }, {}, {})}`;
@@ -504,7 +505,7 @@ const css$7 = {
 };
 const RoomDialog = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots) => {
   let $isPhone, $$unsubscribe_isPhone;
-  $$unsubscribe_isPhone = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.i, (value) => $isPhone = value);
+  $$unsubscribe_isPhone = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.i, (value) => $isPhone = value);
   (0, import_index_c41c42e8.h)();
   let { text = "" } = $$props;
   let { roomId = "" } = $$props;
@@ -621,13 +622,20 @@ const Chat = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots)
   let discordURL;
   let $currentRoom, $$unsubscribe_currentRoom;
   let $isPhone, $$unsubscribe_isPhone;
-  $$unsubscribe_currentRoom = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.c, (value) => $currentRoom = value);
-  $$unsubscribe_isPhone = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.i, (value) => $isPhone = value);
+  $$unsubscribe_currentRoom = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.c, (value) => $currentRoom = value);
+  $$unsubscribe_isPhone = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.i, (value) => $isPhone = value);
   (0, import_index_c41c42e8.h)();
   new import_bad_words.default();
   let chatInputValue = "";
   let { chatMessages: chatMessages2 = [] } = $$props;
   let showMobile = $isPhone ? false : null;
+  console.log("current room: ", $currentRoom);
+  const query = `*[_type == 'room' && _id == "${$currentRoom._id}"]`;
+  console.log("query: ", query);
+  import_movement_3d7f429a.m.listen(query).subscribe((update) => {
+    console.log("update: ", update);
+    chatSettings = update.result.chatSettings;
+  });
   if ($$props.chatMessages === void 0 && $$bindings.chatMessages && chatMessages2 !== void 0)
     $$bindings.chatMessages(chatMessages2);
   $$result.css.add(css$2);
@@ -638,17 +646,16 @@ const Chat = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots)
   discordURL = `https://e.widgetbot.io/channels/806275264807698482/${chatSettings.discordChannelId}`;
   $$unsubscribe_currentRoom();
   $$unsubscribe_isPhone();
-  return `<div class="${[
+  return `${chatSettings != void 0 && chatSettings.disableChat != true ? `<div class="${[
     "chat-container svelte-1eyiicu",
     ($isPhone ? "is-mobile" : "") + " " + (($isPhone ? !showMobile : false) ? "minimize" : "")
   ].join(" ").trim()}"><button class="${["mobile-button svelte-1eyiicu", showMobile ? "minimize" : ""].join(" ").trim()}">${(0, import_index_c41c42e8.e)(showMobile ? "X" : "Chat")}</button>
-${chatSettings == void 0 || chatSettings.useDiscord != true || chatSettings.discordChannelId == void 0 ? `<div class="${["chat-content svelte-1eyiicu", !showMobile ? "hidden-mobile" : ""].join(" ").trim()}">${(0, import_index_c41c42e8.v)(ChatBox, "ChatBox").$$render($$result, {
+${chatSettings.useDiscord != true || chatSettings.discordChannelId == void 0 ? `<div class="${["chat-content svelte-1eyiicu", !showMobile ? "hidden-mobile" : ""].join(" ").trim()}">${(0, import_index_c41c42e8.v)(ChatBox, "ChatBox").$$render($$result, {
     messages: chatMessages2,
     room: $currentRoom
   }, {}, {})}
     <div class="${"chat-input svelte-1eyiicu"}"><input placeholder="${"Write a message..."}" type="${"[text]"}" maxlength="${"600"}" class="${"svelte-1eyiicu"}"${(0, import_index_c41c42e8.f)("value", chatInputValue, 0)}>
-    <button class="${"svelte-1eyiicu"}">Send</button></div></div>` : `<iframe class="${["discord-widget svelte-1eyiicu", !showMobile ? "hidden-mobile" : ""].join(" ").trim()}"${(0, import_index_c41c42e8.f)("src", discordURL, 0)} style="${"sidebar:display:none;"}"></iframe>`}
-</div>`;
+    <button class="${"svelte-1eyiicu"}">Send</button></div></div>` : `<iframe class="${["discord-widget svelte-1eyiicu", !showMobile ? "hidden-mobile" : ""].join(" ").trim()}"${(0, import_index_c41c42e8.f)("src", discordURL, 0)} style="${"sidebar:display:none;"}"></iframe>`}</div>` : ``}`;
 });
 var PhoneNavigation_svelte_svelte_type_style_lang = /* @__PURE__ */ (() => ".phone-navigation.svelte-1gdx3ae.svelte-1gdx3ae{position:fixed;bottom:0;left:0;width:100vw;height:120px;backdrop-filter:blur(10px);padding-top:10px;padding-bottom:10px;padding-left:5px;padding-right:5px;cursor:pointer;font-size:22px;z-index:10000;display:flex;user-select:none}.left.svelte-1gdx3ae.svelte-1gdx3ae{height:calc(100% - 10px);width:calc(30% - 10px);background:#dedcd5;border:1px solid #221f20;margin:5px}.right.svelte-1gdx3ae.svelte-1gdx3ae{height:calc(100% - 10px);width:calc(30% - 10px);background:#dedcd5;border:1px solid #221f20;margin:5px}.vert.svelte-1gdx3ae.svelte-1gdx3ae{height:100%;width:40%;display:flex;flex-direction:column}.vert.svelte-1gdx3ae .up.svelte-1gdx3ae{height:calc(50% - 10px);width:calc(100% - 10px);background:#dedcd5;border:1px solid #221f20;margin:5px}.vert.svelte-1gdx3ae .up span.svelte-1gdx3ae{margin-bottom:10px}.vert.svelte-1gdx3ae .down.svelte-1gdx3ae{height:calc(50% - 10px);width:calc(100% - 10px);background:#dedcd5;border:1px solid #221f20;margin:5px}.vert.svelte-1gdx3ae .down span.svelte-1gdx3ae{margin-bottom:10px}.key.svelte-1gdx3ae.svelte-1gdx3ae{display:flex;justify-content:center;align-items:center;user-select:none;-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none}.key.svelte-1gdx3ae.svelte-1gdx3ae:hover,.key.active.svelte-1gdx3ae.svelte-1gdx3ae{background:#f5f4ee}")();
 const css$1 = {
@@ -670,6 +677,8 @@ const css = {
   map: null
 };
 const Routes = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots) => {
+  let $universalStream, $$unsubscribe_universalStream;
+  let $streams, $$unsubscribe_streams;
   let $$unsubscribe_isAuthenticated;
   let $worldObject, $$unsubscribe_worldObject;
   let $currentRoom, $$unsubscribe_currentRoom;
@@ -679,7 +688,6 @@ const Routes = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slot
   let $uiState, $$unsubscribe_uiState;
   let $trayOpen, $$unsubscribe_trayOpen;
   let $playSound, $$unsubscribe_playSound;
-  let $streams, $$unsubscribe_streams;
   let $focusPlayer, $$unsubscribe_focusPlayer;
   let $activeZone, $$unsubscribe_activeZone;
   let $roomIntent, $$unsubscribe_roomIntent;
@@ -687,37 +695,54 @@ const Routes = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slot
   let $activeArticle, $$unsubscribe_activeArticle;
   let $chatMessages, $$unsubscribe_chatMessages;
   let $isPhone, $$unsubscribe_isPhone;
+  $$unsubscribe_streams = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.n, (value) => $streams = value);
   $$unsubscribe_isAuthenticated = (0, import_index_c41c42e8.a)(isAuthenticated, (value) => value);
-  $$unsubscribe_worldObject = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.m, (value) => $worldObject = value);
-  $$unsubscribe_currentRoom = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.c, (value) => $currentRoom = value);
+  $$unsubscribe_worldObject = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.o, (value) => $worldObject = value);
+  $$unsubscribe_currentRoom = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.c, (value) => $currentRoom = value);
   $$unsubscribe_profile = (0, import_index_c41c42e8.a)(profile, (value) => value);
-  $$unsubscribe_localPlayer = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.n, (value) => $localPlayer = value);
-  $$unsubscribe_players = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.j, (value) => $players = value);
-  $$unsubscribe_uiState = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.u, (value) => $uiState = value);
-  $$unsubscribe_trayOpen = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.t, (value) => $trayOpen = value);
-  $$unsubscribe_playSound = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.p, (value) => $playSound = value);
-  $$unsubscribe_streams = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.o, (value) => $streams = value);
-  $$unsubscribe_focusPlayer = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.g, (value) => $focusPlayer = value);
-  $$unsubscribe_activeZone = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.q, (value) => $activeZone = value);
-  $$unsubscribe_roomIntent = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.r, (value) => $roomIntent = value);
-  $$unsubscribe_objectIntent = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.v, (value) => $objectIntent = value);
-  $$unsubscribe_activeArticle = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.b, (value) => $activeArticle = value);
-  $$unsubscribe_chatMessages = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.f, (value) => $chatMessages = value);
-  $$unsubscribe_isPhone = (0, import_index_c41c42e8.a)(import_movement_e4fb0cc6.i, (value) => $isPhone = value);
+  $$unsubscribe_localPlayer = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.q, (value) => $localPlayer = value);
+  $$unsubscribe_players = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.j, (value) => $players = value);
+  $$unsubscribe_uiState = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.u, (value) => $uiState = value);
+  $$unsubscribe_trayOpen = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.t, (value) => $trayOpen = value);
+  $$unsubscribe_playSound = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.p, (value) => $playSound = value);
+  $$unsubscribe_focusPlayer = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.g, (value) => $focusPlayer = value);
+  $$unsubscribe_activeZone = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.r, (value) => $activeZone = value);
+  $$unsubscribe_roomIntent = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.v, (value) => $roomIntent = value);
+  $$unsubscribe_objectIntent = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.x, (value) => $objectIntent = value);
+  $$unsubscribe_activeArticle = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.b, (value) => $activeArticle = value);
+  $$unsubscribe_chatMessages = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.f, (value) => $chatMessages = value);
+  $$unsubscribe_isPhone = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.i, (value) => $isPhone = value);
   let viewportElement = {};
   let avatars = [];
+  let { universalStream = (0, import_movement_3d7f429a.w)({}) } = $$props;
+  $$unsubscribe_universalStream = (0, import_index_c41c42e8.a)(universalStream, (value) => $universalStream = value);
+  function getUniversalStream() {
+    console.log("getting universal stream: ", $streams);
+    universalStream.set($streams.filter((stream) => {
+      return stream.showEverywhere == true;
+    })[0]);
+  }
+  if ($$props.universalStream === void 0 && $$bindings.universalStream && universalStream !== void 0)
+    $$bindings.universalStream(universalStream);
   $$result.css.add(css);
   {
     {
       if ($players[$localPlayer.uuid]) {
         if ($players[$localPlayer.uuid].x || $players[$localPlayer.uuid].x) {
-          (0, import_movement_e4fb0cc6.x)();
-          (0, import_movement_e4fb0cc6.y)();
-          (0, import_movement_e4fb0cc6.z)();
+          (0, import_movement_3d7f429a.y)();
+          (0, import_movement_3d7f429a.z)();
+          (0, import_movement_3d7f429a.A)();
         }
       }
     }
   }
+  $streams && getUniversalStream();
+  $universalStream && getUniversalStream();
+  {
+    console.log("universal stream: ", $universalStream);
+  }
+  $$unsubscribe_universalStream();
+  $$unsubscribe_streams();
   $$unsubscribe_isAuthenticated();
   $$unsubscribe_worldObject();
   $$unsubscribe_currentRoom();
@@ -727,7 +752,6 @@ const Routes = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slot
   $$unsubscribe_uiState();
   $$unsubscribe_trayOpen();
   $$unsubscribe_playSound();
-  $$unsubscribe_streams();
   $$unsubscribe_focusPlayer();
   $$unsubscribe_activeZone();
   $$unsubscribe_roomIntent();
@@ -736,7 +760,7 @@ const Routes = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slot
   $$unsubscribe_chatMessages();
   $$unsubscribe_isPhone();
   return `
-${$uiState == import_movement_e4fb0cc6.S.ONBOARDING ? `${(0, import_index_c41c42e8.v)(Onboarding, "Onboarding").$$render($$result, { avatars }, {}, {})}` : ``}
+${$uiState == import_movement_3d7f429a.S.ONBOARDING ? `${(0, import_index_c41c42e8.v)(Onboarding, "Onboarding").$$render($$result, { avatars }, {}, {})}` : ``}
 
 
 ${$currentRoom ? `<div class="${["viewport svelte-pgjlfq", $trayOpen ? "pushed" : ""].join(" ").trim()}" role="${"ui"}"${(0, import_index_c41c42e8.f)("this", viewportElement, 0)}>${(0, import_index_c41c42e8.v)(Room, "Room").$$render($$result, { room: $currentRoom }, {}, {
@@ -764,13 +788,17 @@ ${$currentRoom ? `<div class="${["viewport svelte-pgjlfq", $trayOpen ? "pushed" 
 ${(0, import_has.default)($currentRoom, "backgroundSound.asset") && $playSound ? `${(0, import_index_c41c42e8.v)(AmbientAudio, "AmbientAudio").$$render($$result, { soundFile: $currentRoom.backgroundSound }, {}, {})}` : ``}
 
 
-${(0, import_index_c41c42e8.b)($streams, (stream) => {
+${!$focusPlayer && $universalStream != void 0 ? `${(0, import_index_c41c42e8.v)(StreamPlayer, "StreamPlayer").$$render($$result, {
+    streamUrl: $universalStream.videoUrl,
+    audioOnly: $universalStream.audioOnly,
+    title: $universalStream.title
+  }, {}, {})}` : `${(0, import_index_c41c42e8.b)($streams, (stream) => {
     return `${!$focusPlayer && ($currentRoom._id == stream.parentArea._ref || $activeZone._id == stream.parentArea._ref) ? `${(0, import_index_c41c42e8.v)(StreamPlayer, "StreamPlayer").$$render($$result, {
       streamUrl: stream.videoUrl,
       audioOnly: stream.audioOnly,
       title: stream.title
     }, {}, {})}` : ``}`;
-  })}
+  })}`}
 
 
 ${$roomIntent ? `${(0, import_index_c41c42e8.v)(RoomEntryBox, "RoomEntryBox").$$render($$result, {

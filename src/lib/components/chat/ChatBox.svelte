@@ -16,7 +16,7 @@
 </script>
 
 <div class="chat-log" bind:this={scrollBox}>
-  <div class="chat-message chat-pinned"><span class="message-text">For a less ephemeral conversation, <a href="https://discord.gg/QNRHD6Kwhk">join our Discord.</a></span></div>
+  <div class="chat-message chat-pinned"><span class="message-text">For a less ephemeral conversation, <a href="https://discord.gg/NK6EQwrsmz">join our Discord.</a></span></div>
 {#if messages.length <= 0}
   <div class="chat-message">The chat is empty, for now.</div>
 {/if}

@@ -288,6 +288,7 @@ $: $streams && getUniversalStream();
 $: $universalStream && getUniversalStream();
 $: console.log('universal stream: ', $universalStream)
 </script>
+<div role="instructions" class="screenreader-only"><p>If you're using a screenreader, you can navigate through the page with the tab key. You can interact with objects by switching to focus mode and hitting the "Enter" key. If you run into any accessiblity issues, please let us know at tech@eyebeam.org. Enjoy!</p></div>
 
 <!-- ONBOARDING -->
 {#if $uiState == STATE.ONBOARDING}
@@ -305,6 +306,7 @@ $: console.log('universal stream: ', $universalStream)
     class="viewport"
     class:pushed={$trayOpen}
     bind:this={viewportElement}
+    aria-hidden={!$activeArticle ? "false" : "true" }
     role="ui"
   >
     <Room room={$currentRoom}>
@@ -435,5 +437,12 @@ $: console.log('universal stream: ', $universalStream)
     &.pushed {
       transform: translateY(240px);
     }
+  }
+  .screenreader-only {
+    position: absolute;
+    left: -100000000px;
+    top: auto;
+    width:1px;
+    height:1px;
   }
 </style>

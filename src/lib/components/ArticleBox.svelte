@@ -65,11 +65,13 @@
 >
   Return
 </button>
-
+<section role="presentation">
 {#if article.contentType === "video"}
   <div
     class="video"
-    aria-live="polite"
+    role="presentation"
+    aria-live="assertive"
+    aria-modal="true"
     class:pushed={$trayOpen}
     transition:fade
     on:click={e => {
@@ -84,7 +86,9 @@
   {#if has(article, "content.content")}
     <div
       class="article"
-      aria-live="polite"
+      aria-live="assertive"
+      aria-modal="true"
+      role="presentation"
       class:pushed={$trayOpen}
       transition:fade
       on:click={e => {
@@ -102,7 +106,9 @@
   <div
     class="article"
     class:pushed={$trayOpen}
-    aria-live="polite"
+    aria-live="assertive"
+    aria-modal="true"
+    role="presentation"
     transition:fade
     on:click={e => {
       if (e.target.classList.contains("article")) {
@@ -124,6 +130,8 @@
     class="bulletin-board"
     class:pushed={$trayOpen}
     aria-live="polite"
+    aria-modal="true"
+    role="presentation"
     transition:fade
     on:click={e => {
       if (e.target.classList.contains("bulletin-board")) {
@@ -150,7 +158,7 @@
     {article.infoText}
   </div>
 {/if}
-
+</section>
 <style lang="scss">
   @import "src/lib/style/variables.scss";
   button {

@@ -20,6 +20,7 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var stdin_exports = {};
 __export(stdin_exports, {
+  A: () => checkObjectOverlap,
   B: () => Blocks,
   G: () => GRID_SIZE,
   P: () => Play_arrow,
@@ -36,20 +37,20 @@ __export(stdin_exports, {
   j: () => players,
   k: () => leaveArticle,
   l: () => loadDataFromMainSite,
-  m: () => worldObject,
-  n: () => localPlayer,
-  o: () => streams,
+  m: () => client,
+  n: () => streams,
+  o: () => worldObject,
   p: () => playSound,
-  q: () => activeZone,
-  r: () => roomIntent,
+  q: () => localPlayer,
+  r: () => activeZone,
   s: () => showLabels,
   t: () => trayOpen,
   u: () => uiState,
-  v: () => objectIntent,
+  v: () => roomIntent,
   w: () => writable,
-  x: () => checkPortalOverlap,
-  y: () => checkZoneOverlap,
-  z: () => checkObjectOverlap
+  x: () => objectIntent,
+  y: () => checkPortalOverlap,
+  z: () => checkZoneOverlap
 });
 module.exports = __toCommonJS(stdin_exports);
 var import_index_c41c42e8 = require("./index-c41c42e8.js");
@@ -57,10 +58,10 @@ var import_slugify = __toESM(require("slugify"));
 var import_get = __toESM(require("lodash/get.js"));
 var import_has = __toESM(require("lodash/has.js"));
 var import_get_video_id = __toESM(require("get-video-id"));
-var import_date_fns = require("date-fns");
 var import_inRange = __toESM(require("lodash/inRange.js"));
 var import_lodash = __toESM(require("lodash"));
 var import_throttle = require("lodash/throttle.js");
+var import_date_fns = require("date-fns");
 var import_client = __toESM(require("@sanity/client"));
 var import_block_content_to_html = __toESM(require("@sanity/block-content-to-html"));
 var import_image_url = __toESM(require("@sanity/image-url"));
@@ -122,6 +123,7 @@ const focusPlayer = writable(true);
 const uiState = writable(STATE.LOADING);
 const isPhone = writable(false);
 const SANITY_PROJECT_ID = "58ueii0w";
+console.log("project id: ", SANITY_PROJECT_ID);
 const isMobileOrTablet = () => {
   const userAgent = navigator.userAgent.toLowerCase();
   function iOS() {
@@ -148,6 +150,7 @@ const longFormatDate = (date) => {
     console.dir(err);
   }
 };
+console.log("sanity project id: ", SANITY_PROJECT_ID);
 const client = (0, import_client.default)({
   projectId: SANITY_PROJECT_ID,
   dataset: process.env.NODE_ENV === "development" ? "production" : "production",
@@ -478,6 +481,7 @@ const Video = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots
 const Blocks = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots) => {
   let { blocks = [] } = $$props;
   let { mainSite = false } = $$props;
+  console.log("blocks: 0", blocks);
   if ($$props.blocks === void 0 && $$bindings.blocks && blocks !== void 0)
     $$bindings.blocks(blocks);
   if ($$props.mainSite === void 0 && $$bindings.mainSite && mainSite !== void 0)

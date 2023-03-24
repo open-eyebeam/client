@@ -21,7 +21,7 @@
     "isEntry": true,
     "imports": [
       "_index-c41c42e8.js",
-      "_movement-e4fb0cc6.js"
+      "_movement-3d7f429a.js"
     ],
     "css": [
       "assets/entries/pages/__layout.svelte-36ee8ba0.css"
@@ -41,7 +41,7 @@
     "isEntry": true,
     "imports": [
       "_index-c41c42e8.js",
-      "_movement-e4fb0cc6.js"
+      "_movement-3d7f429a.js"
     ],
     "css": [
       "assets/entries/pages/index.svelte-8441f200.css"
@@ -50,8 +50,8 @@
   "_index-c41c42e8.js": {
     "file": "chunks/index-c41c42e8.js"
   },
-  "_movement-e4fb0cc6.js": {
-    "file": "chunks/movement-e4fb0cc6.js",
+  "_movement-3d7f429a.js": {
+    "file": "chunks/movement-3d7f429a.js",
     "imports": [
       "_index-c41c42e8.js"
     ],
