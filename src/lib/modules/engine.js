@@ -12,6 +12,7 @@
 import { writable, get } from 'svelte/store';
 import { nanoid } from "$lib/modules/utilities.js"
 import { localPlayer } from "$lib/modules/world.js";
+import { currentRoom  } from "$lib/modules/movement.js"
 import { STATE } from "$lib/modules/ui.js";
 import { uiState } from './ui';
 
@@ -20,6 +21,7 @@ export const chatMessages = writable([])
 
 // const GAME_SERVER_URL = "wss://open.eyebeam.dev";
 // const GAME_SERVER_URL = "ws://5.161.136.54:2567";
+// FIXME: add to .env, netlify env
 const GAME_SERVER_URL = "wss://game-server.eyebeam.org";
 
 // Public functions
@@ -95,7 +97,7 @@ export const connectToGameServer = playerObject => {
                                 ps[player.uuid].y = player.y
                                 return (ps)
                             })
-                            setTimeout(() => {
+                           setTimeout(() => {
                                 players.update(ps => {
                                     ps[player.uuid].inTransit = false
                                     return (ps)
@@ -260,6 +262,29 @@ export const connectToGameServer = playerObject => {
                     uiState.set(STATE.ERROR)
                     // setUIState(STATE.ERROR, "FAILED TO CONNECT TO GAMESERVER")
                 }
+              // ALLOW OFFLINE PLAYERS TO STILL WALK AROUND AND STUFF
+              let player = get(localPlayer)
+              players.update(ps => {
+                  ps[player.uuid] = {
+                                  name: player.name,
+                                  x: Math.round(get(currentRoom).dimensions.width/2),
+                                  y: Math.round(get(currentRoom).dimensions.height/2),
+                                  room: get(currentRoom)._id,
+                                  npc: false,
+                                  inTransit: true,
+                                  self: true
+
+                  }
+                  return ( ps )
+              })
+              setTimeout(() => {
+              players.update(ps => {
+                    ps[player.uuid].inTransit = false
+                      return (ps)
+                  })
+              }, 1000)
+
+
                 reject(e)
             })
     })

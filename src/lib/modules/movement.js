@@ -8,6 +8,7 @@ import { writable, get } from "svelte/store"
 import inRange from "lodash/inRange.js"
 import _ from 'lodash'
 import throttle from 'lodash/throttle.js'
+import { uiState } from '$lib/modules/ui.js'
 import { players, moveTo } from "$lib/modules/engine.js"
 import { GRID_SIZE, localPlayer } from "$lib/modules/world.js"
 
@@ -65,12 +66,13 @@ export const initializeKeyboardHandler = () => {
                     })
                 }
             }
-
+            if (get(uiState) != 0 ) {
             moveTo(
                 get(players)[get(localPlayer).uuid].x,
                 get(players)[get(localPlayer).uuid].y,
                 true
             )
+          }
         }, 100))
         resolve()
     })

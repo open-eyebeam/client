@@ -47,7 +47,7 @@
 
 
 <!-- MENUBAR -->
-{#if $uiState == STATE.READY}
+{#if $uiState == STATE.READY || $uiState == STATE.ERROR}
   <Menubar currentRoom={$currentRoom} />
 {/if}
 
@@ -66,7 +66,7 @@
 
 <!-- ERROR -->
 {#if $uiState == STATE.ERROR}
-  <Error message={"Error connecting to the game server"} />
+  <Error message={`Error connecting to the game server. Everything on Open Eyebeam is still available to you, but you won't be able to particpate in the live chat. You can come chat in our <a class='inline-link' href='https://discord.gg/NK6EQwrsmz' target='_blank'>Discord</a>, or try reloading the page.`} />
 {/if}
 
 <!-- DISCONNECTED -->

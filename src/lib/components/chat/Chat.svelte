@@ -10,9 +10,8 @@
   import BadWords from 'bad-words'  
   import {currentRoom} from '$lib/modules/movement.js'
   import { client  } from '$lib/modules/sanity.js'
-  import {STATE, uiState} from '$lib/modules/ui.js'
+  import {STATE, uiState, isPhone} from '$lib/modules/ui.js'
   import ChatBox from "./ChatBox.svelte"
-  import { isPhone } from "$lib/modules/ui.js" 
   
   const censor = new BadWords()
   // *** VARIABLES
@@ -40,7 +39,7 @@
 $: chatSettings = $currentRoom.chatSettings != undefined ? $currentRoom.chatSettings : {useDiscord: false, discordChannelId: undefined}
 $: discordURL = `https://e.widgetbot.io/channels/806275264807698482/${chatSettings.discordChannelId}` 
 </script>
-{#if chatSettings != undefined && chatSettings.disableChat != true }
+{#if chatSettings != undefined && chatSettings.disableChat != true && $uiState != STATE.ERROR }
 <div class:is-mobile={$isPhone} class="chat-container" class:minimize={$isPhone ? !showMobile : false}>
 <button class="mobile-button" class:minimize={showMobile} on:click={showHideMobile} >{showMobile ? 'X' : 'Chat'}</button>
 {#if chatSettings.useDiscord != true || chatSettings.discordChannelId == undefined}

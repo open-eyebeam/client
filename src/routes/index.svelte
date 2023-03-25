@@ -8,6 +8,7 @@
 
   import { onMount } from "svelte"
   import { writable } from "svelte/store"
+  import {get as svelteGet }from "svelte/store"
   import get from "lodash/get.js"
   import has from "lodash/has.js"
   import Cookies from "js-cookie"
@@ -89,7 +90,7 @@
   let newRoomIntroduction = false
 
   $: {
-    if ($players[$localPlayer.uuid]) {
+    if ($players && $players[$localPlayer.uuid]) {
       // Listen to changes to the users movement and check for overlap
       if ($players[$localPlayer.uuid].x || $players[$localPlayer.uuid].x) {
         checkPortalOverlap()
@@ -151,17 +152,28 @@
     }
 
     // Send to server...
+    if (svelteGet(uiState) != 0 ) {
     goToRoom({
-      id: newRoom._id,
-      x: targetX,
-      y: targetY,
-    })
+        id: newRoom._id,
+        x: targetX,
+        y: targetY,
+      })
+    } else {
+    let player = svelteGet(localPlayer)
+      players.update(ps => {
+        ps[player.uuid].room =  newRoom._id
+        ps[player.uuid].x = targetX
+        ps[player.uuid].y = targetY
 
+          return ( ps )
+      })
+
+    }
     await transitionWorldIn(viewportElement)
     if (newRoom.showTitles === false) {
       showLabels.set(false)
     } else {
-    showLabels.set(true)
+      showLabels.set(true)
     }
     if (has(newRoom, "introductionTexts")) {
       newRoomIntroduction = newRoom.introductionTexts
@@ -183,8 +195,12 @@
     }
 
     // Connect to game server
-    await connectToGameServer(playerObject)
-    infoLogger("✓ (4) Game server connected")
+    try {
+      await connectToGameServer(playerObject)
+      infoLogger("✓ (4) Game server connected")
+    } catch(e) {
+      infoLogger("x (4) Game server not connected")
+    }
 
     // Initialize keyboard handler
     await initializeKeyboardHandler()
@@ -217,7 +233,9 @@
     infoLogger("__ => App loaded")
     Cookies.set("open-eyebeam-name", name)
     Cookies.set("open-eyebeam-avatar", avatar)
-    uiState.set(STATE.READY)
+    if (svelteGet(uiState) != 0 ) {
+      uiState.set(STATE.READY)
+    }
     // Focus on the player's avatar for 3 seconds
     focusPlayer.set(true)
     setTimeout(() => {
