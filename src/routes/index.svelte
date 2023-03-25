@@ -281,12 +281,10 @@
   // check for universal stream
   export let universalStream = writable({})
   function getUniversalStream() {
-  console.log('getting universal stream: ', $streams)
     universalStream.set($streams.filter(stream => { return stream.showEverywhere == true})[0]) 
   }
 $: $streams && getUniversalStream();
 $: $universalStream && getUniversalStream();
-$: console.log('universal stream: ', $universalStream)
 </script>
 <div role="instructions" class="screenreader-only"><p>If you're using a screenreader, you can navigate through the page with the tab key. You can interact with objects by switching to focus mode and hitting the "Enter" key. If you run into any accessiblity issues, please let us know at tech@eyebeam.org. Enjoy!</p></div>
 
@@ -377,7 +375,6 @@ $: console.log('universal stream: ', $universalStream)
       if (e.detail.objectId) {
       let object =  $currentRoom.objects.find(o => o._id == $objectIntent)
       if (object.contentType != "externalLink") {
-      console.log('object', object)
         activeArticle.set(
         object)
       objectIntent.set(false)
