@@ -16,7 +16,6 @@
 
   // *** PROPS
   export let message = {}
-  $: console.log('message: ', message)
 </script>
 
 <div class="chat-message" aria-live="polite" transition:fade|local >

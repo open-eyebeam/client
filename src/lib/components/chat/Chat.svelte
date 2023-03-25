@@ -28,11 +28,8 @@
     })
     chatInputValue = ""
   }
-  console.log('current room: ', $currentRoom)
   const query = `*[_type == 'room' && _id == "${$currentRoom._id}"]`
-  console.log('query: ', query)
   client.listen(query).subscribe(update => {
-  console.log('update: ', update)
         chatSettings = update.result.chatSettings
     })
 

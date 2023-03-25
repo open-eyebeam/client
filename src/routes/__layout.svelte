@@ -66,7 +66,7 @@
 
 <!-- ERROR -->
 {#if $uiState == STATE.ERROR}
-  <Error message={""} />
+  <Error message={"Error connecting to the game server"} />
 {/if}
 
 <!-- DISCONNECTED -->

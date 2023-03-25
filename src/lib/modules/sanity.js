@@ -12,7 +12,6 @@ import getVideoId from "get-video-id"
 import get from "lodash/get.js"
 import has from "lodash/has.js"
 import { SANITY_PROJECT_ID } from "$lib/modules/utilities.js"
-console.log('sanity project id: ', SANITY_PROJECT_ID)
 export const client = sanityClient({
   projectId: SANITY_PROJECT_ID,
   dataset: process.env.NODE_ENV === 'development' ? 'production' : 'production',

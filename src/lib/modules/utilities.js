@@ -8,7 +8,6 @@
 import { format, getYear, parseISO, formatDistanceToNow, isFuture } from "date-fns"
 
 export const SANITY_PROJECT_ID = import.meta.env.VITE_SANITY_ID
-console.log('project id: ', SANITY_PROJECT_ID)
 const PRODUCTION = false
 
 export const infoLogger = (...args) => {
@@ -197,7 +196,6 @@ export function debounce(fn, wait = 1) {
  */
 export const isOverlapping = (e1, e2) => {
 
-  // console.log('isOverlapping', e1, e2);
   if (e1.length && e1.length > 1) {
     e1 = e1[0]
   }
