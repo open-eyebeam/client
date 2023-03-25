@@ -36,7 +36,6 @@
     min-height: 200px;
     display: flex;
     align-items: center;
-    user-select: none;
     overflow: scroll;
     font-family: $SERIF_STACK;
     font-size: $font-size-small;
