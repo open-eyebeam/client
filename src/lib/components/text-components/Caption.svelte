@@ -64,7 +64,7 @@
     position: fixed;
     bottom: 20px;
     left: 20px;
-    z-index: 100000;
+    z-index: 10000;
     max-width: 520px;
     display: flex;
 

@@ -16,7 +16,6 @@
 
   let post = false
   let description = ""
-  $: post, console.log('post: ', post)
 
   onMount(async () => {
     if (event.importEvent) {

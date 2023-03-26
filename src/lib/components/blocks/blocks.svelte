@@ -23,7 +23,6 @@
   // *** PROPS
   export let blocks = []
   export let mainSite = false
-  console.log('blocks: 0', blocks)
 </script>
 
 {#each blocks as b}

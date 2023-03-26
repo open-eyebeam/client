@@ -27,16 +27,16 @@ var import_index_c41c42e8 = require("../../chunks/index-c41c42e8.js");
 var import_tween = __toESM(require("@tweenjs/tween.js"));
 var import_has = __toESM(require("lodash/has.js"));
 var import_inRange = __toESM(require("lodash/inRange.js"));
-var import_movement_3d7f429a = require("../../chunks/movement-3d7f429a.js");
+var import_movement_ad82973e = require("../../chunks/movement-ad82973e.js");
 var import_sample = __toESM(require("lodash/sample.js"));
 var import_keycloak_js = require("keycloak-js");
 var import_js_cookie = require("js-cookie");
+var import_date_fns = require("date-fns");
 var import_slugify = require("slugify");
 var import_get = require("lodash/get.js");
 var import_get_video_id = require("get-video-id");
 var import_lodash = require("lodash");
 var import_throttle = require("lodash/throttle.js");
-var import_date_fns = require("date-fns");
 var import_client = require("@sanity/client");
 var import_block_content_to_html = require("@sanity/block-content-to-html");
 var import_image_url = require("@sanity/image-url");
@@ -67,9 +67,9 @@ const LoadingScreen = (0, import_index_c41c42e8.c)(($$result, $$props, $$binding
   return `<div class="${"loading-screen svelte-1k5a3hm"}"><div class="${"box svelte-1k5a3hm"}">${(0, import_index_c41c42e8.v)(Animated_beam, "AnimatedBeam").$$render($$result, {}, {}, {})}</div>
 </div>`;
 });
-var Error_svelte_svelte_type_style_lang = /* @__PURE__ */ (() => '.error-screen.svelte-5oxc6r.svelte-5oxc6r{position:fixed;top:0;left:0;width:100vw;height:100vh;background:#221f20;color:#f5f4ee;display:flex;justify-content:center;align-items:center;z-index:100000}.error-screen.svelte-5oxc6r .box.svelte-5oxc6r{font-family:"Literata", serif;padding:20px;font-size:14px;text-align:center;user-select:none}')();
+var Error_svelte_svelte_type_style_lang = /* @__PURE__ */ (() => '.error-screen.svelte-dgbc1.svelte-dgbc1{right:20px;max-height:100%;bottom:20px;position:fixed;width:300px;z-index:100;background:#221f20;color:#f5f4ee;display:flex;justify-content:center;align-items:center}.error-screen.svelte-dgbc1 .box.svelte-dgbc1{font-family:"Literata", serif;padding:20px;font-size:14px;text-align:center}')();
 const css$8 = {
-  code: '.error-screen.svelte-5oxc6r.svelte-5oxc6r{position:fixed;top:0;left:0;width:100vw;height:100vh;background:#221f20;color:#f5f4ee;display:flex;justify-content:center;align-items:center;z-index:100000}.error-screen.svelte-5oxc6r .box.svelte-5oxc6r{font-family:"Literata", serif;padding:20px;font-size:14px;text-align:center;user-select:none}',
+  code: '.error-screen.svelte-dgbc1.svelte-dgbc1{right:20px;max-height:100%;bottom:20px;position:fixed;width:300px;z-index:100;background:#221f20;color:#f5f4ee;display:flex;justify-content:center;align-items:center}.error-screen.svelte-dgbc1 .box.svelte-dgbc1{font-family:"Literata", serif;padding:20px;font-size:14px;text-align:center}',
   map: null
 };
 const Error2 = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots) => {
@@ -77,7 +77,7 @@ const Error2 = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slot
   if ($$props.message === void 0 && $$bindings.message && message !== void 0)
     $$bindings.message(message);
   $$result.css.add(css$8);
-  return `<div class="${"error-screen svelte-5oxc6r"}"><div class="${"box svelte-5oxc6r"}"><div class="${"header"}">ERROR: ${(0, import_index_c41c42e8.e)(message)}</div></div>
+  return `<div class="${"error-screen svelte-dgbc1"}"><div class="${"box svelte-dgbc1"}"><div class="${"header"}">ERROR: <!-- HTML_TAG_START -->${message}<!-- HTML_TAG_END --></div></div>
 </div>`;
 });
 var Reconnection_svelte_svelte_type_style_lang = /* @__PURE__ */ (() => '.reconnection.svelte-s3w46f.svelte-s3w46f{position:fixed;bottom:15px;left:15px;display:flex;justify-content:center;align-items:center;z-index:100001}@media(max-width: 800px){.reconnection.svelte-s3w46f.svelte-s3w46f{bottom:55px;left:0}}.reconnection.svelte-s3w46f .box.svelte-s3w46f{font-family:"Literata", serif;padding:20px;background:#f5f4ee;color:#221f20;font-size:14px;text-align:center;user-select:none}@media(max-width: 800px){.reconnection.svelte-s3w46f .box.svelte-s3w46f{width:calc(100% - 20px)}}')();
@@ -105,7 +105,7 @@ const css$6 = {
 };
 const Clock = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots) => {
   let $activeCity, $$unsubscribe_activeCity;
-  $$unsubscribe_activeCity = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.a, (value) => $activeCity = value);
+  $$unsubscribe_activeCity = (0, import_index_c41c42e8.a)(import_movement_ad82973e.a, (value) => $activeCity = value);
   const API_KEY = "7306ba66d71c439a60b2152d239cfbcc";
   let currentTime;
   let currentWeather = { description: "", temperature: 0 };
@@ -190,13 +190,13 @@ const css$3 = {
 const Menubar = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slots) => {
   let $trayOpen, $$unsubscribe_trayOpen;
   let $activeCity, $$unsubscribe_activeCity;
-  $$unsubscribe_trayOpen = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.t, (value) => $trayOpen = value);
-  $$unsubscribe_activeCity = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.a, (value) => $activeCity = value);
+  $$unsubscribe_trayOpen = (0, import_index_c41c42e8.a)(import_movement_ad82973e.t, (value) => $trayOpen = value);
+  $$unsubscribe_activeCity = (0, import_index_c41c42e8.a)(import_movement_ad82973e.a, (value) => $activeCity = value);
   let { currentRoom: currentRoom2 = {} } = $$props;
-  const cities = (0, import_movement_3d7f429a.l)('*[_id == "cities"][0]');
+  const cities = (0, import_movement_ad82973e.l)('*[_id == "cities"][0]');
   cities.then((c) => {
     if (c.cities && c.cities[0]) {
-      import_movement_3d7f429a.a.set((0, import_sample.default)(c.cities));
+      import_movement_ad82973e.a.set((0, import_sample.default)(c.cities));
     }
   });
   if ($$props.currentRoom === void 0 && $$bindings.currentRoom && currentRoom2 !== void 0)
@@ -229,7 +229,7 @@ const Menubar = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slo
         ].join(" ").trim()}">${(0, import_index_c41c42e8.e)(city.name)}
               </div>`;
       })}</div>
-          <div class="${"city-text svelte-5j0hcs"}">${(0, import_has.default)(cities2, "content.content", []) ? `<div>${(0, import_index_c41c42e8.v)(import_movement_3d7f429a.B, "Blocks").$$render($$result, { blocks: cities2.content.content }, {}, {})}</div>` : ``}</div>
+          <div class="${"city-text svelte-5j0hcs"}">${(0, import_has.default)(cities2, "content.content", []) ? `<div>${(0, import_index_c41c42e8.v)(import_movement_ad82973e.B, "Blocks").$$render($$result, { blocks: cities2.content.content }, {}, {})}</div>` : ``}</div>
         `;
     }(__value);
   }(cities)}</div></div></div>
@@ -275,19 +275,19 @@ const _layout = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slo
   let $trayOpen, $$unsubscribe_trayOpen;
   let $playSound, $$unsubscribe_playSound;
   let $showLabels, $$unsubscribe_showLabels;
-  $$unsubscribe_currentRoom = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.c, (value) => $currentRoom = value);
-  $$unsubscribe_uiState = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.u, (value) => $uiState = value);
-  $$unsubscribe_activeArticle = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.b, (value) => $activeArticle = value);
-  $$unsubscribe_trayOpen = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.t, (value) => $trayOpen = value);
-  $$unsubscribe_playSound = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.p, (value) => $playSound = value);
-  $$unsubscribe_showLabels = (0, import_index_c41c42e8.a)(import_movement_3d7f429a.s, (value) => $showLabels = value);
+  $$unsubscribe_currentRoom = (0, import_index_c41c42e8.a)(import_movement_ad82973e.c, (value) => $currentRoom = value);
+  $$unsubscribe_uiState = (0, import_index_c41c42e8.a)(import_movement_ad82973e.u, (value) => $uiState = value);
+  $$unsubscribe_activeArticle = (0, import_index_c41c42e8.a)(import_movement_ad82973e.b, (value) => $activeArticle = value);
+  $$unsubscribe_trayOpen = (0, import_index_c41c42e8.a)(import_movement_ad82973e.t, (value) => $trayOpen = value);
+  $$unsubscribe_playSound = (0, import_index_c41c42e8.a)(import_movement_ad82973e.p, (value) => $playSound = value);
+  $$unsubscribe_showLabels = (0, import_index_c41c42e8.a)(import_movement_ad82973e.s, (value) => $showLabels = value);
   $$result.css.add(css);
   {
     {
       if ($currentRoom.autoplay) {
-        import_movement_3d7f429a.p.set(true);
+        import_movement_ad82973e.p.set(true);
       } else {
-        import_movement_3d7f429a.p.set(false);
+        import_movement_ad82973e.p.set(false);
       }
     }
   }
@@ -301,22 +301,24 @@ const _layout = (0, import_index_c41c42e8.c)(($$result, $$props, $$bindings, slo
 
 
 
-${$uiState == import_movement_3d7f429a.S.READY ? `${(0, import_index_c41c42e8.v)(Menubar, "Menubar").$$render($$result, { currentRoom: $currentRoom }, {}, {})}` : ``}
+${$uiState == import_movement_ad82973e.S.READY || $uiState == import_movement_ad82973e.S.ERROR ? `${(0, import_index_c41c42e8.v)(Menubar, "Menubar").$$render($$result, { currentRoom: $currentRoom }, {}, {})}` : ``}
 
 
 ${slots.default ? slots.default({}) : ``}
 
 
-${$uiState == import_movement_3d7f429a.S.READY && !$activeArticle ? `` : ``}
+${$uiState == import_movement_ad82973e.S.READY && !$activeArticle ? `` : ``}
 
 
-${$uiState == import_movement_3d7f429a.S.LOADING ? `${(0, import_index_c41c42e8.v)(LoadingScreen, "LoadingScreen").$$render($$result, {}, {}, {})}` : ``}
+${$uiState == import_movement_ad82973e.S.LOADING ? `${(0, import_index_c41c42e8.v)(LoadingScreen, "LoadingScreen").$$render($$result, {}, {}, {})}` : ``}
 
 
-${$uiState == import_movement_3d7f429a.S.ERROR ? `${(0, import_index_c41c42e8.v)(Error2, "Error").$$render($$result, { message: "" }, {}, {})}` : ``}
+${$uiState == import_movement_ad82973e.S.ERROR ? `${(0, import_index_c41c42e8.v)(Error2, "Error").$$render($$result, {
+    message: `Error connecting to the game server. Everything on Open Eyebeam is still available to you, but you won't be able to particpate in the live chat. You can come chat in our <a class='inline-link' href='https://discord.gg/NK6EQwrsmz' target='_blank'>Discord</a>, or try reloading the page.`
+  }, {}, {})}` : ``}
 
 
-${$uiState == import_movement_3d7f429a.S.DISCONNECTED ? `${(0, import_index_c41c42e8.v)(Reconnection, "Reconnection").$$render($$result, { reconnectionAttempts, disconnectionCode }, {}, {})}` : ``}
+${$uiState == import_movement_ad82973e.S.DISCONNECTED ? `${(0, import_index_c41c42e8.v)(Reconnection, "Reconnection").$$render($$result, { reconnectionAttempts, disconnectionCode }, {}, {})}` : ``}
 
 
 ${!$trayOpen && !$activeArticle ? `<div class="${"options svelte-1n4mbfs"}"><div class="${"option sound svelte-1n4mbfs"}">${$playSound ? `${(0, import_index_c41c42e8.v)(SoundOn, "SoundOn").$$render($$result, {}, {}, {})}` : `${(0, import_index_c41c42e8.v)(SoundOff, "SoundOff").$$render($$result, {}, {}, {})}`}</div>

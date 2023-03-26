@@ -164,9 +164,16 @@
         ps[player.uuid].room =  newRoom._id
         ps[player.uuid].x = targetX
         ps[player.uuid].y = targetY
-
-          return ( ps )
+        ps[player.uuid].inTransit = true
+        return ( ps )
       })
+       setTimeout(() => {
+          players.update(ps => {
+                    ps[player.uuid].inTransit = false
+                      return (ps)
+                  })
+              }, 1000)
+
 
     }
     await transitionWorldIn(viewportElement)
@@ -244,6 +251,8 @@
 
     //FIXME: prob need utils for this
     isPhone.set(isMobileOrTablet())
+
+    infoLogger("__ => Welcome to the HACKER ZONE.  Please be respectful of the code while you're here. If you're in the HACKER ZONE, maybe you'd like to check out our GitHub: https://github.com/open-eyebeam.")
   }
 
   onMount(async () => {
@@ -395,13 +404,14 @@ $: $universalStream && getUniversalStream();
       if (object.contentType != "externalLink") {
         activeArticle.set(
         object)
-      objectIntent.set(false)
       } else {
-      // if it's an external link, open it in a new tab
-      window.open(object.url, '_blank').focus()
+        // if it's an external link, open it in a new tab
+        window.open(object.url, '_blank').focus()
       }
     
-    }}}
+    }
+        objectIntent.set(false)
+    }}
   />
 {/if}
 
