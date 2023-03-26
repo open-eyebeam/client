@@ -22,7 +22,7 @@ export const chatMessages = writable([])
 // const GAME_SERVER_URL = "wss://open.eyebeam.dev";
 // const GAME_SERVER_URL = "ws://5.161.136.54:2567";
 // FIXME: add to .env, netlify env
-const GAME_SERVER_URL = "ws://5.161.206.230";
+const GAME_SERVER_URL = "wss://game-server.eyebeam.org";
 
 // Public functions
 export let moveTo = {}
