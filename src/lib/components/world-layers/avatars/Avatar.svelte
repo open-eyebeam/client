@@ -8,7 +8,7 @@
   import { onMount } from "svelte"
   import { chatMessages } from "$lib/modules/engine.js"
   import { GRID_SIZE } from "$lib/modules/world.js"
-  import { centeringInlineStyles } from "$lib/modules/movement.js"
+  import { centeringInlineStyles,roomIntent } from "$lib/modules/movement.js"
   import sample from "lodash/sample.js"
   import { focusPlayer, isPhone } from "$lib/modules/ui.js"
 
@@ -166,10 +166,16 @@
     src={avatar && avatar.imageUrl ? avatar.imageUrl : sample(avatars).imageUrl}
     alt={avatar.alt}
   />
+  {#if !$roomIntent}
+    <div class="name">
+      {player.name}
+    </div>
+  {/if}
 </div>
 
 <style lang="scss">
   @import "src/lib/style/variables.scss";
+
 
   .avatar {
     height: 32px;
@@ -180,10 +186,13 @@
     z-index: 100;
 //    background: $e-ink-medium;
     opacity: 0;
-
+    .name {  
+      font-size: 0.8rem;
+      margin-top: -15px;
+      text-align: center;
+      color: $e-ink-dark;
+  }
     img {
-      width: 100%;
-      height: 100%;
       image-rendering: pixelated;
     }
 
