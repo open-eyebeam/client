@@ -23,6 +23,10 @@ export const initializeKeyboardHandler = () => {
     return new Promise((resolve, reject) => {
         // Repeated keydown events are throttled to once every 100ms
         document.addEventListener("keydown", throttle(key => {
+            const  tagName = key.target.tagName;
+            if (tagName === "INPUT") {
+              return;
+            }
             // W Key is 87 & Up arrow is 38
             if (key.keyCode === 38 || key.keyCode === 87) {
                 if (get(players)[get(localPlayer).uuid].y > 0) {
