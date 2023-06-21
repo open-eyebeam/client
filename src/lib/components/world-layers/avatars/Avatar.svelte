@@ -8,9 +8,12 @@
   import { onMount } from "svelte"
   import { chatMessages } from "$lib/modules/engine.js"
   import { GRID_SIZE } from "$lib/modules/world.js"
-  import { centeringInlineStyles } from "$lib/modules/movement.js"
+  import { currentRoom, activeZone, centeringInlineStyles,roomIntent } from "$lib/modules/movement.js"
   import sample from "lodash/sample.js"
   import { focusPlayer, isPhone } from "$lib/modules/ui.js"
+  import {
+    streams,
+  } from "$lib/modules/world.js"
 
   $: {
     let lastMessage = $chatMessages[$chatMessages.length - 1]
@@ -70,6 +73,7 @@
   //   *** PROPS
   export let player = {}
   export let avatars = []
+  export let streamRect = {}
   export let key = ""
 
   // *** VARIABLES
@@ -88,7 +92,7 @@
   // Check if the local player is close to the edge of the window
   // ... and if so, center the avatar
   $: if (player.self && (player.x || player.y)) {
-    if (checkIfCloseToEdge()) {
+    if (checkIfCloseToEdge()|| checkIfCloseToObject()) {
       centerViewOnPlayer()
     }
   }
@@ -106,6 +110,21 @@
       }
     }
     return false
+  }
+
+    const checkIfCloseToObject = () => {
+      if (avatarEl && avatarEl.parentElement) {
+        let avatarRect = avatarEl.getBoundingClientRect()
+          if ( 
+            avatarRect.left < streamRect.right &&
+            avatarRect.top < streamRect.bottom &&
+            avatarRect.bottom > streamRect.top &&
+            avatarRect.right > streamRect.left 
+          ) {
+            return true
+          }
+        }
+      return false
   }
 
   const centerViewOnPlayer = () => {
@@ -166,10 +185,16 @@
     src={avatar && avatar.imageUrl ? avatar.imageUrl : sample(avatars).imageUrl}
     alt={avatar.alt}
   />
+  {#if !$roomIntent}
+    <div class="name">
+      {player.name}
+    </div>
+  {/if}
 </div>
 
 <style lang="scss">
   @import "src/lib/style/variables.scss";
+
 
   .avatar {
     height: 32px;
@@ -180,10 +205,13 @@
     z-index: 100;
 //    background: $e-ink-medium;
     opacity: 0;
-
+    .name {  
+      font-size: 0.8rem;
+      margin-top: -15px;
+      text-align: center;
+      color: $e-ink-dark;
+  }
     img {
-      width: 100%;
-      height: 100%;
       image-rendering: pixelated;
     }
 
