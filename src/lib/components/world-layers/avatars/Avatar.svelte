@@ -8,7 +8,8 @@
   import { onMount } from "svelte"
   import { chatMessages } from "$lib/modules/engine.js"
   import { GRID_SIZE } from "$lib/modules/world.js"
-  import { currentRoom, activeZone, centeringInlineStyles,roomIntent } from "$lib/modules/movement.js"
+  import { centeringInlineStyles,roomIntent } from "$lib/modules/movement.js"
+
   import sample from "lodash/sample.js"
   import { focusPlayer, isPhone } from "$lib/modules/ui.js"
   import {
