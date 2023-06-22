@@ -388,7 +388,7 @@ $: $universalStream && getUniversalStream();
   <div class="stream-button-container">
   {#each $streams as stream}
     {#if !$focusPlayer && ($currentRoom._id == stream.parentArea._ref || $activeZone._id == stream.parentArea._ref)}
-    <button on:click={console.log("switchinng to stream: " + stream.title)}>{stream.title}</button>
+    <button on:click={console.log("switch stream: " + stream.title)}>{stream.title}</button>
   {/if}
   {/each}
   </div>
@@ -447,7 +447,7 @@ $: $universalStream && getUniversalStream();
   <ArticleBox article={$activeArticle} />
 {/if}
 <!-- SCHEDULE -->
-<Schedule events = {$worldObject.events} />
+<Schedule events = {$worldObject.events} videoLibrary = {$worldObject.videoLibrary} />
 <!-- CHAT-->
 {#if !$focusPlayer && !$trayOpen && !$activeArticle}
   <Chat

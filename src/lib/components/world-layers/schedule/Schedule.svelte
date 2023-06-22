@@ -1,14 +1,35 @@
 <script>
   export let events = []
-  import { dateTimeFormat, isUpcoming } from "$lib/modules/utilities.js"
+  export let videoLibrary = []
+  import { dateTimeFormat, isUpcoming, isOngoing, sortByDate } from "$lib/modules/utilities.js"
+  //events.sort(sortByDate)
+  // videoLibrary.sort(sortByDate)
+  $: console.log('video library: ', videoLibrary)
 </script>
 <div id="schedule-container">
-  <h2>SCHEDULE</h2>
+  <h2>TODAY</h2>
   {#each events as event}
       {#if event.startDate}
+      {#if isOngoing(event)}
       <div class="event">{dateTimeFormat(event.startDate)}: {event.title}</div>
       {/if}
+      {/if}
   {/each}
+  <h2>UPCOMING</h2>
+    {#each events as event}
+      {#if event.startDate}
+      {#if isUpcoming(event) && !isOngoing(event)}
+      <div class="event">{dateTimeFormat(event.startDate)}: {event.title}</div>
+      {/if}
+      {/if}
+  {/each}
+  <h2>PAST</h2>
+    {#each videoLibrary as video}
+      {#if video.active}
+      <div class="event">{dateTimeFormat(video.startDate)}: {video.title}</div>
+      {/if}
+    {/each}
+
 
   </div>
 <style lang="scss">
