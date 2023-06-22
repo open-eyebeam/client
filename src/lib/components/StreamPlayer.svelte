@@ -20,10 +20,12 @@
   export let streamUrl = ""
   export let audioOnly = false
   export let title = ""
+  export let streamRect = {}
 
   let audioPlayer
   let playing = false
   let position = 0
+  let streamEl={}
 
   const togglePlay = () => {
     if (playing) {
@@ -35,6 +37,7 @@
   }
 
   onMount(async () => {
+    streamRect = streamEl.getBoundingClientRect();
     if (streamUrl.includes("undersco.re")) {
       audioPlayer = new PeerTubePlayer(document.querySelector(".peertube"))
       await audioPlayer.ready
@@ -46,13 +49,16 @@
       })
     }
   })
+  
 </script>
 
 <div
   class="stream-container"
   class:audio={audioOnly}
+  bind:this={streamEl}
   transition:fade={{ duration: 300, easing: quartOut }}
 >
+
   <div class="embed">
     {#if streamUrl.includes("youtube") || streamUrl.includes("youtu.be")}
       <div class="youtube-container">

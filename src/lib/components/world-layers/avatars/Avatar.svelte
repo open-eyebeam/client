@@ -9,8 +9,12 @@
   import { chatMessages } from "$lib/modules/engine.js"
   import { GRID_SIZE } from "$lib/modules/world.js"
   import { centeringInlineStyles,roomIntent } from "$lib/modules/movement.js"
+
   import sample from "lodash/sample.js"
   import { focusPlayer, isPhone } from "$lib/modules/ui.js"
+  import {
+    streams,
+  } from "$lib/modules/world.js"
 
   $: {
     let lastMessage = $chatMessages[$chatMessages.length - 1]
@@ -70,6 +74,7 @@
   //   *** PROPS
   export let player = {}
   export let avatars = []
+  export let streamRect = {}
   export let key = ""
 
   // *** VARIABLES
@@ -88,7 +93,7 @@
   // Check if the local player is close to the edge of the window
   // ... and if so, center the avatar
   $: if (player.self && (player.x || player.y)) {
-    if (checkIfCloseToEdge()) {
+    if (checkIfCloseToEdge()|| checkIfCloseToObject()) {
       centerViewOnPlayer()
     }
   }
@@ -106,6 +111,21 @@
       }
     }
     return false
+  }
+
+    const checkIfCloseToObject = () => {
+      if (avatarEl && avatarEl.parentElement) {
+        let avatarRect = avatarEl.getBoundingClientRect()
+          if ( 
+            avatarRect.left < streamRect.right &&
+            avatarRect.top < streamRect.bottom &&
+            avatarRect.bottom > streamRect.top &&
+            avatarRect.right > streamRect.left 
+          ) {
+            return true
+          }
+        }
+      return false
   }
 
   const centerViewOnPlayer = () => {

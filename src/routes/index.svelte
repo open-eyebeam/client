@@ -88,6 +88,7 @@
   let viewportElement = {}
   let avatars = []
   let newRoomIntroduction = false
+  let streamRect = {}
 
   $: {
     if ($players && $players[$localPlayer.uuid]) {
@@ -336,7 +337,7 @@ $: $universalStream && getUniversalStream();
   >
     <Room room={$currentRoom}>
       <!-- PLAYERS -->
-      <Players players={$players} currentRoomId={$currentRoom._id} {avatars} />
+      <Players players={$players} currentRoomId={$currentRoom._id} {avatars} streamRect={streamRect}/>
       <!-- OBJECTS -->
       <Objects objects={get($currentRoom, "objects", [])} />
       <!-- ZONES -->
@@ -363,7 +364,8 @@ $: $universalStream && getUniversalStream();
 <!-- LIVE STREAM -->
 {#if !$focusPlayer && $universalStream != undefined}
     <StreamPlayer
-        streamUrl={$universalStream.videoUrl}
+      bind:streamRect={streamRect}
+      streamUrl={$universalStream.videoUrl}
       audioOnly={$universalStream.audioOnly}
       title={$universalStream.title}
     />
@@ -371,6 +373,7 @@ $: $universalStream && getUniversalStream();
     {#each $streams as stream}
     {#if !$focusPlayer && ($currentRoom._id == stream.parentArea._ref || $activeZone._id == stream.parentArea._ref)}
     <StreamPlayer
+      bind:streamRect={streamRect}
       streamUrl={stream.videoUrl}
       audioOnly={stream.audioOnly}
       title={stream.title}
@@ -452,8 +455,8 @@ $: $universalStream && getUniversalStream();
     height: 100vh;
     width: 100vw;
     position: absolute;
-    top: 0;
-    left: 0;
+    bottom: 0;
+    right: 0;
     overflow: hidden;
     opacity: 1;
     transition: transform 0.5s $transition;
