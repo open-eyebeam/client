@@ -31,6 +31,8 @@
   import Caption from "$lib/components/text-components/Caption.svelte"
   // *** CHAT
   import Chat from "$lib/components/chat/Chat.svelte"
+  // *** SCHEDULE
+  import Schedule from "$lib/components/world-layers/schedule/Schedule.svelte"
   // *** PHONE
   import PhoneNavigation from "$lib/components/PhoneNavigation.svelte"
 
@@ -380,7 +382,18 @@ $: $universalStream && getUniversalStream();
     />
   {/if}
   {/each}
+  {/if}
+{#if $streams.length > 1}
+    
+  <div class="stream-button-container">
+  {#each $streams as stream}
+    {#if !$focusPlayer && ($currentRoom._id == stream.parentArea._ref || $activeZone._id == stream.parentArea._ref)}
+    <button on:click={console.log("switch stream: " + stream.title)}>{stream.title}</button>
+  {/if}
+  {/each}
+  </div>
 {/if}
+
 
 <!-- ROOM ENTRY BOX -->
 {#if $roomIntent}
@@ -433,7 +446,8 @@ $: $universalStream && getUniversalStream();
 {#if $activeArticle}
   <ArticleBox article={$activeArticle} />
 {/if}
-
+<!-- SCHEDULE -->
+<Schedule events = {$worldObject.events} />
 <!-- CHAT-->
 {#if !$focusPlayer && !$trayOpen && !$activeArticle}
   <Chat
@@ -473,4 +487,30 @@ $: $universalStream && getUniversalStream();
     width:1px;
     height:1px;
   }
+  .stream-button-container {
+    position: absolute;
+    display: flex;
+    justify-content: wrap;
+    top: 50%;
+    left: 10px;
+    width: 40%;
+ 
+  button {
+      font-family: $SERIF_STACK;
+      font-size: $font-size-small;
+      width: 60px;
+      float: right;
+      display: block;
+      background: $e-ink-medium;
+      border: $border-style;
+      color: $e-ink-dark;
+      outline: none;
+      cursor: pointer;
+      border-radius: 0;
+      height: 40px;
+      padding: 10px;
+      line-height: 20px;
+  }
+  }
+
 </style>

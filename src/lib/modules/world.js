@@ -49,8 +49,12 @@ export const buildWorld = () => {
             bulletinBoard.isBulletinBoard = true
             bulletinBoard.title = 'Bulletin Board'
             bulletinBoard.events = events
+            // SCHEDULE MAY REPLACE BULLETIN BOARD EVENTUALLY
+          // just adding events to world object for easier access.
+            innerWorld.events = events
             innerWorld[bulletinBoard.parentArea._ref].objects.push(bulletinBoard)
         }
+
 
         // Add zones to rooms
         zones.forEach(zone => {
