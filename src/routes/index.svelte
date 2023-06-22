@@ -388,7 +388,7 @@ $: $universalStream && getUniversalStream();
   <div class="stream-button-container">
   {#each $streams as stream}
     {#if !$focusPlayer && ($currentRoom._id == stream.parentArea._ref || $activeZone._id == stream.parentArea._ref)}
-    <button on:click={console.log("switch stream: " + stream.title)}>{stream.title}</button>
+    <button on:click={console.log("switchinng to stream: " + stream.title)}>{stream.title}</button>
   {/if}
   {/each}
   </div>
@@ -498,7 +498,6 @@ $: $universalStream && getUniversalStream();
   button {
       font-family: $SERIF_STACK;
       font-size: $font-size-small;
-      width: 60px;
       float: right;
       display: block;
       background: $e-ink-medium;
