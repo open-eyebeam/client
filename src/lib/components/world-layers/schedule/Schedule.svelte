@@ -2,8 +2,11 @@
   export let events = []
   export let videoLibrary = []
   import { dateTimeFormat, isUpcoming, isOngoing, sortByDate } from "$lib/modules/utilities.js"
+  import Embed from "$lib/components/blocks/embed.svelte"
+  import { activeArticle } from "$lib/modules/ui.js"
   //events.sort(sortByDate)
   // videoLibrary.sort(sortByDate)
+  // use object styling for video library
   $: console.log('video library: ', videoLibrary)
 </script>
 <div id="schedule-container">
@@ -26,12 +29,32 @@
   <h2>PAST</h2>
     {#each videoLibrary as video}
       {#if video.active}
-      <div class="event">{dateTimeFormat(video.startDate)}: {video.title}</div>
+      <div class="event"
+        on:click={() => {
+        console.log('video clicked: ', video)
+         activeArticle.set(video._key)
+        }}
+
+      >{dateTimeFormat(video.startDate)}: {video.title}</div>
       {/if}
     {/each}
 
 
   </div>
+
+    {#each videoLibrary as video}
+  <div
+  class="object"
+  on:click={() => {
+    // activeArticle.set(object)
+  }}
+  tabindex=0
+>
+
+    <Embed  b = {{url: video.videoUrl }} />
+</div>
+{/each}
+
 <style lang="scss">
   @import "src/lib/style/variables.scss";
   
