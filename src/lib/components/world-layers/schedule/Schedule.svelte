@@ -1,13 +1,17 @@
 <script>
   export let events = []
-  export let videoLibrary = []
+  //FIXME: absolutely should not be doing this twice whatever is going on here
+  // getting static "vLib" from index, then videoLibrary from world
+  // but it works for now so :)
+  export let vLib = []
+  import { videoLibrary } from "$lib/modules/world.js"
   import { dateTimeFormat, isUpcoming, isOngoing, sortByDate } from "$lib/modules/utilities.js"
   import Embed from "$lib/components/blocks/embed.svelte"
   import { activeArticle } from "$lib/modules/ui.js"
   //events.sort(sortByDate)
   // videoLibrary.sort(sortByDate)
   // use object styling for video library
-  $: console.log('video library: ', videoLibrary)
+  $: console.log('video library: ', vLib)
 </script>
 <div id="schedule-container">
   <h2>TODAY</h2>
@@ -27,12 +31,19 @@
       {/if}
   {/each}
   <h2>PAST</h2>
-    {#each videoLibrary as video}
+    {#each vLib as video}
       {#if video.active}
-      <div class="event"
+      <div class="event past"
         on:click={() => {
-        console.log('video clicked: ', video)
-         activeArticle.set(video._key)
+          video.showVideo = true
+          console.log('v lib: ')
+            videoLibrary.set($videoLibrary.map(v => {
+              if (v.key == video.key) {
+                v.showVideo = true
+                v.hidden = false
+              }
+              return v
+            }))
         }}
 
       >{dateTimeFormat(video.startDate)}: {video.title}</div>
@@ -42,20 +53,7 @@
 
   </div>
 
-    {#each videoLibrary as video}
-  <div
-  class="object"
-  on:click={() => {
-    // activeArticle.set(object)
-  }}
-  tabindex=0
->
-
-    <Embed  b = {{url: video.videoUrl }} />
-</div>
-{/each}
-
-<style lang="scss">
+    <style lang="scss">
   @import "src/lib/style/variables.scss";
   
 
@@ -84,6 +82,10 @@
         width: 100%;
         padding: $SPACE_S;
         text-align: center;
+        &.past {
+          text-decoration: underline;
+          cursor: pointer;
+        }
        }
 
     &.is-mobile {

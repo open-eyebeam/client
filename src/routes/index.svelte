@@ -56,6 +56,8 @@
     localPlayer,
     initializeStreamsHandler,
     streams,
+    initializeVideoLibHandler,
+    videoLibrary,
   } from "$lib/modules/world.js"
   import {
     initializeKeyboardHandler,
@@ -219,7 +221,10 @@
     // Initialize streams handler
     initializeStreamsHandler()
     infoLogger("✓ (6) Stream listener initialized")
-    
+    // Initialize videoLib handler
+    initializeVideoLibHandler()
+    infoLogger("✓ (6) Stream listener initialized")
+
     
     // Check if there is a hash in the URL
     if (window.location.hash) {
@@ -313,8 +318,17 @@
   function getUniversalStream() {
     universalStream.set($streams.filter(stream => { return stream.showEverywhere == true})[0]) 
   }
+  let showStream = null
+  function selectStream(stream) {
+    console.log('should be showing stream: ', stream)
+
+    showStream = stream
+  }
 $: $streams && getUniversalStream();
 $: $universalStream && getUniversalStream();
+$: $streams && selectStream($streams.filter(stream => {return $currentRoom._id == stream.parentArea._ref})[0])
+
+
 </script>
 <div role="instructions" class="screenreader-only"><p>If you're using a screenreader, you can navigate through the page with the tab key. You can interact with objects by switching to focus mode and hitting the "Enter" key. If you run into any accessiblity issues, please let us know at tech@eyebeam.org. Enjoy!</p></div>
 
@@ -364,6 +378,7 @@ $: $universalStream && getUniversalStream();
 {/if}
 
 <!-- LIVE STREAM -->
+<div class="streams-container">
 {#if !$focusPlayer && $universalStream != undefined}
     <StreamPlayer
       bind:streamRect={streamRect}
@@ -373,27 +388,44 @@ $: $universalStream && getUniversalStream();
     />
 {:else }
     {#each $streams as stream}
-    {#if !$focusPlayer && ($currentRoom._id == stream.parentArea._ref || $activeZone._id == stream.parentArea._ref)}
-    <StreamPlayer
-      bind:streamRect={streamRect}
-      streamUrl={stream.videoUrl}
-      audioOnly={stream.audioOnly}
-      title={stream.title}
-    />
+      {#if !$focusPlayer && ($currentRoom._id == stream.parentArea._ref || $activeZone._id == stream.parentArea._ref)}
+      <StreamPlayer
+        bind:streamRect={streamRect}
+        streamUrl={stream.videoUrl}
+        audioOnly={stream.audioOnly}
+        title={stream.title}
+        playing={stream.isPlaying}
+        hidden={stream._key != showStream._key}
+      />
   {/if}
   {/each}
+{/if}
+{#if $videoLibrary.length >= 1}
+    {#each $videoLibrary as stream}
+      {#if !$focusPlayer}
+      <StreamPlayer
+        bind:streamRect={streamRect}
+        streamUrl={stream.videoUrl}
+        audioOnly={stream.audioOnly}
+        title={stream.title}
+        isVideoLib = {true}
+        showVideo={stream.showVideo}
+        hidden={stream.hidden}
+      />
   {/if}
+  {/each}
+{/if}
+
 {#if $streams.length > 1}
-    
   <div class="stream-button-container">
   {#each $streams as stream}
     {#if !$focusPlayer && ($currentRoom._id == stream.parentArea._ref || $activeZone._id == stream.parentArea._ref)}
-    <button on:click={console.log("switch stream: " + stream.title)}>{stream.title}</button>
+    <button on:click={selectStream(stream)}>{stream.title}</button>
   {/if}
   {/each}
   </div>
 {/if}
-
+</div>
 
 <!-- ROOM ENTRY BOX -->
 {#if $roomIntent}
@@ -447,7 +479,7 @@ $: $universalStream && getUniversalStream();
   <ArticleBox article={$activeArticle} />
 {/if}
 <!-- SCHEDULE -->
-<Schedule events = {$worldObject.events} videoLibrary = {$worldObject.videoLibrary} />
+<Schedule events = {$worldObject.events} vLib = {$videoLibrary} />
 <!-- CHAT-->
 {#if !$focusPlayer && !$trayOpen && !$activeArticle}
   <Chat
@@ -487,11 +519,12 @@ $: $universalStream && getUniversalStream();
     width:1px;
     height:1px;
   }
+
   .stream-button-container {
     position: absolute;
     display: flex;
     justify-content: wrap;
-    top: 50%;
+    bottom: 45%;
     left: 10px;
     width: 40%;
  
