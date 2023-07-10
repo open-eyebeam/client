@@ -1,8 +1,11 @@
 <script>
   import { centeringInlineStyles } from "$lib/modules/movement.js"
   import { onMount } from 'svelte'
-  import { waitForElement } from "$lib/modules/utilities.js"
+  import { GRID_SIZE } from "$lib/modules/world.js";
   export let room = {}
+  export let players; 
+  export let localPlayer;
+
   // LEAVING THIS HERE FOR THE FUTURE: needs to be same-origin iframe to do this
   // trying to do some crazy shit for peter's studio
   //onMount(async => {
@@ -30,6 +33,16 @@
   //})
   
    //       }) 
+  onMount(async () => {
+  var roomElement = document.getElementById("room");
+  roomElement.addEventListener("click", function (event) {
+    players.update((ps) => {
+      ps[localPlayer.uuid].y = event.offsetY/ GRID_SIZE;
+      ps[localPlayer.uuid].x = event.offsetX/ GRID_SIZE;
+      return ps;
+    });
+  });
+})
 
 </script>
 

@@ -351,7 +351,7 @@ $: $streams && selectStream($streams.filter(stream => {return $currentRoom._id =
     aria-hidden={!$activeArticle ? "false" : "true" }
     role="ui"
   >
-    <Room room={$currentRoom}>
+    <Room room={$currentRoom} players={players} localPlayer={$localPlayer}>
       <!-- PLAYERS -->
       <Players players={$players} currentRoomId={$currentRoom._id} {avatars} streamRect={streamRect} chatRect={chatRect}/>
       <!-- OBJECTS -->
