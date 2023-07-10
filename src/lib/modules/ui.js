@@ -24,6 +24,7 @@ export const trayOpen = writable(false)
 export const focusPlayer = writable(true)
 export const uiState = writable(STATE.LOADING)
 export const isPhone = writable(false)
+export const activeMouse = writable(true);
 
 export const toolTipConfig = {
     content: "",

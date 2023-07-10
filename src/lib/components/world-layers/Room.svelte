@@ -2,9 +2,11 @@
   import { centeringInlineStyles } from "$lib/modules/movement.js"
   import { onMount } from 'svelte'
   import { GRID_SIZE } from "$lib/modules/world.js";
+
   export let room = {}
   export let players; 
   export let localPlayer;
+  export let activeMouse;
 
   // LEAVING THIS HERE FOR THE FUTURE: needs to be same-origin iframe to do this
   // trying to do some crazy shit for peter's studio
@@ -35,13 +37,15 @@
    //       }) 
   onMount(async () => {
   var roomElement = document.getElementById("room");
-  roomElement.addEventListener("click", function (event) {
-    players.update((ps) => {
-      ps[localPlayer.uuid].y = event.offsetY/ GRID_SIZE;
-      ps[localPlayer.uuid].x = event.offsetX/ GRID_SIZE;
-      return ps;
+    roomElement.addEventListener("click", function (event) {
+      if(activeMouse){
+        players.update((ps) => {
+          ps[localPlayer.uuid].y = parseInt(event.offsetY/ GRID_SIZE);
+          ps[localPlayer.uuid].x = parseInt(event.offsetX/ GRID_SIZE);
+          return ps;
+        });
+      }
     });
-  });
 })
 
 </script>
