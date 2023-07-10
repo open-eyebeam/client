@@ -19,7 +19,7 @@
   import ArrowDown from "$lib/components/graphics/arrow-down.svelte"
 
   // __ STORES
-  import { trayOpen, activeCity } from "$lib/modules/ui.js"
+  import { trayOpen, activeCity,activeMouse } from "$lib/modules/ui.js"
 
   export let currentRoom = {}
 
@@ -33,6 +33,10 @@
 
   const toggleTray = () => {
     trayOpen.set(!$trayOpen)
+  }
+
+  const toggleMouse = () => {
+    activeMouse.set(!$activeMouse)
   }
 </script>
 
@@ -48,7 +52,16 @@
     <!-- SETTINGS CONTENT -->
     <div class="settings-content">
       <!-- THEME & INVERSION -->
-      <div class="section theme" />
+      <div class="section theme" >
+        <div class="section-header">Movement</div>
+        <div class="mouse-switch">
+          <span>Mouse</span>
+          <label class="switch" >
+            <input type="checkbox"on:click={toggleMouse} checked>
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </div>
       <!-- TEXT -->
       <div class="section text" />
       <!-- CITY -->
@@ -311,4 +324,72 @@
   .city-text {
     max-width: 520px;
   }
+
+  /* The switch - the box around the slider */
+.switch {
+  margin-left:5px;
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 15px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 15px;
+  width: 15px;
+  left: 0px;
+  bottom: 0px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #221f20;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #221f20;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(15px);
+  -ms-transform: translateX(15px);
+  transform: translateX(15px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 15px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+.mouse-switch {
+  display: flex;
+  align-items: center;
+}
 </style>

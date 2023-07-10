@@ -80,6 +80,7 @@
     transitionWorldOut,
     focusPlayer,
     isPhone,
+    activeMouse
   } from "$lib/modules/ui.js"
   import {
     nanoid,
@@ -351,7 +352,7 @@ $: $streams && selectStream($streams.filter(stream => {return $currentRoom._id =
     aria-hidden={!$activeArticle ? "false" : "true" }
     role="ui"
   >
-    <Room room={$currentRoom} players={players} localPlayer={$localPlayer}>
+    <Room room={$currentRoom} players={players} localPlayer={$localPlayer} activeMouse={$activeMouse}>
       <!-- PLAYERS -->
       <Players players={$players} currentRoomId={$currentRoom._id} {avatars} streamRect={streamRect} chatRect={chatRect}/>
       <!-- OBJECTS -->
