@@ -527,7 +527,7 @@ $: $streams && selectStream($streams.filter(stream => {return $currentRoom._id =
     flex-wrap: wrap;
     bottom: 20px;
     left: 10px;
-    z-index: 100000;
+    z-index: 10001;
     align-content: space-between;
     width: 180px;
      &.is-mobile {

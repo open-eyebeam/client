@@ -36,7 +36,7 @@
     background: $e-ink-light;
     color: $e-ink-dark;
     border: $border-style;
-    z-index: 1000;
+    z-index: 10002;
     font-size: $font-size-small;
   }
 
@@ -44,7 +44,7 @@
     position: fixed;
     bottom: 20px;
     left: 20px;
-    z-index: 1000;
+    z-index: 10002;
     &.is-mobile {
       bottom: 160px;
     }
