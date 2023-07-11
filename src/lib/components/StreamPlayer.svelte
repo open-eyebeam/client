@@ -44,7 +44,9 @@
   }
 
   onMount(async () => {
-    streamRect = streamEl.getBoundingClientRect();
+    if (!hidden) {
+      streamRect = streamEl.getBoundingClientRect();
+    }
     if (streamUrl.includes("undersco.re")) {
       audioPlayer = new PeerTubePlayer(document.querySelector(".peertube"))
       await audioPlayer.ready
@@ -56,8 +58,6 @@
       })
     }
   })
-  $: console.log('show video: ', showVideo)
-  $: hidden, console.log('hidden: ', hidden)
   
 </script>
 

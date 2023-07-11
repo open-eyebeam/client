@@ -6,13 +6,16 @@
   // # # # # # # # # # # # # #
   import { createEventDispatcher } from "svelte"
   const dispatch = createEventDispatcher()
+  import { onMount } from "svelte"
   import { get  } from "svelte/store"
   import BadWords from 'bad-words'  
   import {currentRoom} from '$lib/modules/movement.js'
   import { client  } from '$lib/modules/sanity.js'
   import {STATE, uiState, isPhone} from '$lib/modules/ui.js'
   import ChatBox from "./ChatBox.svelte"
-  
+  export let chatRect = {}
+  let chatEl={}
+
   const censor = new BadWords()
   // *** VARIABLES
   let chatInputValue = ""
@@ -35,12 +38,15 @@
   const showHideMobile = () => {
     showMobile = !showMobile
   }
+onMount(async() => {
+      chatRect = chatEl.getBoundingClientRect()
+    })
 
 $: chatSettings = $currentRoom.chatSettings != undefined ? $currentRoom.chatSettings : {useDiscord: false, discordChannelId: undefined}
 $: discordURL = `https://e.widgetbot.io/channels/806275264807698482/${chatSettings.discordChannelId}` 
 </script>
 {#if chatSettings != undefined && chatSettings.disableChat != true && $uiState != STATE.ERROR }
-<div class:is-mobile={$isPhone} class="chat-container" class:minimize={$isPhone ? !showMobile : false}>
+<div class:is-mobile={$isPhone} class="chat-container" class:minimize={$isPhone ? !showMobile : false} bind:this={chatEl}>
 <button class="mobile-button" class:minimize={showMobile} on:click={showHideMobile} >{showMobile ? 'X' : 'Chat'}</button>
 {#if chatSettings.useDiscord != true || chatSettings.discordChannelId == undefined}
 <div class="chat-content" class:hidden-mobile={!showMobile}>

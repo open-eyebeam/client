@@ -63,7 +63,7 @@
   .caption-container {
     position: fixed;
     bottom: 20px;
-    left: 20px;
+    left: 240px;
     z-index: 10000;
     max-width: 520px;
     display: flex;

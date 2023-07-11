@@ -75,6 +75,7 @@
   export let player = {}
   export let avatars = []
   export let streamRect = {}
+  export let chatRect = {}
   export let key = ""
 
   // *** VARIABLES
@@ -116,11 +117,21 @@
     const checkIfCloseToObject = () => {
       if (avatarEl && avatarEl.parentElement) {
         let avatarRect = avatarEl.getBoundingClientRect()
+        console.log('avat rect: ', avatarRect)
+        console.log('chat rect: ', chatRect)
           if ( 
             avatarRect.left < streamRect.right &&
             avatarRect.top < streamRect.bottom &&
             avatarRect.bottom > streamRect.top &&
             avatarRect.right > streamRect.left 
+          ) {
+            return true
+          }
+        if ( 
+            avatarRect.left < chatRect.right &&
+            avatarRect.top < chatRect.bottom &&
+            avatarRect.bottom > chatRect.top &&
+            avatarRect.right > chatRect.left 
           ) {
             return true
           }
@@ -211,6 +222,7 @@
       margin-top: -15px;
       text-align: center;
       color: $e-ink-dark;
+      background: $e-ink-medium;
   }
     img {
       image-rendering: pixelated;

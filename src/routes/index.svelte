@@ -93,6 +93,7 @@
   let avatars = []
   let newRoomIntroduction = false
   let streamRect = {}
+  let chatRect = {}
 
   $: {
     if ($players && $players[$localPlayer.uuid]) {
@@ -320,7 +321,6 @@
   }
   let showStream = null
   function selectStream(stream) {
-    console.log('should be showing stream: ', stream)
 
     showStream = stream
   }
@@ -353,7 +353,7 @@ $: $streams && selectStream($streams.filter(stream => {return $currentRoom._id =
   >
     <Room room={$currentRoom}>
       <!-- PLAYERS -->
-      <Players players={$players} currentRoomId={$currentRoom._id} {avatars} streamRect={streamRect}/>
+      <Players players={$players} currentRoomId={$currentRoom._id} {avatars} streamRect={streamRect} chatRect={chatRect}/>
       <!-- OBJECTS -->
       <Objects objects={get($currentRoom, "objects", [])} />
       <!-- ZONES -->
@@ -415,9 +415,9 @@ $: $streams && selectStream($streams.filter(stream => {return $currentRoom._id =
   {/if}
   {/each}
 {/if}
-
+<!-- STREAM BUTTONS -->
 {#if $streams.length > 1}
-  <div class="stream-button-container">
+  <div class="stream-button-container" class:is-mobile={$isPhone}>
   {#each $streams as stream}
     {#if !$focusPlayer && ($currentRoom._id == stream.parentArea._ref || $activeZone._id == stream.parentArea._ref)}
     <button on:click={selectStream(stream)}>{stream.title}</button>
@@ -483,6 +483,7 @@ $: $streams && selectStream($streams.filter(stream => {return $currentRoom._id =
 <!-- CHAT-->
 {#if !$focusPlayer && !$trayOpen && !$activeArticle}
   <Chat
+    bind:chatRect={chatRect}
     chatMessages={$chatMessages.filter(m => m.room === $currentRoom._id)}
     on:submit={e => {
       submitChat(e, $currentRoom)
@@ -523,12 +524,25 @@ $: $streams && selectStream($streams.filter(stream => {return $currentRoom._id =
   .stream-button-container {
     position: absolute;
     display: flex;
-    justify-content: wrap;
-    bottom: 45%;
+    flex-wrap: wrap;
+    bottom: 20px;
     left: 10px;
-    width: 40%;
+    z-index: 100000;
+    align-content: space-between;
+    width: 180px;
+     &.is-mobile {
+     width: calc(70% - 24px);
+      bottom: 125px;
+      align-content: normal;
+    justify-content: space-between;
+      button {
+      font-size: 10px;
+      margin-bottom: 0px;
+      }
+     }
  
   button {
+      margin-bottom: 12px; 
       font-family: $SERIF_STACK;
       font-size: $font-size-small;
       float: right;
@@ -542,6 +556,8 @@ $: $streams && selectStream($streams.filter(stream => {return $currentRoom._id =
       height: 40px;
       padding: 10px;
       line-height: 20px;
+      width:100%;
+
   }
   }
 

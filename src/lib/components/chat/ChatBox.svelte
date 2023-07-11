@@ -19,7 +19,7 @@
 </script>
 
 <div class="chat-log" class:is-mobile={$isPhone} bind:this={scrollBox}>
-  <div class="chat-message chat-pinned"><span class="message-text">For a less ephemeral conversation, <a target="_blank" href="https://discord.gg/NK6EQwrsmz">join our Discord</a>. Send us feedback <a target="_blank" href="https://desk.undersco.re/apps/forms/s/5BqyWk8EsSe4YtCfJEqyni9K">here</a>.</span></div>
+  <div class="chat-message chat-pinned" class:is-mobile={$isPhone}><span class="message-text">For a less ephemeral conversation, <a target="_blank" href="https://discord.gg/NK6EQwrsmz">join our Discord</a>. Send us feedback <a target="_blank" href="https://desk.undersco.re/apps/forms/s/5BqyWk8EsSe4YtCfJEqyni9K">here</a>.</span></div>
 {#if messages.length <= 0}
   <div class="chat-message">The chat is empty, for now.</div>
 {/if}
@@ -67,6 +67,10 @@
     top: 1px;
     height: 70px;
     width: calc(100% - 2px);
+           &.is-mobile {
+             font-size: 11px;
+             padding-right: 24px;
+           }
   }
     .chat-message {
         display: flex;
