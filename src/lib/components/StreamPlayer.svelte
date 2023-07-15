@@ -26,6 +26,7 @@
   export let hidden = true
   function hide() {
     hidden = true  
+    console.log('hidden: ', hidden)
   }
 
   let audioPlayer
@@ -59,6 +60,7 @@
     }
   })
   
+$: streamUrl, console.log('stream url: ', streamUrl)
 </script>
 
 <div
@@ -73,6 +75,7 @@
   on:click={hide}
   >X</div>
   <div class="embed">
+    {#if streamUrl != undefined}
     {#if streamUrl.includes("youtube") || streamUrl.includes("youtu.be")}
       <div class="youtube-container"
 
@@ -84,7 +87,7 @@
           height="1280"
           src={"https://www.youtube.com/embed/" +
             getVideoId(streamUrl).id + (isVideoLib ? "" :
-            "?autoplay=1") + "&rel=0&color=white"}
+            "?autoplay=1")}
           frameborder="no"
           allow="autoplay; fullscreen"
           allowfullscreen
@@ -138,6 +141,7 @@
           </div>
         </div>
       {/if}
+    {/if}
     {/if}
   </div>
 </div>

@@ -117,8 +117,6 @@
     const checkIfCloseToObject = () => {
       if (avatarEl && avatarEl.parentElement) {
         let avatarRect = avatarEl.getBoundingClientRect()
-        console.log('avat rect: ', avatarRect)
-        console.log('chat rect: ', chatRect)
           if ( 
             avatarRect.left < streamRect.right &&
             avatarRect.top < streamRect.bottom &&

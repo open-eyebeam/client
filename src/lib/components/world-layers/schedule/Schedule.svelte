@@ -8,28 +8,37 @@
   import { dateTimeFormat, isUpcoming, isOngoing, sortByDate } from "$lib/modules/utilities.js"
   import Embed from "$lib/components/blocks/embed.svelte"
   import {STATE, uiState, isPhone} from '$lib/modules/ui.js'
+  console.log('is phone: ', isPhone)
   import { activeArticle } from "$lib/modules/ui.js"
+  $: console.log('video library: ', videoLibrary)
+  $: vLib, vLib.map(ev => {
+    console.log('event: ', ev)
+    console.log('is ongoing: ', isOngoing(ev.startDate))
+      })
+  let selected = null;
   //events.sort(sortByDate)
-  // videoLibrary.sort(sortByDate)
+   $: vLib.sort(sortByDate)
   // use object styling for video library
 </script>
-<!--
 <div id="schedule-container" class:is-mobile={$isPhone}>
-    <h2>UPCOMING</h2>
-    {#each events as event}
-      {#if event.startDate}
-      {#if isUpcoming(event) && !isOngoing(event)}
-        <div class="event">{dateTimeFormat(event.startDate)}: {event.title}</div>
-      {/if}
-      {/if}
-  {/each}
-</div> -->
-<div id="schedule-container" class:is-mobile={$isPhone}>
-  <h2>RECENT</h2>
-    {#each vLib as video}
-      {#if video.active}
+<h3>SCHEDULE</h3>
+<div class="tab-container">
+    {#each vLib as lib}
+    <div class="schedule-tab" class:selected={selected == null ? isOngoing(lib.startDate) : lib == selected}
+    on:click={() => {
+      selected = lib
+   }}>{lib.title}</div>
+    {/each}
+  </div>
+    {#each vLib as lib}
+    <div class="event-day" class:selected={selected == null ? isOngoing(lib.startDate) : lib == selected}
+>
+      {#each lib.activeVideos as video}
       <div class="event past"
+        class:has-link={video.hasOwnProperty("videoUrl")} 
         on:click={() => {
+          console.log('video: ', video)
+
           video.showVideo = true
             videoLibrary.set($videoLibrary.map(v => {
               if (v.key == video.key) {
@@ -40,14 +49,41 @@
             }))
         }}
 
-      >{dateTimeFormat(video.startDate)}: {video.title}</div>
+      >
+{#if video.active}
+      <img class="live" src="Live.gif" alt="a blinking red light - this event is currently live" />
       {/if}
+
+      {video.title}
+            </div>
+    {/each}
+    </div>
     {/each}
 </div>
 
 
     <style lang="scss">
   @import "src/lib/style/variables.scss";
+
+  .event-day {
+    font-size: 14px;
+    &:not(.selected) {
+    display: none;
+    }
+  }
+.tab-container {
+  display: flex;
+  max-width: 100%;
+  border-bottom: 1px solid $e-ink-medium; 
+  .schedule-tab {
+    padding: $SPACE_S; 
+    font-size: $font-size-small;
+    cursor: pointer;
+      &.selected, &:hover {
+          border-bottom: 2px solid $e-ink-medium;
+      }
+  }
+}
   
   .is-mobile {
     display:none !important;
@@ -57,7 +93,7 @@
   }
   #schedule-container {
     right: 20px;
-    max-height:200px;
+    max-height:300px;
     top: 80px;
     position: fixed;
     width: 300px;
@@ -70,17 +106,23 @@
    background: $e-ink-dark;
     border: 1px solid $e-ink-medium;
     color: $e-ink-medium;
-       h2 {
+       h3 {
        width: 100%;
      text-align: center;
+     padding: 4px;
+     margin: 0 auto;
        }
        .event {
         width: 100%;
-        padding: $SPACE_S;
+        padding: $SPACE_S / 2;
         text-align: center;
-        &.past {
+        &.has-link {
           text-decoration: underline;
           cursor: pointer;
+        }
+        .live {
+        padding-top: 6px;
+        max-height: 18px;
         }
        }
 

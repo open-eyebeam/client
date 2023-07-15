@@ -294,8 +294,8 @@ export const isOngoing = date => {
 }
 
 export const sortByDate = (a, b) => {
-  let dateA = new Date(a)
-  let dateB = new Date(b)
+  let dateA = new Date(a.startDate)
+  let dateB = new Date(b.startDate)
   return dateA - dateB
 }
 
