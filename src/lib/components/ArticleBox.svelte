@@ -10,6 +10,7 @@
   import { activeArticle, trayOpen } from "$lib/modules//ui.js"
   import { loadDataFromMainSite } from "$lib/modules//sanity.js"
   import { enterArticle, leaveArticle, players } from "$lib/modules/engine.js"
+  import { dateTimeFormat, isUpcoming } from "$lib/modules/utilities.js"
   import { checkObjectOverlap } from "$lib/modules/movement.js"
   import VideoPlayer from "$lib/components/VideoPlayer.svelte"
   import Blocks from "$lib/components/blocks/blocks.svelte"
@@ -43,6 +44,16 @@
           "*[_id == '" + article.importedPost + "'][0]"
         )
    }
+   if (article.isBulletinBoard) {
+    let upcomingEvents = article.events.filter(event => {
+         return isUpcoming(event.startDate) 
+       })
+    let pastEvents = article.events.filter(event => {
+          return !isUpcoming(event.startDate)
+        }).slice(0, 2)
+     article.events = upcomingEvents.concat(pastEvents)
+     console.log('events:', article.events)
+     }
   })
 
   onDestroy(async () => {

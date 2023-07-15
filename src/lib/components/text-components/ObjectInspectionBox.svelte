@@ -36,7 +36,7 @@
     background: $e-ink-light;
     color: $e-ink-dark;
     border: $border-style;
-    z-index: 10001;
+    z-index: 10002;
     font-size: $font-size-small;
   }
 

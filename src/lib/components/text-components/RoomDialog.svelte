@@ -67,7 +67,7 @@
     background: #e8eae6;
     color: $e-ink-dark;
     border: 1px solid $e-ink-dark;
-    z-index: 1000;
+    z-index: 100002;
     user-select: none;
     &.is-mobile {
       bottom: 170px;

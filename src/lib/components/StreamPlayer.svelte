@@ -20,13 +20,21 @@
   export let streamUrl = ""
   export let audioOnly = false
   export let title = ""
+  export let isVideoLib = false
+  export let showVideo = false
   export let streamRect = {}
+  export let hidden = true
+  function hide() {
+    hidden = true  
+    console.log('hidden: ', hidden)
+  }
 
   let audioPlayer
   let playing = false
   let position = 0
   let streamEl={}
-
+  
+  
   const togglePlay = () => {
     if (playing) {
       audioPlayer.pause()
@@ -37,7 +45,9 @@
   }
 
   onMount(async () => {
-    streamRect = streamEl.getBoundingClientRect();
+    if (!hidden) {
+      streamRect = streamEl.getBoundingClientRect();
+    }
     if (streamUrl.includes("undersco.re")) {
       audioPlayer = new PeerTubePlayer(document.querySelector(".peertube"))
       await audioPlayer.ready
@@ -50,28 +60,39 @@
     }
   })
   
+$: streamUrl, console.log('stream url: ', streamUrl)
 </script>
 
 <div
   class="stream-container"
   class:audio={audioOnly}
+  class:is-video-lib={isVideoLib && !showVideo}
+  class:hidden={hidden}
   bind:this={streamEl}
   transition:fade={{ duration: 300, easing: quartOut }}
 >
-
+  <div id="show-hide"
+  on:click={hide}
+  >X</div>
   <div class="embed">
+    {#if streamUrl != undefined}
     {#if streamUrl.includes("youtube") || streamUrl.includes("youtu.be")}
-      <div class="youtube-container">
+      <div class="youtube-container"
+
+      class:hidden={hidden}
+      >
+      {#if !hidden}
         <iframe
           width="1920"
           height="1280"
           src={"https://www.youtube.com/embed/" +
-            getVideoId(streamUrl).id +
-            "?autoplay=1&rel=0&color=white"}
+            getVideoId(streamUrl).id + (isVideoLib ? "" :
+            "?autoplay=1")}
           frameborder="no"
           allow="autoplay; fullscreen"
           allowfullscreen
         />
+        {/if }
       </div>
     {:else if streamUrl.includes("vimeo")}
       <div class="vimeo-container">
@@ -121,6 +142,7 @@
         </div>
       {/if}
     {/if}
+    {/if}
   </div>
 </div>
 
@@ -135,9 +157,34 @@
     //height: 50%;
     border: 1px solid $e-ink-dark;
     z-index: 10000;
-
+    &.hidden {
+          display: none;
+        }
+    &.is-video-lib {
+      display: none;
+    }
     &.audio {
       width: 360px;
+    }
+    #show-hide {
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: 10000000;
+       font-family: $SERIF_STACK;
+      font-size: $font-size-small;
+      float: right;
+      display: block;
+      background: $e-ink-medium;
+      border: $border-style;
+      color: $e-ink-dark;
+      outline: none;
+      cursor: pointer;
+      border-radius: 0;
+      height: 40px;
+      padding: 10px;
+      line-height: 20px;
+
     }
 
     @include screen-size("small") {

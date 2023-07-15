@@ -31,6 +31,8 @@
   import Caption from "$lib/components/text-components/Caption.svelte"
   // *** CHAT
   import Chat from "$lib/components/chat/Chat.svelte"
+  // *** SCHEDULE
+  import Schedule from "$lib/components/world-layers/schedule/Schedule.svelte"
   // *** PHONE
   import PhoneNavigation from "$lib/components/PhoneNavigation.svelte"
 
@@ -54,6 +56,8 @@
     localPlayer,
     initializeStreamsHandler,
     streams,
+    initializeVideoLibHandler,
+    videoLibrary,
   } from "$lib/modules/world.js"
   import {
     initializeKeyboardHandler,
@@ -89,6 +93,7 @@
   let avatars = []
   let newRoomIntroduction = false
   let streamRect = {}
+  let chatRect = {}
 
   $: {
     if ($players && $players[$localPlayer.uuid]) {
@@ -217,7 +222,10 @@
     // Initialize streams handler
     initializeStreamsHandler()
     infoLogger("✓ (6) Stream listener initialized")
-    
+    // Initialize videoLib handler
+    initializeVideoLibHandler()
+    infoLogger("✓ (6) Stream listener initialized")
+
     
     // Check if there is a hash in the URL
     if (window.location.hash) {
@@ -311,8 +319,16 @@
   function getUniversalStream() {
     universalStream.set($streams.filter(stream => { return stream.showEverywhere == true})[0]) 
   }
+  let showStream = null
+  function selectStream(stream) {
+
+    showStream = stream
+  }
 $: $streams && getUniversalStream();
 $: $universalStream && getUniversalStream();
+$: $streams && selectStream($streams.filter(stream => {return $currentRoom._id == stream.parentArea._ref})[0])
+
+
 </script>
 <div role="instructions" class="screenreader-only"><p>If you're using a screenreader, you can navigate through the page with the tab key. You can interact with objects by switching to focus mode and hitting the "Enter" key. If you run into any accessiblity issues, please let us know at tech@eyebeam.org. Enjoy!</p></div>
 
@@ -337,7 +353,7 @@ $: $universalStream && getUniversalStream();
   >
     <Room room={$currentRoom}>
       <!-- PLAYERS -->
-      <Players players={$players} currentRoomId={$currentRoom._id} {avatars} streamRect={streamRect}/>
+      <Players players={$players} currentRoomId={$currentRoom._id} {avatars} streamRect={streamRect} chatRect={chatRect}/>
       <!-- OBJECTS -->
       <Objects objects={get($currentRoom, "objects", [])} />
       <!-- ZONES -->
@@ -362,6 +378,7 @@ $: $universalStream && getUniversalStream();
 {/if}
 
 <!-- LIVE STREAM -->
+<div class="streams-container">
 {#if !$focusPlayer && $universalStream != undefined}
     <StreamPlayer
       bind:streamRect={streamRect}
@@ -371,16 +388,46 @@ $: $universalStream && getUniversalStream();
     />
 {:else }
     {#each $streams as stream}
-    {#if !$focusPlayer && ($currentRoom._id == stream.parentArea._ref || $activeZone._id == stream.parentArea._ref)}
-    <StreamPlayer
-      bind:streamRect={streamRect}
-      streamUrl={stream.videoUrl}
-      audioOnly={stream.audioOnly}
-      title={stream.title}
-    />
+      {#if !$focusPlayer && ($currentRoom._id == stream.parentArea._ref || $activeZone._id == stream.parentArea._ref)}
+      <StreamPlayer
+        bind:streamRect={streamRect}
+        streamUrl={stream.videoUrl}
+        audioOnly={stream.audioOnly}
+        title={stream.title}
+        playing={stream.isPlaying}
+        hidden={stream._key != showStream._key}
+      />
   {/if}
   {/each}
 {/if}
+{#if $videoLibrary.length >= 1}
+    {#each $videoLibrary as lib}
+    {#each lib.activeVideos as stream}
+      {#if !$focusPlayer}
+      <StreamPlayer
+        bind:streamRect={streamRect}
+        streamUrl={stream.videoUrl}
+        audioOnly={stream.audioOnly}
+        title={stream.title}
+        isVideoLib = {true}
+        showVideo={stream.showVideo}
+        hidden={stream.hidden}
+      />
+  {/if}
+  {/each}
+  {/each}
+{/if}
+<!-- STREAM BUTTONS -->
+{#if $streams.length > 1}
+  <div class="stream-button-container" class:is-mobile={$isPhone}>
+  {#each $streams as stream}
+    {#if !$focusPlayer && ($currentRoom._id == stream.parentArea._ref || $activeZone._id == stream.parentArea._ref)}
+    <button on:click={selectStream(stream)}>{stream.title}</button>
+  {/if}
+  {/each}
+  </div>
+{/if}
+</div>
 
 <!-- ROOM ENTRY BOX -->
 {#if $roomIntent}
@@ -433,10 +480,12 @@ $: $universalStream && getUniversalStream();
 {#if $activeArticle}
   <ArticleBox article={$activeArticle} />
 {/if}
-
+<!-- SCHEDULE -->
+<Schedule events = {$worldObject.events} vLib = {$videoLibrary} />
 <!-- CHAT-->
 {#if !$focusPlayer && !$trayOpen && !$activeArticle}
   <Chat
+    bind:chatRect={chatRect}
     chatMessages={$chatMessages.filter(m => m.room === $currentRoom._id)}
     on:submit={e => {
       submitChat(e, $currentRoom)
@@ -473,4 +522,45 @@ $: $universalStream && getUniversalStream();
     width:1px;
     height:1px;
   }
+
+  .stream-button-container {
+    position: absolute;
+    display: flex;
+    flex-wrap: wrap;
+    bottom: 20px;
+    left: 10px;
+    z-index: 10001;
+    align-content: space-between;
+    width: 180px;
+     &.is-mobile {
+     width: calc(70% - 24px);
+      bottom: 125px;
+      align-content: normal;
+    justify-content: space-between;
+      button {
+      font-size: 10px;
+      margin-bottom: 0px;
+      }
+     }
+ 
+  button {
+      margin-bottom: 12px; 
+      font-family: $SERIF_STACK;
+      font-size: $font-size-small;
+      border-radius: 15px;
+      float: right;
+      display: block;
+      background: $e-ink-medium;
+      border: $border-style;
+      color: $e-ink-dark;
+      outline: none;
+      cursor: pointer;
+      height: 40px;
+      padding: 10px;
+      line-height: 20px;
+      width:100%;
+
+  }
+  }
+
 </style>

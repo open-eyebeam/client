@@ -24,6 +24,7 @@ export const buildWorld = () => {
         const portals = await loadData('*[_type == "portal"]{..., targetArea->{...}, "bgImageUrl": backgroundImage.asset->url}')
         const events = await loadData('*[_type == "event"]')
         const bulletinBoard = await loadData('*[_id == "bulletin-board-settings"][0]')
+
         // --> Construct world object by rooms:
         let innerWorld = {}
         rooms.forEach(room => innerWorld[room._id] = room)
@@ -49,8 +50,13 @@ export const buildWorld = () => {
             bulletinBoard.isBulletinBoard = true
             bulletinBoard.title = 'Bulletin Board'
             bulletinBoard.events = events
+            // SCHEDULE MAY REPLACE BULLETIN BOARD EVENTUALLY
+          // just adding events to world object for easier access.
+            innerWorld.events = events
             innerWorld[bulletinBoard.parentArea._ref].objects.push(bulletinBoard)
         }
+
+
 
         // Add zones to rooms
         zones.forEach(zone => {
@@ -113,6 +119,19 @@ export const initializeStreamsHandler = async () => {
     })
 }
 
+// treat video library as basically "hidden" streams
+export const videoLibrary = writable([])
+export const initializeVideoLibHandler = async () => {
+    const STREAMS_QUERY = '*[_type == "videoLibrary"]'
+    let sx = await loadData(STREAMS_QUERY)
+  console.log('sx: ', sx)
+     videoLibrary.set(sx)
+
+      // __ Listen for changes to the active streams post
+    //client.listen(STREAMS_QUERY).subscribe(update => {
+    //    videoLibrary.set(update.result)
+    //})
+}
 export const localPlayer = writable({
     uuid: '',
     sessionId: '',

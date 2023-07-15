@@ -5,7 +5,7 @@
 //
 // * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-import { format, getYear, parseISO, formatDistanceToNow, isFuture } from "date-fns"
+import { format, getYear, parseISO, formatDistanceToNow, isFuture, isToday} from "date-fns"
 
 export const SANITY_PROJECT_ID = import.meta.env.VITE_SANITY_ID
 const PRODUCTION = false
@@ -288,6 +288,15 @@ export const getCurrentYear = () => {
 
 export const isUpcoming = date => {
   return isFuture(parseISO(date))
+}
+export const isOngoing = date => {
+  return isToday(parseISO(date))
+}
+
+export const sortByDate = (a, b) => {
+  let dateA = new Date(a.startDate)
+  let dateB = new Date(b.startDate)
+  return dateA - dateB
 }
 
 // ____

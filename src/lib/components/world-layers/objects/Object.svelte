@@ -55,6 +55,7 @@
 
 // THIS IS JUST FOR ACCESSIBILITY (selected with the tab key), sighted users select objects in the object inspection box in index.svelte 
    function onKeyDown(e) {
+    console.log('hit key: ', e)
     if (e.key == "Enter" && object.static != true && object.contentType != "externalLink") {
       dispatch("object", { objectId: object._id })
      activeArticle.set(
