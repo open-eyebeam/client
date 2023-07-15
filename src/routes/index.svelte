@@ -401,7 +401,8 @@ $: $streams && selectStream($streams.filter(stream => {return $currentRoom._id =
   {/each}
 {/if}
 {#if $videoLibrary.length >= 1}
-    {#each $videoLibrary as stream}
+    {#each $videoLibrary as lib}
+    {#each lib.activeVideos as stream}
       {#if !$focusPlayer}
       <StreamPlayer
         bind:streamRect={streamRect}
@@ -413,6 +414,7 @@ $: $streams && selectStream($streams.filter(stream => {return $currentRoom._id =
         hidden={stream.hidden}
       />
   {/if}
+  {/each}
   {/each}
 {/if}
 <!-- STREAM BUTTONS -->
@@ -545,6 +547,7 @@ $: $streams && selectStream($streams.filter(stream => {return $currentRoom._id =
       margin-bottom: 12px; 
       font-family: $SERIF_STACK;
       font-size: $font-size-small;
+      border-radius: 15px;
       float: right;
       display: block;
       background: $e-ink-medium;
@@ -552,7 +555,6 @@ $: $streams && selectStream($streams.filter(stream => {return $currentRoom._id =
       color: $e-ink-dark;
       outline: none;
       cursor: pointer;
-      border-radius: 0;
       height: 40px;
       padding: 10px;
       line-height: 20px;

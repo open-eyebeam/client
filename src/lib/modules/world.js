@@ -122,18 +122,14 @@ export const initializeStreamsHandler = async () => {
 // treat video library as basically "hidden" streams
 export const videoLibrary = writable([])
 export const initializeVideoLibHandler = async () => {
-    const STREAMS_QUERY = '*[_id == "videoLibrary"][0]'
+    const STREAMS_QUERY = '*[_type == "videoLibrary"]'
     let sx = await loadData(STREAMS_QUERY)
-  sx.activeVideos.map(s=> {
-    s.showVideo = false
-    return s
-  })
   console.log('sx: ', sx)
-   videoLibrary.set(sx.activeVideos.filter(s => s.active))
+     videoLibrary.set(sx)
 
       // __ Listen for changes to the active streams post
     //client.listen(STREAMS_QUERY).subscribe(update => {
-    //    videoLibrary.set(update.result.activeVideos.filter(s => s.active))
+    //    videoLibrary.set(update.result)
     //})
 }
 export const localPlayer = writable({
