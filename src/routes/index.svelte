@@ -422,7 +422,7 @@ $: $streams && selectStream($streams.filter(stream => {return $currentRoom._id =
   <div class="stream-button-container" class:is-mobile={$isPhone}>
   {#each $streams as stream}
     {#if !$focusPlayer && ($currentRoom._id == stream.parentArea._ref || $activeZone._id == stream.parentArea._ref)}
-    <button on:click={selectStream(stream)}>{stream.title}</button>
+    <!--<button on:click={selectStream(stream)}>{stream.title}</button>-->
   {/if}
   {/each}
   </div>
