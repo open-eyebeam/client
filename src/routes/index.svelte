@@ -411,7 +411,6 @@ $: $streams && selectStream($streams.filter(stream => {return $currentRoom._id =
         title={stream.title}
         isVideoLib = {true}
         showVideo={stream.showVideo}
-        hidden={stream.hidden}
       />
   {/if}
   {/each}

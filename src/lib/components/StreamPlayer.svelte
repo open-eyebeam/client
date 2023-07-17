@@ -23,7 +23,7 @@
   export let isVideoLib = false
   export let showVideo = false
   export let streamRect = {}
-  export let hidden = true
+  export let hidden = false 
   function hide() {
     hidden = true  
     console.log('hidden: ', hidden)
