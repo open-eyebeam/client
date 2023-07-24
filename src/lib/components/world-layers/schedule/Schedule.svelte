@@ -17,7 +17,9 @@
    // console.log('event: ', ev)
  //   console.log('is ongoing: ', isOngoing(ev.startDate))
 // short term fix to select most recent stream
+      if (selected == null) {
     selected = ev
+}
       })
   //events.sort(sortByDate)
    $: vLib.sort(sortByDate)
