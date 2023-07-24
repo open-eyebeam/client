@@ -10,18 +10,21 @@
   import {STATE, uiState, isPhone} from '$lib/modules/ui.js'
   console.log('is phone: ', isPhone)
   import { activeArticle } from "$lib/modules/ui.js"
+  let selected = null;
+
   $: console.log('video library: ', videoLibrary)
   $: vLib, vLib.map(ev => {
-    console.log('event: ', ev)
-    console.log('is ongoing: ', isOngoing(ev.startDate))
+   // console.log('event: ', ev)
+ //   console.log('is ongoing: ', isOngoing(ev.startDate))
+// short term fix to select most recent stream
+    selected = ev
       })
-  let selected = null;
   //events.sort(sortByDate)
    $: vLib.sort(sortByDate)
   // use object styling for video library
 </script>
 <div id="schedule-container" class:is-mobile={$isPhone}>
-<h3>STREAM SCHEDULE</h3>
+<h3>RECENT STREAMS</h3>
 <div class="tab-container">
     {#each vLib as lib}
     <div class="schedule-tab" class:selected={selected == null ? isOngoing(lib.startDate) : lib == selected}
