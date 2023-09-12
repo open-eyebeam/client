@@ -227,6 +227,8 @@
 
     &.self {
       z-index: 100000;
+      transition: .6s;
+
     }
   }
 
