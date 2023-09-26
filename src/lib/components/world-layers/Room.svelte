@@ -35,18 +35,7 @@
   //})
   
    //       }) 
-  onMount(async () => {
-  var roomElement = document.getElementById("room");
-    roomElement.addEventListener("click", function (event) {
-      if(activeMouse){
-        players.update((ps) => {
-          ps[localPlayer.uuid].y = parseInt(event.offsetY/ GRID_SIZE);
-          ps[localPlayer.uuid].x = parseInt(event.offsetX/ GRID_SIZE);
-          return ps;
-        });
-      }
-    });
-})
+
 
 </script>
 
@@ -55,6 +44,15 @@
   id="room"
   style={`${room.inlineStyles} ${$centeringInlineStyles}`}
   aria-live="polite"
+  on:click={e => {
+      if(activeMouse){
+        players.update((ps) => {
+          ps[localPlayer.uuid].y = parseInt(e.offsetY/ GRID_SIZE);
+          ps[localPlayer.uuid].x = parseInt(e.offsetX/ GRID_SIZE);
+          return ps;
+        });
+      }
+  }}
 >
   <slot />
 

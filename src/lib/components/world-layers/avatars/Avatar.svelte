@@ -95,8 +95,14 @@
   // ... and if so, center the avatar
   $: if (player.self && (player.x || player.y)) {
     if (checkIfCloseToEdge()|| checkIfCloseToObject()) {
-      centerViewOnPlayer()
+        centerViewOnPlayer()
     }
+    // Check again in a bit, for mouse movement
+    setTimeout( () => {
+      if (checkIfCloseToEdge()|| checkIfCloseToObject()) {
+        centerViewOnPlayer()
+      }
+    }, 500);
   }
 
   const checkIfCloseToEdge = () => {
