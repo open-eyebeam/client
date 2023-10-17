@@ -28,51 +28,7 @@
   }
 </script>
 
-<div class="phone-navigation">
-  <div
-    class="key left"
-      class:active={active == nodeLeft}
-    on:touchstart={() => {
-      triggerKey(nodeLeft, KEY.LEFT)
-    }}
-    bind:this={nodeLeft}
-  >
-    <span>←</span>
-  </div>
-  <div class="vert">
-    <div
-      class="key up"
 
-      class:active={active == nodeUp}
-      on:touchstart={() => {
-        triggerKey(nodeUp, KEY.UP)
-      }}
-      bind:this={nodeUp}
-    >
-      <span>↑</span>
-    </div>
-    <div
-      class="key down"
-      class:active={active == nodeDown}
-      on:touchstart={() => {
-        triggerKey(nodeDown, KEY.DOWN)
-      }}
-      bind:this={nodeDown}
-    >
-      <span>↓</span>
-    </div>
-  </div>
-  <div
-    class="key right"
-      class:active={active == nodeRight}
-    on:touchstart={() => {
-      triggerKey(nodeRight, KEY.RIGHT)
-    }}
-    bind:this={nodeRight}
-  >
-    <span>→</span>
-  </div>
-</div>
 
 <style lang="scss">
   @import "src/lib/style/variables.scss";
