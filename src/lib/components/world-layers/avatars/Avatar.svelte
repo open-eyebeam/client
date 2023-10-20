@@ -4,7 +4,7 @@
   //  Avatar
   //
   // # # # # # # # # # # # # #
-  import { fade } from "svelte/transition"
+ import { fade } from "svelte/transition"
   import { onMount } from "svelte"
   import { chatMessages } from "$lib/modules/engine.js"
   import { GRID_SIZE } from "$lib/modules/world.js"
@@ -15,6 +15,10 @@
   import {
     streams,
   } from "$lib/modules/world.js"
+  $: isMovingFromMouseClick = false
+  // set transition time in css from this variable
+  let transitionTime = 0.6 //mouseclick animation time, in seconds
+  document.documentElement.style.setProperty("--avatarTransitionTime", `${transitionTime}s`)
 
   $: {
     let lastMessage = $chatMessages[$chatMessages.length - 1]
@@ -150,6 +154,14 @@
   }
 
   onMount(async () => {
+  window.addEventListener("click", () => {
+      isMovingFromMouseClick = true
+    console.log('mouse click: ', isMovingFromMouseClick)
+      setTimeout(()=> {
+        isMovingFromMouseClick = false
+      }, transitionTime*1000)
+    })
+
     if (!player.self) {
       tippy(avatarEl, {
         content: player.name,
@@ -186,6 +198,7 @@
   class="avatar"
   class:shown={!$focusPlayer || player.self}
   class:self={player.self}
+  class:mousemove={player.self && isMovingFromMouseClick}
   bind:this={avatarEl}
   class:blinking={$focusPlayer && player.self}
   id={key}
@@ -210,7 +223,6 @@
 
 <style lang="scss">
   @import "src/lib/style/variables.scss";
-
 
   .avatar {
     height: 32px;
@@ -243,8 +255,10 @@
 
     &.self {
       z-index: 100000;
-      transition: .6s;
 
+    }
+    &.mousemove {
+      transition: var(--avatarTransitionTime);
     }
   }
 
