@@ -35,6 +35,7 @@
   import Schedule from "$lib/components/world-layers/schedule/Schedule.svelte"
   // *** PHONE
   import PhoneNavigation from "$lib/components/PhoneNavigation.svelte"
+  import Minimap from "$lib/components/minimap.svelte"
 
   import {
     connectToGameServer,
@@ -95,6 +96,8 @@
   let newRoomIntroduction = false
   let streamRect = {}
   let chatRect = {}
+  let minimap;
+  let mapContentElement;
 
   $: {
     if ($players && $players[$localPlayer.uuid]) {
@@ -307,6 +310,7 @@
     let avatarCookie = Cookies.get("open-eyebeam-avatar")
 
 
+
     if (!nameCookie && !$isAuthenticated) {
       // If the user is not onboarded, branch off...
       uiState.set(STATE.ONBOARDING)
@@ -314,6 +318,7 @@
       // ... otherwise, finalize the set up
       finalSetUp(nameCookie, avatarCookie)
     }
+    
   })
   // check for universal stream
   export let universalStream = writable({})
@@ -343,6 +348,9 @@ $: $streams && selectStream($streams.filter(stream => {return $currentRoom._id =
   />
 {/if}
 
+
+
+
 <!-- GAME WORLD -->
 {#if $currentRoom}
   <div
@@ -352,24 +360,26 @@ $: $streams && selectStream($streams.filter(stream => {return $currentRoom._id =
     aria-hidden={!$activeArticle ? "false" : "true" }
     role="ui"
   >
-    <Room room={$currentRoom} players={players} localPlayer={$localPlayer} activeMouse={$activeMouse}>
-      <!-- PLAYERS -->
-      <Players players={$players} currentRoomId={$currentRoom._id} {avatars} streamRect={streamRect} chatRect={chatRect}/>
-      <!-- OBJECTS -->
-      <Objects objects={get($currentRoom, "objects", [])} />
-      <!-- ZONES -->
-      <Zones zones={get($currentRoom, "zones", [])} />
-      <!-- PORTALS -->
-      <Portals
-        portals={get($currentRoom, "portals", [])}
-        on:room={e => {
-          if (e.detail.roomId) {
-            changeRoom(e.detail.roomId)
-          }
-          roomIntent.set(false)
-        }}
-      />
-    </Room>
+    <Minimap bind:this={minimap} mapSource={mapContentElement} >
+      <Room room={$currentRoom} players={players} localPlayer={$localPlayer} activeMouse={$activeMouse} bind:this={mapContentElement}>
+        <!-- PLAYERS -->
+        <Players players={$players} currentRoomId={$currentRoom._id} {avatars} streamRect={streamRect} chatRect={chatRect}/>
+        <!-- OBJECTS -->
+        <Objects objects={get($currentRoom, "objects", [])} />
+        <!-- ZONES -->
+        <Zones zones={get($currentRoom, "zones", [])} />
+        <!-- PORTALS -->
+        <Portals
+          portals={get($currentRoom, "portals", [])}
+          on:room={e => {
+            if (e.detail.roomId) {
+              changeRoom(e.detail.roomId)
+            }
+            roomIntent.set(false)
+          }}
+        />
+      </Room>
+    </Minimap>
   </div>
 {/if}
 
@@ -428,6 +438,7 @@ $: $streams && selectStream($streams.filter(stream => {return $currentRoom._id =
   </div>
 {/if}
 </div>
+
 
 <!-- ROOM ENTRY BOX -->
 {#if $roomIntent}
