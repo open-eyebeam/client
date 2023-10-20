@@ -92,7 +92,7 @@ $: discordURL = `https://e.widgetbot.io/channels/806275264807698482/${chatSettin
     z-index: 10000;
 
     &.is-mobile {
-      bottom: 125px;
+      bottom: 25px;
       right: 10px;
       width: calc(100% - 20px);
     }
