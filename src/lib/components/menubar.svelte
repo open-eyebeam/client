@@ -94,8 +94,7 @@
     <div class="inner-text">
       <!-- BREADCRUMBS -->
       <div class="breadcrumbs">
-        <span class="arrow-down"><ArrowDown /></span>
-<h1><a href="/">
+        <h1><a href="/">
           open.eyebeam.org {#if currentRoom.title} / {currentRoom.title}{/if}
 </a></h1>
       </div>
