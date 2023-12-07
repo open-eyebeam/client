@@ -32,7 +32,7 @@
   // *** CHAT
   import Chat from "$lib/components/chat/Chat.svelte"
   // *** SCHEDULE
-  import Schedule from "$lib/components/world-layers/schedule/Schedule.svelte"
+//  import Schedule from "$lib/components/world-layers/schedule/Schedule.svelte"
   // *** PHONE
   import PhoneNavigation from "$lib/components/PhoneNavigation.svelte"
 
@@ -481,7 +481,7 @@ $: $streams && selectStream($streams.filter(stream => {return $currentRoom._id =
   <ArticleBox article={$activeArticle} />
 {/if}
 <!-- SCHEDULE -->
-<Schedule events = {$worldObject.events} vLib = {$videoLibrary} />
+<!-- <Schedule events = {$worldObject.events} vLib = {$videoLibrary} /> -->
 <!-- CHAT-->
 {#if !$focusPlayer && !$trayOpen && !$activeArticle}
   <Chat
