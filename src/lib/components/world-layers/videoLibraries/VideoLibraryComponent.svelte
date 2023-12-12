@@ -72,7 +72,7 @@ function scrollRight() {
 </svg>
 </a>
 
-      <div class="video-carousel">
+      <div class="video-carousel" bind:this={carousel}>
             {#each selectedVideos as video}
           <div class="video">
 
@@ -182,6 +182,8 @@ function scrollRight() {
     scrollbar-color: $e-ink-medium $e-ink-dark;
     border-radius: 5px;
     border: 5px solid #000;
+        width: 1223px;
+    height: 638px;
 
 
 

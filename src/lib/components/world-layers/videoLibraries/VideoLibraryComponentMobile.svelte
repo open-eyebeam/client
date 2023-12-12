@@ -13,7 +13,6 @@
   let selectedDate = null;
 
   let selected = null;
-  console.log("lib!!",lib.activeVideos)
 
   $: if (lib) {
     videosByDate = {};
@@ -48,24 +47,26 @@
 
 
     <div class="video-item" class:is-mobile={$isPhone}>
-      <span class="title-button">
-      <span class="title" >{lib.title}</span></span>
+      {#if Object.values(videosByDate).length > 0}
+        <span class="title-button">
+        <span class="title" >{lib.title}</span></span>
         {#each Object.keys(videosByDate) as date}
-      <div class="tabs">
-          <button class="video-tab" on:click={() => selectDate(date)}>{longFormatDate(date)}</button>
-      </div>
-      <div class="video-carousel">
-            {#each selectedVideos as video}
-          <a href ={"https://www.youtube.com/embed/" +
-                   getVideoId(video.videoUrl).id +
-                   "?rel=0&color=white"} class="video">
+          <div class="tabs">
+              <button class="video-tab" on:click={() => selectDate(date)}>{longFormatDate(date)}</button>
+          </div>
+          <div class="video-carousel">
+                {#each selectedVideos as video}
+              <a href ={"https://www.youtube.com/embed/" +
+                       getVideoId(video.videoUrl).id +
+                       "?rel=0&color=white"} class="video">
 
-            <div class="video-title">{video.title}</div>
-            <div class="video-description">{video.description === undefined ? "" : video.description}</div>
-          </a>
+                <div class="video-title">{video.title}</div>
+                <div class="video-description">{video.description === undefined ? "" : video.description}</div>
+              </a>
+          {/each}
+        </div>
         {/each}
-      </div>
-        {/each}
+      {/if}
     </div>
 
 
@@ -79,13 +80,14 @@
       margin: $SPACE_M 0 ;
       .tabs {
         display: flex;
+        width: 100%;
         margin-top: $SPACE_L;
-        margin-left: $SPACE_XS;
+        margin-left: $SPACE_M;
 
       }
       .video-tab {
-        width: 225px;
-        height: 44px;
+        width: 153px;
+        height: 30px;
         background: linear-gradient(180deg, #D9EBF0 0%, rgba(217, 235, 240, 0) 100%);
         border-radius: 20px 20px 0px 0px;
         border: 0px;
@@ -106,18 +108,17 @@
     }
   .video-carousel {
     display: inline-flex;
-    padding: $SPACE_XS $SPACE_XS;
     display: flex;
     flex-direction: column;
     overflow-x: auto;
     scrollbar-width: thin;
+    margin-bottom: $SPACE_L;
 
 
     .video {
       
       display: flex;
       flex-direction: column;
-      align-items: center;
       background-color: $e-ink-light;
       flex: 0 0 auto; // prevent videos from shrinking
       padding: $SPACE_S; // add some space between videos
