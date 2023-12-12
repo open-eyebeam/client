@@ -13,6 +13,15 @@
   let selectedDate = null;
 
   let selected = null;
+  let carousel;
+
+function scrollLeft() {
+  carousel.scrollBy({ left: -300, behavior: 'smooth' });
+}
+
+function scrollRight() {
+  carousel.scrollBy({ left: 300, behavior: 'smooth' });
+}
   console.log("lib!!",lib.activeVideos)
 
   $: if (lib) {
@@ -55,6 +64,14 @@
           <button class="video-tab" on:click={() => selectDate(date)}>{longFormatDate(date)}</button>
         {/each}
       </div>
+      <div class="video-carousel-container">
+  <a class="carousel-arrow left" on:click={scrollLeft}>
+<svg xmlns="http://www.w3.org/2000/svg" width="54" height="65" viewBox="0 0 54 65" fill="none">
+  <rect width="53.0421" height="64.0625" fill="black"/>
+  <path d="M36.6234 46.1077L6.45246 29.6875L36.6234 13.2673L36.6234 46.1077Z" fill="white" stroke="black" stroke-width="3"/>
+</svg>
+</a>
+
       <div class="video-carousel">
             {#each selectedVideos as video}
           <div class="video">
@@ -90,12 +107,38 @@
           </div>
         {/each}
       </div>
+        <a class="carousel-arrow right" on:click={scrollRight}>
+  <svg xmlns="http://www.w3.org/2000/svg" width="54" height="65" viewBox="0 0 54 65" fill="none">
+<rect x="0.957031" width="53.0421" height="64.0625" fill="black"/>
+<path d="M15.7146 47.6702L45.8856 31.25L15.7146 14.8298L15.7146 47.6702Z" fill="white" stroke="black" stroke-width="3"/>
+</svg>
+</a>
+      </div>
+
     </div>
 
 
 <style lang="scss">
   @import "src/lib/style/variables.scss";
 
+.video-carousel-container {
+  position: relative;
+  .carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    z-index: 10;
+    
+    &.left {
+      left: 0;
+    }
+
+    &.right {
+      right: 0;
+    }
+  }
+}
 
     .video-item {
       margin: $SPACE_XL 0 ;
@@ -130,7 +173,8 @@
     }
   .video-carousel {
     display: inline-flex;
-    padding: $SPACE_XL $SPACE_L;
+    margin: $SPACE_XL $SPACE_XL;
+    padding: $SPACE_XL $SPACE_XL;
     display: flex;
     background-image: url("images/background_field.png");
     overflow-x: auto;
