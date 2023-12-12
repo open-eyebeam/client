@@ -50,64 +50,40 @@
     <div class="video-item" class:is-mobile={$isPhone}>
       <span class="title-button">
       <span class="title" >{lib.title}</span></span>
-      <div class="tabs">
         {#each Object.keys(videosByDate) as date}
+      <div class="tabs">
           <button class="video-tab" on:click={() => selectDate(date)}>{longFormatDate(date)}</button>
-        {/each}
       </div>
       <div class="video-carousel">
             {#each selectedVideos as video}
-          <div class="video">
-
-             <div class="youtube-container">
-               <iframe
-                 src={"https://www.youtube.com/embed/" +
+          <a href ={"https://www.youtube.com/embed/" +
                    getVideoId(video.videoUrl).id +
-                   "?rel=0&color=white"}
-                 frameborder="no"
-                 allow="autoplay; fullscreen"
-                 allowfullscreen
-               />
-            </div>
-             <div>
-              {#if video.rooms && video.rooms.length > 0}
-             <div class="room">
-                {#each video.rooms as room}
-                <div class="room-content">
-                  <div class="room-image">
-                    <img width="36" height="36" src={room.bgImageUrl} />
-                  </div>
-                  <div class="room-name">
-                    {room.title}
-                  </div>
-                </div>
-                {/each}
-                </div>
-              {/if}
-            </div>
+                   "?rel=0&color=white"} class="video">
+
             <div class="video-title">{video.title}</div>
             <div class="video-description">{video.description === undefined ? "" : video.description}</div>
-          </div>
+          </a>
         {/each}
       </div>
+        {/each}
     </div>
 
 
 <style lang="scss">
   @import "src/lib/style/variables.scss";
 
-
+    a {
+      text-decoration: none;
+    }
     .video-item {
-      margin: $SPACE_XL 0 ;
+      margin: $SPACE_M 0 ;
       .tabs {
         display: flex;
         margin-top: $SPACE_L;
         margin-left: $SPACE_XS;
 
-
       }
       .video-tab {
-        width: 100px;
         width: 225px;
         height: 44px;
         background: linear-gradient(180deg, #D9EBF0 0%, rgba(217, 235, 240, 0) 100%);
@@ -130,28 +106,23 @@
     }
   .video-carousel {
     display: inline-flex;
-    padding: $SPACE_XL $SPACE_L;
+    padding: $SPACE_XS $SPACE_XS;
     display: flex;
-    background-image: url("images/background_field.png");
+    flex-direction: column;
     overflow-x: auto;
     scrollbar-width: thin;
-    scrollbar-color: $e-ink-medium $e-ink-dark;
-    border-radius: 5px;
-    border: 5px solid #000;
-
 
 
     .video {
+      
       display: flex;
       flex-direction: column;
       align-items: center;
-      width: 400px;
-      height: 530px;
       background-color: $e-ink-light;
       flex: 0 0 auto; // prevent videos from shrinking
-      padding: $SPACE_L; // add some space between videos
-      margin: 0 $SPACE_L; // add some space between videos
-      border-radius: 20px;
+      padding: $SPACE_S; // add some space between videos
+      margin: $SPACE_S; // add some space between videos
+      border-radius: 10px;
       border: 1px solid $e-ink-dark;
       background: $e-ink-light;
 
@@ -163,9 +134,6 @@
           align-items: center;
           margin: $SPACE_S;
         }
-        .room-image{
-
-        }
         .room-name{
           font-weight: 700;
           font-size: 10px;
@@ -174,20 +142,16 @@
 
         }
       }
-      .youtube-container{
-        width: 300px;
-
-      }
       .video-title {
-        text-align: center;
-        margin: $SPACE_M 0;
-        font-size: 20px;
+        margin: $SPACE_XS 0;
+        font-weight: 700;
+        font-size: $font-size-small;
       }
       .video-description {
         word-wrap: break-word; 
         width:100%;
         color: #000;
-        font-size: 15px;
+        font-size: $font-size-extra-small;
       }
 
       // existing video styles...
@@ -196,14 +160,14 @@
     .title-button {
       .title {
         font-size: 24px;
-        color: $e-ink-light;
-        width: 100%;
+      color: $e-ink-light;
+      width: 100%;
       
       }
       padding: $SPACE_S $SPACE_M;
       background-color: $e-ink-dark;
       border-radius: 5px;
-      margin-bottom: $SPACE_L;
+      margin: 0 $SPACE_S;
     }
 
     h3 {

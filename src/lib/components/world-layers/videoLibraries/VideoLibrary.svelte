@@ -3,6 +3,7 @@
   export let vLib = [];
   import { dateTimeFormat, isUpcoming, isOngoing, sortByDate } from "$lib/modules/utilities.js";
   import {STATE, uiState, isPhone} from '$lib/modules/ui.js';
+  import VideoLibraryComponentMobile from './VideoLibraryComponentMobile.svelte';
   import VideoLibraryComponent from './VideoLibraryComponent.svelte';
 
 
@@ -23,7 +24,11 @@
   <div class="videos">
     {#each vLib as lib}
       {#if lib.activeVideos.length > 0}
+      {#if $isPhone === true}
+      <VideoLibraryComponentMobile {lib} />
+      {:else}
       <VideoLibraryComponent {lib} />
+      {/if}
       {/if}
     {/each}
   </div>
@@ -33,10 +38,6 @@
   @import "src/lib/style/variables.scss";
 
 
-
-  .is-mobile {
-    display:none !important;
-  }
 
   .mobile-button {
     display: none;
@@ -59,13 +60,7 @@
     color: $e-ink-dark;
     overflow-x: auto;
 
-
-
-
-
-
-
-    h3 {
+        h3 {
       width: 100%;
       font-size: 45px;
       text-align: center;
@@ -73,18 +68,27 @@
       margin: 0 auto;
     }
 
+  &.is-mobile {
+    border-radius: 20px;
+    border: 5px solid #000;
+    height: 80%;
 
-
-    &.is-mobile {
-      bottom: 425px;
-      right: 10px;
-      width: calc(100% - 20px);
+    h3 {
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
     }
+  }
+  
 
-    &.minimize {
-      width: calc(30% - 10px);
-      height: auto;
-    }
+
+
+    
+
+
+
+
   }
 
   button {
@@ -106,16 +110,16 @@
  
   }
 
+
   .is-mobile {
+    
     .mobile-button {
       display:block;
       width: 100%;
       z-index: 1001;
     }
 
-    .hidden-mobile {
-      display:none;
-    }
+
 
     .minimize {
       width: 40px;
@@ -124,5 +128,7 @@
       position: absolute;
       right: 0;
     }
+     
+
   }
 </style>

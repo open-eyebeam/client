@@ -88,6 +88,7 @@
     infoLogger,
     errorLogger,
   } from "$lib/modules/utilities.js"
+  import VideoLibrary from "../lib/components/world-layers/videoLibraries/VideoLibrary.svelte";
 
   // *** VARIABLES
   let viewportElement = {}
@@ -106,6 +107,7 @@
       }
     }
   }
+
 
   const changeRoom = async id => {
     showLabels.set(false)
