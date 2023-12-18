@@ -44,12 +44,13 @@
   }
 
   #video-library-container {
-    right: 20px;
     height: 90vh;
-    top: 80px;
     position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 90%;
-    z-index: 10000;
+    z-index: 20000;
     display: flex;
     flex-wrap: wrap;
     overflow: scroll;
@@ -80,12 +81,6 @@
       line-height: normal;
     }
   }
-  
-
-
-
-    
-
 
 
 

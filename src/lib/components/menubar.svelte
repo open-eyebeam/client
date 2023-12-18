@@ -19,9 +19,23 @@
   import ArrowDown from "$lib/components/graphics/arrow-down.svelte"
 
   // __ STORES
-  import { trayOpen, activeCity,activeMouse } from "$lib/modules/ui.js"
+  import { trayOpen, activeCity,activeMouse, activeVideoLibrary,VIDEO_LIBRARY_SLUG, urlHash } from "$lib/modules/ui.js"
 
   export let currentRoom = {}
+
+
+  let rooms = [ {slug: currentRoom.slug.current, title: currentRoom.title},{ slug: VIDEO_LIBRARY_SLUG, title: "Video Library" }]
+
+  function handleRoomChange(event) {
+    const selectedRoom = event.target.value;
+    if(selectedRoom === VIDEO_LIBRARY_SLUG) {
+      activeVideoLibrary.set(true);
+      history.replaceState(null, null, `#${VIDEO_LIBRARY_SLUG}`);
+    } else {
+      activeVideoLibrary.set(false);
+      history.replaceState(null, null, " ");
+    }
+  }
 
   const cities = loadDataFromMainSite('*[_id == "cities"][0]')
 
@@ -93,10 +107,18 @@
   <nav class="menubar">
     <div class="inner-text">
       <!-- BREADCRUMBS -->
+      
       <div class="breadcrumbs">
         <h1><a href="/">
-          open.eyebeam.org {#if currentRoom.title} / {currentRoom.title}{/if}
-</a></h1>
+          open.eyebeam.org /
+        </a></h1>
+        <select on:change={handleRoomChange}>
+          {#each rooms as room}
+            <option value="{room.slug}" selected={room.slug === $urlHash ? 'selected' : ''}>
+              {room.title}
+            </option>
+          {/each}
+        </select>
       </div>
       <!-- TRAY TOGGLE-->
       <div class="tray-toggle" on:click={toggleTray}>
@@ -129,9 +151,6 @@
     transform: translateY(-240px);
     font-size: $font-size-extra-small;
 
-    @include screen-size("small") {
-      pointer-events: none;
-    }
 
     &.open {
       transform: translateY(0);
