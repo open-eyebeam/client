@@ -46,7 +46,7 @@
     left: 20px;
     z-index: 10002;
     &.is-mobile {
-      bottom: 160px;
+      bottom: 100px;
     }
   }
 </style>

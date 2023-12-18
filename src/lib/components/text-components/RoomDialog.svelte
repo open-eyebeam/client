@@ -70,7 +70,7 @@
     z-index: 100002;
     user-select: none;
     &.is-mobile {
-      bottom: 170px;
+      bottom: 100px;
       font-size:22px;
       left: 5px;
       width: calc(100% - 10px);
