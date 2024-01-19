@@ -112,7 +112,7 @@
         <h1><a href="/">
           open.eyebeam.org /
         </a></h1>
-        <select on:change={handleRoomChange}>
+        <select class="menubar_select" on:change={handleRoomChange}>
           {#each rooms as room}
             <option value="{room.slug}" selected={room.slug === $urlHash ? 'selected' : ''}>
               {room.title}
@@ -263,7 +263,20 @@
       }
     }
   }
-
+  .menubar_select {
+    -webkit-appearance: none; 
+    -moz-appearance: none;    
+    appearance: none;          
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    padding: 3px;            
+    border-radius: 5px;        
+    font-size: 16px;           
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 5px top 50%;
+    background-size: 24px 24px;
+  }
   .city-button {
     padding: $button-padding;
     display: inline-block;
