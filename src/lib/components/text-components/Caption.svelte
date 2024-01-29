@@ -69,7 +69,7 @@
     display: flex;
 
     &.is-mobile {
-      bottom: 160px;
+      bottom: 80px;
       left: 5px;
       max-width: calc(100% - 10px);
     }
