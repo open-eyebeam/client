@@ -20,6 +20,7 @@
   import Room from "$lib/components/world-layers/Room.svelte"
   import Players from "$lib/components/world-layers/Players.svelte"
   import Objects from "$lib/components/world-layers/objects/Objects.svelte"
+  import Feed from "$lib/components/world-layers/feed/Feed.svelte"
   import Zones from "$lib/components/world-layers/zones/Zones.svelte"
   import AmbientAudio from "$lib/components/world-layers/AmbientAudio.svelte"
   import Portals from "$lib/components/world-layers/portals/Portals.svelte"
@@ -110,7 +111,7 @@
       }
     }
   }
-
+  $: console.log('current room: ', $currentRoom)
 
   const changeRoom = async id => {
     showLabels.set(false)
@@ -363,11 +364,16 @@ $: $streams && selectStream($streams.filter(stream => {return $currentRoom._id =
     aria-hidden={!$activeArticle ? "false" : "true" }
     role="ui"
   >
+    {#if $currentRoom.feedEnabled === true}
+      <Feed feedItems = {$currentRoom.feed} isActive = {$currentRoom.showFeedOnLaunch} artistImageUrl = {$currentRoom.artistImageUrl} artistName = {$currentRoom.artistName} artistBio = {$currentRoom.artistBio}/>
+    {/if}
+
     <Room room={$currentRoom} players={players} localPlayer={$localPlayer} activeMouse={$activeMouse}>
       <!-- PLAYERS -->
       <Players players={$players} currentRoomId={$currentRoom._id} {avatars} streamRect={streamRect} chatRect={chatRect}/>
       <!-- OBJECTS -->
       <Objects objects={get($currentRoom, "objects", [])} />
+      <!-- FEED -->
       <!-- ZONES -->
       <Zones zones={get($currentRoom, "zones", [])} />
       <!-- PORTALS -->
