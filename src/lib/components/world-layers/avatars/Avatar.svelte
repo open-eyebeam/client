@@ -154,7 +154,7 @@
   }
 
   onMount(async () => {
-  window.addEventListener("click", () => {
+  document.getElementById("room").addEventListener("click", () => {
       isMovingFromMouseClick = true
     console.log('mouse click: ', isMovingFromMouseClick)
       setTimeout(()=> {

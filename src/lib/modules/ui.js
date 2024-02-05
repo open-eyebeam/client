@@ -24,7 +24,10 @@ export const trayOpen = writable(false)
 export const focusPlayer = writable(true)
 export const uiState = writable(STATE.LOADING)
 export const isPhone = writable(false)
+export const VIDEO_LIBRARY_SLUG = "videoLibrary";
 export const activeMouse = writable(true);
+export const activeVideoLibrary = writable(false);
+export const urlHash = writable("");
 
 export const toolTipConfig = {
     content: "",

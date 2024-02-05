@@ -80,7 +80,10 @@
     transitionWorldOut,
     focusPlayer,
     isPhone,
-    activeMouse
+    activeMouse,
+    activeVideoLibrary,
+    VIDEO_LIBRARY_SLUG,
+    urlHash
   } from "$lib/modules/ui.js"
   import {
     nanoid,
@@ -88,6 +91,7 @@
     infoLogger,
     errorLogger,
   } from "$lib/modules/utilities.js"
+  import VideoLibrary from "../lib/components/world-layers/videoLibraries/VideoLibrary.svelte";
 
   // *** VARIABLES
   let viewportElement = {}
@@ -106,6 +110,7 @@
       }
     }
   }
+
 
   const changeRoom = async id => {
     showLabels.set(false)
@@ -231,6 +236,7 @@
     // Check if there is a hash in the URL
     if (window.location.hash) {
       const hash = window.location.hash.substring(1)
+      urlHash.set(hash);
       // Find the room with the matching slug
       for (const [key, value] of Object.entries($worldObject)) {
         if (get($worldObject[key], "slug.current", "") === hash) {
@@ -238,7 +244,12 @@
           break
         }
       }
+      //Show video Library if there is a videoLibrary tag
+      if(hash === VIDEO_LIBRARY_SLUG) {
+        activeVideoLibrary.set(true)
+      }
     }
+    
 
     // Show introduction text
     if (has($currentRoom, "introductionTexts")) {
@@ -482,6 +493,11 @@ $: $streams && selectStream($streams.filter(stream => {return $currentRoom._id =
 {/if}
 <!-- SCHEDULE -->
 <!-- <Schedule events = {$worldObject.events} vLib = {$videoLibrary} /> -->
+<!-- VideoLibrary -->
+{#if $activeVideoLibrary}
+<VideoLibrary events = {$worldObject.events} vLib = {$videoLibrary} />
+{/if}
+
 <!-- CHAT-->
 {#if !$focusPlayer && !$trayOpen && !$activeArticle}
   <Chat
