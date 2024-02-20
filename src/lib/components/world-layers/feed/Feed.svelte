@@ -105,6 +105,14 @@ button {
       font-size: $font-size-small;
       flex-flow: row wrap;
   }
+    @include screen-size('small') {
+      position: relative;
+      right: auto;
+      top: 15px;
+      margin-bottom: 20px;
+      max-width: 90%;
+    }
+
 }
   .feed-container {
     position: fixed;
