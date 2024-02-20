@@ -31,7 +31,9 @@
   </button>
   {#if artistName != undefined}
   <div class="feed-about">
+    {#if artistImageUrl != undefined}
     <img src={artistImageUrl} />
+  {/if}
     <div class="info">
       <h5>{artistName}'s Feed</h5>
       <Blocks blocks= {artistBio == undefined ? [] : artistBio.content} />  
@@ -50,7 +52,9 @@
   <div class="feed-widget" on:click={()=> {
     activeFeed.set(true)
   }}>
+    {#if artistImageUrl != undefined}
     <img src={artistImageUrl} />
+  {/if}
     <h3>{artistName}'s Feed</h3>
   </div>
   {/if}
