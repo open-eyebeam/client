@@ -18,7 +18,7 @@ export const GRID_SIZE = 32
 
 export const buildWorld = () => {
     return new Promise(async (resolve, reject) => {
-        const rooms = await loadData('*[_type == "room"]{..., "bgImageUrl": backgroundImage.asset->url, "bgVideoUrl": backgroundVideo.asset->url}')
+        const rooms = await loadData('*[_type == "room"]{..., "bgImageUrl": backgroundImage.asset->url, "bgVideoUrl": backgroundVideo.asset->url, "artistImageUrl": artistImage.asset->url}')
         const zones = await loadData('*[_type == "zone"]{..., "bgImageUrl": backgroundImage.asset->url, "bgVideoUrl": backgroundVideo.asset->url}')
         const objects = await loadData('*[_type == "exob"]')
         const portals = await loadData('*[_type == "portal"]{..., targetArea->{...}, "bgImageUrl": backgroundImage.asset->url}')

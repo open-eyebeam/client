@@ -56,8 +56,7 @@ export const connectToGameServer = playerObject => {
                     players.update(ps => {
                         delete ps[player.uuid]
                         return (ps)
-                    })
-                }
+                    }) }
 
                 // PLAYER => ADD
                 gameRoom.state.players.onAdd = (player, sessionId) => {
