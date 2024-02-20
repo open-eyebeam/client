@@ -48,7 +48,7 @@
     activeFeed.set(true)
   }}>
     <img src={artistImageUrl} />
-    <h2>{artistName}'s Feed</h2>
+    <h3>{artistName}'s Feed</h3>
   </div>
 {/if }
 
@@ -76,6 +76,17 @@ button {
       height: 80px;
       object-fit: cover;
     }
+    @include screen-size('small') {
+      max-width: 120px;
+      top: 40px;
+      right: 10px;
+      img {
+      display: none;
+    }
+    h3 {
+      font-size: 14px;
+    }
+  }
   
 }
   .feed-about {
