@@ -29,13 +29,15 @@
   >
   Return
   </button>
+  {#if artistName != undefined}
   <div class="feed-about">
     <img src={artistImageUrl} />
     <div class="info">
       <h5>{artistName}'s Feed</h5>
-      <Blocks blocks= {artistBio.content} />  
+      <Blocks blocks= {artistBio == undefined ? [] : artistBio.content} />  
     </div>
     </div>
+  {/if}
 
   {#each feedItems as feedItem}
     <div class="inner">
@@ -44,12 +46,14 @@
   {/each}
 </div>
 {:else}
+  {#if artistName != undefined}
   <div class="feed-widget" on:click={()=> {
     activeFeed.set(true)
   }}>
     <img src={artistImageUrl} />
     <h3>{artistName}'s Feed</h3>
   </div>
+  {/if}
 {/if }
 
 <style lang="scss">
