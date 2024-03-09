@@ -4,135 +4,181 @@
 //
 // * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-import { writable, get } from "svelte/store"
-import inRange from "lodash/inRange.js"
-import _ from 'lodash'
-import throttle from 'lodash/throttle.js'
-import { uiState } from '$lib/modules/ui.js'
-import { players, moveTo } from "$lib/modules/engine.js"
-import { GRID_SIZE, localPlayer } from "$lib/modules/world.js"
+import { writable, get } from "svelte/store";
+import inRange from "lodash/inRange.js";
+import _ from "lodash";
+import throttle from "lodash/throttle.js";
+import { uiState } from "$lib/modules/ui.js";
+import { players, moveTo } from "$lib/modules/engine.js";
+import { GRID_SIZE, localPlayer } from "$lib/modules/world.js";
 
 // *** VARIABLES
-export const roomIntent = writable(false)
-export const objectIntent = writable(false)
-export const activeZone = writable(false)
-export const currentRoom = writable(false)
-export const centeringInlineStyles = writable("transform: translateX(-50%) translateY(-50%);")
+export const roomIntent = writable(false);
+export const objectIntent = writable(false);
+export const activeZone = writable(false);
+export const currentRoom = writable(false);
+export const centeringInlineStyles = writable(
+  "transform: translateX(-50%) translateY(-50%);"
+);
 
 export const initializeKeyboardHandler = () => {
-    return new Promise((resolve, reject) => {
-        // Repeated keydown events are throttled to once every 100ms
-        document.addEventListener("keydown", throttle(key => {
-            const  tagName = key.target.tagName;
-            if (tagName === "INPUT") {
-              return;
-            }
-            // W Key is 87 & Up arrow is 38
-            if (key.keyCode === 38 || key.keyCode === 87) {
-                if (get(players)[get(localPlayer).uuid].y > 0) {
-                    players.update(ps => {
-                        ps[get(localPlayer).uuid].y -= 1
-                        return ps
-                    })
-                }
-
-            }
-            // S Key is 83 & Down arrow is 40
-            if (key.keyCode === 40 || key.keyCode === 83) {
-                if (
-                    get(players)[get(localPlayer).uuid].y * GRID_SIZE <
-                    get(currentRoom).dimensions.height * GRID_SIZE - 60
-                ) {
-                    players.update(ps => {
-                        ps[get(localPlayer).uuid].y += 1
-                        return ps
-                    })
-                }
-            }
-            // A Key is 65 & Left arrow is 37
-            if (key.keyCode === 37 || key.keyCode === 65) {
-                if (get(players)[get(localPlayer).uuid].x > 0) {
-                    players.update(ps => {
-                        ps[get(localPlayer).uuid].x -= 1
-                        return ps
-                    })
-                }
-            }
-            // D Key is 68 & Right arrow is 39
-            if (key.keyCode === 39 || key.keyCode === 68) {
-                if (
-                    get(players)[get(localPlayer).uuid].x * GRID_SIZE <
-                    get(currentRoom).dimensions.width * GRID_SIZE - 60
-                ) {
-                    players.update(ps => {
-                        ps[get(localPlayer).uuid].x += 1
-                        return ps
-                    })
-                }
-            }
-            if (get(uiState) != 0 ) {
-            moveTo(
-                get(players)[get(localPlayer).uuid].x,
-                get(players)[get(localPlayer).uuid].y,
-                true
-            )
+  return new Promise((resolve, reject) => {
+    // Repeated keydown events are throttled to once every 100ms
+    document.addEventListener(
+      "keydown",
+      throttle((key) => {
+        const tagName = key.target.tagName;
+        if (tagName === "INPUT") {
+          return;
+        }
+        // W Key is 87 & Up arrow is 38
+        if (key.keyCode === 38 || key.keyCode === 87) {
+          if (get(players)[get(localPlayer).uuid].y > 0) {
+            players.update((ps) => {
+              ps[get(localPlayer).uuid].y -= 1;
+              return ps;
+            });
           }
-        }, 100))
-        resolve()
-    })
-}
+        }
+        // S Key is 83 & Down arrow is 40
+        if (key.keyCode === 40 || key.keyCode === 83) {
+          if (
+            get(players)[get(localPlayer).uuid].y * GRID_SIZE <
+            get(currentRoom).dimensions.height * GRID_SIZE - 60
+          ) {
+            players.update((ps) => {
+              ps[get(localPlayer).uuid].y += 1;
+              return ps;
+            });
+          }
+        }
+        // A Key is 65 & Left arrow is 37
+        if (key.keyCode === 37 || key.keyCode === 65) {
+          if (get(players)[get(localPlayer).uuid].x > 0) {
+            players.update((ps) => {
+              ps[get(localPlayer).uuid].x -= 1;
+              return ps;
+            });
+          }
+        }
+        // D Key is 68 & Right arrow is 39
+        if (key.keyCode === 39 || key.keyCode === 68) {
+          if (
+            get(players)[get(localPlayer).uuid].x * GRID_SIZE <
+            get(currentRoom).dimensions.width * GRID_SIZE - 60
+          ) {
+            players.update((ps) => {
+              ps[get(localPlayer).uuid].x += 1;
+              return ps;
+            });
+          }
+        }
+        if (get(uiState) != 0) {
+          moveTo(
+            get(players)[get(localPlayer).uuid].x,
+            get(players)[get(localPlayer).uuid].y,
+            true
+          );
+        }
+      }, 100)
+    );
+    const room = document.getElementById("room");
+    room.addEventListener("click", (event) => {
+      const { offsetX, offsetY } = event;
+
+      // Convert the clicked coordinates to the game's grid system (GRID_SIZE is the size of the grid, e.g., 50)
+      const targetX = Math.floor(offsetX / GRID_SIZE);
+      const targetY = Math.floor(offsetY / GRID_SIZE);
+
+      // Update the player's position
+      moveToPlayerPosition(targetX, targetY);
+    });
+    resolve();
+  });
+};
 
 export const checkPortalOverlap = () => {
-    if (get(currentRoom).portals && Array.isArray(get(currentRoom).portals)) {
-        let overlapIndex = false
-        get(currentRoom).portals.forEach(p => {
-            if (
-                get(players)[get(localPlayer).uuid].x === p.x &&
-                get(players)[get(localPlayer).uuid].y === p.y
-            ) {
-                overlapIndex = p.targetArea._id
-            }
-        })
-        if (overlapIndex) {
-            roomIntent.set(overlapIndex)
-        } else {
-            roomIntent.set(false)
-        }
+  if (get(currentRoom).portals && Array.isArray(get(currentRoom).portals)) {
+    let overlapIndex = false;
+    get(currentRoom).portals.forEach((p) => {
+      if (
+        get(players)[get(localPlayer).uuid].x === p.x &&
+        get(players)[get(localPlayer).uuid].y === p.y
+      ) {
+        overlapIndex = p.targetArea._id;
+      }
+    });
+    if (overlapIndex) {
+      roomIntent.set(overlapIndex);
+    } else {
+      roomIntent.set(false);
     }
-}
+  }
+};
 
 export const checkObjectOverlap = () => {
-    if (get(currentRoom).objects && Array.isArray(get(currentRoom).objects)) {
-        let overlapIndex = false
-        get(currentRoom).objects.filter(o => !o.static).forEach(o => {
-            if (
-                inRange(get(players)[get(localPlayer).uuid].x, o.x, o.x + _.get(o, 'dimensions.width', 0)) &&
-                inRange(get(players)[get(localPlayer).uuid].y, o.y, o.y + _.get(o, 'dimensions.height', 0))
-            ) {
-                overlapIndex = o._id
-            }
-        })
-        if (overlapIndex) {
-            objectIntent.set(overlapIndex)
-        } else {
-            objectIntent.set(false)
+  if (get(currentRoom).objects && Array.isArray(get(currentRoom).objects)) {
+    let overlapIndex = false;
+    get(currentRoom)
+      .objects.filter((o) => !o.static)
+      .forEach((o) => {
+        if (
+          inRange(
+            get(players)[get(localPlayer).uuid].x,
+            o.x,
+            o.x + _.get(o, "dimensions.width", 0)
+          ) &&
+          inRange(
+            get(players)[get(localPlayer).uuid].y,
+            o.y,
+            o.y + _.get(o, "dimensions.height", 0)
+          )
+        ) {
+          overlapIndex = o._id;
         }
+      });
+    if (overlapIndex) {
+      objectIntent.set(overlapIndex);
+    } else {
+      objectIntent.set(false);
     }
-}
+  }
+};
 
 export const checkZoneOverlap = () => {
-    let overlapIndex = false
-    get(currentRoom).zones.forEach(z => {
-        if (
-            inRange(get(players)[get(localPlayer).uuid].x, z.x, z.x + z.dimensions.width) &&
-            inRange(get(players)[get(localPlayer).uuid].y, z.y, z.y + z.dimensions.height)
-        ) {
-            overlapIndex = z
-        }
-    })
-    if (overlapIndex) {
-        activeZone.set(overlapIndex)
-    } else {
-        activeZone.set(false)
+  let overlapIndex = false;
+  get(currentRoom).zones.forEach((z) => {
+    if (
+      inRange(
+        get(players)[get(localPlayer).uuid].x,
+        z.x,
+        z.x + z.dimensions.width
+      ) &&
+      inRange(
+        get(players)[get(localPlayer).uuid].y,
+        z.y,
+        z.y + z.dimensions.height
+      )
+    ) {
+      overlapIndex = z;
     }
+  });
+  if (overlapIndex) {
+    activeZone.set(overlapIndex);
+  } else {
+    activeZone.set(false);
+  }
+};
+
+function moveToPlayerPosition(x, y) {
+  console.log("x,y", x, y);
+  if (x <= 0 || y <= 0) return;
+  players.update((ps) => {
+    const player = get(localPlayer).uuid;
+    if (ps[player]) {
+      get(players)[get(localPlayer).uuid].x = x;
+      get(players)[get(localPlayer).uuid].y = y;
+    }
+    return ps;
+  });
 }

@@ -44,15 +44,6 @@
   id="room"
   style={`${room.inlineStyles} ${$centeringInlineStyles}`}
   aria-live="polite"
-  on:click={e => {
-      if(activeMouse){
-        players.update((ps) => {
-          ps[localPlayer.uuid].y = parseInt(e.offsetY/ GRID_SIZE);
-          ps[localPlayer.uuid].x = parseInt(e.offsetX/ GRID_SIZE);
-          return ps;
-        });
-      }
-  }}
 >
   <slot />
 
