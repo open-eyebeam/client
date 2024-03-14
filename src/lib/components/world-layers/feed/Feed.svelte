@@ -102,7 +102,7 @@ button {
     background: $e-ink-medium;
     top: 80px;
     right: 20px;
-    width: 300px;
+    width: 250px;
     max-height: 300px;
     overflow-y: scroll;
     display: flex;
