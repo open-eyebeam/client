@@ -82,9 +82,6 @@
   class:image={object.iconImage}
   id={object._id}
   style={inlineStyles}
-  on:click={() => {
-    // activeArticle.set(object)
-  }}
   tabindex=0
   aria-label={object.static ?'A static image of a ' + object.title : "Inspect " + object.title }
   on:keydown= {onKeyDown}
@@ -118,6 +115,7 @@ role="uiitem"
     left: 0;
 //    background: $e-ink-medium;
     z-index: 1;
+    pointer-events: none;
 
     img {
       height: 100%;

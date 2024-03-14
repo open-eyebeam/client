@@ -62,6 +62,7 @@
   } from "$lib/modules/world.js"
   import {
     initializeKeyboardHandler,
+    initializeMouseHandler,
     currentRoom,
     checkPortalOverlap,
     checkZoneOverlap,
@@ -226,6 +227,8 @@
     await initializeKeyboardHandler()
     infoLogger("✓ (5) Keyboard initialized")
 
+    await initializeMouseHandler()
+    infoLogger("✓ (5) Mouse initialized")
     // Initialize streams handler
     initializeStreamsHandler()
     infoLogger("✓ (6) Stream listener initialized")

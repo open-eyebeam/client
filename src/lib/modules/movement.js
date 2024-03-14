@@ -20,7 +20,7 @@ export const currentRoom = writable(false);
 export const centeringInlineStyles = writable(
   "transform: translateX(-50%) translateY(-50%);"
 );
-
+export const isMovingFromMouseClick = writable(false)
 export const initializeKeyboardHandler = () => {
   return new Promise((resolve, reject) => {
     // Repeated keydown events are throttled to once every 100ms
@@ -82,20 +82,47 @@ export const initializeKeyboardHandler = () => {
         }
       }, 100)
     );
+    resolve();
+  });
+};
+
+export const initializeMouseHandler = () => {
+  return new Promise((resolve, reject) => {
     const room = document.getElementById("room");
     room.addEventListener("click", (event) => {
-      const { offsetX, offsetY } = event;
-
+//      const { offsetX, offsetY } = event;
+      let offsetX = event.layerX
+      let offsetY = event.layerY
       // Convert the clicked coordinates to the game's grid system (GRID_SIZE is the size of the grid, e.g., 50)
       const targetX = Math.floor(offsetX / GRID_SIZE);
       const targetY = Math.floor(offsetY / GRID_SIZE);
 
+      if (
+            get(players)[get(localPlayer).uuid].x * GRID_SIZE <
+            get(currentRoom).dimensions.width * GRID_SIZE - 60
+          ) {
+            players.update((ps) => {
+              ps[get(localPlayer).uuid].x = targetX;
+              ps[get(localPlayer).uuid].y = targetY;
+              return ps;
+            });
+          }
       // Update the player's position
-      moveToPlayerPosition(targetX, targetY);
+        if (get(uiState) != 0) {
+          moveTo(
+            get(players)[get(localPlayer).uuid].x,
+            get(players)[get(localPlayer).uuid].y,
+            true
+          );
+      isMovingFromMouseClick.set(true)
+      setTimeout(()=> {
+        isMovingFromMouseClick.set(false)
+        }, transitionTime*1000)
+      }
     });
-    resolve();
-  });
-};
+    resolve()
+  })
+}
 
 export const checkPortalOverlap = () => {
   if (get(currentRoom).portals && Array.isArray(get(currentRoom).portals)) {
@@ -171,7 +198,6 @@ export const checkZoneOverlap = () => {
 };
 
 function moveToPlayerPosition(x, y) {
-  console.log("x,y", x, y);
   if (x <= 0 || y <= 0) return;
   players.update((ps) => {
     const player = get(localPlayer).uuid;

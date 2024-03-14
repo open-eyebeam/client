@@ -8,14 +8,13 @@
   import { onMount } from "svelte"
   import { chatMessages } from "$lib/modules/engine.js"
   import { GRID_SIZE } from "$lib/modules/world.js"
-  import { centeringInlineStyles,roomIntent } from "$lib/modules/movement.js"
+  import { centeringInlineStyles,roomIntent, isMovingFromMouseClick } from "$lib/modules/movement.js"
 
   import sample from "lodash/sample.js"
   import { focusPlayer, isPhone } from "$lib/modules/ui.js"
   import {
     streams,
   } from "$lib/modules/world.js"
-  $: isMovingFromMouseClick = false
   // set transition time in css from this variable
   let transitionTime = 0.6 //mouseclick animation time, in seconds
   document.documentElement.style.setProperty("--avatarTransitionTime", `${transitionTime}s`)
@@ -155,11 +154,6 @@
 
   onMount(async () => {
   document.getElementById("room").addEventListener("click", () => {
-      isMovingFromMouseClick = true
-    console.log('mouse click: ', isMovingFromMouseClick)
-      setTimeout(()=> {
-        isMovingFromMouseClick = false
-      }, transitionTime*1000)
     })
 
     if (!player.self) {
@@ -198,7 +192,7 @@
   class="avatar"
   class:shown={!$focusPlayer || player.self}
   class:self={player.self}
-  class:mousemove={player.self && isMovingFromMouseClick}
+  class:mousemove={player.self && $isMovingFromMouseClick}
   bind:this={avatarEl}
   class:blinking={$focusPlayer && player.self}
   id={key}
@@ -231,6 +225,7 @@
     top: 0;
     left: 0;
     z-index: 100;
+    pointer-events: none;
 //    background: $e-ink-medium;
     opacity: 0;
     .name {  

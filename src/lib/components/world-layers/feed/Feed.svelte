@@ -146,7 +146,7 @@ button {
     flex-flow: row wrap;
     padding-top: 60px;
     padding-bottom: 80px;
-    justify-content: center;
+    justify-content: left;
     overflow-y: scroll;
     cursor: pointer;
   
@@ -154,9 +154,10 @@ button {
     .inner {
       background: $e-ink-medium;
       color: $e-ink-dark;
-      width: 850px;
-      max-width: 90%;
+      width: 60%;
+      max-width: 60%;
       margin: 20px 0;
+      margin-left: 10%;
       z-index: 10000;
       padding: 8px;
       font-size: $font-size-small;
